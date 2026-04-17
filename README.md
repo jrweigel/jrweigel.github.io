@@ -1,41 +1,71 @@
-# Website
+# Fueled by Chaos & Coffee ☕
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+My personal blog — making sense of AI, work, and everything breaking in between.
 
-## Installation
+**Live site:** [jrweigel.github.io](https://jrweigel.github.io)
 
-```bash
-yarn
-```
+Built with [Docusaurus](https://docusaurus.io/) and deployed automatically via GitHub Pages.
+
+## Writing a New Blog Post
+
+1. Create a new `.mdx` file in the `blog/` folder using this naming pattern:
+
+   ```
+   blog/YYYY-MM-DD-my-post-slug.mdx
+   ```
+
+2. Add frontmatter at the top of the file:
+
+   ```mdx
+   ---
+   slug: my-post-slug
+   title: My Post Title
+   authors: [jrweigel]
+   tags: [topic1, topic2]
+   ---
+   ```
+
+3. Write your content in markdown below the frontmatter. Use `{/* truncate */}` on its own line to control where the preview cuts off on the blog index:
+
+   ```mdx
+   ---
+   slug: my-post-slug
+   title: My Post Title
+   authors: [jrweigel]
+   tags: [topic1, topic2]
+   ---
+
+   This part shows as the preview on the blog index page.
+
+   {/* truncate */}
+
+   Everything below here only appears when you click into the full post.
+   ```
+
+4. Commit and push to `master` — the site auto-deploys in ~1-2 minutes.
 
 ## Local Development
 
 ```bash
-yarn start
+npm install   # first time only
+npm start     # starts dev server at http://localhost:3000
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+## Project Structure
 
-## Build
-
-```bash
-yarn build
+```
+blog/              # Blog posts go here
+  authors.yml      # Author profiles
+src/
+  css/custom.css   # Theme colors
+  pages/index.js   # Homepage
+docusaurus.config.js  # Site config (title, navbar, footer)
+.github/workflows/    # Auto-deploy on push to master
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+## Tips
 
-## Deployment
-
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+- Files are `.mdx` (MDX) — you get full markdown plus JSX support if needed
+- Images can go in a folder next to your post: `blog/YYYY-MM-DD-my-post/index.mdx` + `blog/YYYY-MM-DD-my-post/image.png`
+- The `tags` in frontmatter auto-generate tag pages on the site
+- Dark mode is enabled and respects the reader's system preference

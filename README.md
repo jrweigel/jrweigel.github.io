@@ -69,3 +69,38 @@ docusaurus.config.js  # Site config (title, navbar, footer)
 - Images can go in a folder next to your post: `blog/YYYY-MM-DD-my-post/index.mdx` + `blog/YYYY-MM-DD-my-post/image.png`
 - The `tags` in frontmatter auto-generate tag pages on the site
 - Dark mode is enabled and respects the reader's system preference
+
+## Drafts
+
+Add `draft: true` to the frontmatter to keep a post out of the production build. It will still show up in local dev (`npm start`) so you can preview it.
+
+```mdx
+---
+slug: work-in-progress
+title: Not Ready Yet
+authors: [jrweigel]
+tags: [draft]
+draft: true
+---
+```
+
+Remove `draft: true` (or set it to `false`) and push to publish.
+
+## Editing from GitHub.com
+
+You don't need a local setup to write posts. Navigate to the `blog/` folder on GitHub, click **Add file > Create new file**, write your post, and commit. The site auto-deploys.
+
+## Troubleshooting
+
+- **Build failed?** Check the **Actions** tab on the repo for error logs.
+- **MDX syntax error?** The most common issue — use `{/* comment */}` instead of `<!-- comment -->` in `.mdx` files.
+- **Post not showing?** Make sure the file is in `blog/`, uses the `YYYY-MM-DD-slug.mdx` naming pattern, and doesn't have `draft: true`.
+- **Styles look wrong locally?** Try stopping the dev server and running `npm start` again.
+
+## Extras You Can Add Later
+
+- **Custom domain** — Buy a domain, add a `CNAME` file to `static/`, and configure in repo Settings > Pages
+- **Search** — Docusaurus supports local search plugins (e.g., `docusaurus-lunr-search`)
+- **Analytics** — Add Google Analytics or Plausible via `docusaurus.config.js`
+- **Social card** — Replace `static/img/docusaurus-social-card.jpg` to customize link preview images
+- **RSS** — Already enabled! Readers can subscribe at `/blog/rss.xml` and `/blog/atom.xml`

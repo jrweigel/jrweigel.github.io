@@ -1,0 +1,2536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Move the Work — audit your work for AI leverage in 30 minutes. Hand the toil to AI. Reclaim the work that only you can do.">
+<meta name="color-scheme" content="light dark">
+<title>Move the Work</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    const stored = (() => { try { return localStorage.getItem("mtw:theme"); } catch (_) { return null; } })();
+    const prefersDark = (typeof window.matchMedia === "function") && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = param || stored || (prefersDark ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root{
+  color-scheme:light;
+  --cp-bg:#f7f4ef;
+  --cp-bg-elevated:#fcfbf8;
+  --cp-surface:#ffffff;
+  --cp-surface-soft:#f5f5f5;
+  --cp-border:#dedede;
+  --cp-border-strong:#919191;
+  --cp-text:#242424;
+  --cp-text-muted:#5c5c5c;
+  --cp-text-soft:#6f6f6f;
+  --cp-accent:#b11f4b;
+  --cp-accent-hover:#9a1a41;
+  --cp-accent-soft:rgba(177,31,75,0.08);
+  --cp-accent-fg:#ffffff;
+  --cp-success:#16a34a;
+  --cp-danger:#dc2626;
+  --cp-warning:#f59e0b;
+  --cp-link:#0078d4;
+  --cp-shadow:0 18px 48px rgba(0,0,0,0.12);
+  --cp-overlay:rgba(255,255,255,0.8);
+  --cp-panel:rgba(255,255,255,0.86);
+  --cp-panel-strong:rgba(255,255,255,0.96);
+  --cp-sheen:rgba(255,255,255,0.55);
+  --cp-highlight:rgba(177,31,75,0.12);
+  --b1-color:#f59e0b; --b1-soft:rgba(245,158,11,0.12);
+  --b2-color:#0078d4; --b2-soft:rgba(0,120,212,0.12);
+  --b3-color:#16a34a; --b3-soft:rgba(22,163,74,0.12);
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --cp-bg:#3d3b3a;
+  --cp-bg-elevated:#343231;
+  --cp-surface:#292929;
+  --cp-surface-soft:#2e2e2e;
+  --cp-border:#474747;
+  --cp-border-strong:#5f5f5f;
+  --cp-text:#dedede;
+  --cp-text-muted:#919191;
+  --cp-text-soft:#b0b0b0;
+  --cp-accent:#fd8ea1;
+  --cp-accent-hover:#fb7b91;
+  --cp-accent-soft:rgba(253,142,161,0.14);
+  --cp-accent-fg:#1a1a1a;
+  --cp-success:#4ade80;
+  --cp-danger:#f87171;
+  --cp-warning:#fbbf24;
+  --cp-link:#4da6ff;
+  --cp-shadow:0 18px 48px rgba(0,0,0,0.32);
+  --cp-overlay:rgba(41,41,41,0.88);
+  --cp-panel:rgba(41,41,41,0.72);
+  --cp-panel-strong:rgba(41,41,41,0.96);
+  --cp-sheen:rgba(255,255,255,0.04);
+  --cp-highlight:rgba(253,142,161,0.12);
+  --b1-color:#fbbf24; --b1-soft:rgba(251,191,36,0.16);
+  --b2-color:#4da6ff; --b2-soft:rgba(77,166,255,0.16);
+  --b3-color:#4ade80; --b3-soft:rgba(74,222,128,0.16);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--cp-bg);
+  color:var(--cp-text);
+  font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--cp-link);text-underline-offset:3px}
+code,pre{font-family:Consolas,"Courier New",Courier,monospace;font-size:0.92em}
+pre{
+  background:var(--cp-surface-soft);
+  border:1px solid var(--cp-border);
+  border-radius:10px;
+  padding:14px 16px;
+  overflow-x:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
+  margin:0;
+}
+hr{border:none;border-top:1px solid var(--cp-border);margin:24px 0}
+h1,h2,h3,h4{line-height:1.25;margin:0 0 12px 0;font-weight:600}
+h1{font-size:1.9rem;letter-spacing:-0.01em}
+h2{font-size:1.4rem;letter-spacing:-0.005em}
+h3{font-size:1.1rem}
+p{margin:0 0 12px 0;color:var(--cp-text)}
+small,.muted{color:var(--cp-text-muted);font-size:0.92em}
+.soft{color:var(--cp-text-soft)}
+input[type=text],input[type=date],textarea,select{
+  font:inherit; color:inherit;
+  background:var(--cp-surface);
+  border:1px solid var(--cp-border);
+  border-radius:10px;
+  padding:10px 12px;
+  width:100%;
+  outline:none;
+}
+textarea{resize:vertical;min-height:80px;line-height:1.45}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--cp-accent);
+  box-shadow:0 0 0 3px var(--cp-accent-soft);
+}
+label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4px}
+.field{margin-bottom:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+.row > *{flex:1;min-width:0}
+.cluster{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.stack{display:flex;flex-direction:column;gap:12px}
+.spacer{height:16px}
+.spacer-lg{height:28px}
+.right{margin-left:auto}
+.center{text-align:center}
+.hidden{display:none !important}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--cp-surface);
+  color:var(--cp-text);
+  border:1px solid var(--cp-border);
+  border-radius:10px;
+  padding:9px 16px;
+  font:inherit;font-weight:500;
+  cursor:pointer;
+  transition:background 120ms ease,border-color 120ms ease,transform 60ms ease;
+  text-decoration:none;
+  line-height:1.2;
+}
+.btn:hover{background:var(--cp-surface-soft);border-color:var(--cp-border-strong)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.btn-primary{background:var(--cp-accent);color:var(--cp-accent-fg);border-color:var(--cp-accent)}
+.btn-primary:hover{background:var(--cp-accent-hover);border-color:var(--cp-accent-hover)}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--cp-text-muted)}
+.btn-ghost:hover{background:var(--cp-surface-soft);color:var(--cp-text)}
+.btn-danger{color:var(--cp-danger);border-color:transparent;background:transparent}
+.btn-danger:hover{background:var(--cp-surface-soft)}
+.btn-sm{padding:6px 12px;font-size:0.92em}
+.btn-xs{padding:4px 10px;font-size:0.85em;border-radius:8px}
+.btn-block{width:100%;justify-content:center}
+.card{
+  background:var(--cp-surface);
+  border:1px solid var(--cp-border);
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 0 2px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+}
+.card + .card{margin-top:16px}
+.card-soft{background:var(--cp-surface-soft)}
+.card-tight{padding:16px}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--cp-surface-soft);
+  border:1px solid var(--cp-border);
+  color:var(--cp-text-muted);
+  border-radius:999px;
+  padding:3px 10px;
+  font-size:0.82rem;
+  font-weight:500;
+}
+.badge-accent{background:var(--cp-accent-soft);border-color:transparent;color:var(--cp-accent)}
+.badge-b1{background:var(--b1-soft);border-color:transparent;color:var(--b1-color);font-weight:600}
+.badge-b2{background:var(--b2-soft);border-color:transparent;color:var(--b2-color);font-weight:600}
+.badge-b3{background:var(--b3-soft);border-color:transparent;color:var(--b3-color);font-weight:600}
+.badge-unsorted{background:var(--cp-surface-soft);border-color:transparent;color:var(--cp-text-muted)}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--cp-surface);
+  border:1px solid var(--cp-border);
+  color:var(--cp-text);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:0.92rem;
+  cursor:pointer;
+  transition:background 120ms ease,border-color 120ms ease;
+}
+.chip:hover{background:var(--cp-surface-soft);border-color:var(--cp-border-strong)}
+.chip-on{background:var(--cp-accent-soft);border-color:var(--cp-accent);color:var(--cp-accent);font-weight:500}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--cp-border);margin-bottom:18px;flex-wrap:wrap}
+.tab{
+  background:transparent;border:none;
+  color:var(--cp-text-muted);
+  padding:10px 16px;
+  font:inherit;cursor:pointer;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+}
+.tab:hover{color:var(--cp-text)}
+.tab-on{color:var(--cp-text);border-bottom-color:var(--cp-accent);font-weight:500}
+.page{max-width:880px;margin:0 auto;padding:24px 20px 80px}
+.site-header{
+  background:var(--cp-bg-elevated);
+  border-bottom:1px solid var(--cp-border);
+  padding:12px 20px;
+  position:sticky;top:0;z-index:10;
+  backdrop-filter:saturate(120%) blur(6px);
+}
+.site-header-inner{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.brand{font-weight:700;letter-spacing:-0.01em;font-size:1.1rem;color:var(--cp-text);text-decoration:none}
+.brand span{color:var(--cp-accent)}
+.tagline-mini{color:var(--cp-text-muted);font-size:0.88rem}
+.header-actions{margin-left:auto;display:flex;gap:6px;align-items:center}
+.icon-btn{
+  width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:none;border-radius:8px;cursor:pointer;color:var(--cp-text-muted);
+}
+.icon-btn:hover{background:var(--cp-surface-soft);color:var(--cp-text)}
+.icon-btn svg{width:18px;height:18px}
+.save-pulse{display:inline-flex;align-items:center;gap:6px;color:var(--cp-text-muted);font-size:0.85rem}
+.save-pulse .dot{width:8px;height:8px;border-radius:50%;background:var(--cp-success);opacity:0.4;transition:opacity 240ms ease}
+.save-pulse.saving .dot{background:var(--cp-warning);opacity:1}
+.save-pulse.saved .dot{opacity:1}
+.step-nav{
+  background:var(--cp-bg-elevated);
+  border-bottom:1px solid var(--cp-border);
+  padding:8px 20px;
+}
+.step-nav-inner{max-width:880px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.step-nav-inner::-webkit-scrollbar{display:none}
+.step-pill{
+  background:transparent;border:1px solid transparent;
+  color:var(--cp-text-muted);
+  padding:6px 12px;border-radius:999px;
+  font:inherit;font-size:0.88rem;cursor:pointer;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.step-pill:hover{background:var(--cp-surface-soft);color:var(--cp-text)}
+.step-pill-active{background:var(--cp-accent);color:var(--cp-accent-fg);border-color:var(--cp-accent);font-weight:500}
+.step-pill-active:hover{background:var(--cp-accent-hover);color:var(--cp-accent-fg)}
+.step-pill-done{color:var(--cp-text)}
+.step-pill-done::before{content:"✓";color:var(--cp-success);font-weight:700;margin-right:2px}
+.step-pill-locked{opacity:0.5;cursor:not-allowed}
+.bucket-bar{display:flex;align-items:stretch;gap:6px;width:100%;height:48px;border-radius:12px;overflow:hidden;background:var(--cp-surface-soft);border:1px solid var(--cp-border)}
+.bucket-bar > div{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.92rem;min-width:0;transition:flex 240ms ease}
+.bucket-bar .seg-b1{background:var(--b1-color)}
+.bucket-bar .seg-b2{background:var(--b2-color)}
+.bucket-bar .seg-b3{background:var(--b3-color)}
+.bucket-bar .seg-empty{background:transparent;color:var(--cp-text-muted);border:1px dashed var(--cp-border)}
+.bucket-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.bucket-stat{background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:12px;padding:14px}
+.bucket-stat-num{font-size:1.7rem;font-weight:700;line-height:1}
+.bucket-stat-label{font-size:0.85rem;color:var(--cp-text-muted);margin-top:4px}
+.bucket-stat-name{font-weight:600;font-size:0.95rem;margin-bottom:4px}
+.bucket-stat.b1 .bucket-stat-num{color:var(--b1-color)}
+.bucket-stat.b2 .bucket-stat-num{color:var(--b2-color)}
+.bucket-stat.b3 .bucket-stat-num{color:var(--b3-color)}
+.zone-card{padding:18px 22px;border-radius:14px;display:flex;gap:14px;align-items:flex-start;border:1px solid var(--cp-border);background:var(--cp-surface)}
+.zone-red{border-color:var(--cp-danger);background:rgba(220,38,38,0.06)}
+.zone-yellow{border-color:var(--cp-warning);background:rgba(245,158,11,0.07)}
+.zone-green{border-color:var(--cp-success);background:rgba(22,163,74,0.06)}
+.zone-label{font-weight:700;font-size:1rem;display:inline-block;padding:4px 10px;border-radius:8px;color:#fff;letter-spacing:0.04em}
+.zone-red .zone-label{background:var(--cp-danger)}
+.zone-yellow .zone-label{background:var(--cp-warning)}
+.zone-green .zone-label{background:var(--cp-success)}
+.diag-q{background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.diag-q-text{font-weight:500;margin-bottom:10px}
+.diag-q .cluster{gap:6px}
+.yn-btn{border:1px solid var(--cp-border);background:var(--cp-surface);color:var(--cp-text);padding:5px 14px;border-radius:999px;font:inherit;font-size:0.9em;cursor:pointer}
+.yn-btn:hover{border-color:var(--cp-border-strong)}
+.yn-btn.on-yes{background:var(--cp-accent);color:var(--cp-accent-fg);border-color:var(--cp-accent)}
+.yn-btn.on-no{background:var(--cp-text-muted);color:var(--cp-bg);border-color:var(--cp-text-muted)}
+.yn-btn.on-skip{background:var(--cp-surface-soft);color:var(--cp-text-muted);border-color:var(--cp-border)}
+.bucket-choice{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+@media (max-width:600px){.bucket-choice{grid-template-columns:repeat(2,1fr)}}
+.bucket-btn{
+  border:1px solid var(--cp-border);background:var(--cp-surface);
+  padding:12px 8px;border-radius:12px;cursor:pointer;font:inherit;
+  display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;
+}
+.bucket-btn:hover{border-color:var(--cp-border-strong)}
+.bucket-btn-b1.on{background:var(--b1-soft);border-color:var(--b1-color);color:var(--b1-color)}
+.bucket-btn-b2.on{background:var(--b2-soft);border-color:var(--b2-color);color:var(--b2-color)}
+.bucket-btn-b3.on{background:var(--b3-soft);border-color:var(--b3-color);color:var(--b3-color)}
+.bucket-btn-unsorted.on{background:var(--cp-surface-soft);border-color:var(--cp-border-strong);color:var(--cp-text)}
+.bucket-btn .num{font-weight:700;font-size:0.92rem}
+.bucket-btn .name{font-weight:600;font-size:0.95rem}
+.bucket-btn .hint{font-size:0.78rem;color:var(--cp-text-muted)}
+.bucket-btn.on .hint{color:inherit;opacity:0.85}
+.task-list-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--cp-border);border-radius:10px;background:var(--cp-surface)}
+.task-list-row + .task-list-row{margin-top:8px}
+.task-list-row .name{flex:1;min-width:0;font-weight:500}
+.task-list-row .meta{color:var(--cp-text-muted);font-size:0.88rem}
+.task-list-row .actions{display:flex;gap:4px}
+.prog{height:6px;background:var(--cp-surface-soft);border-radius:999px;overflow:hidden;margin-bottom:18px}
+.prog > div{height:100%;background:var(--cp-accent);transition:width 240ms ease}
+.mini-lesson{border-left:3px solid var(--cp-accent);background:var(--cp-accent-soft);padding:12px 14px;border-radius:0 10px 10px 0;margin:14px 0;font-size:0.95em}
+.mini-lesson h4{margin:0 0 6px 0;color:var(--cp-accent);font-size:1rem}
+.mini-lesson p{margin:0;color:var(--cp-text)}
+.callout{background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:12px;padding:14px;margin-top:14px;font-size:0.95em;color:var(--cp-text-muted)}
+.callout strong{color:var(--cp-text)}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);
+  background:var(--cp-text);color:var(--cp-bg);
+  padding:10px 18px;border-radius:999px;font-size:0.92rem;font-weight:500;
+  box-shadow:var(--cp-shadow);
+  opacity:0;pointer-events:none;transition:opacity 180ms ease,transform 180ms ease;
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(-4px)}
+.dropzone{border:2px dashed var(--cp-border);border-radius:14px;padding:24px;text-align:center;color:var(--cp-text-muted);cursor:pointer;transition:background 120ms ease,border-color 120ms ease}
+.dropzone:hover,.dropzone.on{background:var(--cp-accent-soft);border-color:var(--cp-accent);color:var(--cp-accent)}
+.kbd{font-family:Consolas,monospace;font-size:0.82em;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:6px;padding:1px 6px}
+@media print{
+  .site-header,.step-nav,.toast,.no-print{display:none !important}
+  .page{padding:0;max-width:none}
+  .card{box-shadow:none;border-color:#ccc;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="#" data-act="home">Move <span>the</span> Work</a>
+    <span class="tagline-mini hidden-mobile">Hand the toil to AI. Reclaim the work that only you can do.</span>
+    <div class="header-actions">
+      <span id="savePulse" class="save-pulse"><span class="dot"></span><span class="label">Saved</span></span>
+      <button class="icon-btn" data-act="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<nav class="step-nav"><div class="step-nav-inner" id="stepNav"></div></nav>
+<main class="page" id="app"></main>
+<div class="toast" id="toast"></div>
+<input type="file" id="filePicker" accept=".json,application/json" class="hidden">
+<script>
+
+/* ==========================================================================
+   Move the Work — Constants & content
+   ========================================================================== */
+const SCHEMA_VERSION = "1.0.0";
+const APP_VERSION = "0.1.0";
+const STORAGE_PREFIX = "mtw:session:";
+const STORAGE_THEME_KEY = "mtw:theme";
+
+const HANDOFF = {
+  tool: "ai-workflow-designer",
+  reason: "Go deeper on each responsibility — get a Prompt Pack and AI Action Plan for the full set.",
+  url: "https://github.com/jrweigel/ai-workflow-designer"
+};
+
+const BUCKETS = {
+  automate: { num: 1, name: "Automate",       short: "B1", color: "var(--b1-color)", soft: "var(--b1-soft)", badge: "badge-b1",
+              hint: "AI does it", intent: "offload",
+              moveLabel: "Offload — who or what takes this off your plate?" },
+  assist:   { num: 2, name: "Assist",         short: "B2", color: "var(--b2-color)", soft: "var(--b2-soft)", badge: "badge-b2",
+              hint: "AI + you",   intent: "amplify",
+              moveLabel: "Amplify — which AI tool fits, and what's the starter prompt?" },
+  human:    { num: 3, name: "Human",          short: "B3", color: "var(--b3-color)", soft: "var(--b3-soft)", badge: "badge-b3",
+              hint: "Only you",   intent: "protect",
+              moveLabel: "Protect — how do you invest more time here?" },
+  unsorted: { num: 0, name: "Unsorted",       short: "—",  color: "var(--cp-text-muted)", soft: "var(--cp-surface-soft)", badge: "badge-unsorted",
+              hint: "Not placed", intent: "hold",
+              moveLabel: "Hold — sort this first or decide what to do." }
+};
+
+const INTENTS = {
+  offload: { name: "Offload", desc: "Take it off your plate — AI or someone else owns it." },
+  amplify: { name: "Amplify", desc: "Pair with AI to do it better and faster." },
+  protect: { name: "Protect", desc: "Invest more time — this is your durable advantage." },
+  hold:    { name: "Hold",    desc: "Not now. Re-evaluate next time." }
+};
+
+const DIAGNOSTICS = [
+  { id: "couldAnyoneDoIt",           text: "Could someone else do this exactly the same way I do?",                bucket: "automate", weight: 2 },
+  { id: "hasClearRightAndWrong",     text: "Does it have clear right and wrong answers?",                          bucket: "automate", weight: 2 },
+  { id: "needsContextNotInData",     text: "Does it require context that isn't in any database or document?",      bucket: "assist",   weight: 2 },
+  { id: "needsExperienceJudgment",   text: "Does it need experience-based judgment to do well?",                   bucket: "assist",   weight: 1, alsoHuman: 1 },
+  { id: "needsTrustOrEmotionalRead", text: "Does it depend on reading emotions or building trust?",                bucket: "human",    weight: 2 },
+  { id: "involvesEthicalJudgment",   text: "Does it involve ethical judgment or navigating competing interests?",  bucket: "human",    weight: 2 }
+];
+
+const MINI_LESSONS = {
+  automate: {
+    title: "Bucket 1 — AI Automates",
+    body: "Tasks where being human adds no special value. Rules, structured data, clear right/wrong. Examples: standard status reports from data, FAQ answers, ticket routing, boilerplate drafts. If a perfectly accurate machine would do it better than a sleep-deprived human at 4pm — Bucket 1."
+  },
+  assist: {
+    title: "Bucket 2 — AI Assists",
+    body: "The hybrid. AI handles the heavy lifting; you bring context, judgment, and taste. AI summarizes incidents; you decide which patterns matter. AI drafts an email; you adjust tone for the relationship you actually have. This bucket is where most people are leaving leverage on the table."
+  },
+  human: {
+    title: "Bucket 3 — Uniquely Human",
+    body: "The irreducibly human work. Reading the room. Building trust over months. Mediating a conflict. Knowing when to break a process. AI can't do this, won't do this, shouldn't do this. This is your durable advantage — and usually the under-invested bucket."
+  }
+};
+
+const STARTER_CHIPS = [
+  "Weekly status email",
+  "Prep for 1:1s",
+  "Triage incoming requests",
+  "Review docs or specs",
+  "Meeting prep",
+  "Meeting notes / recaps",
+  "Roadmap or planning updates",
+  "Stakeholder updates",
+  "Hiring / interview loops",
+  "Career conversations with directs",
+  "Cross-team coordination",
+  "Quarterly business review prep",
+  "Incident triage",
+  "Mentoring / coaching",
+  "Decision documentation"
+];
+
+const PROMPTS = {
+  m365: {
+    label: "M365 Copilot",
+    note: "Recommended. Copilot has access to your calendar, sent mail, and Teams chats automatically.",
+    text: `You are helping me inventory the actual tasks I spend time on at work, for the
+"Move the Work" three-bucket audit (Automate / Assist / Human).
+
+Look at:
+  - my calendar events from the last 30 days (recurring and one-off)
+  - my sent email from the last 30 days
+  - my Teams chats and channel messages I authored in the last 30 days
+
+Identify 10 to 15 RECURRING tasks or responsibilities that show up across that
+activity. Cluster related items into one task — for example, "weekly status email"
+not seven individual emails. Include the boring, low-prestige work and any
+"not really my job but somehow always my job" tasks.
+
+For each task return a JSON object with these fields:
+
+  id              short kebab-case slug, e.g. "weekly-status-email"
+  label           2-6 word task name, plain language
+  description     1-2 sentences on what the task actually involves
+  cadence         one of: daily | weekly | biweekly | monthly | quarterly | adhoc
+  estWeeklyHours  rough estimate of hours per cadence period (e.g. 6 for a monthly task means 6h/month)
+  source          always "graph-pre-seed"
+  bucket          always "unsorted" (I will sort later)
+  evidence        1-2 short examples from my actual data
+
+Return ONLY a JSON array of these objects. No prose before or after. No markdown
+fences. Just the raw JSON array, starting with [ and ending with ].
+
+If you cannot find evidence for a task type that I obviously do but didn't show
+up in the data (e.g. I'm clearly a people manager but there are no career
+conversations on my calendar), include it anyway with estWeeklyHours of your
+best guess and evidence: "inferred from role; please verify".`
+  },
+  workiq: {
+    label: "WorkIQ",
+    note: "Use an internal tool that accesses WorkIQ (like Clawpilot, Copilot CLI, or VS Code/GHCP).",
+    text: `Inventory the actual tasks I spend time on at work, for a personal three-bucket
+AI audit.
+
+Source material:
+  - my calendar from the last 30 days
+  - my sent mail from the last 30 days
+  - my Teams chats and channel messages from the last 30 days
+  - any recent OneDrive documents I authored or co-authored
+
+Identify 10 to 15 recurring tasks. Cluster related items. Include boring work
+and "always-my-job" tasks even if they're not in any formal job description.
+
+For each task output a JSON object with: id (kebab-case), label (2-6 words),
+description (1-2 sentences), cadence (daily/weekly/biweekly/monthly/quarterly/
+adhoc), estWeeklyHours (number), source ("graph-pre-seed"), bucket ("unsorted"),
+and evidence (1-2 short examples from the real data).
+
+Return ONLY a JSON array. No prose, no markdown fences.`
+  },
+  other: {
+    label: "ChatGPT / Claude / other",
+    note: "For when you don't have Copilot or WorkIQ. You'll need to paste or describe context yourself.",
+    text: `I'm doing a personal AI audit. I need to inventory the actual tasks I spend
+time on at work — not my job title, the real day-to-day work.
+
+I'll either paste my recent calendar / email summary, or describe my week.
+
+Help me identify 10 to 15 recurring tasks. Cluster related items. Push me to
+include the boring, recurring, low-prestige work and "always-my-job" tasks
+that aren't formally on my plate.
+
+For each task return JSON with these fields:
+  id              kebab-case slug
+  label           2-6 word name
+  description     1-2 sentences
+  cadence         daily | weekly | biweekly | monthly | quarterly | adhoc
+  estWeeklyHours  number
+  source          "manual-paste"
+  bucket          "unsorted"
+  evidence        what I told you that supports this task being on the list
+
+Output ONLY the JSON array, no prose, no markdown fences.
+
+If you need more context from me to be accurate, ask me ONE short clarifying
+question first, then produce the JSON.`
+  }
+};
+
+const STEPS = [
+  { id: "welcome",   label: "Welcome",   short: "Start"     },
+  { id: "person",    label: "About you", short: "About"     },
+  { id: "inventory", label: "Inventory", short: "Inventory" },
+  { id: "sort",      label: "Sort",      short: "Sort"      },
+  { id: "assess",    label: "Assess",    short: "Assess"    },
+  { id: "move",      label: "Move",      short: "Move"      },
+  { id: "plan",      label: "Plan",      short: "Plan"      },
+  { id: "export",    label: "Save",      short: "Save"      }
+];
+
+const FRAME_COPY = {
+  title: "Where does AI actually fit in your work?",
+  pitch: "Most of us know AI can change our work. Most of us are stuck on <em>where</em> and <em>how</em>. This is the 30-minute audit that answers it — for you, for your work, today.",
+  bullets: [
+    "List the ~12 tasks you actually spend time on — the real work, not your job title.",
+    "Sort them into <strong>Automate / Assist / Human</strong> using diagnostic questions.",
+    "See your zone (red / yellow / green) and what it means for your career.",
+    "Leave with concrete moves, a 90-day trajectory, and a plan you can bring to your 1:1."
+  ],
+  bankTeller: "In 1973, the <em>New York Times</em> predicted ATMs would replace 75% of bank tellers. Between 1970 and 2010, bank teller jobs <strong>doubled</strong>. The machines took the routine cash dispensing. The humans took the relationship work — reading the nervous retiree, sensing when the entrepreneur was ready for a line of credit. The job didn't disappear. It <strong>moved up the stack</strong>.",
+  reframe: "Your job is not your title. Your job is a <strong>bag of tasks</strong>. Some of those tasks will be done by AI. Some will be done <em>with</em> AI. Some will stay yours alone. The work here is to sort them honestly — and decide where to invest your energy.",
+  conveyorBelt: "This isn't a one-time exercise. The tasks move. The work you do today will keep shifting buckets as the tools get better. Green today is not green forever. That's why everything here is designed for you to run again in 90 days, and 90 days after that."
+};
+
+/* ==========================================================================
+   State, persistence, computation
+   ========================================================================== */
+
+function uuid() {
+  if (crypto && crypto.randomUUID) return crypto.randomUUID();
+  // RFC4122 v4 fallback
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
+function nowIso() { return new Date().toISOString(); }
+
+function freshSession() {
+  const t = nowIso();
+  return {
+    schemaVersion: SCHEMA_VERSION,
+    meta: {
+      sessionId: uuid(),
+      runNumber: 1,
+      createdAt: t,
+      updatedAt: t,
+      completedAt: null,
+      surface: "web-companion",
+      previousRunSessionRef: null,
+      tags: []
+    },
+    person: { name: "", role: "", discipline: "", team: "", org: "", tenure: "" },
+    preferences: { preSeedSource: "none", shareWithFacilitator: false },
+    tasks: [],
+    assessment: emptyAssessment(),
+    plan: { topMovesThisWeek: [], ninetyDayTrajectory: { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" }, handoffs: [HANDOFF] }
+  };
+}
+
+function emptyAssessment() {
+  return {
+    bucketTotals:   { automate: 0, assist: 0, human: 0, unsorted: 0 },
+    bucketPercents: { automate: 0, assist: 0, human: 0 },
+    zone: "unknown",
+    vulnerabilityRead: { bucket2Empty: false, bucket3Thin: false, summary: "" }
+  };
+}
+
+let session = freshSession();
+let priorSession = null;
+let ui = {
+  step: "welcome",
+  currentTaskIdx: 0,
+  inventoryTab: "prompt",
+  inventoryTool: "m365",
+  miniLessonsShown: { automate: false, assist: false, human: false },
+  parsedPreview: null,
+  visited: new Set(["welcome"])
+};
+
+// ---- persistence ----
+
+function storageKey(sid) { return STORAGE_PREFIX + sid; }
+
+function save({ silent = false } = {}) {
+  try {
+    session.meta.updatedAt = nowIso();
+    localStorage.setItem(storageKey(session.meta.sessionId), JSON.stringify(session));
+    if (!silent) flashSave();
+  } catch (e) { /* private mode, etc. — ignore */ }
+}
+
+function listSavedSessions() {
+  const out = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(STORAGE_PREFIX)) {
+        try {
+          const v = JSON.parse(localStorage.getItem(k));
+          if (v && v.meta) out.push(v);
+        } catch (_) { /* skip */ }
+      }
+    }
+  } catch (_) { /* ignore */ }
+  out.sort((a, b) => (b.meta.updatedAt || "").localeCompare(a.meta.updatedAt || ""));
+  return out;
+}
+
+function deleteSavedSession(sid) {
+  try { localStorage.removeItem(storageKey(sid)); } catch (_) { /* ignore */ }
+}
+
+function loadSession(sid) {
+  try {
+    const raw = localStorage.getItem(storageKey(sid));
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    if (!data || !data.meta) return false;
+    session = data;
+    ensureSessionShape();
+    return true;
+  } catch (_) { return false; }
+}
+
+function ensureSessionShape() {
+  // tolerate older / partial sessions
+  if (!session.schemaVersion) session.schemaVersion = SCHEMA_VERSION;
+  if (!session.meta) session.meta = freshSession().meta;
+  if (!session.person) session.person = freshSession().person;
+  if (!session.preferences) session.preferences = freshSession().preferences;
+  if (!Array.isArray(session.tasks)) session.tasks = [];
+  if (!session.assessment) session.assessment = emptyAssessment();
+  if (!session.plan) session.plan = freshSession().plan;
+  if (!Array.isArray(session.plan.handoffs)) session.plan.handoffs = [HANDOFF];
+  if (!session.plan.ninetyDayTrajectory) session.plan.ninetyDayTrajectory = { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
+  if (!Array.isArray(session.plan.topMovesThisWeek)) session.plan.topMovesThisWeek = [];
+  session.tasks.forEach((t) => {
+    if (!t.id) t.id = slugify(t.label || "task") + "-" + Math.random().toString(36).slice(2, 6);
+    if (!t.bucket) t.bucket = "unsorted";
+    if (!t.diagnostic) t.diagnostic = {};
+    if (typeof t.effortWeight !== "number") {
+      t.effortWeight = typeof t.estWeeklyHours === "number" ? t.estWeeklyHours : 1;
+    }
+    if (!t.source) t.source = "user";
+    if (!t.tags) t.tags = [];
+  });
+}
+
+function slugify(s) {
+  return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "task";
+}
+
+// ---- computation ----
+
+function computeAssessment() {
+  const totals = { automate: 0, assist: 0, human: 0, unsorted: 0 };
+  for (const t of session.tasks) {
+    const w = typeof t.effortWeight === "number" && t.effortWeight > 0
+      ? t.effortWeight
+      : (typeof t.estWeeklyHours === "number" && t.estWeeklyHours > 0 ? t.estWeeklyHours : 1);
+    totals[t.bucket || "unsorted"] += w;
+  }
+  const sorted = totals.automate + totals.assist + totals.human;
+  const pct = { automate: 0, assist: 0, human: 0 };
+  if (sorted > 0) {
+    pct.automate = +(totals.automate / sorted * 100).toFixed(1);
+    pct.assist   = +(totals.assist   / sorted * 100).toFixed(1);
+    pct.human    = +(totals.human    / sorted * 100).toFixed(1);
+  }
+  let zone = "unknown";
+  if (sorted > 0) {
+    if (pct.automate > 50) zone = "red";
+    else if (pct.automate >= 40) zone = "yellow";
+    else zone = "green";
+  }
+  const bucket2Empty = sorted > 0 && pct.assist < 15;
+  const bucket3Thin = sorted > 0 && pct.human < 30;
+  const summary = buildVulnerabilitySummary(zone, pct, bucket2Empty, bucket3Thin);
+  session.assessment = {
+    bucketTotals: totals,
+    bucketPercents: pct,
+    zone,
+    vulnerabilityRead: { bucket2Empty, bucket3Thin, summary }
+  };
+  return session.assessment;
+}
+
+function buildVulnerabilitySummary(zone, pct, b2Empty, b3Thin) {
+  if (zone === "unknown") return "Sort some tasks to see your zone.";
+  const parts = [];
+  if (zone === "red") {
+    parts.push("You're in the <strong>red zone</strong> — more than half of your effort is in work AI can do alone. Your job isn't being upended someday; it's being upended right now. Move fast on offloading Bucket 1 work so you have time to grow Bucket 2 and 3.");
+  } else if (zone === "yellow") {
+    parts.push("You're in the <strong>yellow zone</strong> — a big chunk of your effort is in work AI can do. The clock is ticking. Start offloading Bucket 1 deliberately, and use the time to build your Bucket 2 and 3 capabilities.");
+  } else {
+    parts.push("You're in the <strong>green zone</strong>, for now. The percentages keep shifting toward more AI-doable work — that's the conveyor belt. Green today is not green forever.");
+  }
+  if (b2Empty && b3Thin) {
+    parts.push("Both your Bucket 2 and Bucket 3 are underdeveloped. Bucket 2 is where new value gets created with AI; Bucket 3 is your durable advantage. Right now you have neither working for you — that's the most urgent thing to change.");
+  } else if (b2Empty) {
+    parts.push("Your <strong>Bucket 2 is nearly empty</strong> (under 15%). That's the biggest <em>missed opportunity</em> in this era of work — the hybrid human-plus-AI tasks are where new value is being created. If you're not building Bucket 2, you're leaving leverage on the table.");
+  } else if (b3Thin) {
+    parts.push("Your <strong>Bucket 3 is thin</strong> (under 30%). The irreplaceable human work — trust, judgment, navigating ambiguity — is what protects your career across whatever the next disruption is. Worth investing more here.");
+  } else if (zone === "green") {
+    parts.push("Your bucket mix is healthy. Keep the conveyor belt moving — keep nudging tasks from 1 → 2, and keep growing 3.");
+  }
+  return parts.join(" ");
+}
+
+function computeDiff() {
+  if (!priorSession || !priorSession.tasks) return null;
+  const prior = priorSession.tasks;
+  const now = session.tasks;
+  const priorById = new Map(prior.map((t) => [t.id, t]));
+  const nowById = new Map(now.map((t) => [t.id, t]));
+  const added = [], removed = [], moved = [];
+  for (const t of now) if (!priorById.has(t.id)) added.push(t);
+  for (const t of prior) if (!nowById.has(t.id)) removed.push(t);
+  for (const t of now) {
+    const p = priorById.get(t.id);
+    if (p && p.bucket && t.bucket && p.bucket !== t.bucket) {
+      moved.push({ taskId: t.id, label: t.label, fromBucket: p.bucket, toBucket: t.bucket });
+    }
+  }
+  const ap = (session.assessment && session.assessment.bucketPercents) || { automate: 0, assist: 0, human: 0 };
+  const pp = (priorSession.assessment && priorSession.assessment.bucketPercents) || { automate: 0, assist: 0, human: 0 };
+  const delta = {
+    automate: +(ap.automate - pp.automate).toFixed(1),
+    assist:   +(ap.assist   - pp.assist).toFixed(1),
+    human:    +(ap.human    - pp.human).toFixed(1)
+  };
+  const narrative = buildDiffNarrative(delta, added, removed, moved);
+  return { tasksAdded: added.map((t) => t.id), tasksRemoved: removed.map((t) => t.id), tasksMovedBucket: moved, trajectoryDelta: delta, narrative, _addedFull: added, _removedFull: removed };
+}
+
+function buildDiffNarrative(delta, added, removed, moved) {
+  const parts = [];
+  parts.push(`Since your last run, ${added.length} new task${added.length === 1 ? "" : "s"} appeared, ${removed.length} dropped off, and ${moved.length} moved bucket.`);
+  const goodDir = delta.automate < 0 && (delta.assist > 0 || delta.human > 0);
+  const wrongDir = delta.automate > 0 && (delta.assist < 0 || delta.human < 0);
+  if (goodDir) parts.push("Your trajectory is in the right direction — less Bucket 1, more 2 or 3. Keep going.");
+  else if (wrongDir) parts.push("Your trajectory drifted the wrong way this run — more Bucket 1, less of the higher-leverage work. Worth asking what pulled you back.");
+  else if (Math.abs(delta.automate) < 2 && Math.abs(delta.assist) < 2 && Math.abs(delta.human) < 2) parts.push("Your mix barely moved. That's fine if you're happy with it — but if you committed to moves last time, look at why they didn't shift the numbers.");
+  return parts.join(" ");
+}
+
+function buildAiwfdInterop() {
+  return {
+    responsibilities: session.tasks.map((t) => ({
+      title: t.label || "",
+      outcome: "",
+      cadence: t.cadence || "",
+      painPoints: [],
+      humanRoleLeft: t.bucket === "human" ? (t.diagnostic && t.diagnostic.freeformReasoning) || "" : "",
+      aiWorkflowPotential: t.bucket === "automate" ? "High" : t.bucket === "assist" ? "Medium-high" : t.bucket === "human" ? "Low" : "Unsorted"
+    }))
+  };
+}
+
+// ---- forgiving paste parser ----
+
+function parsePastedTasks(text) {
+  if (!text || !text.trim()) return { ok: false, error: "Paste empty.", tasks: [] };
+  let s = String(text).trim();
+  // Strip markdown fences
+  s = s.replace(/^```(?:json|JSON)?\s*/m, "").replace(/```\s*$/m, "");
+  // Trim to first [ ... matching ]
+  const firstBracket = s.indexOf("[");
+  if (firstBracket > 0) s = s.slice(firstBracket);
+  // For top-level object { tasks: [...] }, unwrap
+  // Try a few parses
+  let parsed = null;
+  try { parsed = JSON.parse(s); } catch (_) { /* try harder */ }
+  if (!parsed) {
+    // Find last ] and slice
+    const lastBracket = s.lastIndexOf("]");
+    if (lastBracket > 0) {
+      try { parsed = JSON.parse(s.slice(0, lastBracket + 1)); } catch (_) {}
+    }
+  }
+  if (!parsed) {
+    // Try parsing as object
+    const firstBrace = s.indexOf("{");
+    const lastBrace = s.lastIndexOf("}");
+    if (firstBrace >= 0 && lastBrace > firstBrace) {
+      try { parsed = JSON.parse(s.slice(firstBrace, lastBrace + 1)); } catch (_) {}
+    }
+  }
+  if (!parsed) return { ok: false, error: "I couldn't find JSON in that paste. Make sure you copied just the JSON array.", tasks: [] };
+  let arr = null;
+  if (Array.isArray(parsed)) arr = parsed;
+  else if (parsed && Array.isArray(parsed.tasks)) arr = parsed.tasks;
+  else if (parsed && Array.isArray(parsed.responsibilities)) arr = parsed.responsibilities;
+  else if (parsed && Array.isArray(parsed.inventory)) arr = parsed.inventory;
+  if (!arr) return { ok: false, error: "Found JSON but no task list inside it.", tasks: [] };
+  const tasks = arr.map((raw, i) => normalizeIncomingTask(raw, i)).filter(Boolean);
+  if (tasks.length === 0) return { ok: false, error: "No usable tasks found in the JSON.", tasks: [] };
+  return { ok: true, error: null, tasks };
+}
+
+function normalizeIncomingTask(raw, idx) {
+  if (!raw || typeof raw !== "object") return null;
+  const label = String(raw.label || raw.name || raw.title || raw.task || "").trim();
+  if (!label) return null;
+  const id = raw.id ? String(raw.id) : slugify(label) + "-" + (idx + 1);
+  const description = String(raw.description || raw.detail || raw.notes || "").trim();
+  const cadenceRaw = String(raw.cadence || raw.frequency || "").toLowerCase().trim();
+  const cadenceMap = { day: "daily", daily: "daily", weekly: "weekly", week: "weekly", biweekly: "biweekly", "bi-weekly": "biweekly", monthly: "monthly", month: "monthly", quarterly: "quarterly", quarter: "quarterly", adhoc: "adhoc", "ad-hoc": "adhoc", "ad hoc": "adhoc", asneeded: "adhoc" };
+  const cadence = cadenceMap[cadenceRaw] || "unknown";
+  let est = Number(raw.estWeeklyHours != null ? raw.estWeeklyHours : raw.weeklyHours != null ? raw.weeklyHours : raw.hoursPerWeek);
+  if (!isFinite(est) || est < 0) est = null;
+  const source = raw.source || "graph-pre-seed";
+  let bucket = String(raw.bucket || "unsorted").toLowerCase();
+  if (!["automate", "assist", "human", "unsorted"].includes(bucket)) bucket = "unsorted";
+  const evidence = raw.evidence ? String(raw.evidence) : "";
+  return {
+    id, label, description,
+    cadence,
+    estWeeklyHours: est,
+    effortWeight: est != null && est > 0 ? est : 1,
+    source,
+    bucket,
+    diagnostic: { freeformReasoning: evidence ? `Evidence from inventory: ${evidence}` : "" },
+    move: null,
+    tags: [],
+    notes: ""
+  };
+}
+
+/* ==========================================================================
+   Helpers + render dispatcher
+   ========================================================================== */
+
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+function html(strings, ...vals) {
+  let out = "";
+  strings.forEach((s, i) => { out += s; if (i < vals.length) out += escapeHtml(vals[i]); });
+  return out;
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return "";
+  if (typeof s !== "string") return String(s);
+  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function fmtPct(n) { return Math.round(n) + "%"; }
+function fmtDate(iso) {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  } catch (_) { return iso; }
+}
+
+let _toastTimer = null;
+function toast(msg, ms = 2200) {
+  const el = $("#toast");
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add("on");
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove("on"), ms);
+}
+
+let _saveTimer = null;
+function flashSave() {
+  const el = $("#savePulse");
+  if (!el) return;
+  el.classList.remove("saved");
+  el.classList.add("saving");
+  $(".label", el).textContent = "Saving";
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    el.classList.remove("saving");
+    el.classList.add("saved");
+    $(".label", el).textContent = "Saved";
+  }, 400);
+}
+
+async function copyToClipboard(text) {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (_) {}
+  // Fallback: textarea + execCommand
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    return ok;
+  } catch (_) { return false; }
+}
+
+function downloadBlob(filename, content, mime = "application/octet-stream") {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ---- nav / step gating ----
+
+function isStepUnlocked(stepId) {
+  if (stepId === "welcome") return true;
+  if (stepId === "person") return true;
+  if (stepId === "inventory") return true;
+  if (stepId === "sort") return session.tasks.length > 0;
+  if (stepId === "assess") return session.tasks.some((t) => t.bucket && t.bucket !== "unsorted");
+  if (stepId === "move") return session.tasks.some((t) => t.bucket && t.bucket !== "unsorted");
+  if (stepId === "plan") return session.tasks.some((t) => t.bucket && t.bucket !== "unsorted");
+  if (stepId === "export") return session.tasks.length > 0;
+  return true;
+}
+
+function go(stepId) {
+  if (!isStepUnlocked(stepId)) {
+    toast("Finish the earlier steps first.");
+    return;
+  }
+  ui.step = stepId;
+  ui.visited.add(stepId);
+  try { window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" }); } catch (_) {}
+  render();
+}
+
+function renderStepNav() {
+  const nav = $("#stepNav");
+  if (!nav) return;
+  nav.innerHTML = STEPS.map((s) => {
+    const active = ui.step === s.id;
+    const done = !active && ui.visited.has(s.id) && isStepUnlocked(s.id);
+    const locked = !isStepUnlocked(s.id);
+    const cls = ["step-pill", active && "step-pill-active", done && "step-pill-done", locked && "step-pill-locked"].filter(Boolean).join(" ");
+    return `<button class="${cls}" data-step="${s.id}"${locked ? " disabled" : ""}>${escapeHtml(s.short)}</button>`;
+  }).join("");
+}
+
+function render() {
+  // Always recompute assessment before rendering anything that may show it
+  computeAssessment();
+  renderStepNav();
+  const app = $("#app");
+  if (!app) return;
+  switch (ui.step) {
+    case "welcome":   app.innerHTML = renderWelcome(); break;
+    case "person":    app.innerHTML = renderPerson(); break;
+    case "inventory": app.innerHTML = renderInventory(); break;
+    case "sort":      app.innerHTML = renderSort(); break;
+    case "assess":    app.innerHTML = renderAssess(); break;
+    case "move":      app.innerHTML = renderMove(); break;
+    case "plan":      app.innerHTML = renderPlan(); break;
+    case "export":    app.innerHTML = renderExport(); break;
+    case "diff":      app.innerHTML = renderDiff(); break;
+    default:          app.innerHTML = renderWelcome();
+  }
+  afterRender();
+}
+
+function afterRender() {
+  // Hook up dynamic field bindings for inputs that update session state on change
+  $$("[data-bind]").forEach((el) => {
+    const path = el.getAttribute("data-bind");
+    el.addEventListener("input", (e) => {
+      setPath(session, path, e.target.value);
+      save({ silent: true });
+    });
+    el.addEventListener("change", (e) => {
+      setPath(session, path, e.target.value);
+      save({ silent: true });
+    });
+  });
+}
+
+function setPath(obj, path, value) {
+  const parts = path.split(".");
+  let cur = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (cur[parts[i]] === undefined || cur[parts[i]] === null) cur[parts[i]] = {};
+    cur = cur[parts[i]];
+  }
+  cur[parts[parts.length - 1]] = value;
+}
+
+function getPath(obj, path) {
+  const parts = path.split(".");
+  let cur = obj;
+  for (const p of parts) {
+    if (cur === null || cur === undefined) return undefined;
+    cur = cur[p];
+  }
+  return cur;
+}
+
+/* ==========================================================================
+   Screen renderers — welcome, person, inventory
+   ========================================================================== */
+
+function renderWelcome() {
+  const saved = listSavedSessions();
+  const hasResume = saved.length > 0;
+  return `
+    <section class="card">
+      <h1>${escapeHtml(FRAME_COPY.title)}</h1>
+      <p style="font-size:1.05rem;color:var(--cp-text)">${FRAME_COPY.pitch}</p>
+      <ul style="padding-left:18px;color:var(--cp-text)">
+        ${FRAME_COPY.bullets.map((b) => `<li>${b}</li>`).join("")}
+      </ul>
+      <div class="spacer-lg"></div>
+      <div class="cluster">
+        <button class="btn btn-primary" data-act="start-new">Start a new audit</button>
+        <button class="btn" data-act="import">Continue from a saved file…</button>
+      </div>
+    </section>
+
+    <section class="card card-soft">
+      <h3 style="margin-bottom:8px">Why this works</h3>
+      <p class="muted" style="margin:0 0 10px 0">${FRAME_COPY.bankTeller}</p>
+      <p class="muted" style="margin:0 0 10px 0">${FRAME_COPY.reframe}</p>
+      <p class="muted" style="margin:0">${FRAME_COPY.conveyorBelt}</p>
+    </section>
+
+    ${hasResume ? `
+      <section class="card">
+        <h3>Resume a session on this device</h3>
+        <p class="muted" style="margin-bottom:14px">Your sessions are saved in your browser only. They never leave this device unless you export them.</p>
+        <div class="stack">
+          ${saved.map((s) => {
+            const personLabel = s.person && (s.person.name || s.person.role) ? `${escapeHtml(s.person.name || "")}${s.person.role ? " · " + escapeHtml(s.person.role) : ""}` : "Untitled audit";
+            const tasks = (s.tasks || []).length;
+            return `
+              <div class="task-list-row">
+                <div style="flex:1;min-width:0">
+                  <div class="name">${personLabel}</div>
+                  <div class="meta">Run ${s.meta.runNumber || 1} · ${tasks} task${tasks === 1 ? "" : "s"} · updated ${escapeHtml(fmtDate(s.meta.updatedAt))}</div>
+                </div>
+                <div class="actions">
+                  <button class="btn btn-sm" data-act="resume" data-sid="${escapeHtml(s.meta.sessionId)}">Resume</button>
+                  <button class="btn btn-sm btn-danger" data-act="delete" data-sid="${escapeHtml(s.meta.sessionId)}" title="Delete this saved session">Delete</button>
+                </div>
+              </div>`;
+          }).join("")}
+        </div>
+      </section>` : ""}
+
+    <p class="muted center" style="margin-top:28px;font-size:0.85rem">
+      Move the Work runs entirely in your browser. No accounts, no telemetry, no data leaves this device unless you export it.
+      <br><strong>⚠️ Sessions won't save in private/incognito windows</strong> and will disappear if you clear browser or site data.
+    </p>
+  `;
+}
+
+function renderPerson() {
+  const p = session.person;
+  return `
+    <section class="card">
+      <h2>A little about you</h2>
+      <p class="muted">All fields are optional — but a few details make your export and re-run diff more meaningful.</p>
+      <div class="spacer"></div>
+      <div class="row">
+        <div class="field"><label>Name</label><input type="text" data-bind="person.name" value="${escapeHtml(p.name || "")}"></div>
+        <div class="field"><label>Role (in your own words, not your title)</label><input type="text" data-bind="person.role" value="${escapeHtml(p.role || "")}" placeholder="e.g. Program manager for VM platform"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Discipline</label><input type="text" data-bind="person.discipline" value="${escapeHtml(p.discipline || "")}" placeholder="e.g. PM, Engineering, Design, Marketing"></div>
+        <div class="field"><label>Team</label><input type="text" data-bind="person.team" value="${escapeHtml(p.team || "")}"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Org</label><input type="text" data-bind="person.org" value="${escapeHtml(p.org || "")}" placeholder="e.g. Azure Core"></div>
+        <div class="field"><label>Tenure in this role</label><input type="text" data-bind="person.tenure" value="${escapeHtml(p.tenure || "")}" placeholder="e.g. 2 years"></div>
+      </div>
+      <div class="cluster" style="margin-top:18px">
+        <button class="btn" data-act="skip-person">Skip</button>
+        <button class="btn btn-primary right" data-act="goto" data-step="inventory">Continue →</button>
+      </div>
+    </section>
+  `;
+}
+
+function renderInventory() {
+  const tab = ui.inventoryTab;
+  return `
+    <section class="card">
+      <h2>Inventory your tasks</h2>
+      <p>The ~12 things you actually spend time on — not your job title, the real day-to-day work. Aim for 8–15. You can edit and add throughout.</p>
+      <p class="muted" style="font-size:0.9rem;margin-top:0">There are a few different ways to build your inventory: use an AI prompt to generate it from your calendar/email, start with curated examples, or add your own from scratch.</p>
+      <div class="tabs">
+        <button class="tab ${tab === "prompt" ? "tab-on" : ""}" data-act="inv-tab" data-tab="prompt">Let AI inventory it</button>
+        <button class="tab ${tab === "chips" ? "tab-on" : ""}" data-act="inv-tab" data-tab="chips">Start with examples</button>
+        <button class="tab ${tab === "manual" ? "tab-on" : ""}" data-act="inv-tab" data-tab="manual">Add my own</button>
+      </div>
+      ${tab === "prompt" ? renderInventoryPrompt() : ""}
+      ${tab === "chips" ? renderInventoryChips() : ""}
+      ${tab === "manual" ? renderInventoryManual() : ""}
+    </section>
+    ${renderTaskInventoryList()}
+  `;
+}
+
+function renderInventoryPrompt() {
+  const tool = ui.inventoryTool;
+  const prompt = PROMPTS[tool] || PROMPTS.m365;
+  const preview = ui.parsedPreview;
+  return `
+    <div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text)">
+      <h4 style="color:var(--b2-color)">This first step is itself a Bucket 2 task</h4>
+      <p>You're using AI to do the heavy lifting; you'll do the curation. That's the whole framework, modeled on your very first action.</p>
+    </div>
+    <div class="field">
+      <label>Which AI tool will you run this in?</label>
+      <div class="cluster">
+        ${["m365","workiq","other"].map((k) => `
+          <button class="chip ${tool === k ? "chip-on" : ""}" data-act="inv-tool" data-tool="${k}">${escapeHtml(PROMPTS[k].label)}</button>
+        `).join("")}
+      </div>
+      <p class="muted" style="margin-top:8px;margin-bottom:0;font-size:0.9rem">${escapeHtml(prompt.note)}</p>
+    </div>
+    <div class="field">
+      <label>1. Copy this prompt and run it in ${escapeHtml(prompt.label)}</label>
+      <pre id="promptText">${escapeHtml(prompt.text)}</pre>
+      <div class="cluster" style="margin-top:8px">
+        <button class="btn btn-sm" data-act="copy-prompt">Copy prompt</button>
+        <span class="muted">${escapeHtml(prompt.label === "M365 Copilot" ? "Tip: paste into M365 Copilot Chat (m365.cloud.microsoft.com/chat) or the Copilot pane in Word/Outlook." : prompt.label === "WorkIQ" ? "Tip: run in Clawpilot, Copilot CLI (workiq ask -q), or VS Code with GitHub Copilot." : "Tip: bring your own context — paste recent calendar/email or describe your week.")}</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>2. Paste what your AI returned (the JSON array)</label>
+      <textarea id="pasteInput" rows="6" placeholder='Paste the JSON array here. Markdown fences and chatty preambles are fine — the parser strips them.'></textarea>
+      <div class="cluster" style="margin-top:8px">
+        <button class="btn btn-primary btn-sm" data-act="parse-paste">Parse &amp; preview</button>
+        <button class="btn btn-sm" data-act="clear-paste">Clear</button>
+      </div>
+    </div>
+    ${preview ? renderParsedPreview(preview) : ""}
+  `;
+}
+
+function renderParsedPreview(preview) {
+  if (!preview.ok) {
+    return `<div class="callout" style="border-color:var(--cp-danger);color:var(--cp-danger)"><strong>Couldn't parse that paste.</strong> ${escapeHtml(preview.error)}</div>`;
+  }
+  return `
+    <div class="callout">
+      <strong>Found ${preview.tasks.length} task${preview.tasks.length === 1 ? "" : "s"}.</strong> Review before adding — you can edit each one after.
+    </div>
+    <div class="stack" style="margin-top:12px">
+      ${preview.tasks.map((t, i) => `
+        <div class="task-list-row">
+          <div style="flex:1;min-width:0">
+            <div class="name">${escapeHtml(t.label)}</div>
+            <div class="meta">${escapeHtml(t.cadence)} · ${t.estWeeklyHours != null ? t.estWeeklyHours + "h/" + ({daily:"day",weekly:"wk",biweekly:"2wk",monthly:"mo",quarterly:"qtr",adhoc:"occ",unknown:"cadence"}[t.cadence]||"cadence") : "weight 1"}${t.description ? " · " + escapeHtml(t.description.slice(0, 80) + (t.description.length > 80 ? "…" : "")) : ""}</div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-xs btn-danger" data-act="preview-remove" data-idx="${i}" title="Don't import this one">×</button>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+    <div class="cluster" style="margin-top:14px">
+      <button class="btn btn-primary" data-act="commit-preview">Add all ${preview.tasks.length} to my inventory</button>
+      <button class="btn" data-act="discard-preview">Discard</button>
+    </div>
+  `;
+}
+
+function renderInventoryChips() {
+  const existing = new Set(session.tasks.map((t) => t.label.toLowerCase().trim()));
+  return `
+    <p>Tap any starter task that matches something you actually do. You can edit names after.</p>
+    <div class="cluster" style="gap:8px">
+      ${STARTER_CHIPS.map((c) => {
+        const on = existing.has(c.toLowerCase().trim());
+        return `<button class="chip ${on ? "chip-on" : ""}" data-act="chip-add" data-label="${escapeHtml(c)}"${on ? " disabled" : ""}>+ ${escapeHtml(c)}</button>`;
+      }).join("")}
+    </div>
+    <p class="muted" style="margin-top:14px">These are just universal starters — the prompt path gives you a list tailored to your actual work.</p>
+  `;
+}
+
+function renderInventoryManual() {
+  return `
+    <p>Type each task you spend time on. Write the actual task ("Weekly status email"), not the strategic version ("Stakeholder communication").</p>
+    <div class="field">
+      <label>New task</label>
+      <input type="text" id="manualTaskInput" placeholder="e.g. Triaging incoming asks" autocomplete="off">
+      <div class="cluster" style="margin-top:8px"><button class="btn btn-primary btn-sm" data-act="manual-add">Add task</button><span class="muted">Press Enter to add</span></div>
+    </div>
+  `;
+}
+
+function renderTaskInventoryList() {
+  if (session.tasks.length === 0) {
+    return `
+      <section class="card card-soft">
+        <p class="muted center" style="margin:0">No tasks yet. Use one of the methods above to add some.</p>
+      </section>
+    `;
+  }
+  return `
+    <section class="card">
+      <h3 style="margin-bottom:4px">Your inventory <span class="badge">${session.tasks.length}</span></h3>
+      <p class="muted" style="margin-bottom:14px">Edit names, set hours per cadence (e.g. "6" for a monthly task = 6 hours/month), or remove items. Aim for 8–15 honest tasks.</p>
+      <div class="stack">
+        ${session.tasks.map((t, i) => {
+          const cadenceLabel = { daily: "h/day", weekly: "h/wk", biweekly: "h/2wk", monthly: "h/mo", quarterly: "h/qtr", adhoc: "h/occ", unknown: "h/cadence" }[t.cadence || "unknown"] || "h/cadence";
+          return `
+          <div class="task-list-row">
+            <input type="text" value="${escapeHtml(t.label)}" data-act="task-edit-label" data-id="${escapeHtml(t.id)}" style="flex:1;min-width:0">
+            <select data-act="task-edit-cadence" data-id="${escapeHtml(t.id)}" style="width:auto;flex:0 0 auto">
+              ${["daily","weekly","biweekly","monthly","quarterly","adhoc","unknown"].map((c) => `<option value="${c}" ${t.cadence === c ? "selected" : ""}>${c}</option>`).join("")}
+            </select>
+            <input type="text" inputmode="decimal" value="${t.estHoursPerCadence != null ? t.estHoursPerCadence : (t.estWeeklyHours != null ? t.estWeeklyHours : "")}" data-act="task-edit-hours" data-id="${escapeHtml(t.id)}" placeholder="${cadenceLabel}" style="width:90px;flex:0 0 auto">
+            <button class="btn btn-xs btn-danger" data-act="task-remove" data-id="${escapeHtml(t.id)}" title="Remove">×</button>
+          </div>
+        `; }).join("")}
+      </div>
+      <div class="cluster" style="margin-top:18px">
+        <span class="muted">${session.tasks.length} task${session.tasks.length === 1 ? "" : "s"} — ${session.tasks.length >= 3 ? "ready to sort" : "add a few more to start sorting"}</span>
+        <button class="btn btn-primary right" data-act="goto" data-step="sort"${session.tasks.length < 1 ? " disabled" : ""}>Continue to sort →</button>
+      </div>
+    </section>
+  `;
+}
+
+/* ==========================================================================
+   Screen renderers — sort, assess
+   ========================================================================== */
+
+function unsortedTasks() { return session.tasks.filter((t) => t.bucket === "unsorted"); }
+function allSorted() { return session.tasks.length > 0 && session.tasks.every((t) => t.bucket && t.bucket !== "unsorted"); }
+
+function clampTaskIdx() {
+  if (session.tasks.length === 0) { ui.currentTaskIdx = 0; return; }
+  if (ui.currentTaskIdx < 0) ui.currentTaskIdx = 0;
+  if (ui.currentTaskIdx >= session.tasks.length) ui.currentTaskIdx = session.tasks.length - 1;
+}
+
+function suggestedBucketFor(task) {
+  if (!task.diagnostic) return null;
+  const scores = { automate: 0, assist: 0, human: 0 };
+  let answered = 0;
+  for (const q of DIAGNOSTICS) {
+    const v = task.diagnostic[q.id];
+    if (v === true) {
+      scores[q.bucket] += q.weight;
+      if (q.alsoHuman) scores.human += q.alsoHuman;
+      answered++;
+    } else if (v === false) {
+      answered++;
+    }
+  }
+  if (answered < 2) return null;
+  let best = null, bestScore = -1;
+  for (const k of Object.keys(scores)) {
+    if (scores[k] > bestScore) { bestScore = scores[k]; best = k; }
+  }
+  return bestScore > 0 ? best : null;
+}
+
+function renderSort() {
+  if (session.tasks.length === 0) {
+    return `<section class="card"><p>No tasks to sort. <a href="#" data-act="goto" data-step="inventory">Go back to inventory →</a></p></section>`;
+  }
+  clampTaskIdx();
+  const task = session.tasks[ui.currentTaskIdx];
+  const total = session.tasks.length;
+  const idx = ui.currentTaskIdx;
+  const sortedCount = session.tasks.filter((t) => t.bucket && t.bucket !== "unsorted").length;
+  const suggested = suggestedBucketFor(task);
+  const lesson = suggested && !ui.miniLessonsShown[suggested] ? MINI_LESSONS[suggested] : null;
+  const progressPct = total === 0 ? 0 : ((idx + 1) / total * 100);
+  return `
+    <section class="card">
+      <div class="cluster" style="margin-bottom:6px">
+        <span class="badge">Task ${idx + 1} of ${total}</span>
+        <span class="muted right">${sortedCount} sorted</span>
+      </div>
+      <div class="prog"><div style="width:${progressPct}%"></div></div>
+
+      <h2 style="margin-bottom:4px">${escapeHtml(task.label)}</h2>
+      ${task.description ? `<p class="muted">${escapeHtml(task.description)}</p>` : ""}
+      ${task.cadence && task.cadence !== "unknown" ? `<p class="muted" style="margin-top:-4px">Cadence: ${escapeHtml(task.cadence)}${task.estWeeklyHours ? ` · about ${task.estWeeklyHours} h/wk` : ""}</p>` : ""}
+
+      <h3 style="margin-top:18px">Six quick questions</h3>
+      <p class="muted" style="margin-bottom:14px">Answer fast — your gut is usually right. Skip if you're not sure.</p>
+      ${DIAGNOSTICS.map((q) => {
+        const v = task.diagnostic[q.id];
+        const yes = v === true, no = v === false;
+        return `
+          <div class="diag-q">
+            <div class="diag-q-text">${escapeHtml(q.text)}</div>
+            <div class="cluster">
+              <button class="yn-btn ${yes ? "on-yes" : ""}" data-act="diag" data-id="${escapeHtml(q.id)}" data-val="yes">Yes</button>
+              <button class="yn-btn ${no ? "on-no" : ""}" data-act="diag" data-id="${escapeHtml(q.id)}" data-val="no">No</button>
+              <button class="yn-btn ${v === undefined ? "on-skip" : ""}" data-act="diag" data-id="${escapeHtml(q.id)}" data-val="skip">Skip</button>
+            </div>
+          </div>
+        `;
+      }).join("")}
+
+      ${lesson ? `
+        <div class="mini-lesson">
+          <h4>${escapeHtml(lesson.title)}</h4>
+          <p>${escapeHtml(lesson.body)}</p>
+        </div>` : ""}
+
+      <h3 style="margin-top:18px">Which bucket?</h3>
+      ${suggested ? `<p class="muted" style="margin-top:-6px">Based on your answers, this looks like <span class="badge ${BUCKETS[suggested].badge}">${BUCKETS[suggested].name}</span>. You can confirm or override.</p>` : `<p class="muted" style="margin-top:-6px">Pick the bucket that feels right.</p>`}
+
+      <div class="bucket-choice">
+        ${["automate","assist","human","unsorted"].map((b) => {
+          const on = task.bucket === b;
+          const sug = suggested === b;
+          const def = BUCKETS[b];
+          return `
+            <button class="bucket-btn bucket-btn-${b === "unsorted" ? "unsorted" : "b" + def.num} ${on ? "on" : ""}" data-act="bucket" data-bucket="${b}">
+              ${b !== "unsorted" ? `<span class="num">Bucket ${def.num}${sug ? " · suggested" : ""}</span>` : `<span class="num">${sug ? "suggested" : "Skip for now"}</span>`}
+              <span class="name">${escapeHtml(def.name)}</span>
+              <span class="hint">${escapeHtml(def.hint)}</span>
+            </button>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="field" style="margin-top:18px">
+        <label>Your reasoning in a sentence (optional, but worth it)</label>
+        <textarea data-act="reason" data-id="${escapeHtml(task.id)}" placeholder="In your own words, why this bucket?">${escapeHtml((task.diagnostic && task.diagnostic.freeformReasoning) || "")}</textarea>
+        <p class="muted" style="font-size:0.85rem;margin-top:4px">Future you will thank you when you re-run this in 90 days and want to remember why you placed it here.</p>
+      </div>
+
+      <div class="cluster" style="margin-top:18px">
+        <button class="btn" data-act="prev-task"${idx === 0 ? " disabled" : ""}>← Previous</button>
+        <button class="btn" data-act="goto" data-step="inventory">Back to inventory</button>
+        <button class="btn btn-primary right" data-act="next-task">${idx === total - 1 ? (allSorted() ? "See your map →" : "Finish unsorted later →") : "Next task →"}</button>
+      </div>
+    </section>
+
+    ${renderSortMiniMap()}
+  `;
+}
+
+function renderSortMiniMap() {
+  const a = session.assessment;
+  if (!a || a.bucketTotals.automate + a.bucketTotals.assist + a.bucketTotals.human === 0) return "";
+  return `
+    <section class="card card-soft">
+      <div class="cluster" style="margin-bottom:8px"><strong>Map so far</strong><span class="muted right">${session.tasks.filter((t) => t.bucket !== "unsorted").length} of ${session.tasks.length} sorted</span></div>
+      ${renderBucketBar()}
+    </section>
+  `;
+}
+
+function renderBucketBar() {
+  const pct = session.assessment.bucketPercents;
+  const sorted = pct.automate + pct.assist + pct.human;
+  if (sorted === 0) {
+    return `<div class="bucket-bar"><div class="seg-empty" style="flex:1">Nothing sorted yet</div></div>`;
+  }
+  return `
+    <div class="bucket-bar">
+      ${pct.automate > 0 ? `<div class="seg-b1" style="flex:${pct.automate}">${fmtPct(pct.automate)}</div>` : ""}
+      ${pct.assist   > 0 ? `<div class="seg-b2" style="flex:${pct.assist}">${fmtPct(pct.assist)}</div>` : ""}
+      ${pct.human    > 0 ? `<div class="seg-b3" style="flex:${pct.human}">${fmtPct(pct.human)}</div>` : ""}
+    </div>
+    <div class="bucket-stats">
+      <div class="bucket-stat b1">
+        <div class="bucket-stat-name">Bucket 1 · Automate</div>
+        <div class="bucket-stat-num">${fmtPct(pct.automate)}</div>
+        <div class="bucket-stat-label">${countInBucket("automate")} task${countInBucket("automate") === 1 ? "" : "s"} · AI does it</div>
+      </div>
+      <div class="bucket-stat b2">
+        <div class="bucket-stat-name">Bucket 2 · Assist</div>
+        <div class="bucket-stat-num">${fmtPct(pct.assist)}</div>
+        <div class="bucket-stat-label">${countInBucket("assist")} task${countInBucket("assist") === 1 ? "" : "s"} · AI + you</div>
+      </div>
+      <div class="bucket-stat b3">
+        <div class="bucket-stat-name">Bucket 3 · Human</div>
+        <div class="bucket-stat-num">${fmtPct(pct.human)}</div>
+        <div class="bucket-stat-label">${countInBucket("human")} task${countInBucket("human") === 1 ? "" : "s"} · Only you</div>
+      </div>
+    </div>
+  `;
+}
+
+function countInBucket(b) { return session.tasks.filter((t) => t.bucket === b).length; }
+
+function renderAssess() {
+  const a = session.assessment;
+  const sorted = a.bucketTotals.automate + a.bucketTotals.assist + a.bucketTotals.human;
+  const unsortedN = session.tasks.filter((t) => t.bucket === "unsorted").length;
+  if (sorted === 0) {
+    return `<section class="card"><p>Nothing sorted yet. <a href="#" data-act="goto" data-step="sort">Start sorting →</a></p></section>`;
+  }
+  const zoneCls = a.zone === "red" ? "zone-red" : a.zone === "yellow" ? "zone-yellow" : "zone-green";
+  const zoneLabel = a.zone === "red" ? "RED ZONE" : a.zone === "yellow" ? "YELLOW ZONE" : "GREEN ZONE";
+  return `
+    <section class="card">
+      <h2>Your map</h2>
+      <p class="muted">Look at it. Notice what you feel. Sit with it for a minute.</p>
+      <div class="spacer"></div>
+      ${renderBucketBar()}
+
+      <div class="spacer-lg"></div>
+
+      <div class="zone-card ${zoneCls}">
+        <span class="zone-label">${zoneLabel}</span>
+        <div style="flex:1"><p style="margin:0">${a.vulnerabilityRead.summary}</p></div>
+      </div>
+
+      ${unsortedN > 0 ? `<div class="callout" style="margin-top:16px">You have <strong>${unsortedN} unsorted task${unsortedN === 1 ? "" : "s"}</strong>. You can finish them now or keep going — <a href="#" data-act="goto" data-step="sort">go back to sort</a>.</div>` : ""}
+
+      <div class="callout">
+        <strong>What the zones mean.</strong> Red = more than 50% of your effort is in Bucket 1 (AI can do it). Yellow = 40-50%. Green = under 40%. The percentages keep shifting toward more AI-doable work as the tools get better — green today is not green forever.
+      </div>
+
+      <div class="callout" style="border-left-color:var(--b2-color)">
+        <strong>Why this matters now.</strong> This isn't about AI replacing you. It's about the <strong>conveyor belt</strong> — every quarter, more of what used to be Bucket 2 becomes Bucket 1 as the models improve. The people who thrive are the ones who keep moving up the stack: offloading Bucket 1 work, building new Bucket 2 skills, and deepening their Bucket 3 capabilities. The audit gives you a starting point. The re-run in 90 days shows you whether you're moving.
+      </div>
+
+      <div class="callout" style="border-left-color:var(--b3-color)">
+        <strong>Where's the opportunity?</strong> Look at your Bucket 2 — if it's thin, you're missing the biggest leverage in this era. The hybrid human+AI tasks are where new value gets created. Look at your Bucket 3 — if it's thin, you're not building the durable capabilities that protect your career across whatever the next disruption is.
+      </div>
+
+      <div class="cluster" style="margin-top:18px">
+        <button class="btn" data-act="goto" data-step="sort">← Back to sort</button>
+        <button class="btn btn-primary right" data-act="goto" data-step="move">Now move some work →</button>
+      </div>
+    </section>
+  `;
+}
+
+/* ==========================================================================
+   Screen renderers — move, plan, export, diff
+   ========================================================================== */
+
+function renderMove() {
+  const sortedTasks = session.tasks.filter((t) => t.bucket && t.bucket !== "unsorted");
+  if (sortedTasks.length === 0) {
+    return `<section class="card"><p>You need to sort some tasks first. <a href="#" data-act="goto" data-step="sort">Go sort →</a></p></section>`;
+  }
+  // group by bucket
+  const byBucket = { automate: [], assist: [], human: [] };
+  sortedTasks.forEach((t) => byBucket[t.bucket].push(t));
+  return `
+    <section class="card">
+      <h2>Move some work</h2>
+      <p>For each task, decide the next move: <strong>offload</strong> (Bucket 1), <strong>amplify</strong> (Bucket 2), <strong>protect</strong> (Bucket 3), or <strong>hold</strong> (not now). Write the next step.</p>
+      <div class="callout" style="border-left-color:var(--b2-color);margin-top:12px">
+        <strong>★ Star your top moves</strong> — only starred moves appear on the Plan stage. All moves (starred or not) will be included in the downloadable snapshot.
+      </div>
+    </section>
+    ${["automate","assist","human"].map((b) => byBucket[b].length === 0 ? "" : `
+      <section class="card">
+        <div class="cluster" style="margin-bottom:12px">
+          <span class="badge ${BUCKETS[b].badge}">Bucket ${BUCKETS[b].num} · ${BUCKETS[b].name}</span>
+          <span class="muted">${byBucket[b].length} task${byBucket[b].length === 1 ? "" : "s"}</span>
+        </div>
+        ${b === "automate" ? `<div class="mini-lesson" style="border-left-color:var(--b1-color);background:var(--b1-soft);color:var(--cp-text);margin-bottom:14px">
+          <h4 style="color:var(--b1-color);margin-bottom:6px">💡 Ideas for offloading Bucket 1 tasks</h4>
+          <ul style="margin:0;padding-left:18px;font-size:0.92rem">
+            <li><strong>Delegate to an AI agent</strong> — set up a recurring automation (e.g. Copilot auto-drafts your weekly status from your work items)</li>
+            <li><strong>Template + trigger</strong> — create a template and have AI fill it each time (e.g. meeting recap auto-sent after every meeting)</li>
+            <li><strong>Hand to a teammate or shared service</strong> — if a human must own it, does it need to be you?</li>
+            <li><strong>Eliminate entirely</strong> — ask "if I stopped doing this, who would notice and when?" If the answer is murky, try stopping.</li>
+          </ul>
+        </div>` : ""}
+        ${b === "assist" ? `<div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text);margin-bottom:14px">
+          <h4 style="color:var(--b2-color);margin-bottom:6px">💡 Ideas for amplifying Bucket 2 tasks</h4>
+          <ul style="margin:0;padding-left:18px;font-size:0.92rem">
+            <li><strong>AI does the first draft, you edit</strong> — emails, docs, plans, reviews. You provide 20% of the effort for 80% of the quality.</li>
+            <li><strong>AI preps, you decide</strong> — summarize long threads, pull data, surface options. You bring the judgment.</li>
+            <li><strong>Build a reusable prompt or skill</strong> — write one great prompt for this task, save it as a reusable skill, invoke every time.</li>
+            <li><strong>Copilot + your files</strong> — point AI at your SharePoint/OneDrive docs and ask it to synthesize, compare, or draft from them.</li>
+            <li><strong>Create a custom GPT or Copilot agent</strong> — for recurring assist tasks, build a dedicated mini-tool with instructions baked in.</li>
+          </ul>
+        </div>` : ""}
+        ${b === "human" ? `<div class="mini-lesson" style="border-left-color:var(--b3-color);background:var(--b3-soft);color:var(--cp-text);margin-bottom:14px">
+          <h4 style="color:var(--b3-color);margin-bottom:6px">💡 Strengthening your human-only capabilities</h4>
+          <p style="font-size:0.9rem;margin:0 0 8px 0">These are the skills that become <em>more</em> valuable as AI improves. Invest here deliberately.</p>
+          <ul style="margin:0;padding-left:18px;font-size:0.88rem">
+            <li><strong>Problem Framing</strong> — AI answers questions; humans decide which questions matter. Practice asking "is this even the right problem?"</li>
+            <li><strong>Judgment & Decision-making</strong> — make calls under uncertainty, competing priorities, and incomplete info. This is why leadership isn't disappearing.</li>
+            <li><strong>Systems Thinking</strong> — see second-order effects, dependencies, incentives, and unintended consequences. AI optimizes locally; you optimize systemically.</li>
+            <li><strong>Sensemaking</strong> — different from summarization. Summarization = what happened. Sensemaking = what it means.</li>
+            <li><strong>Delegation to Agents</strong> — task decomposition, constraint setting, defining success, validation design. Future managers spend more time managing agents than creating deliverables.</li>
+            <li><strong>Original Thinking</strong> — when everyone can generate competent outputs, originality becomes the scarce premium.</li>
+            <li><strong>Influence & Communication</strong> — organizations still change through people. Simplifying complexity and creating clarity become more valuable as AI increases the volume of everything.</li>
+          </ul>
+        </div>` : ""}
+        <div class="stack">
+          ${byBucket[b].map((t) => renderMoveForTask(t)).join("")}
+        </div>
+      </section>
+    `).join("")}
+    <div class="card card-soft">
+      <div class="cluster">
+        <button class="btn" data-act="goto" data-step="assess">← Back to map</button>
+        <button class="btn btn-primary right" data-act="goto" data-step="plan">Build your plan →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderMoveForTask(t) {
+  const m = t.move || { intent: BUCKETS[t.bucket].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: "" };
+  const isTopMove = (session.plan.topMovesThisWeek || []).some((mv) => mv.taskId === t.id);
+  return `
+    <div class="card card-soft card-tight" style="margin:0">
+      <div class="cluster" style="margin-bottom:6px">
+        <strong style="font-size:1rem">${escapeHtml(t.label)}</strong>
+        <button class="btn btn-xs ${isTopMove ? "btn-primary" : ""}" data-act="toggle-top" data-id="${escapeHtml(t.id)}" style="margin-left:auto">${isTopMove ? "★ Top move" : "☆ Star as top move"}</button>
+      </div>
+      ${t.diagnostic && t.diagnostic.freeformReasoning ? `<p class="muted" style="margin:0 0 10px 0">${escapeHtml(t.diagnostic.freeformReasoning)}</p>` : ""}
+      <div class="row">
+        <div class="field">
+          <label>Intent</label>
+          <select data-act="move-intent" data-id="${escapeHtml(t.id)}">
+            ${Object.keys(INTENTS).map((k) => `<option value="${k}" ${m.intent === k ? "selected" : ""}>${INTENTS[k].name} — ${INTENTS[k].desc}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>${escapeHtml(BUCKETS[t.bucket].moveLabel)}</label>
+        <input type="text" data-act="move-owner" data-id="${escapeHtml(t.id)}" value="${escapeHtml(m.ownerOrTool || "")}" placeholder="${t.bucket === "automate" ? "e.g. M365 Copilot, a teammate, a new template" : t.bucket === "assist" ? "e.g. M365 Copilot — meeting prep" : "e.g. block 2 focused hours every Tuesday"}">
+      </div>
+      ${t.bucket === "assist" ? `
+        <div class="field">
+          <label>Starter prompt (for the AI tool above)</label>
+          <textarea data-act="move-prompt" data-id="${escapeHtml(t.id)}" rows="3" placeholder="A first draft you can paste into the tool. Edit it as you go.">${escapeHtml(m.starterPrompt || "")}</textarea>
+        </div>` : ""}
+      <div class="row">
+        <div class="field">
+          <label>Next step</label>
+          <input type="text" data-act="move-next" data-id="${escapeHtml(t.id)}" value="${escapeHtml(m.nextStep || "")}" placeholder="The single concrete thing you'll do">
+        </div>
+        <div class="field" style="flex:0 0 180px">
+          <label>By when</label>
+          <input type="date" data-act="move-by" data-id="${escapeHtml(t.id)}" value="${escapeHtml(m.byWhen || "")}">
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPlan() {
+  const sortedTasks = session.tasks.filter((t) => t.bucket && t.bucket !== "unsorted");
+  const tops = session.plan.topMovesThisWeek || [];
+  const traj = session.plan.ninetyDayTrajectory || { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
+  // refresh top moves to reflect current task data
+  const enrichedTops = tops.map((mv) => {
+    const t = session.tasks.find((x) => x.id === mv.taskId);
+    if (!t) return null;
+    const m = t.move || {};
+    return { ...mv, label: t.label, intent: m.intent || BUCKETS[t.bucket].intent, nextStep: m.nextStep || "", byWhen: m.byWhen || null };
+  }).filter(Boolean);
+  return `
+    <section class="card">
+      <h2>Your AI Leverage Plan</h2>
+      <p>The leave-behind. Top 3 moves this week, your 90-day trajectory, and where to go next.</p>
+    </section>
+
+    <section class="card">
+      <h3>Top moves this week</h3>
+      <p class="muted">Star up to 5 in the Move step. The single best thing you can do right now is hit <em>one</em> of these in the next 48 hours.</p>
+      ${enrichedTops.length === 0 ? `
+        <div class="callout">No moves starred yet. <a href="#" data-act="goto" data-step="move">Go back to Move</a> and star the ones that matter most.</div>
+      ` : `
+        <div class="stack">
+          ${enrichedTops.map((mv) => `
+            <div class="task-list-row">
+              <div style="flex:1;min-width:0">
+                <div class="name">${escapeHtml(mv.label)} <span class="badge badge-accent">${escapeHtml(INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent)}</span></div>
+                <div class="meta">${escapeHtml(mv.nextStep || "(no next step written yet)")}${mv.byWhen ? " · by " + escapeHtml(fmtDate(mv.byWhen)) : ""}</div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `}
+    </section>
+
+    <section class="card">
+      <h3>90-day trajectory</h3>
+      <p class="muted">Where do you want your bucket mix to be in 90 days? Round numbers are fine. The diff view on your next run will tell you whether you got there.</p>
+      <div class="row">
+        <div class="field">
+          <label>Target Bucket 1 (Automate) %</label>
+          <input type="text" inputmode="numeric" data-act="traj" data-key="targetAutomatePercent" value="${traj.targetAutomatePercent != null ? traj.targetAutomatePercent : ""}" placeholder="${fmtPct(session.assessment.bucketPercents.automate)}">
+        </div>
+        <div class="field">
+          <label>Target Bucket 2 (Assist) %</label>
+          <input type="text" inputmode="numeric" data-act="traj" data-key="targetAssistPercent" value="${traj.targetAssistPercent != null ? traj.targetAssistPercent : ""}" placeholder="${fmtPct(session.assessment.bucketPercents.assist)}">
+        </div>
+        <div class="field">
+          <label>Target Bucket 3 (Human) %</label>
+          <input type="text" inputmode="numeric" data-act="traj" data-key="targetHumanPercent" value="${traj.targetHumanPercent != null ? traj.targetHumanPercent : ""}" placeholder="${fmtPct(session.assessment.bucketPercents.human)}">
+        </div>
+      </div>
+      <div class="field">
+        <label>North star — what kind of work do you want to be doing?</label>
+        <textarea data-act="traj-narrative" rows="3" placeholder="In 90 days I want to be spending more time on… and less time on…">${escapeHtml(traj.narrative || "")}</textarea>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Where to go next</h3>
+      <div class="stack">
+        <div class="card card-soft" style="border-left:4px solid var(--cp-accent);margin:0">
+          <h4 style="margin:0 0 6px 0">🚀 Give your plan to Copilot</h4>
+          <p class="meta" style="margin:0 0 8px 0">Copy your plan into M365 Copilot, VS Code, or Copilot CLI and ask it to help you implement. It can draft emails, build templates, create automations, and coach you through each move.</p>
+          <button class="btn btn-xs" data-act="copy-plan-for-copilot">📋 Copy plan for Copilot</button>
+          <span class="muted" style="font-size:0.85rem;margin-left:8px">or upload the session JSON into M365 Copilot / VS Code / Copilot CLI</span>
+        </div>
+        <div class="card card-soft" style="border-left:4px solid var(--b2-color);margin:0">
+          <h4 style="margin:0 0 6px 0">🔬 Clone AI Workflow Designer and import the JSON</h4>
+          <p class="meta" style="margin:0 0 8px 0">It will walk you through specific tasks, one by one, and map each step-by-step: what triggers it, which steps become AI, where humans stay in the loop, and what the redesigned workflow looks like.</p>
+          <a class="btn btn-xs" href="${escapeHtml(HANDOFF.url)}" target="_blank" rel="noopener">Open AI Workflow Designer ↗</a>
+        </div>
+        <div class="card card-soft" style="border-left:4px solid var(--b3-color);margin:0">
+          <h4 style="margin:0 0 6px 0">🤖 Build your Digital Employees</h4>
+          <p class="meta" style="margin:0 0 8px 0">Build 4 persistent AI team members — each with a defined role, your voice, and your preferences — that you delegate to across all your work, not just one task.</p>
+          <p class="meta" style="margin:0 0 8px 0"><strong>How to use:</strong> Copy the <a href="https://PLACEHOLDER-SHAREPOINT-URL/digital-employees.md" target="_blank" rel="noopener">digital-employees skill file</a> into VS Code, Clawpilot, or Copilot CLI and run <code>/digital-employees</code> to start a guided interview.</p>
+          <button class="btn btn-xs" data-act="copy-context-for-de">📋 Copy your work context as a head start</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="card card-soft">
+      <div class="cluster">
+        <button class="btn" data-act="goto" data-step="move">← Back to moves</button>
+        <button class="btn btn-primary right" data-act="goto" data-step="export">Save your plan →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderExport() {
+  const stamp = new Date().toISOString().slice(0, 10);
+  const fname = `move-the-work_${(session.person.name || "session").replace(/[^a-z0-9-]+/gi, "-").toLowerCase()}_${stamp}.json`;
+  return `
+    <section class="card">
+      <h2>Save your work</h2>
+      <p>Save these now. The JSON is what you'll re-import in 90 days to see what's moved. The snapshot is the readable, printable record you can send to your manager, attach to a calendar invite, or bring to a 1:1.</p>
+    </section>
+
+    <section class="card">
+      <h3>1. Download your session</h3>
+      <p class="muted">Save this file somewhere you'll find it again — your calendar invite for the re-run is a good spot.</p>
+      <div class="cluster">
+        <button class="btn btn-primary" data-act="export-json">Download session JSON</button>
+        <span class="muted">Filename: <code>${escapeHtml(fname)}</code></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>2. Download your snapshot</h3>
+      <p class="muted">A self-contained, print-friendly HTML page: your map, top moves, all moves, 90-day target, and conversation prompts for your 1:1 and your team. The leave-behind.</p>
+      <div class="cluster">
+        <button class="btn btn-primary" data-act="export-html">Download snapshot</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>3. Schedule the re-run</h3>
+      <p class="muted">Put a 60-minute hold on your calendar 90 days from now. The diff view between runs is where the real learning lives. The button below copies a scheduling prompt to your clipboard — just paste it into Copilot.</p>
+      <div class="cluster" style="flex-wrap:wrap;gap:8px">
+        <button class="btn btn-primary" data-act="open-copilot-rerun">Open M365 Copilot + Hit paste</button>
+        <button class="btn" data-act="copy-rerun-invite">📋 No M365 Copilot? Copy invite to paste in a new meeting</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Where to go next</h3>
+      <p class="muted" style="margin-bottom:12px">Pick a path based on what files you need:</p>
+      <div class="stack">
+        <div class="card card-soft" style="border-left:4px solid var(--cp-accent);margin:0">
+          <h4 style="margin:0 0 6px 0">🚀 Give your plan to Copilot</h4>
+          <p class="meta" style="margin:0 0 8px 0">Paste your plan into M365 Copilot, VS Code, or Copilot CLI and ask it to help implement — draft emails, build templates, create automations.</p>
+          <button class="btn btn-xs" data-act="copy-plan-for-copilot">📋 Copy plan for Copilot</button>
+          <span class="muted" style="font-size:0.85rem;margin-left:8px">or upload the session JSON into M365 Copilot / VS Code / Copilot CLI</span>
+        </div>
+        <div class="card card-soft" style="border-left:4px solid var(--b2-color);margin:0">
+          <h4 style="margin:0 0 6px 0">🔬 Clone AI Workflow Designer and import the JSON</h4>
+          <p class="meta" style="margin:0 0 4px 0">It will walk you through specific tasks, one by one, and map each step-by-step: what triggers it, which steps become AI, where humans stay in the loop, and what the redesigned workflow looks like.</p>
+          <p class="meta" style="margin:0"><strong>What you need:</strong> Your session JSON (step 1 above). Import it directly into the <a href="${escapeHtml(HANDOFF.url)}" target="_blank" rel="noopener">AI Workflow Designer</a>.</p>
+        </div>
+        <div class="card card-soft" style="border-left:4px solid var(--b3-color);margin:0">
+          <h4 style="margin:0 0 6px 0">🤖 Build your Digital Employees</h4>
+          <p class="meta" style="margin:0 0 4px 0">Build 4 persistent AI team members — each with a defined role, your voice, and your preferences — that you delegate to across all your work, not just one task.</p>
+          <p class="meta" style="margin:0 0 8px 0"><strong>What you need:</strong> Copy the <a href="https://PLACEHOLDER-SHAREPOINT-URL/digital-employees.md" target="_blank" rel="noopener">digital-employees skill file</a> into VS Code, Clawpilot, or Copilot CLI and run <code>/digital-employees</code>. Paste your work context (below) at the start of the conversation for a head start.</p>
+          <button class="btn btn-xs" data-act="copy-context-for-de">📋 Copy your work context as a head start</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="card card-soft">
+      <div class="cluster">
+        <button class="btn" data-act="goto" data-step="plan">← Back to plan</button>
+        <button class="btn right" data-act="start-new">Start a fresh audit</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderDiff() {
+  if (!priorSession) {
+    return `<section class="card"><p>No prior session loaded. <a href="#" data-act="goto" data-step="welcome">Back to start</a></p></section>`;
+  }
+  const diff = computeDiff();
+  if (!diff) return `<section class="card"><p>Couldn't compute diff.</p></section>`;
+  const priorWhen = fmtDate(priorSession.meta.updatedAt || priorSession.meta.createdAt);
+  return `
+    <section class="card">
+      <h2>Welcome back</h2>
+      <p>Here's what changed since your <strong>${escapeHtml(priorWhen)}</strong> run (run ${priorSession.meta.runNumber || 1}).</p>
+      <p>${diff.narrative}</p>
+    </section>
+
+    ${diff._addedFull.length > 0 ? `
+      <section class="card">
+        <h3>New tasks <span class="badge">${diff._addedFull.length}</span></h3>
+        <div class="stack">${diff._addedFull.map((t) => `<div class="task-list-row"><div class="name">${escapeHtml(t.label)}</div><div class="meta">→ ${escapeHtml(BUCKETS[t.bucket || "unsorted"].name)}</div></div>`).join("")}</div>
+      </section>` : ""}
+
+    ${diff.tasksMovedBucket.length > 0 ? `
+      <section class="card">
+        <h3>Moved bucket <span class="badge">${diff.tasksMovedBucket.length}</span></h3>
+        <div class="stack">${diff.tasksMovedBucket.map((m) => `<div class="task-list-row"><div class="name">${escapeHtml(m.label || m.taskId)}</div><div class="meta"><span class="badge ${BUCKETS[m.fromBucket].badge}">${BUCKETS[m.fromBucket].name}</span> → <span class="badge ${BUCKETS[m.toBucket].badge}">${BUCKETS[m.toBucket].name}</span></div></div>`).join("")}</div>
+      </section>` : ""}
+
+    ${diff._removedFull.length > 0 ? `
+      <section class="card">
+        <h3>Fell off your plate <span class="badge">${diff._removedFull.length}</span></h3>
+        <div class="stack">${diff._removedFull.map((t) => `<div class="task-list-row"><div class="name muted">${escapeHtml(t.label)}</div><div class="meta muted">was: ${escapeHtml(BUCKETS[t.bucket || "unsorted"].name)}</div></div>`).join("")}</div>
+      </section>` : ""}
+
+    <section class="card">
+      <h3>Trajectory delta</h3>
+      <p class="muted">Change in each bucket's percentage since last run.</p>
+      <div class="bucket-stats">
+        <div class="bucket-stat b1"><div class="bucket-stat-name">Bucket 1</div><div class="bucket-stat-num">${diff.trajectoryDelta.automate > 0 ? "+" : ""}${diff.trajectoryDelta.automate}%</div><div class="bucket-stat-label">${diff.trajectoryDelta.automate < 0 ? "↓ less" : diff.trajectoryDelta.automate > 0 ? "↑ more" : "no change"}</div></div>
+        <div class="bucket-stat b2"><div class="bucket-stat-name">Bucket 2</div><div class="bucket-stat-num">${diff.trajectoryDelta.assist > 0 ? "+" : ""}${diff.trajectoryDelta.assist}%</div><div class="bucket-stat-label">${diff.trajectoryDelta.assist > 0 ? "↑ more" : diff.trajectoryDelta.assist < 0 ? "↓ less" : "no change"}</div></div>
+        <div class="bucket-stat b3"><div class="bucket-stat-name">Bucket 3</div><div class="bucket-stat-num">${diff.trajectoryDelta.human > 0 ? "+" : ""}${diff.trajectoryDelta.human}%</div><div class="bucket-stat-label">${diff.trajectoryDelta.human > 0 ? "↑ more" : diff.trajectoryDelta.human < 0 ? "↓ less" : "no change"}</div></div>
+      </div>
+    </section>
+
+    <div class="card card-soft">
+      <div class="cluster">
+        <button class="btn btn-primary right" data-act="goto" data-step="inventory">Continue with this run →</button>
+      </div>
+    </div>
+  `;
+}
+
+/* ==========================================================================
+   Event handling, import/export, init
+   ========================================================================== */
+
+function bind() {
+  document.addEventListener("click", onClick, false);
+  document.addEventListener("keydown", onKey, false);
+  document.addEventListener("input", onInput, false);
+  document.addEventListener("change", onChange, false);
+  $("#stepNav").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-step]"); if (!b || b.disabled) return;
+    go(b.getAttribute("data-step"));
+  });
+  $("#filePicker").addEventListener("change", onFile);
+}
+
+function onClick(e) {
+  const t = e.target.closest("[data-act]");
+  if (!t) return;
+  const act = t.getAttribute("data-act");
+  switch (act) {
+    case "home":
+      e.preventDefault(); go("welcome"); break;
+    case "theme-toggle":
+      toggleTheme(); break;
+    case "start-new":
+      startNewSession(); break;
+    case "import":
+      $("#filePicker").click(); break;
+    case "resume": {
+      const sid = t.getAttribute("data-sid");
+      if (loadSession(sid)) { ui.step = session.tasks.length > 0 ? "inventory" : "person"; render(); }
+      else toast("Couldn't load that session.");
+      break;
+    }
+    case "delete": {
+      const sid = t.getAttribute("data-sid");
+      if (confirm("Delete this saved session? This can't be undone.")) {
+        deleteSavedSession(sid); render();
+      }
+      break;
+    }
+    case "goto":
+      e.preventDefault(); go(t.getAttribute("data-step")); break;
+    case "skip-person":
+      go("inventory"); break;
+    case "inv-tab":
+      ui.inventoryTab = t.getAttribute("data-tab"); render(); break;
+    case "inv-tool":
+      ui.inventoryTool = t.getAttribute("data-tool"); render(); break;
+    case "copy-prompt":
+      copyToClipboard(PROMPTS[ui.inventoryTool].text).then((ok) => toast(ok ? "Prompt copied — paste it into " + PROMPTS[ui.inventoryTool].label : "Copy failed — select the text manually"));
+      break;
+    case "parse-paste": {
+      const text = $("#pasteInput").value;
+      ui.parsedPreview = parsePastedTasks(text);
+      render();
+      break;
+    }
+    case "clear-paste":
+      $("#pasteInput").value = ""; ui.parsedPreview = null; render(); break;
+    case "preview-remove": {
+      const i = parseInt(t.getAttribute("data-idx"), 10);
+      if (ui.parsedPreview && ui.parsedPreview.tasks) { ui.parsedPreview.tasks.splice(i, 1); render(); }
+      break;
+    }
+    case "commit-preview":
+      commitPreview(); break;
+    case "discard-preview":
+      ui.parsedPreview = null; render(); break;
+    case "chip-add":
+      addChipTask(t.getAttribute("data-label")); break;
+    case "manual-add": {
+      const inp = $("#manualTaskInput");
+      addManualTask(inp.value); inp.value = ""; inp.focus();
+      break;
+    }
+    case "task-remove":
+      removeTask(t.getAttribute("data-id")); break;
+    case "diag":
+      setDiag(t.getAttribute("data-id"), t.getAttribute("data-val")); break;
+    case "bucket":
+      setBucket(t.getAttribute("data-bucket")); break;
+    case "prev-task":
+      if (ui.currentTaskIdx > 0) { ui.currentTaskIdx--; render(); }
+      break;
+    case "next-task":
+      nextTask(); break;
+    case "toggle-top":
+      toggleTopMove(t.getAttribute("data-id")); break;
+    case "export-json":
+      exportJson(); break;
+    case "export-html":
+      exportHtmlSnapshot(); break;
+    case "copy-rerun":
+      copyRerunInvite(); break;
+    case "open-copilot-rerun":
+      openCopilotRerun(); break;
+    case "copy-rerun-invite":
+      copyRerunMeetingInvite(); break;
+    case "copy-plan-for-copilot":
+      copyPlanForCopilot(); break;
+    case "copy-context-for-de":
+      copyContextForDigitalEmployees(); break;
+    default: break;
+  }
+}
+
+function onInput(e) {
+  const t = e.target;
+  const act = t.getAttribute && t.getAttribute("data-act");
+  if (!act) return;
+  switch (act) {
+    case "reason": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { if (!task.diagnostic) task.diagnostic = {}; task.diagnostic.freeformReasoning = t.value; save({ silent: true }); }
+      break;
+    }
+    case "task-edit-label": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { task.label = t.value; save({ silent: true }); }
+      break;
+    }
+    case "task-edit-hours": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) {
+        const v = parseFloat(t.value);
+        task.estHoursPerCadence = isFinite(v) && v >= 0 ? v : null;
+        // Convert to weekly equivalent for weighting
+        const cadenceMultiplier = { daily: 5, weekly: 1, biweekly: 0.5, monthly: 12/52, quarterly: 4/52, adhoc: 0.5, unknown: 1 };
+        const mult = cadenceMultiplier[task.cadence] || 1;
+        task.estWeeklyHours = task.estHoursPerCadence != null ? +(task.estHoursPerCadence * mult).toFixed(2) : null;
+        task.effortWeight = task.estWeeklyHours != null && task.estWeeklyHours > 0 ? task.estWeeklyHours : 1;
+        save({ silent: true });
+      }
+      break;
+    }
+    case "move-owner": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { if (!task.move) task.move = {}; task.move.ownerOrTool = t.value; save({ silent: true }); }
+      break;
+    }
+    case "move-prompt": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { if (!task.move) task.move = {}; task.move.starterPrompt = t.value; save({ silent: true }); }
+      break;
+    }
+    case "move-next": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { if (!task.move) task.move = {}; task.move.nextStep = t.value; save({ silent: true }); }
+      break;
+    }
+    case "traj": {
+      const key = t.getAttribute("data-key");
+      const v = parseFloat(t.value);
+      if (!session.plan.ninetyDayTrajectory) session.plan.ninetyDayTrajectory = { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
+      session.plan.ninetyDayTrajectory[key] = isFinite(v) ? Math.max(0, Math.min(100, v)) : null;
+      save({ silent: true });
+      break;
+    }
+    case "traj-narrative":
+      if (!session.plan.ninetyDayTrajectory) session.plan.ninetyDayTrajectory = { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
+      session.plan.ninetyDayTrajectory.narrative = t.value; save({ silent: true });
+      break;
+    default: break;
+  }
+}
+
+function onChange(e) {
+  const t = e.target;
+  const act = t.getAttribute && t.getAttribute("data-act");
+  if (!act) return;
+  switch (act) {
+    case "task-edit-cadence": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) {
+        task.cadence = t.value;
+        // Recompute weekly equivalent if hours per cadence is set
+        if (task.estHoursPerCadence != null) {
+          const cadenceMultiplier = { daily: 5, weekly: 1, biweekly: 0.5, monthly: 12/52, quarterly: 4/52, adhoc: 0.5, unknown: 1 };
+          const mult = cadenceMultiplier[task.cadence] || 1;
+          task.estWeeklyHours = +(task.estHoursPerCadence * mult).toFixed(2);
+          task.effortWeight = task.estWeeklyHours > 0 ? task.estWeeklyHours : 1;
+        }
+        save({ silent: true });
+        render();
+      }
+      break;
+    }
+    case "move-intent": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { if (!task.move) task.move = {}; task.move.intent = t.value; save({ silent: true }); }
+      break;
+    }
+    case "move-by": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { if (!task.move) task.move = {}; task.move.byWhen = t.value || null; save({ silent: true }); }
+      break;
+    }
+    default: break;
+  }
+}
+
+function onKey(e) {
+  if (e.key === "Enter" && document.activeElement && document.activeElement.id === "manualTaskInput") {
+    const inp = $("#manualTaskInput");
+    if (inp) { addManualTask(inp.value); inp.value = ""; }
+  }
+}
+
+// ---- task ops ----
+
+function commitPreview() {
+  if (!ui.parsedPreview || !ui.parsedPreview.ok) return;
+  // dedupe by label (case-insensitive)
+  const existing = new Set(session.tasks.map((t) => t.label.toLowerCase().trim()));
+  let added = 0, skipped = 0;
+  for (const t of ui.parsedPreview.tasks) {
+    if (existing.has(t.label.toLowerCase().trim())) { skipped++; continue; }
+    session.tasks.push(t);
+    existing.add(t.label.toLowerCase().trim());
+    added++;
+  }
+  session.preferences.preSeedSource = ui.inventoryTool === "m365" ? "graph" : ui.inventoryTool === "workiq" ? "graph" : "manual-paste";
+  ui.parsedPreview = null;
+  save();
+  render();
+  toast(`Added ${added}${skipped > 0 ? ` · skipped ${skipped} duplicate${skipped === 1 ? "" : "s"}` : ""}`);
+}
+
+function addChipTask(label) {
+  if (!label) return;
+  if (session.tasks.some((t) => t.label.toLowerCase().trim() === label.toLowerCase().trim())) return;
+  session.tasks.push({
+    id: slugify(label) + "-" + Math.random().toString(36).slice(2, 6),
+    label, description: "",
+    cadence: "weekly",
+    estWeeklyHours: null,
+    effortWeight: 1,
+    source: "user",
+    bucket: "unsorted",
+    diagnostic: {},
+    move: null,
+    tags: [],
+    notes: ""
+  });
+  save();
+  render();
+}
+
+function addManualTask(label) {
+  label = (label || "").trim();
+  if (!label) return;
+  if (session.tasks.some((t) => t.label.toLowerCase().trim() === label.toLowerCase().trim())) {
+    toast("That task is already in your list.");
+    return;
+  }
+  session.tasks.push({
+    id: slugify(label) + "-" + Math.random().toString(36).slice(2, 6),
+    label, description: "",
+    cadence: "unknown",
+    estWeeklyHours: null,
+    effortWeight: 1,
+    source: "user",
+    bucket: "unsorted",
+    diagnostic: {},
+    move: null,
+    tags: [],
+    notes: ""
+  });
+  save();
+  render();
+}
+
+function removeTask(id) {
+  const idx = session.tasks.findIndex((t) => t.id === id);
+  if (idx < 0) return;
+  session.tasks.splice(idx, 1);
+  // also unstar from top moves
+  if (session.plan && Array.isArray(session.plan.topMovesThisWeek)) {
+    session.plan.topMovesThisWeek = session.plan.topMovesThisWeek.filter((m) => m.taskId !== id);
+  }
+  if (ui.currentTaskIdx >= session.tasks.length) ui.currentTaskIdx = Math.max(0, session.tasks.length - 1);
+  save();
+  render();
+}
+
+function setDiag(qid, val) {
+  const task = session.tasks[ui.currentTaskIdx];
+  if (!task) return;
+  if (!task.diagnostic) task.diagnostic = {};
+  if (val === "yes") task.diagnostic[qid] = true;
+  else if (val === "no") task.diagnostic[qid] = false;
+  else delete task.diagnostic[qid];
+  save({ silent: true });
+  // Auto-show mini-lesson the first time a bucket is suggested
+  const suggested = suggestedBucketFor(task);
+  if (suggested && !ui.miniLessonsShown[suggested]) ui.miniLessonsShown[suggested] = true;
+  render();
+}
+
+function setBucket(b) {
+  const task = session.tasks[ui.currentTaskIdx];
+  if (!task) return;
+  task.bucket = b;
+  // initialize move based on bucket
+  if (!task.move) task.move = { intent: BUCKETS[b].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: null };
+  else task.move.intent = task.move.intent || BUCKETS[b].intent;
+  if (b !== "unsorted" && !ui.miniLessonsShown[b]) ui.miniLessonsShown[b] = true;
+  save();
+  render();
+}
+
+function nextTask() {
+  if (ui.currentTaskIdx < session.tasks.length - 1) {
+    ui.currentTaskIdx++;
+    render();
+  } else if (allSorted()) {
+    go("assess");
+  } else {
+    // jump to first unsorted
+    const i = session.tasks.findIndex((t) => t.bucket === "unsorted");
+    if (i >= 0) { ui.currentTaskIdx = i; render(); }
+    else go("assess");
+  }
+}
+
+function toggleTopMove(id) {
+  const task = session.tasks.find((t) => t.id === id);
+  if (!task) return;
+  if (!Array.isArray(session.plan.topMovesThisWeek)) session.plan.topMovesThisWeek = [];
+  const i = session.plan.topMovesThisWeek.findIndex((m) => m.taskId === id);
+  if (i >= 0) session.plan.topMovesThisWeek.splice(i, 1);
+  else {
+    if (session.plan.topMovesThisWeek.length >= 5) {
+      toast("Top moves limit reached (5). Unstar one first.");
+      return;
+    }
+    session.plan.topMovesThisWeek.push({
+      taskId: id,
+      label: task.label,
+      intent: (task.move && task.move.intent) || BUCKETS[task.bucket].intent,
+      nextStep: (task.move && task.move.nextStep) || "",
+      byWhen: (task.move && task.move.byWhen) || null
+    });
+  }
+  save();
+  render();
+}
+
+// ---- export ----
+
+function refreshTopMoves() {
+  if (!Array.isArray(session.plan.topMovesThisWeek)) return;
+  session.plan.topMovesThisWeek = session.plan.topMovesThisWeek.map((mv) => {
+    const t = session.tasks.find((x) => x.id === mv.taskId);
+    if (!t) return null;
+    const m = t.move || {};
+    return {
+      taskId: t.id,
+      label: t.label,
+      intent: m.intent || (BUCKETS[t.bucket] && BUCKETS[t.bucket].intent) || "hold",
+      nextStep: m.nextStep || "",
+      byWhen: m.byWhen || null
+    };
+  }).filter(Boolean);
+}
+
+function buildExportPayload() {
+  computeAssessment();
+  refreshTopMoves();
+  session.meta.surface = "web-companion";
+  if (!session.meta.completedAt && allSorted()) session.meta.completedAt = nowIso();
+  return { ...session, aiwfdInterop: buildAiwfdInterop() };
+}
+
+function exportJson() {
+  const payload = buildExportPayload();
+  const stamp = new Date().toISOString().slice(0, 10);
+  const fname = `move-the-work_${(session.person.name || "session").replace(/[^a-z0-9-]+/gi, "-").toLowerCase()}_${stamp}.json`;
+  downloadBlob(fname, JSON.stringify(payload, null, 2), "application/json");
+  toast("Session JSON downloaded — keep it safe for your re-run.");
+  save();
+}
+
+function exportHtmlSnapshot() {
+  const payload = buildExportPayload();
+  const stamp = new Date().toISOString().slice(0, 10);
+  const fname = `move-the-work_${(session.person.name || "session").replace(/[^a-z0-9-]+/gi, "-").toLowerCase()}_${stamp}.html`;
+  const html = buildSnapshotHtml(payload);
+  downloadBlob(fname, html, "text/html;charset=utf-8");
+  toast("Snapshot downloaded — open and print, or send to your manager.");
+}
+
+function copyContextForDigitalEmployees() {
+  const lines = [
+    "## Context from my Move the Work audit",
+    "",
+    `**Role:** ${session.person.role || "Not specified"}${session.person.org ? " (" + session.person.org + ")" : ""}`,
+    ""
+  ];
+  const bucketCounts = { automate: 0, assist: 0, human: 0 };
+  session.tasks.forEach((t) => { if (bucketCounts[t.bucket] !== undefined) bucketCounts[t.bucket]++; });
+  lines.push(`**Work split:** ${bucketCounts.automate} Automate / ${bucketCounts.assist} Assist / ${bucketCounts.human} Human`);
+  lines.push("");
+  lines.push("**My actual tasks:**");
+  session.tasks.forEach((t) => {
+    const bucket = t.bucket === "automate" ? "B1-Automate" : t.bucket === "assist" ? "B2-Assist" : t.bucket === "human" ? "B3-Human" : "Unsorted";
+    lines.push(`- ${t.label} [${bucket}]${t.description ? " — " + t.description : ""}`);
+  });
+  lines.push("");
+  const topMoves = session.plan.topMovesThisWeek || [];
+  if (topMoves.length) {
+    lines.push("**My top planned moves:**");
+    topMoves.forEach((mv) => {
+      const t = session.tasks.find((x) => x.id === mv.taskId);
+      lines.push(`- ${mv.label || (t && t.label) || "Task"}: ${INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent}${mv.nextStep ? " → " + mv.nextStep : ""}`);
+    });
+    lines.push("");
+  }
+  lines.push("---");
+  lines.push("Use this as context about my work when building my digital employees. You don't need to re-ask what I spend time on — it's all above.");
+  const text = lines.join("\n");
+  copyToClipboard(text).then((ok) => toast(ok ? "Work context copied — paste at the start of your /digital-employees conversation" : "Copy failed"));
+}
+
+function copyPlanForCopilot() {
+  const topMoves = session.plan.topMovesThisWeek || [];
+  const lines = [
+    "I just completed a personal AI audit called 'Move the Work.' Here are my top moves — help me implement them.",
+    ""
+  ];
+  if (topMoves.length) {
+    lines.push("## My Top Moves");
+    topMoves.forEach((mv, i) => {
+      const t = session.tasks.find((x) => x.id === mv.taskId);
+      lines.push(`${i + 1}. **${mv.label || (t && t.label) || "Task"}** — Intent: ${INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent}${mv.nextStep ? ". Next step: " + mv.nextStep : ""}${mv.byWhen ? " (by " + mv.byWhen + ")" : ""}`);
+    });
+    lines.push("");
+  }
+  const bucketCounts = { automate: 0, assist: 0, human: 0 };
+  session.tasks.forEach((t) => { if (bucketCounts[t.bucket] !== undefined) bucketCounts[t.bucket]++; });
+  lines.push(`## My Current Split: ${bucketCounts.automate} Automate / ${bucketCounts.assist} Assist / ${bucketCounts.human} Human`);
+  lines.push("");
+  lines.push("Help me take action on these moves. For each one, suggest specific next steps I can do this week — drafts, prompts, templates, or workflows I should build.");
+  const text = lines.join("\n");
+  copyToClipboard(text).then((ok) => toast(ok ? "Plan copied — paste into M365 Copilot" : "Copy failed — select manually"));
+}
+
+function copyRerunInvite() {
+  const when = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const text = [
+    `Create a 60-minute calendar event called "Move the Work re-run" on ${when}.`,
+    "",
+    "Description: Re-run my personal AI audit using the Move the Work web app. Import the attached session JSON and walk through the audit again. The diff view between runs shows where I've actually shifted my work.",
+    "",
+    "Set a reminder 1 day before."
+  ].join("\n");
+  copyToClipboard(text).then((ok) => toast(ok ? "Copilot prompt copied — paste it into the M365 Copilot chat" : "Copy failed — select manually"));
+}
+
+function openCopilotRerun() {
+  const when = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const prompt = `Create a 60-minute calendar event called "Move the Work re-run" on ${when}. Description: Re-run my personal AI audit using the Move the Work web app. Import the attached session JSON and walk through the audit again. The diff view between runs shows where I've actually shifted my work. Set a reminder 1 day before.`;
+  copyToClipboard(prompt).then(() => {
+    window.open("https://m365.cloud.microsoft.com/chat", "_blank");
+    toast("Prompt copied to clipboard — paste it into M365 Copilot (Ctrl+V).");
+  });
+}
+
+function copyRerunMeetingInvite() {
+  const when = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const text = [
+    "Subject: Move the Work re-run",
+    `Date: ${when}`,
+    "Duration: 60 minutes",
+    "",
+    "Re-run my personal AI audit using the Move the Work web app. Import the session JSON and walk through the audit again.",
+    "",
+    "What to bring:",
+    "- The exported session JSON",
+    "- 60 minutes uninterrupted",
+    "",
+    "The diff view between this run and the prior one is where the real learning lives."
+  ].join("\n");
+  copyToClipboard(text).then((ok) => toast(ok ? "Meeting invite text copied — paste into a new calendar event" : "Copy failed — select manually"));
+}
+
+function buildSnapshotHtml(p) {
+  const stamp = fmtDate(p.meta.updatedAt || p.meta.createdAt);
+  const a = p.assessment;
+  const zoneLabel = a.zone === "red" ? "RED ZONE" : a.zone === "yellow" ? "YELLOW ZONE" : a.zone === "green" ? "GREEN ZONE" : "—";
+  const zoneColor = a.zone === "red" ? "#dc2626" : a.zone === "yellow" ? "#f59e0b" : a.zone === "green" ? "#16a34a" : "#919191";
+  const personLine = [p.person.name, p.person.role, p.person.org].filter(Boolean).join(" · ") || "Anonymous";
+  const tops = (p.plan.topMovesThisWeek || []).slice(0, 5);
+  const intentLabel = (i) => INTENTS[i] ? INTENTS[i].name : (i || "");
+  const intentColor = (i) => ({ offload: "#f59e0b", amplify: "#0078d4", protect: "#16a34a", hold: "#6f6f6f" }[i] || "#6f6f6f");
+  const traj = p.plan.ninetyDayTrajectory || {};
+  const trajLine = (traj.targetAutomatePercent != null || traj.targetAssistPercent != null || traj.targetHumanPercent != null)
+    ? `Target mix: <strong>B1 ${traj.targetAutomatePercent != null ? traj.targetAutomatePercent + "%" : "—"}</strong> · <strong>B2 ${traj.targetAssistPercent != null ? traj.targetAssistPercent + "%" : "—"}</strong> · <strong>B3 ${traj.targetHumanPercent != null ? traj.targetHumanPercent + "%" : "—"}</strong>`
+    : `<em>Target mix: not yet set</em>`;
+
+  const tasksRows = p.tasks.map((t) => {
+    const bcls = t.bucket === "automate" ? "bb1" : t.bucket === "assist" ? "bb2" : t.bucket === "human" ? "bb3" : "bbu";
+    const bname = BUCKETS[t.bucket || "unsorted"].name;
+    const cadenceLabel = { daily: "h/day", weekly: "h/wk", biweekly: "h/2wk", monthly: "h/mo", quarterly: "h/qtr", adhoc: "h/occ", unknown: "" }[t.cadence || "unknown"] || "";
+    const hoursDisplay = t.estHoursPerCadence != null ? t.estHoursPerCadence + " " + cadenceLabel : (t.estWeeklyHours != null ? t.estWeeklyHours + " h/wk" : "");
+    return `<tr><td><strong>${escapeHtmlSnapshot(t.label)}</strong>${t.description ? `<br><span class="muted">${escapeHtmlSnapshot(t.description)}</span>` : ""}</td><td><span class="badge ${bcls}">${bname}</span></td><td>${escapeHtmlSnapshot(t.cadence || "")}</td><td>${hoursDisplay}</td></tr>`;
+  }).join("");
+
+  const movesRows = p.tasks.filter((t) => t.move && (t.move.nextStep || t.move.ownerOrTool)).map((t) => {
+    const intentName = (t.move && INTENTS[t.move.intent] ? INTENTS[t.move.intent].name : (t.move && t.move.intent) || "");
+    const isTop = tops.some((mv) => mv.taskId === t.id);
+    return `<tr${isTop ? ' style="background:#fef3c7"' : ""}><td>${isTop ? "★ " : ""}<strong>${escapeHtmlSnapshot(t.label)}</strong></td><td>${escapeHtmlSnapshot(intentName)}</td><td>${escapeHtmlSnapshot((t.move && t.move.ownerOrTool) || "")}</td><td>${escapeHtmlSnapshot((t.move && t.move.nextStep) || "")}</td><td>${t.move && t.move.byWhen ? fmtDate(t.move.byWhen) : ""}</td></tr>`;
+  }).join("");
+
+  const topMoves = tops.map((mv, i) => `<li><strong>${escapeHtmlSnapshot(mv.label)}</strong> — ${escapeHtmlSnapshot(INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent)}. ${escapeHtmlSnapshot(mv.nextStep || "")}${mv.byWhen ? ` <span class="muted">by ${escapeHtmlSnapshot(fmtDate(mv.byWhen))}</span>` : ""}</li>`).join("");
+
+  const css = `
+    @page { size: Letter; margin: 0.5in; }
+    body{font:11pt/1.5 "Segoe UI",Aptos,Calibri,sans-serif;color:#242424;background:#fff;max-width:780px;margin:0 auto;padding:24px}
+    .hdr{display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #b11f4b;padding-bottom:6px;margin-bottom:12px}
+    .brand{font-size:18pt;font-weight:700;letter-spacing:-0.01em}
+    .brand .a{color:#b11f4b}
+    .tag{color:#5c5c5c;font-style:italic;font-size:9pt}
+    h1{font-size:1.6rem;margin:0 0 4px 0}
+    h2{font-size:12pt;margin:20px 0 8px 0;color:#242424;letter-spacing:0.02em;text-transform:uppercase;border-left:3px solid #b11f4b;padding-left:8px}
+    h3{font-size:1.05rem;margin:16px 0 6px 0}
+    .meta{color:#5c5c5c;font-size:0.9rem}
+    .bar{display:flex;height:36px;border-radius:8px;overflow:hidden;border:1px solid #dedede;margin:10px 0}
+    .bar > div{color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:10pt}
+    .b1{background:#f59e0b}.b2{background:#0078d4}.b3{background:#16a34a}
+    .bar-labels{display:flex;margin:-4px 0 10px 0;font-size:9pt;font-weight:600;color:#5c5c5c}
+    .bar-labels > div{display:flex;align-items:center;gap:4px}
+    .bar-labels .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+    .zone{display:inline-block;padding:4px 10px;color:#fff;font-weight:700;border-radius:6px;letter-spacing:0.04em;font-size:9pt}
+    .zoneline{display:flex;align-items:center;gap:10px;margin:6px 0 10px 0}
+    table{border-collapse:collapse;width:100%;margin:8px 0}
+    th,td{text-align:left;padding:6px 10px;border-bottom:1px solid #eee;vertical-align:top;font-size:10pt}
+    th{font-weight:600;background:#f7f4ef}
+    .badge{display:inline-block;font-size:0.8rem;padding:2px 8px;border-radius:999px;color:#fff;font-weight:600}
+    .bb1{background:#f59e0b}.bb2{background:#0078d4}.bb3{background:#16a34a}.bbu{background:#919191}
+    .callout{background:#f7f4ef;border-left:3px solid #b11f4b;padding:10px 14px;margin:14px 0;border-radius:0 8px 8px 0}
+    .muted{color:#5c5c5c}
+    .moves{padding:0;margin:4px 0}
+    .move{display:flex;gap:10px;padding:8px 10px;border:1px solid #dedede;border-radius:6px;margin-bottom:6px}
+    .move .n{font-weight:700;color:#b11f4b;font-size:12pt;line-height:1;min-width:18px}
+    .move .body{flex:1}
+    .move .top{display:flex;gap:8px;align-items:baseline;margin-bottom:2px}
+    .move .label{font-weight:600}
+    .move .mbadge{font-size:8pt;padding:1px 7px;border-radius:999px;color:#fff;font-weight:700;letter-spacing:0.04em}
+    .move .next{color:#5c5c5c;font-size:10pt}
+    .move .when{color:#6f6f6f;font-style:italic;font-size:9pt;margin-left:6px}
+    .narrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
+    .narrow > div{background:#f7f4ef;border:1px solid #dedede;border-radius:6px;padding:10px 12px}
+    .prompts ul{padding-left:18px;margin:4px 0}
+    .prompts li{margin-bottom:4px;font-size:10pt}
+    .footer{margin-top:14px;padding-top:10px;border-top:1px solid #dedede;font-size:9pt;color:#5c5c5c;display:flex;justify-content:space-between;align-items:baseline}
+    .footer a{color:#0078d4;text-decoration:none}
+    @media print{body{padding:0}h2{break-after:avoid}}
+  `;
+
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Move the Work — ${escapeHtmlSnapshot(p.person.name || "Snapshot")} — ${escapeHtmlSnapshot(stamp)}</title><style>${css}</style></head>
+<body>
+  <div class="hdr">
+    <div>
+      <div class="brand">Move <span class="a">the</span> Work</div>
+      <div class="tag">Hand the toil to AI. Reclaim the work that only you can do.</div>
+    </div>
+    <div style="text-align:right;font-size:9pt;color:#5c5c5c">
+      Run ${p.meta.runNumber || 1} · ${escapeHtmlSnapshot(stamp)}
+    </div>
+  </div>
+  <div class="meta" style="margin-bottom:14px">${escapeHtmlSnapshot(personLine)}</div>
+
+  <h2>Your map</h2>
+  <div class="bar">
+    ${a.bucketPercents.automate > 0 ? `<div class="b1" style="flex:${a.bucketPercents.automate}">${Math.round(a.bucketPercents.automate)}%</div>` : ""}
+    ${a.bucketPercents.assist   > 0 ? `<div class="b2" style="flex:${a.bucketPercents.assist}">${Math.round(a.bucketPercents.assist)}%</div>` : ""}
+    ${a.bucketPercents.human    > 0 ? `<div class="b3" style="flex:${a.bucketPercents.human}">${Math.round(a.bucketPercents.human)}%</div>` : ""}
+  </div>
+  <div class="bar-labels" style="justify-content:space-between">
+    <div><span class="dot" style="background:#f59e0b"></span> Bucket 1 · Automate (AI does it)</div>
+    <div><span class="dot" style="background:#0078d4"></span> Bucket 2 · Assist (AI + you)</div>
+    <div><span class="dot" style="background:#16a34a"></span> Bucket 3 · Human (Only you)</div>
+  </div>
+  <div class="zoneline">
+    <span class="zone" style="background:${zoneColor}">${zoneLabel}</span>
+    <span style="font-size:10pt;color:#242424">${a.vulnerabilityRead.summary}</span>
+  </div>
+
+  <h2>Top moves</h2>
+  <div class="moves">
+    ${tops.length === 0
+      ? `<div class="move"><div class="body" style="color:#6f6f6f;font-style:italic">No top moves starred.</div></div>`
+      : tops.map((mv, i) => `
+        <div class="move">
+          <div class="n">${i + 1}</div>
+          <div class="body">
+            <div class="top">
+              <span class="label">${escapeHtmlSnapshot(mv.label)}</span>
+              <span class="mbadge" style="background:${intentColor(mv.intent)}">${escapeHtmlSnapshot(intentLabel(mv.intent).toUpperCase())}</span>
+              ${mv.byWhen ? `<span class="when">by ${escapeHtmlSnapshot(fmtDate(mv.byWhen))}</span>` : ""}
+            </div>
+            <div class="next">${escapeHtmlSnapshot(mv.nextStep || "(no next step written)")}</div>
+          </div>
+        </div>
+      `).join("")
+    }
+  </div>
+
+  <h2>Full task inventory</h2>
+  <table><thead><tr><th>Task</th><th>Bucket</th><th>Cadence</th><th>Effort</th></tr></thead><tbody>${tasksRows}</tbody></table>
+
+  <h2>All moves</h2>
+  ${movesRows ? `<table><thead><tr><th>Task</th><th>Intent</th><th>Owner / tool</th><th>Next step</th><th>By when</th></tr></thead><tbody>${movesRows}</tbody></table>` : `<p class="muted">No moves written yet.</p>`}
+
+  <h2>90-day trajectory</h2>
+  <div style="font-size:10pt;margin-bottom:4px">${trajLine}</div>
+  ${traj.narrative ? `<div class="callout">"${escapeHtmlSnapshot(traj.narrative)}"</div>` : ""}
+
+  <h2>Bring this to a conversation</h2>
+  <div class="narrow prompts">
+    <div>
+      <strong style="font-size:10pt">In your next 1:1 with your manager</strong>
+      <ul>
+        <li>"Here's where my time actually goes today — does the mix look right to you?"</li>
+        <li>"These are the three moves I'm making this week."</li>
+        <li>"What do you see in Bucket 3 that I might be undervaluing?"</li>
+      </ul>
+    </div>
+    <div>
+      <strong style="font-size:10pt">With your team</strong>
+      <ul>
+        <li>"What's on your list that should be on someone else's?"</li>
+        <li>"Where are we all over-investing in tasks AI could do?"</li>
+        <li>"Where does our team need to grow Bucket 3 work?"</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Where to go next</h2>
+  <p style="font-size:10pt">🤖 <strong>Build your Digital Employees</strong> — Run <code>/digital-employees</code> in Clawpilot to build a personalized AI workforce based on what you learned here.</p>
+  <p style="font-size:10pt">🔧 Drop the session JSON into <a href="${HANDOFF.url}">${HANDOFF.tool}</a> — it picks up where Move the Work left off.</p>
+
+  <div class="footer">
+    <div>Re-run in 90 days · Import the saved JSON to see what's moved.</div>
+    <div>Generated by Move the Work</div>
+  </div>
+</body></html>`;
+}
+
+function escapeHtmlSnapshot(s) {
+  if (s === null || s === undefined) return "";
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+// ---- import ----
+
+function onFile(e) {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const data = JSON.parse(r.result);
+      importSession(data);
+    } catch (_) {
+      toast("Couldn't parse that file as JSON.");
+    }
+  };
+  r.readAsText(f);
+  e.target.value = "";
+}
+
+function importSession(data) {
+  if (!data || !data.meta || !Array.isArray(data.tasks)) {
+    toast("That doesn't look like a Move the Work session file.");
+    return;
+  }
+  // If user has no current session OR a fresh empty one, treat this as resume-prior-run
+  const isFresh = session.tasks.length === 0;
+  if (isFresh) {
+    // Load as a *new* run that references the imported one
+    priorSession = JSON.parse(JSON.stringify(data));
+    // start a new run keeping person info
+    const next = freshSession();
+    next.person = data.person || next.person;
+    next.meta.runNumber = (data.meta.runNumber || 1) + 1;
+    next.meta.previousRunSessionRef = data.meta.sessionId;
+    next.meta.tags = data.meta.tags || [];
+    // carry forward tasks (reset bucket to existing assignment so user can revise)
+    next.tasks = data.tasks.map((t) => ({
+      ...t,
+      move: t.move || null
+    }));
+    session = next;
+    ensureSessionShape();
+    computeAssessment();
+    save();
+    ui.step = "diff";
+    ui.visited.add("diff");
+    render();
+    toast(`Imported run ${data.meta.runNumber} — here's what changed.`);
+  } else {
+    if (!confirm("This will replace your current in-progress audit. Continue?")) return;
+    session = data;
+    ensureSessionShape();
+    computeAssessment();
+    priorSession = null;
+    ui = { step: "inventory", currentTaskIdx: 0, inventoryTab: "prompt", inventoryTool: "m365", miniLessonsShown: { automate: true, assist: true, human: true }, parsedPreview: null, visited: new Set(["welcome","inventory"]) };
+    save();
+    render();
+    toast("Imported session loaded.");
+  }
+}
+
+// ---- theme & misc ----
+
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const next = cur === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  try { localStorage.setItem(STORAGE_THEME_KEY, next); } catch (_) {}
+}
+
+function startNewSession() {
+  if (session.tasks.length > 0) {
+    if (!confirm("Start a fresh audit? Your current one is autosaved on this device — you can resume from the welcome screen.")) return;
+  }
+  session = freshSession();
+  priorSession = null;
+  ui = { step: "person", currentTaskIdx: 0, inventoryTab: "prompt", inventoryTool: "m365", miniLessonsShown: { automate: false, assist: false, human: false }, parsedPreview: null, visited: new Set(["welcome","person"]) };
+  save();
+  render();
+}
+
+// ---- init ----
+
+function init() {
+  ensureSessionShape();
+  bind();
+  render();
+}
+
+document.addEventListener("DOMContentLoaded", init);
+
+
+</script>
+</body>
+</html>

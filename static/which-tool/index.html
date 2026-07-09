@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Two questions to the right Microsoft AI tool.">
+<meta name="color-scheme" content="light dark">
+<title>Which tool fits?</title>
+<script>
+(()=>{const s=(()=>{try{return localStorage.getItem("ftf:theme")}catch{return null}})();const d=typeof window.matchMedia==="function"&&window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.setAttribute("data-theme",s||(d?"dark":"light"))})();
+</script>
+<style>
+:root{color-scheme:light;--bg:#f7f4ef;--bg-e:#fcfbf8;--sur:#fff;--sur-s:#f5f5f5;--bor:#dedede;--bor-s:#919191;--tx:#242424;--mu:#5c5c5c;--so:#6f6f6f;--acc:#b11f4b;--acc-h:#9a1a41;--acc-s:rgba(177,31,75,.08);--acc-f:#fff;--ok:#16a34a;--err:#dc2626;--warn:#ca8a04;--lnk:#0078d4}
+html[data-theme=dark]{color-scheme:dark;--bg:#3d3b3a;--bg-e:#343231;--sur:#292929;--sur-s:#2e2e2e;--bor:#474747;--bor-s:#5f5f5f;--tx:#dedede;--mu:#919191;--so:#b0b0b0;--acc:#fd8ea1;--acc-h:#fb7b91;--acc-s:rgba(253,142,161,.14);--acc-f:#1a1a1a;--ok:#4ade80;--err:#f87171;--warn:#fbbf24;--lnk:#4da6ff}
+*,*::before,*::after{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0 0 8px;font-weight:700;line-height:1.2}h1{font-size:1.9rem;letter-spacing:-.025em}h2{font-size:1.3rem}h3{font-size:1rem;font-weight:600}
+p{margin:0 0 10px}a{color:var(--lnk)}.muted{color:var(--mu)}.soft{color:var(--so)}.hidden{display:none!important}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 100px}
+/* header */
+.hdr{background:var(--bg-e);border-bottom:1px solid var(--bor);padding:10px 20px;position:sticky;top:0;z-index:20;backdrop-filter:saturate(140%) blur(8px)}
+.hdr-in{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.brand{font-weight:800;font-size:1rem;letter-spacing:-.01em;color:var(--tx);text-decoration:none;display:flex;align-items:center;gap:6px}
+.brand-dot{color:var(--acc)}
+.hdr-r{margin-left:auto;display:flex;gap:4px}
+.ibtn{width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:none;border-radius:8px;cursor:pointer;color:var(--mu);padding:0;transition:background 120ms,color 120ms}
+.ibtn:hover{background:var(--sur-s);color:var(--tx)}.ibtn svg{width:18px;height:18px}
+/* step chrome */
+.stag{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:8px}
+.sq{font-size:1.9rem;font-weight:800;letter-spacing:-.025em;margin-bottom:6px;line-height:1.2}
+.bk{display:inline-flex;align-items:center;gap:5px;background:none;border:none;cursor:pointer;font:inherit;color:var(--mu);font-size:.875rem;padding:0;margin-bottom:16px}
+.bk:hover{color:var(--tx)}
+.bc{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.82rem;color:var(--mu);margin-bottom:6px}
+.bc-sep{opacity:.5}.bc-now{color:var(--tx);font-weight:600}
+/* option grid */
+.og{display:grid;gap:12px;margin-top:24px}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.ga{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+@media(max-width:640px){.g2,.g3,.ga{grid-template-columns:1fr}}
+/* job cards */
+.op{display:flex;flex-direction:column;text-align:left;background:var(--sur);border:2px solid var(--bor);border-radius:16px;padding:20px 18px;cursor:pointer;transition:border-color 140ms,box-shadow 140ms,transform 80ms;font:inherit;color:inherit;user-select:none}
+.op:hover{border-color:var(--oc,var(--acc));box-shadow:0 0 0 3px color-mix(in srgb,var(--oc,var(--acc)) 12%,transparent);transform:translateY(-2px)}
+.op:active{transform:translateY(0)}
+.oi{font-size:2rem;margin-bottom:10px;line-height:1}.ol{font-weight:700;font-size:1.05rem;color:var(--oc,var(--tx));margin-bottom:4px}.os{font-size:.875rem;color:var(--mu);line-height:1.4}
+/* context multi-select chips */
+.cc{display:flex;flex-direction:column;text-align:left;background:var(--sur);border:2px solid var(--bor);border-radius:14px;padding:18px 16px;cursor:pointer;transition:border-color 140ms,box-shadow 140ms,background 140ms;font:inherit;color:inherit;user-select:none;position:relative}
+.cc:hover{border-color:var(--oc,var(--bor-s))}
+.cc.sel{border-color:var(--oc,var(--acc));background:color-mix(in srgb,var(--oc,var(--acc)) 5%,var(--sur));box-shadow:0 0 0 3px color-mix(in srgb,var(--oc,var(--acc)) 12%,transparent)}
+.cc-check{position:absolute;top:12px;right:12px;width:20px;height:20px;border-radius:50%;border:2px solid var(--bor);background:var(--sur-s);display:flex;align-items:center;justify-content:center;transition:all 140ms;flex-shrink:0}
+.cc.sel .cc-check{background:var(--oc,var(--acc));border-color:var(--oc,var(--acc))}
+.cc-check-icon{opacity:0;transform:scale(.6);transition:all 120ms;color:#fff;font-size:.7rem;line-height:1}
+.cc.sel .cc-check-icon{opacity:1;transform:scale(1)}
+.cc .oi{font-size:1.6rem;margin-bottom:8px}.cc .ol{font-size:.95rem;padding-right:28px}.cc .os{font-size:.83rem}
+/* continue button */
+.ctx-row{margin-top:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn-p{background:var(--acc);color:var(--acc-f)!important;border-color:var(--acc)!important;font-weight:700}
+.btn-p:hover:not(:disabled){background:var(--acc-h);border-color:var(--acc-h)!important;transform:translateY(-1px)}
+.btn-p:disabled{background:var(--bor);color:var(--mu)!important;border-color:var(--bor)!important;cursor:not-allowed;transform:none!important}
+.sel-hint{font-size:.84rem;color:var(--mu)}
+/* context badge pills */
+.ctx-badge{display:inline-flex;align-items:center;gap:4px;background:var(--sur-s);border:1px solid var(--bor);border-radius:999px;padding:3px 9px;font-size:.78rem;font-weight:600;color:var(--so)}
+/* result hero */
+.rh{display:flex;align-items:flex-start;gap:16px;margin-bottom:8px}
+.re{font-size:3rem;line-height:1;flex-shrink:0;margin-top:4px}
+.rt{font-size:1.8rem;font-weight:800;letter-spacing:-.025em;line-height:1.1}.rd{color:var(--mu);margin-top:4px}
+.ctx-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sec{margin-bottom:36px}.sl{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin-bottom:14px}
+/* clarity */
+.ci{font-size:.9rem;color:var(--so);margin-bottom:16px;padding:12px 16px;background:var(--sur-s);border-radius:10px;border-left:3px solid var(--acc)}
+/* checklist */
+.cklist{display:flex;flex-direction:column;gap:10px}
+.cki{display:flex;align-items:flex-start;gap:12px;background:var(--sur);border:1.5px solid var(--bor);border-radius:12px;padding:14px 16px;cursor:pointer;transition:border-color 140ms,background 140ms;user-select:none}
+.cki:hover{border-color:var(--bor-s)}.cki.chk{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 5%,transparent)}
+.cki input[type=checkbox]{width:18px;height:18px;flex-shrink:0;margin-top:3px;accent-color:var(--ok);cursor:pointer}
+.ckt{font-weight:600;font-size:.93rem;margin-bottom:2px}.ckw{font-size:.84rem;color:var(--mu)}
+.ckv{text-align:center;font-weight:700;padding:12px;border-radius:10px;font-size:.93rem;transition:all 300ms}
+.vg{background:var(--sur-s);color:var(--mu)}.vy{background:color-mix(in srgb,#f59e0b 12%,transparent);color:var(--warn)}.vok{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok)}
+/* reflection */
+.rfl{display:flex;flex-direction:column;gap:10px}
+.rc{background:var(--sur);border:1px solid var(--bor);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 140ms}
+.rc:hover{border-color:var(--bor-s)}.rc.open{border-color:var(--acc)}
+.rch{display:flex;align-items:center;gap:10px;padding:13px 16px}
+.rci{font-size:1.2rem;flex-shrink:0}.rcq{font-weight:600;font-size:.93rem;flex:1}
+.rcv{font-size:.8rem;color:var(--mu);transition:transform 180ms;flex-shrink:0}.rc.open .rcv{transform:rotate(180deg)}
+.rcb{display:none;padding:0 16px 14px 44px;font-size:.875rem;color:var(--so);line-height:1.55}.rc.open .rcb{display:block}
+/* tool grid */
+.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.tc{background:var(--sur);border:1px solid var(--bor);border-radius:14px;padding:18px;border-top:4px solid var(--tc-c,var(--acc))}
+.tc.prim{box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.tbg{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;border-radius:4px;padding:2px 7px;margin-bottom:10px;display:inline-block}
+.tbg.p{background:var(--tc-c,var(--acc));color:#fff}.tbg.s{background:var(--sur-s);color:var(--mu);border:1px solid var(--bor)}
+.tn{font-weight:700;font-size:1rem;color:var(--tc-c,var(--tx));margin-bottom:3px}.tt{font-size:.83rem;color:var(--mu);margin-bottom:9px}.tw{font-size:.875rem;color:var(--so);line-height:1.5}
+/* spectrum */
+.sp{display:flex;border:1px solid var(--bor);border-radius:12px;overflow:hidden;background:var(--sur-s)}
+.fc{flex:1;padding:11px 6px;text-align:center;font-size:.78rem;font-weight:600;color:var(--mu);border-right:1px solid var(--bor);transition:background 200ms,color 200ms}
+.fc:last-child{border-right:none}.fc.on{background:color-mix(in srgb,var(--fc-c) 12%,transparent);color:var(--fc-c)}
+.fcl{display:block;font-size:.82rem}.fch{display:block;font-size:.68rem;margin-top:2px;opacity:.75;line-height:1.3}
+.sn{display:flex;justify-content:space-between;font-size:.73rem;color:var(--mu);margin-top:6px;padding:0 2px}
+/* archetypes */
+.arch-intro{font-size:.875rem;color:var(--so);margin-bottom:14px;line-height:1.6;padding:12px 16px;background:var(--sur-s);border-radius:10px}
+.arch-meta{display:flex;flex-direction:column;gap:6px;padding-top:2px}
+.arch-row{font-size:.84rem;color:var(--so);line-height:1.45}
+.arch-row strong{color:var(--mu);font-weight:600}
+/* btns */
+.sr{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--sur);color:var(--tx);border:1px solid var(--bor);border-radius:10px;padding:8px 16px;font:inherit;font-weight:500;cursor:pointer;text-decoration:none;transition:background 120ms,border-color 120ms,transform 60ms}
+.btn:hover{background:var(--sur-s);border-color:var(--bor-s);transform:translateY(-1px)}.btn:active{transform:translateY(0)}
+.btn-g{background:transparent;border-color:transparent;color:var(--mu)}.btn-g:hover{background:var(--sur-s);color:var(--tx);border-color:var(--bor)}
+.btn-sm{padding:6px 12px;font-size:.875rem;border-radius:8px}
+.btn-lg{padding:10px 24px;font-size:1rem;border-radius:12px}
+/* drawer */
+.ov{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity 200ms}.ov.open{opacity:1;pointer-events:all}
+.dr{position:fixed;top:0;right:0;bottom:0;width:320px;max-width:90vw;background:var(--sur);border-left:1px solid var(--bor);z-index:31;transform:translateX(100%);transition:transform 220ms ease;display:flex;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.15)}.dr.open{transform:translateX(0)}
+.drh{padding:16px 18px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between}.drh h3{margin:0;font-size:.97rem}
+.drb{flex:1;overflow-y:auto;padding:14px 18px}
+.de{font-size:.88rem;color:var(--mu);text-align:center;padding:24px 0}
+.hi{padding:12px 14px;border:1px solid var(--bor);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:background 120ms}.hi:hover{background:var(--sur-s)}
+.hip{font-weight:600;font-size:.88rem;margin-bottom:2px}.hit{font-size:.78rem;color:var(--so);margin-top:3px}.hid{font-size:.75rem;color:var(--mu);margin-top:3px}
+/* anim */
+.fin{animation:fu 220ms ease both}@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-in">
+    <a class="brand" href="javascript:resetAll()"><span class="brand-dot">&#9670;</span> Which tool fits<span class="brand-dot">?</span></a>
+    <div class="hdr-r">
+      <button class="ibtn" onclick="openDrawer()" title="Recent results" aria-label="Recent results">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </button>
+      <button class="ibtn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="themeIcon"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<main class="page">
+  <div id="s1" class="fin">
+    <p class="stag">Step 1 of 2</p>
+    <h1 class="sq">What are you working with?</h1>
+    <p class="muted">Select all that apply. Your context determines which tools can actually do the job.</p>
+    <div class="og g2">
+      <button class="cc" style="--oc:#2563eb" id="cc-code" onclick="toggleCtx('code')">
+        <div class="cc-check"><span class="cc-check-icon">&#10003;</span></div>
+        <div class="oi">&#128187;</div><div class="ol">Code</div><div class="os">GitHub &middot; ADO repos &middot; code files</div>
+      </button>
+      <button class="cc" style="--oc:#d83b01" id="cc-work" onclick="toggleCtx('work')">
+        <div class="cc-check"><span class="cc-check-icon">&#10003;</span></div>
+        <div class="oi">&#128194;</div><div class="ol">Work data</div><div class="os">M365 &middot; WorkIQ &middot; emails &middot; meetings</div>
+      </button>
+      <button class="cc" style="--oc:#16a34a" id="cc-web" onclick="toggleCtx('web')">
+        <div class="cc-check"><span class="cc-check-icon">&#10003;</span></div>
+        <div class="oi">&#127760;</div><div class="ol">Web &amp; external</div><div class="os">Live web search &middot; public sources</div>
+      </button>
+      <button class="cc" style="--oc:#6b7280" id="cc-quick" onclick="toggleCtx('quick')">
+        <div class="cc-check"><span class="cc-check-icon">&#10003;</span></div>
+        <div class="oi">&#9889;</div><div class="ol">No special context</div><div class="os">Quick &middot; one-off &middot; general knowledge</div>
+      </button>
+    </div>
+    <div class="ctx-row">
+      <button class="btn btn-p btn-lg" id="ctx-next" disabled onclick="nextStep()">Continue &#8594;</button>
+      <span class="sel-hint" id="sel-hint">Select at least one to continue</span>
+    </div>
+  </div>
+  <div id="s2" class="fin hidden">
+    <button class="bk" onclick="goBack('s1')">&#8592; Back</button>
+    <div class="bc"><span id="bc-ctxs"></span><span class="bc-sep">&#8250;</span><span class="bc-now">What are you trying to do?</span></div>
+    <h1 class="sq">What are you trying to do?</h1>
+    <p class="muted">Pick the job that best fits your intent right now.</p>
+    <div class="og ga">
+      <button class="op" style="--oc:#16a34a" onclick="pickJob('building')"><div class="oi">&#127959;&#65039;</div><div class="ol">Building</div><div class="os">Code, apps, agents &amp; automations</div></button>
+      <button class="op" style="--oc:#2563eb" onclick="pickJob('researching')"><div class="oi">&#128269;</div><div class="ol">Researching</div><div class="os">Explore, gather &amp; synthesize</div></button>
+      <button class="op" style="--oc:#f59e0b" onclick="pickJob('writing')"><div class="oi">&#9997;&#65039;</div><div class="ol">Writing</div><div class="os">Docs, emails, briefs &amp; decks</div></button>
+      <button class="op" style="--oc:#dc2626" onclick="pickJob('reviewing')"><div class="oi">&#9989;</div><div class="ol">Reviewing</div><div class="os">Checking and giving feedback</div></button>
+      <button class="op" style="--oc:#7c3aed" onclick="pickJob('analyzing')"><div class="oi">&#128202;</div><div class="ol">Analyzing</div><div class="os">Making sense of data &amp; complex info</div></button>
+    </div>
+  </div>
+  <div id="result" class="fin hidden"></div>
+</main>
+<div class="ov" id="ov" onclick="closeDrawer()"></div>
+<div class="dr" id="dr">
+  <div class="drh"><h3>Recent results</h3>
+    <button class="ibtn" onclick="closeDrawer()" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="drb" id="drb"><p class="de">No history yet. Follow the tree to get a recommendation.</p></div>
+</div>
+<script>
+const FORMS=[
+  {id:"prompt",label:"Prompt",hint:"You need it once, right now",color:"#dc2626"},
+  {id:"instruction",label:"Instruction",hint:"Always behave a certain way",color:"#ea580c"},
+  {id:"skill",label:"Skill",hint:"Same task, you kick it off",color:"#ca8a04"},
+  {id:"workflow",label:"Workflow",hint:"Runs without you",color:"#2563eb"},
+  {id:"agent",label:"Agent",hint:"Goal-driven, AI finds the path",color:"#16a34a"},
+  {id:"app",label:"App",hint:"Real interface, others can use it",color:"#7c3aed"}
+];
+const CTXS={
+  code:{label:"Code",emoji:"&#128187;",hint:"GitHub &middot; ADO repos &middot; code files"},
+  work:{label:"Work data",emoji:"&#128194;",hint:"M365 &middot; WorkIQ &middot; emails &middot; meetings"},
+  web:{label:"Web &amp; external",emoji:"&#127760;",hint:"Live web search &middot; public sources"},
+  quick:{label:"No special context",emoji:"&#9889;",hint:"Quick &middot; one-off &middot; general knowledge"}
+};
+const JOBS={
+  building:{label:"Building",emoji:"&#127959;&#65039;",desc:"Code, apps, agents &amp; automations",color:"#16a34a",forms:["workflow","agent","app"]},
+  researching:{label:"Researching",emoji:"&#128269;",desc:"Explore, gather &amp; synthesize",color:"#2563eb",forms:["prompt","instruction","skill"]},
+  writing:{label:"Writing",emoji:"&#9997;&#65039;",desc:"Docs, emails, briefs &amp; decks",color:"#f59e0b",forms:["prompt","instruction"]},
+  reviewing:{label:"Reviewing",emoji:"&#9989;",desc:"Checking and giving feedback",color:"#dc2626",forms:["prompt","skill"]},
+  analyzing:{label:"Analyzing",emoji:"&#128202;",desc:"Making sense of data &amp; complex info",color:"#7c3aed",forms:["prompt","skill"]}
+};
+const ARCHETYPES={
+  prototyper:{emoji:"&#129514;",name:"Prototyper",what:"Turn rough ideas into working first versions fast",why:"Replaces abstract debate with concrete learning",impact:"More experiments, faster learning cycles, better idea quality"},
+  builder:{emoji:"&#127959;&#65039;",name:"Builder",what:"Harden a promising idea into something shippable and reliable",why:"Most prototypes fail without this step",impact:"Shippable systems, adoption-ready tooling, execution credibility"},
+  sweeper:{emoji:"&#129529;",name:"Sweeper",what:"Remove bloat, dead paths, and unnecessary complexity",why:"Speed dies when bad work accumulates",impact:"Higher throughput, lower cognitive load, better quality per unit"},
+  grower:{emoji:"&#127807;",name:"Grower",what:"Use real-world signals to improve fit, usage, and value",why:"Shipping is not the same as succeeding",impact:"Better product-market fit, measurable business lift"},
+  maintainer:{emoji:"&#128295;",name:"Maintainer",what:"Keep mature systems secure, reliable, and efficient",why:"Mature systems create most enterprise value and risk",impact:"Resilience, uptime, compliance, lower incident rate"},
+  scout:{emoji:"&#128301;",name:"Scout",what:"Scan across sources, distill signal, and surface what matters",why:"Teams stagnate without fresh signal",impact:"Better bets, earlier opportunity and risk detection"},
+  editor:{emoji:"&#9986;&#65039;",name:"Editor",what:"Decide what to pursue, what to cut, and what to sequence",why:"In an abundant-ideas world, focus is the bottleneck",impact:"Better portfolio ROI, reduced thrash, clearer alignment"},
+  evangelist:{emoji:"&#128226;",name:"Evangelist",what:"Turn capabilities into stories people understand and act on",why:"Great work fails if no one gets it or trusts it",impact:"Adoption, alignment, momentum, culture shift"},
+  orchestrator:{emoji:"&#128373;",name:"Orchestrator",what:"Coordinate dependencies, handoffs, and system coherence",why:"Local optimization breaks end-to-end outcomes",impact:"Faster delivery, fewer collisions, aligned execution"},
+  conductor:{emoji:"&#127917;",name:"Conductor",what:"Direct multi-agent workflows, quality checks, and escalation paths",why:"Agent outputs fragment without active management",impact:"Reliable automation, higher yield, consistent quality"},
+  steward:{emoji:"&#128737;&#65039;",name:"Risk Steward",what:"Anticipate governance, policy, safety, and reputational risks early",why:"Speed without risk discipline causes stops and rework",impact:"Sustained velocity, fewer failures, safer scaling"}
+};
+const JOB_ARCHETYPES={
+  building:["prototyper","builder","conductor"],
+  researching:["scout","editor"],
+  writing:["editor","evangelist"],
+  reviewing:["sweeper","maintainer","steward"],
+  analyzing:["scout","grower"]
+};
+const TOOLS={
+  "vscode-ghcp":{name:"VS Code + GitHub Copilot",tag:"Full IDE — agent mode, multi-file, inline suggestions",c:"#238636",dk:"#3fb950",
+    contexts:["code"],jobs:{building:1,reviewing:1},
+    why:{building:"Agent mode plans, writes, and tests multi-file changes&#8202;&#8212;&#8202;reading your whole repo, not just the open file. The right harness when you&#8217;re deep in a codebase.",reviewing:"Reads diffs inline, surfaces bugs, explains changes, and suggests fixes without leaving the editor.",_:"Best for sustained, multi-file work. Use when you need full repo context and IDE integration."}},
+  "copilot-cli":{name:"Copilot CLI",tag:"Terminal harness — commands, scripts, Git, CI pipelines",c:"#1a7f37",dk:"#56d364",
+    contexts:["code"],jobs:{building:2,reviewing:2},
+    why:{building:"Generate commands, automate pipelines, and script workflows you&#8217;d otherwise have to look up. Best when the work is terminal-native.",reviewing:"Run CI-style checks, quick diffs, and code analysis from the terminal without opening an IDE.",_:"Use when you&#8217;re in the terminal. Commands, Git workflows, shell scripts, and build pipeline automation."}},
+  scout:{name:"Scout",tag:"Conversational AI for complex, open-ended work",c:"#6e40c9",dk:"#a78bfa",
+    contexts:["code","work","web","quick"],jobs:{building:3,researching:1,writing:2,reviewing:2,analyzing:1},
+    why:{building:"Handles longer-horizon, multi-step tasks. Can browse the web and connect to tools via MCP.",researching:"Searches across multiple sources, synthesizes findings, and explains what it found and why.",writing:"Strong at long-form drafting when your content isn&#8217;t already in M365.",reviewing:"Reads and reasons about code, docs, or specs with rich context&#8202;&#8212;&#8202;great for nuanced review.",analyzing:"Reads through complex data, documents, or multi-source content and surfaces patterns, anomalies, and key insights.",_:"Versatile. Handles research, writing, code, and complex open-ended questions."}},
+  "copilot-studio":{name:"Copilot Studio",tag:"Build and deploy custom agents for your team",c:"#0078d4",dk:"#4da6ff",
+    contexts:["work","quick"],jobs:{building:2},
+    why:{building:"When the output you&#8217;re making is something others will use. Low-code agent and workflow builder for enterprise scale.",_:"Build agents, skills, or workflows your team can trigger&#8202;&#8212;&#8202;without writing everything from scratch."}},
+  "power-automate":{name:"Power Automate",tag:"Workflow automation across Microsoft 365",c:"#0066b8",dk:"#3a96dd",
+    contexts:["work"],jobs:{building:3},
+    why:{building:"Automate processes across M365, Teams, SharePoint, and Dynamics. Low-code, enterprise-grade, and deeply integrated with your org&#8217;s data and systems.",_:"Microsoft&#8217;s workflow automation platform. Triggers, actions, connectors&#8202;&#8212;&#8202;no code required for most scenarios."}},
+  "m365-copilot":{name:"M365 Copilot",tag:"Deep Microsoft 365 integration and WorkIQ",c:"#d83b01",dk:"#ff8c00",
+    contexts:["work","web"],jobs:{researching:1,writing:1,reviewing:2,analyzing:1},
+    why:{researching:"Deeply integrated with your org via WorkIQ&#8202;&#8212;&#8202;searches emails, meetings, and files. Add Work data context to unlock that. Also strong for web research and synthesis.",writing:"Drafts directly in Word, Outlook, PowerPoint&#8202;&#8212;&#8202;in your voice, with your org&#8217;s data in context.",reviewing:"Great for reviewing documents with org context&#8202;&#8212;&#8202;references real meetings and prior decisions.",analyzing:"Synthesizes across your org&#8217;s emails, meetings, and files to spot trends. WorkIQ requires Work data context.",_:"Built into Office apps. Best when the context is your org&#8217;s M365 data. Add Work data to unlock WorkIQ."}},
+  cowork:{name:"Cowork",tag:"Document-first collaborative writing with M365",c:"#8764b8",dk:"#c084fc",
+    contexts:["work"],jobs:{researching:2,writing:2,reviewing:3},
+    why:{researching:"Pulls in your M365 context and helps you explore and shape it into a shared document.",writing:"Purpose-built for collaborative drafting. Real-time co-writing with deep M365 integration.",reviewing:"Co-review and comment on documents with AI help and live M365 context.",_:"When the output is a shared document and you want live collaboration plus AI help."}},
+  "ghcp-app":{name:"GitHub Copilot App",tag:"Desktop app — sessions, canvases, multi-tool AI work",c:"#1a7f37",dk:"#56d364",
+    contexts:["code","web","quick"],jobs:{building:4,researching:2,reviewing:3,analyzing:3},
+    why:{building:"Scaffold ideas, explore an approach, or ask code questions without spinning up an IDE. Supports canvas extensions for rich, interactive outputs.",researching:"Ask questions about repos, look up technical topics, and synthesize code-related research. The app&#8217;s session memory keeps long threads coherent.",reviewing:"Review PRs and check code asynchronously &#8212; no IDE required. Canvas extensions let you visualize diffs and results.",analyzing:"Work through code, data structures, or technical documents in a full session context. Canvas extensions help surface structured outputs.",_:"Desktop app install (not a browser). Full session context, canvas extensions, and MCP tool support. Use when you want a rich AI harness outside the IDE."}}
+};
+const CL={
+  building:{title:"Before you commit to building",intro:"These four questions help you decide if now is the right moment&#8202;&#8212;&#8202;and help you describe the problem clearly to whichever tool you use.",mode:"ck",
+    items:[
+      {i:"&#128260;",q:"Will you do this more than once?",w:"Building is worth the effort for repeat work. A one-off task is usually better handled with a well-crafted prompt."},
+      {i:"&#128208;",q:"Do you have a clear input and output in mind?",w:"The clearer the shape of the problem&#8202;&#8212;&#8202;this goes in, that comes out&#8202;&#8212;&#8202;the more reliably AI can help you build it."},
+      {i:"&#9878;&#65039;",q:"Can AI handle ~80% of it safely, with you reviewing the rest?",w:"That&#8217;s the model. You stay in control of judgment calls. If you can&#8217;t review the output, slow down."},
+      {i:"&#129514;",q:"Is failure cheap to catch and fix?",w:"Low-stakes outputs. No high-risk actions without a human review step. If something going wrong is expensive, add guardrails."}
+    ],verdict:"All four? Green light. Build it."},
+  researching:{title:"Before you start searching",intro:"Clarity now means better synthesis later. These prompts help you give focused direction&#8202;&#8212;&#8202;and recognize when you have enough.",mode:"rf",
+    items:[
+      {i:"&#127919;",q:"What question are you actually trying to answer?",w:"Be specific. &#8216;Summarize everything about X&#8217; is less useful than &#8216;What are the 3 key risks of X for a team like mine?&#8217; A focused question gets a focused answer."},
+      {i:"&#128230;",q:"What do you already know about this?",w:"Your existing context shapes what&#8217;s actually new. Share what you know&#8202;&#8212;&#8202;it helps the AI fill the real gaps rather than repeat what you already have."},
+      {i:"&#127937;",q:"What does &#8216;good enough&#8217; look like here?",w:"A one-page summary? A list of sources? A recommendation you can act on? Knowing when to stop is as important as knowing where to start."},
+      {i:"&#128100;",q:"Who needs to act on what you find, and how?",w:"Your audience shapes how you synthesize and present. A summary for your manager looks different from notes for your own next step."}
+    ]},
+  writing:{title:"Before you start drafting",intro:"The clearest writing starts with the clearest brief. These questions help you define the job so the AI&#8202;&#8212;&#8202;and you&#8202;&#8212;&#8202;can do it well.",mode:"rf",
+    items:[
+      {i:"&#128101;",q:"Who is this for, and what should they do after reading it?",w:"Audience and call-to-action shape everything&#8202;&#8212;&#8202;tone, length, structure, what to include. Know both before you write the first word."},
+      {i:"&#128161;",q:"What&#8217;s the one thing you want them to walk away with?",w:"Start with the headline. If you can&#8217;t say it in a sentence, the draft won&#8217;t have a clear center. Work backwards from the insight."},
+      {i:"&#128218;",q:"What&#8217;s your source material?",w:"Are you transforming existing content (a meeting, a doc, a set of notes), or generating from scratch? Different input requires a different prompt strategy."},
+      {i:"&#128196;",q:"What&#8217;s the format and length?",w:"Word doc, email, deck, brief&#8202;&#8212;&#8202;each has different constraints. Give the AI a format so it doesn&#8217;t guess. &#8216;A 200-word email&#8217; is a better brief than &#8216;write something short.&#8217;"}
+    ]},
+  reviewing:{title:"Before you start reviewing",intro:"A good review starts with a clear standard. These questions help you define what you&#8217;re checking for&#8202;&#8212;&#8202;and how much to trust the AI&#8217;s judgment.",mode:"rf",
+    items:[
+      {i:"&#9989;",q:"What does &#8216;good&#8217; look like for this work?",w:"Define your standard before you start. Are you checking against a spec? A style guide? Your own instinct? The AI works better when it knows the bar."},
+      {i:"&#128269;",q:"What type of review is this?",w:"Correctness (is it right?), completeness (is anything missing?), quality (is it well-done?), consistency (does it match the rest?)&#8202;&#8212;&#8202;each needs a different lens."},
+      {i:"&#9888;&#65039;",q:"What are the stakes if something is missed?",w:"Higher stakes = more human judgment, less AI ownership. AI is great at catching things; you decide what matters and what gets through."},
+      {i:"&#129309;",q:"Who needs to act on your feedback, and how?",w:"Shape your review to be actionable. A dev implementing your comments needs different feedback than an exec approving a doc."}
+    ]},
+  analyzing:{title:"Before you start analyzing",intro:"Good analysis starts with knowing what you&#8217;re trying to conclude. These questions help you scope the work and evaluate what the AI surfaces.",mode:"rf",
+    items:[
+      {i:"&#127919;",q:"What&#8217;s the conclusion or decision you&#8217;re working toward?",w:"Analysis isn&#8217;t just &#8216;understand this data&#8217;&#8202;&#8212;&#8202;it&#8217;s &#8216;answer this question so I can do X.&#8217; A clear conclusion in mind shapes what you look for and what counts as signal vs. noise."},
+      {i:"&#128202;",q:"What&#8217;s the shape of your input?",w:"Raw data, a set of documents, a conversation history, a report? The format changes how you brief the AI and what it can reliably do with it."},
+      {i:"&#9888;&#65039;",q:"What would a wrong answer look like?",w:"Know the failure modes before you start. AI can hallucinate patterns, miss context, or overfit to obvious signals. Knowing what to look for helps you catch it."},
+      {i:"&#128100;",q:"Who needs to act on your findings, and with how much confidence?",w:"A high-stakes decision needs stronger evidence than a quick directional read. Match the rigor of your analysis to the weight of the action it supports."}
+    ]}
+};
+let scs=[],sj=null;
+const idk=()=>document.documentElement.getAttribute("data-theme")==="dark";
+function toggleTheme(){const n=idk()?"light":"dark";document.documentElement.setAttribute("data-theme",n);try{localStorage.setItem("ftf:theme",n)}catch{}updateIcon()}
+function updateIcon(){
+  const ic=document.getElementById("themeIcon");if(!ic)return;
+  if(idk()){ic.setAttribute("fill","currentColor");ic.setAttribute("stroke","none");ic.innerHTML="<path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/>";}
+  else{ic.setAttribute("fill","none");ic.setAttribute("stroke","currentColor");ic.innerHTML="<circle cx='12' cy='12' r='5'/><line x1='12' y1='1' x2='12' y2='3'/><line x1='12' y1='21' x2='12' y2='23'/><line x1='4.22' y1='4.22' x2='5.64' y2='5.64'/><line x1='18.36' y1='18.36' x2='19.78' y2='19.78'/><line x1='1' y1='12' x2='3' y2='12'/><line x1='21' y1='12' x2='23' y2='12'/><line x1='4.22' y1='19.78' x2='5.64' y2='18.36'/><line x1='18.36' y1='5.64' x2='19.78' y2='4.22'/>";}
+}
+const VS=["s1","s2","result"];
+function show(id){VS.forEach(v=>{const e=document.getElementById(v);if(e)e.classList.add("hidden")});const e=document.getElementById(id);e.classList.remove("hidden","fin");void e.offsetWidth;e.classList.add("fin");window.scrollTo({top:0,behavior:"smooth"})}
+function toggleCtx(c){
+  const btn=document.getElementById("cc-"+c);
+  if(c==="quick"){
+    if(scs.includes("quick")){scs=[];["code","work","web","quick"].forEach(x=>document.getElementById("cc-"+x).classList.remove("sel"));}
+    else{scs=["quick"];["code","work","web"].forEach(x=>document.getElementById("cc-"+x).classList.remove("sel"));btn.classList.add("sel");}
+  } else {
+    document.getElementById("cc-quick").classList.remove("sel");
+    scs=scs.filter(x=>x!=="quick");
+    if(scs.includes(c)){scs=scs.filter(x=>x!==c);btn.classList.remove("sel");}
+    else{scs.push(c);btn.classList.add("sel");}
+  }
+  const nxt=document.getElementById("ctx-next"),hint=document.getElementById("sel-hint");
+  if(scs.length>0){nxt.disabled=false;hint.textContent=scs.length===1?"1 context selected":scs.length+" contexts selected";}
+  else{nxt.disabled=true;hint.textContent="Select at least one to continue";}
+}
+function nextStep(){
+  if(scs.length===0)return;
+  const bc=document.getElementById("bc-ctxs");
+  bc.innerHTML=scs.map(c=>`<span class="ctx-badge">${CTXS[c].emoji} ${CTXS[c].label}</span>`).join("");
+  show("s2");
+}
+function goBack(to){show(to)}
+function resetAll(){scs=[];sj=null;["code","work","web","quick"].forEach(x=>{const b=document.getElementById("cc-"+x);if(b)b.classList.remove("sel")});document.getElementById("ctx-next").disabled=true;document.getElementById("sel-hint").textContent="Select at least one to continue";show("s1");try{const u=new URL(location.href);u.searchParams.delete("j");u.searchParams.delete("c");history.replaceState({},"",u)}catch{}}
+function pickJob(j){sj=j;renderResult()}
+function scoreTools(job,selCtxs){
+  const results=[];
+  const nonQuick=selCtxs.filter(c=>c!=="quick");
+  const quickOnly=selCtxs.includes("quick")&&nonQuick.length===0;
+  for(const[id,t]of Object.entries(TOOLS)){
+    const jp=t.jobs[job];if(!jp)continue;
+    let score;
+    if(quickOnly){score=t.contexts.includes("quick")?2:1;}
+    else{const cov=nonQuick.filter(c=>t.contexts.includes(c)).length;if(cov===0){score=t.contexts.includes("quick")?0.5:0;}else{score=cov;}if(score===0)continue;}
+    results.push({id,score,jp});
+  }
+  results.sort((a,b)=>b.score-a.score||a.jp-b.jp);
+  return results.map((r,i)=>({id:r.id,primary:i<2&&r.score>0.5}));
+}
+function renderResult(){
+  const jm=JOBS[sj],cl=CL[sj];
+  const scored=scoreTools(sj,scs);
+  const archIds=JOB_ARCHETYPES[sj]||[];
+  const archCards=archIds.map(id=>{
+    const a=ARCHETYPES[id];
+    return`<div class="rc" onclick="this.classList.toggle('open')"><div class="rch"><span class="rci">${a.emoji}</span><span class="rcq">${a.name}</span><span class="rcv">&#9662;</span></div><div class="rcb"><div class="arch-meta"><div class="arch-row"><strong>You&#8217;ll work with AI to:</strong> ${a.what}</div><div class="arch-row"><strong>Why it matters:</strong> ${a.why}</div><div class="arch-row"><strong>Impact:</strong> ${a.impact}</div></div></div></div>`;
+  }).join("");
+  const tc=scored.map(({id,primary})=>{
+    const t=TOOLS[id],cv=idk()&&t.dk?t.dk:t.c,wk=t.why[sj]?sj:"_",w=t.why[wk]||"";
+    return`<div class="tc${primary?" prim":""}" style="--tc-c:${cv}"><span class="tbg ${primary?"p":"s"}">${primary?"Best fit":"Also consider"}</span><div class="tn">${t.name}</div><div class="tt">${t.tag}</div><div class="tw">${w}</div></div>`;
+  }).join("");
+  const sp=FORMS.map(f=>{
+    const on=jm.forms.includes(f.id);
+    return`<div class="fc${on?" on":""}"${on?` style="--fc-c:${f.color}"`:""}  title="${f.hint}"><span class="fcl">${f.label}</span><span class="fch">${f.hint}</span></div>`;
+  }).join("");
+  const ctxBadges=scs.map(c=>`<span class="ctx-badge">${CTXS[c].emoji} ${CTXS[c].label}</span>`).join("");
+  let clHtml=`<div class="sec"><div class="sl">${cl.title}</div><p class="ci">${cl.intro}</p>`;
+  if(cl.mode==="ck"){
+    const its=cl.items.map((it,i)=>`<label class="cki" id="cki-${i}"><input type="checkbox" id="ck-${i}" onchange="refreshCk()"><div><div class="ckt">${it.i} ${it.q}</div><div class="ckw">${it.w}</div></div></label>`).join("");
+    clHtml+=`<div class="cklist">${its}<div class="ckv vg" id="ckv">Check all four &#8212; then you&#8217;ll know.</div></div>`;
+  } else {
+    const its=cl.items.map(it=>`<div class="rc" onclick="this.classList.toggle('open')"><div class="rch"><span class="rci">${it.i}</span><span class="rcq">${it.q}</span><span class="rcv">&#9662;</span></div><div class="rcb">${it.w}</div></div>`).join("");
+    clHtml+=`<div class="rfl">${its}</div>`;
+  }
+  clHtml+="</div>";
+  document.getElementById("result").innerHTML=`
+    <button class="bk" onclick="goBack('s2')">&#8592; Back</button>
+    <div style="margin-bottom:32px">
+      <div class="rh"><div class="re">${jm.emoji}</div><div><div class="rt">${jm.label}</div><div class="rd">${jm.desc}</div><div class="ctx-badges">${ctxBadges}</div></div></div>
+    </div>
+    <div class="sec"><div class="sl">Recommended apps</div><div class="tg">${tc}</div></div>
+    <div class="sec"><div class="sl">Match the shape of the need</div>
+      <p class="muted" style="font-size:.875rem;margin-bottom:12px">Every AI interaction has a shape &#8212; from a one-off question to a fully automated system. Knowing where your work lands helps you pick the right tool and prompt it with the right level of detail. Highlighted forms are the most natural fit for <strong>${jm.label.toLowerCase()}</strong>.</p>
+      <div class="sp">${sp}</div>
+      <div class="sn"><span>&#8592; one-off &amp; lightweight</span><span>more permanent, more automated &#8594;</span></div>
+    </div>
+    <div class="sec"><div class="sl">Archetypes you&#8217;re activating</div>
+      <p class="arch-intro">Your role is evolving. AI is changing what work looks like&#8212;not through new job titles, but through the emerging archetypes you activate on different parts of your work. Right now you&#8217;re likely playing these roles. As you progress, you may shift between them or bring in others. The key is knowing which role you&#8217;re playing at each step.</p>
+      <div class="rfl">${archCards}</div>
+    </div>
+    ${clHtml}
+    <div class="sr"><button class="btn btn-sm" onclick="copyLink(this)">&#128279; Copy share link</button><button class="btn btn-sm btn-g" onclick="resetAll()">&#8635; Try another path</button></div>`;
+  show("result");saveHist();updURL();
+}
+function refreshCk(){
+  const n=CL.building.items.length;let ch=0;
+  CL.building.items.forEach((_,i)=>{const ck=document.getElementById("ck-"+i),ci=document.getElementById("cki-"+i);if(ck&&ck.checked){ch++;if(ci)ci.classList.add("chk")}else if(ci)ci.classList.remove("chk")});
+  const v=document.getElementById("ckv");if(!v)return;
+  if(ch===n){v.className="ckv vok";v.innerHTML="&#9989; All four? Green light. Build it."}
+  else if(ch>=2){v.className="ckv vy";v.textContent=ch+"/"+n+" \u2014 consider what\u2019s missing before you commit."}
+  else{v.className="ckv vg";v.textContent=ch?ch+"/"+n+" checked \u2014 keep going.":"Check all four \u2014 then you\u2019ll know."}
+}
+function updURL(){try{const u=new URL(location.href);u.searchParams.set("j",sj);u.searchParams.set("c",scs.join(","));history.replaceState({},"",u)}catch{}}
+function copyLink(btn){const url=location.href;(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>fl(btn)).catch(()=>{const t=document.createElement("textarea");t.value=url;document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);fl(btn)})}
+function fl(btn){const o=btn.textContent;btn.textContent="Copied!";setTimeout(()=>btn.textContent=o,2000)}
+function saveHist(){
+  try{
+    const jm=JOBS[sj];
+    const ctxLabel=scs.map(c=>CTXS[c].label.replace(/&amp;/g,"&").replace(/&#\d+;/g,"")||c).join(" + ");
+    const scored=scoreTools(sj,scs);
+    const h=getHist().filter(x=>!(x.j===sj&&JSON.stringify(x.cs)===JSON.stringify(scs)));
+    h.unshift({j:sj,cs:scs,path:ctxLabel+" \u2192 "+jm.label,tools:scored.filter(r=>r.primary).map(r=>TOOLS[r.id].name).join(", "),time:Date.now()});
+    localStorage.setItem("ftf:history",JSON.stringify(h.slice(0,5)));
+  }catch{}
+}
+function getHist(){try{return JSON.parse(localStorage.getItem("ftf:history")||"[]")}catch{return[]}}
+function openDrawer(){document.getElementById("dr").classList.add("open");document.getElementById("ov").classList.add("open");renderHist()}
+function closeDrawer(){document.getElementById("dr").classList.remove("open");document.getElementById("ov").classList.remove("open")}
+function renderHist(){
+  const h=getHist(),b=document.getElementById("drb");
+  if(!h.length){b.innerHTML='<p class="de">No history yet. Follow the tree to get a recommendation.</p>';return}
+  b.innerHTML=h.map(x=>{
+    const dt=new Date(x.time),ts=dt.toLocaleDateString([],{month:"short",day:"numeric"})+" at "+dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+    const cs=x.cs||[x.c].filter(Boolean);
+    return`<div class="hi" onclick="closeDrawer();replayHist('${x.j}','${cs.join(",")}')"><div class="hip">${x.path}</div><div class="hit">${x.tools}</div><div class="hid">${ts}</div></div>`;
+  }).join("")
+}
+function replayHist(j,cStr){
+  scs=cStr.split(",").filter(c=>CTXS[c]);sj=j;
+  scs.forEach(c=>{const b=document.getElementById("cc-"+c);if(b)b.classList.add("sel")});
+  renderResult();
+}
+function restoreURL(){
+  try{
+    const p=new URLSearchParams(location.search),j=p.get("j"),cRaw=p.get("c");
+    if(j&&cRaw&&JOBS[j]){
+      const cs=cRaw.split(",").filter(c=>CTXS[c]);
+      if(cs.length>0){scs=cs;sj=j;cs.forEach(c=>{const b=document.getElementById("cc-"+c);if(b)b.classList.add("sel")});renderResult();}
+    }
+  }catch{}
+}
+document.addEventListener("DOMContentLoaded",()=>{updateIcon();restoreURL()});
+</script>
+</body>
+</html>

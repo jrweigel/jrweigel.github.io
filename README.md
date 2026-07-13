@@ -78,9 +78,9 @@ Confirmed logistics live in `data/reservations.json`. Keep confirmed reservation
 
 ## Deployment
 
-GitHub Actions runs on pushes to `main` and manual workflow dispatches. The workflow installs Node, runs `npm test`, uploads the generated `site/` directory as the Pages artifact, and deploys with `actions/deploy-pages@v4`.
+GitHub Actions runs on pushes to `master` and manual workflow dispatches. The workflow installs Node, runs `npm test`, uploads the generated `site/` directory as the Pages artifact, and deploys with `actions/deploy-pages@v4`.
 
-Once merged to `main`, GitHub Pages publishes the guide at:
+Once merged to `master`, GitHub Pages publishes the guide at:
 
 <https://jrweigel.github.io/Europe2026/>
 

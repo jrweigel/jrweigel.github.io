@@ -2,7 +2,7 @@ name: Deploy Europe 2027 Guide
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 permissions:

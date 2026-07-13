@@ -1,0 +1,246 @@
+[
+  {
+    "id": "rouge-bordeaux",
+    "name": "Rouge Bordeaux B&B",
+    "city": "Bordeaux",
+    "address": "Bordeaux region, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rouge+Bordeaux+B%26B+Bordeaux+France",
+    "category": "lodging",
+    "reservationStatus": "confirmed",
+    "notes": "Exact address should be kept with reservation details."
+  },
+  {
+    "id": "bod-airport",
+    "name": "Bordeaux Airport",
+    "city": "Bordeaux",
+    "address": "Bordeaux BOD",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bordeaux+Airport+BOD",
+    "officialUrl": "https://www.bordeaux.aeroport.fr/en",
+    "category": "transport",
+    "reservationStatus": "confirmed"
+  },
+  {
+    "id": "santos-calm",
+    "name": "Santos Calm",
+    "city": "Lisbon",
+    "address": "Calçada Marquês de Abrantes, 1200-808 Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cal%C3%A7ada+Marqu%C3%AAs+de+Abrantes+1200-808+Lisboa",
+    "category": "lodging",
+    "reservationStatus": "confirmed"
+  },
+  {
+    "id": "timeout-market",
+    "name": "Time Out Market Lisboa",
+    "city": "Lisbon",
+    "address": "Mercado da Ribeira, Av. 24 de Julho, Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Time+Out+Market+Lisboa",
+    "officialUrl": "https://www.timeout.com/time-out-market-lisboa",
+    "category": "food",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "castelo-sao-jorge",
+    "name": "Castelo de São Jorge",
+    "city": "Lisbon",
+    "address": "Rua de Santa Cruz do Castelo, Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Castelo+de+S%C3%A3o+Jorge+Lisbon",
+    "officialUrl": "https://castelodesaojorge.pt/en/",
+    "category": "sight",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "lisbon-cathedral",
+    "name": "Lisbon Cathedral",
+    "city": "Lisbon",
+    "address": "Largo da Sé, Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lisbon+Cathedral",
+    "officialUrl": "https://www.sedelisboa.pt/",
+    "category": "sight",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "santa-luzia",
+    "name": "Miradouro de Santa Luzia",
+    "city": "Lisbon",
+    "address": "Largo Santa Luzia, Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Miradouro+de+Santa+Luzia+Lisbon",
+    "category": "viewpoint",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "portas-sol",
+    "name": "Portas do Sol",
+    "city": "Lisbon",
+    "address": "Largo Portas do Sol, Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Portas+do+Sol+Lisbon",
+    "category": "viewpoint",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "prado",
+    "name": "Prado",
+    "city": "Lisbon",
+    "address": "Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Prado+restaurant+Lisbon",
+    "officialUrl": "https://www.pradorestaurante.com/",
+    "category": "restaurant",
+    "reservationStatus": "planned",
+    "notes": "Planned dinner, not confirmed."
+  },
+  {
+    "id": "food-tour-meeting",
+    "name": "Lisbon Food and Wine Tour meeting point",
+    "city": "Lisbon",
+    "address": "Praça Dom Pedro IV 101, 1100-202 Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+Dom+Pedro+IV+101+1100-202+Lisboa",
+    "category": "tour",
+    "reservationStatus": "confirmed"
+  },
+  {
+    "id": "jeronimos",
+    "name": "Jerónimos Monastery",
+    "city": "Lisbon",
+    "address": "Praça do Império, 1400-206 Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jer%C3%B3nimos+Monastery+Lisbon",
+    "officialUrl": "https://www.museusemonumentos.pt/en/museus-e-monumentos/mosteiro-dos-jeronimos-e-capela-de-sao-jeronimo",
+    "category": "sight",
+    "reservationStatus": "optional",
+    "notes": "Interior closed Mondays; exterior only for this plan."
+  },
+  {
+    "id": "belem-tower",
+    "name": "Belém Tower",
+    "city": "Lisbon",
+    "address": "Av. Brasília, 1400-038 Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bel%C3%A9m+Tower+Lisbon",
+    "officialUrl": "https://www.museusemonumentos.pt/en/museus-e-monumentos/torre-de-belem",
+    "category": "sight",
+    "reservationStatus": "optional",
+    "notes": "Interior closed Mondays; exterior only for this plan."
+  },
+  {
+    "id": "pasteis-belem",
+    "name": "Pastéis de Belém",
+    "city": "Lisbon",
+    "address": "Rua de Belém 84 92, 1300-085 Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Past%C3%A9is+de+Bel%C3%A9m",
+    "officialUrl": "https://pasteisdebelem.pt/en/",
+    "category": "cafe",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "padrao-descobrimentos",
+    "name": "Monument to the Discoveries",
+    "city": "Lisbon",
+    "address": "Av. Brasília, Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Monument+to+the+Discoveries+Lisbon",
+    "officialUrl": "https://padraodosdescobrimentos.pt/en/",
+    "category": "sight",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "park-rooftop",
+    "name": "Park Rooftop",
+    "city": "Lisbon",
+    "address": "Calçada do Combro, Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Park+Rooftop+Lisbon",
+    "officialUrl": "https://www.parklisboa.com/",
+    "category": "bar",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "bairro-avillez",
+    "name": "Taberna – Bairro do Avillez",
+    "city": "Lisbon",
+    "address": "Rua Nova da Trindade 18, Lisboa",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bairro+do+Avillez+Lisbon",
+    "officialUrl": "https://www.bairrodoavillez.pt/en/",
+    "category": "restaurant",
+    "reservationStatus": "planned",
+    "notes": "Planned dinner, not confirmed."
+  },
+  {
+    "id": "santa-apolonia",
+    "name": "Lisboa Santa Apolónia",
+    "city": "Lisbon",
+    "address": "Lisboa Santa Apolónia Station",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lisboa+Santa+Apol%C3%B3nia+Station",
+    "category": "transport",
+    "reservationStatus": "confirmed"
+  },
+  {
+    "id": "campanha",
+    "name": "Porto Campanhã",
+    "city": "Porto",
+    "address": "Porto Campanhã Station",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Porto+Campanh%C3%A3+Station",
+    "category": "transport",
+    "reservationStatus": "confirmed"
+  },
+  {
+    "id": "slice-porto",
+    "name": "A Slice of Porto",
+    "city": "Porto",
+    "address": "Rua das Flores 200, 4050-263 Porto",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rua+das+Flores+200+4050-263+Porto",
+    "category": "lodging",
+    "reservationStatus": "confirmed"
+  },
+  {
+    "id": "sao-bento",
+    "name": "São Bento Station",
+    "city": "Porto",
+    "address": "Praça de Almeida Garrett, Porto",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=S%C3%A3o+Bento+Station+Porto",
+    "category": "sight",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "porto-cathedral",
+    "name": "Porto Cathedral",
+    "city": "Porto",
+    "address": "Terreiro da Sé, Porto",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Porto+Cathedral",
+    "officialUrl": "https://www.diocese-porto.pt/pt/catedral-do-porto/",
+    "category": "sight",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "ribeira",
+    "name": "Ribeira",
+    "city": "Porto",
+    "address": "Cais da Ribeira, Porto",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ribeira+Porto",
+    "category": "neighborhood",
+    "reservationStatus": "planned"
+  },
+  {
+    "id": "douro-meeting",
+    "name": "Taste Douro meeting point",
+    "city": "Porto",
+    "address": "Rua de Santa Catarina 5, Marbella Porto coffeeshop, Porto",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rua+de+Santa+Catarina+5+Marbella+Porto+coffeeshop",
+    "category": "tour",
+    "reservationStatus": "confirmed"
+  },
+  {
+    "id": "yeatman",
+    "name": "The Yeatman Gastronomic Restaurant",
+    "city": "Vila Nova de Gaia",
+    "address": "Rua do Choupelo, 4400-088 Vila Nova de Gaia",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Yeatman+Gastronomic+Restaurant+Rua+do+Choupelo",
+    "officialUrl": "https://www.the-yeatman-hotel.com/en/food/restaurant/",
+    "category": "restaurant",
+    "reservationStatus": "confirmed"
+  },
+  {
+    "id": "mercado-bolhao",
+    "name": "Mercado do Bolhão",
+    "city": "Porto",
+    "address": "Rua Formosa, Porto",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mercado+do+Bolh%C3%A3o+Porto",
+    "officialUrl": "https://mercadobolhao.pt/",
+    "category": "market",
+    "reservationStatus": "planned"
+  }
+]

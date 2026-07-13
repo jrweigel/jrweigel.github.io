@@ -33,7 +33,8 @@ for (const outputDir of outputDirs) {
     if (href.includes('www.google.com/maps') && !href.startsWith('https://www.google.com/maps/')) errors.push(`Malformed Google Maps link ${href}`);
   }
   if (!fs.existsSync(`${outputDir}/sw.js`)) errors.push(`Missing service worker in ${outputDir}`);
-  if (!html.includes('<base href="/Europe2026/">')) errors.push(`Missing /Europe2026/ base path in ${htmlPath}`);
+  const expectedBase = normalizedBasePath ? `/${normalizedBasePath}/` : '/';
+  if (!html.includes(`<base href="${expectedBase}">`)) errors.push(`Missing ${expectedBase} base path in ${htmlPath}`);
   if (!html.includes('aria-label="Trip sections"')) errors.push(`Missing accessible navigation label in ${htmlPath}`);
 }
 
@@ -41,4 +42,4 @@ if (errors.length) {
   console.error(errors.join('\n'));
   process.exit(1);
 }
-console.log('Internal links, Google Maps links, output files, accessibility hooks, and /Europe2026/ base path validated.');
+console.log('Internal links, Google Maps links, output files, accessibility hooks, and base path validated.');

@@ -1,8 +1,8 @@
-# Europe 2027 Travel Guide
+# Europe 2026 Travel Guide
 
 Mobile-first living travel guide for Bordeaux, Lisbon, and Porto, published at:
 
-<https://jrweigel.github.io/europe2027/>
+<https://jrweigel.github.io/Europe2026/>
 
 The site is generated from structured JSON content in `data/` into the published files in `site/`.
 
@@ -37,7 +37,7 @@ npm run build
 npm run dev
 ```
 
-`npm run dev` builds the site and serves `site/` at <http://localhost:4321>. The production URL uses the `/europe2027/` base path.
+`npm run dev` builds the site and serves `site/` at <http://localhost:4321>. The production URL uses the `/Europe2026/` base path.
 
 ## Edit itinerary content
 
@@ -82,7 +82,7 @@ GitHub Actions runs on pushes to `main` and manual workflow dispatches. The work
 
 Once merged to `main`, GitHub Pages publishes the guide at:
 
-<https://jrweigel.github.io/europe2027/>
+<https://jrweigel.github.io/Europe2026/>
 
 ## Checks
 
@@ -93,7 +93,7 @@ npm run check:links
 npm test
 ```
 
-The checks validate required dates, times, labels, links, statuses, location references, the downloadable PDF link, and `/europe2027/` base-path handling.
+The checks validate required dates, times, labels, links, statuses, location references, the downloadable PDF link, and `/Europe2026/` base-path handling.
 
 ## Assumptions and content gaps
 

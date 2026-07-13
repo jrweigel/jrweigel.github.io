@@ -1,4 +1,4 @@
-# Europe 2027 Travel Guide
+# Europe 2026 Travel Guide
 
 ## Source of truth
 

@@ -1,106 +1,104 @@
-# Fueled by Chaos & Coffee ☕
+# Europe 2027 Travel Guide
 
-My personal blog — making sense of AI, work, and everything breaking in between.
+Mobile-first living travel guide for Bordeaux, Lisbon, and Porto, published at:
 
-**Live site:** [jrweigel.github.io](https://jrweigel.github.io)
+<https://jrweigel.github.io/europe2027/>
 
-Built with [Docusaurus](https://docusaurus.io/) and deployed automatically via GitHub Pages.
+The site is generated from structured JSON content in `data/` into the published files in `site/`.
 
-## Writing a New Blog Post
+## Repository structure
 
-1. Create a new `.mdx` file in the `blog/` folder using this naming pattern:
+```text
+data/
+  trip.json          Trip-wide settings, philosophy, notices, base path
+  days.json          Daily itinerary, timeline items, attire, notes, route refs
+  locations.json     Stable venue/location IDs, addresses, Maps links, websites
+  reservations.json  Confirmed logistics and reservations
+  routes.json        One-tap Google Maps route links
+scripts/
+  build.mjs          Static site generator for site/index.html and PDF summary
+  validate-content.mjs Required content validation
+  check-links.mjs    Internal anchor, PDF, and base-path validation
+public/
+  styles.css         Mobile-first print-friendly styling
+  manifest.webmanifest
+  sw.js
+site/
+  index.html         Published guide
+  Bordeaux_Portugal_Guide_2026.pdf Downloadable PDF generated from itinerary summary
+.github/workflows/deploy.yml GitHub Pages deployment
+```
 
-   ```
-   blog/YYYY-MM-DD-my-post-slug.mdx
-   ```
-
-2. Add frontmatter at the top of the file:
-
-   ```mdx
-   ---
-   slug: my-post-slug
-   title: My Post Title
-   authors: [jrweigel]
-   tags: [topic1, topic2]
-   ---
-   ```
-
-3. Write your content in markdown below the frontmatter. Use `{/* truncate */}` on its own line to control where the preview cuts off on the blog index:
-
-   ```mdx
-   ---
-   slug: my-post-slug
-   title: My Post Title
-   authors: [jrweigel]
-   tags: [topic1, topic2]
-   ---
-
-   This part shows as the preview on the blog index page.
-
-   {/* truncate */}
-
-   Everything below here only appears when you click into the full post.
-   ```
-
-4. Commit and push to `master` — the site auto-deploys in ~1-2 minutes.
-
-## Local Development
+## Run locally
 
 ```bash
-npm install   # first time only
-npm start     # starts dev server at http://localhost:3000
+npm install
+npm run build
+npm run dev
 ```
 
-## Project Structure
+`npm run dev` builds the site and serves `site/` at <http://localhost:4321>. The production URL uses the `/europe2027/` base path.
 
+## Edit itinerary content
+
+Most changes should happen in `data/days.json`.
+
+1. Find the day by `date`.
+2. Edit the `items` array.
+3. Use a valid `status`: `confirmed`, `planned`, `optional`, or `tentative`.
+4. Reference places with `locationId` rather than duplicating addresses or URLs.
+5. Update the daily `attire` if the activity mix changes.
+6. Run `npm test` before finishing.
+
+Do not change confirmed dates, times, addresses, transportation, or reservations unless explicitly instructed.
+
+## Add a location
+
+Add one object to `data/locations.json`:
+
+```json
+{
+  "id": "stable-human-readable-id",
+  "name": "Venue Name",
+  "city": "Lisbon",
+  "address": "Known address only",
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Venue+Name+Lisbon",
+  "officialUrl": "https://official-site.example/",
+  "category": "restaurant",
+  "reservationStatus": "planned",
+  "notes": "Optional context."
+}
 ```
-blog/              # Blog posts go here
-  authors.yml      # Author profiles
-src/
-  css/custom.css   # Theme colors
-  pages/index.js   # Homepage
-docusaurus.config.js  # Site config (title, navbar, footer)
-.github/workflows/    # Auto-deploy on push to master
+
+Omit `officialUrl` when an official website has not been verified. Then reference the location from a day with `locationId`.
+
+## Change a reservation
+
+Confirmed logistics live in `data/reservations.json`. Keep confirmed reservations distinct from planned meals or tentative host activities. Do not add confirmation numbers, private traveler details, emails, phone numbers, or booking codes.
+
+## Deployment
+
+GitHub Actions runs on pushes to `main` and manual workflow dispatches. The workflow installs Node, runs `npm test`, uploads the generated `site/` directory as the Pages artifact, and deploys with `actions/deploy-pages@v4`.
+
+Once merged to `main`, GitHub Pages publishes the guide at:
+
+<https://jrweigel.github.io/europe2027/>
+
+## Checks
+
+```bash
+npm run validate
+npm run build
+npm run check:links
+npm test
 ```
 
-## Tips
+The checks validate required dates, times, labels, links, statuses, location references, the downloadable PDF link, and `/europe2027/` base-path handling.
 
-- Files are `.mdx` (MDX) — you get full markdown plus JSX support if needed
-- Images can go in a folder next to your post: `blog/YYYY-MM-DD-my-post/index.mdx` + `blog/YYYY-MM-DD-my-post/image.png`
-- The `tags` in frontmatter auto-generate tag pages on the site
-- Dark mode is enabled and respects the reader's system preference
+## Assumptions and content gaps
 
-## Drafts
-
-Add `draft: true` to the frontmatter to keep a post out of the production build. It will still show up in local dev (`npm start`) so you can preview it.
-
-```mdx
----
-slug: work-in-progress
-title: Not Ready Yet
-authors: [jrweigel]
-tags: [draft]
-draft: true
----
-```
-
-Remove `draft: true` (or set it to `false`) and push to publish.
-
-## Editing from GitHub.com
-
-You don't need a local setup to write posts. Navigate to the `blog/` folder on GitHub, click **Add file > Create new file**, write your post, and commit. The site auto-deploys.
-
-## Troubleshooting
-
-- **Build failed?** Check the **Actions** tab on the repo for error logs.
-- **MDX syntax error?** The most common issue — use `{/* comment */}` instead of `<!-- comment -->` in `.mdx` files.
-- **Post not showing?** Make sure the file is in `blog/`, uses the `YYYY-MM-DD-slug.mdx` naming pattern, and doesn't have `draft: true`.
-- **Styles look wrong locally?** Try stopping the dev server and running `npm start` again.
-
-## Extras You Can Add Later
-
-- **Custom domain** — Buy a domain, add a `CNAME` file to `static/`, and configure in repo Settings > Pages
-- **Search** — Docusaurus supports local search plugins (e.g., `docusaurus-lunr-search`)
-- **Analytics** — Add Google Analytics or Plausible via `docusaurus.config.js`
-- **Social card** — Replace `static/img/docusaurus-social-card.jpg` to customize link preview images
-- **RSS** — Already enabled! Readers can subscribe at `/blog/rss.xml` and `/blog/atom.xml`
+- Bordeaux activities are marked tentative unless listed as confirmed logistics.
+- Planned Lisbon and Porto dinners are clearly not confirmed unless included in confirmed logistics.
+- Official website buttons are included only where a likely official site was identified; otherwise only Google Maps is shown.
+- Weather-specific attire is based on likely late-summer conditions and planned activities, not a live forecast.
+- Laundry is planned for the end of Bordeaux or beginning of Lisbon, so attire guidance assumes repeatable, washable outfits.

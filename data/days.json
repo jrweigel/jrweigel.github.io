@@ -1,0 +1,752 @@
+[
+  {
+    "date": "2026-08-30",
+    "city": "Bordeaux",
+    "title": "Arrival and Bordeaux first look",
+    "subtitle": "Tentative host day plus confirmed group arrival",
+    "status": "tentative",
+    "attire": {
+      "male": "Breathable linen or cotton shirt, chinos or smart shorts, comfortable walking shoes; light layer for evening picnic.",
+      "female": "Breathable sundress, skirt, or linen set with supportive sandals/sneakers; light wrap for evening."
+    },
+    "notes": [
+      "Bordeaux schedule is tentative except confirmed Rouge Bordeaux check-in.",
+      "Laundry is planned after Bordeaux or at Lisbon arrival."
+    ],
+    "items": [
+      {
+        "start": "11:20",
+        "title": "Rouge Bordeaux B&B check-in / group arrival",
+        "type": "lodging",
+        "status": "confirmed",
+        "locationId": "rouge-bordeaux",
+        "description": "Confirmed arrival logistics."
+      },
+      {
+        "start": "13:00",
+        "title": "Garonne picnic",
+        "type": "food",
+        "status": "tentative",
+        "description": "Host plan; keep flexible."
+      },
+      {
+        "start": "14:30",
+        "title": "Cité du Vin",
+        "type": "sight",
+        "status": "tentative",
+        "description": "Tentative cultural stop."
+      },
+      {
+        "start": "16:30",
+        "title": "Private Bordeaux walk",
+        "type": "walk",
+        "status": "tentative",
+        "description": "Cathedral, Miroir d’Eau, Grosse Cloche, and Grand Théâtre."
+      },
+      {
+        "start": "19:30",
+        "title": "Pizza dinner",
+        "type": "food",
+        "status": "tentative",
+        "description": "Casual first-night dinner."
+      }
+    ]
+  },
+  {
+    "date": "2026-08-31",
+    "city": "Bordeaux",
+    "title": "Arcachon and Dune du Pilat",
+    "subtitle": "Coast, oysters, boat, and barbecue",
+    "status": "tentative",
+    "attire": {
+      "male": "Short-sleeve shirt, swim-ready shorts, hat, sunglasses, sandals plus secure shoes for dune sand.",
+      "female": "Light dress or shorts set over swimwear, sun hat, sunglasses, sandals plus secure shoes for dune sand."
+    },
+    "items": [
+      {
+        "start": "09:00",
+        "title": "Arcachon and Dune du Pilat",
+        "type": "tour",
+        "status": "tentative",
+        "description": "Host itinerary with traditional pinasse boat and oyster beds."
+      },
+      {
+        "start": "13:00",
+        "title": "Chez Pascaud",
+        "type": "food",
+        "status": "tentative",
+        "description": "Lunch plan supplied by host."
+      },
+      {
+        "start": "19:00",
+        "title": "Poolside barbecue",
+        "type": "food",
+        "status": "tentative",
+        "description": "Relaxed B&B evening."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-01",
+    "city": "Bordeaux",
+    "title": "Chocolate and vineyard day",
+    "subtitle": "Workshop, Château La Corne, barrel tasting",
+    "status": "tentative",
+    "attire": {
+      "male": "Smart-casual polo or linen shirt, lightweight trousers or chinos, comfortable closed-toe shoes for cellar/vineyard.",
+      "female": "Casual dress or blouse with trousers, comfortable flats/sneakers for vineyard and cellar, light layer."
+    },
+    "items": [
+      {
+        "start": "10:00",
+        "title": "Bean-to-bar chocolate workshop",
+        "type": "activity",
+        "status": "tentative",
+        "description": "Host-supplied activity."
+      },
+      {
+        "start": "12:30",
+        "title": "Château La Corne vineyard tour and lunch",
+        "type": "tour",
+        "status": "tentative",
+        "description": "Barrel tasting plus four-course lunch and wine pairings."
+      },
+      {
+        "start": "19:00",
+        "title": "Light B&B dinner",
+        "type": "food",
+        "status": "tentative",
+        "description": "Keep dinner light after wine lunch."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-02",
+    "city": "Bordeaux",
+    "title": "Saint-Émilion",
+    "subtitle": "Village, lunch, and underground-cellar tasting",
+    "status": "tentative",
+    "attire": {
+      "male": "Collared shirt, chinos or tailored shorts, comfortable walking shoes for cobblestones.",
+      "female": "Midi dress or linen trousers with blouse, low-profile walking shoes for cobblestones."
+    },
+    "items": [
+      {
+        "start": "10:00",
+        "title": "Saint-Émilion",
+        "type": "walk",
+        "status": "tentative",
+        "description": "Tentative host excursion."
+      },
+      {
+        "start": "12:30",
+        "title": "Clos Mirande lunch",
+        "type": "food",
+        "status": "tentative",
+        "description": "Lunch plan supplied by host."
+      },
+      {
+        "start": "15:00",
+        "title": "ETS Martin underground-cellar tasting",
+        "type": "wine",
+        "status": "tentative",
+        "description": "Tasting plan; cellar layer recommended."
+      },
+      {
+        "start": "19:30",
+        "title": "Dinner at the B&B",
+        "type": "food",
+        "status": "tentative",
+        "description": "Host dinner."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-03",
+    "city": "Bordeaux",
+    "title": "Countryside château day",
+    "subtitle": "Toulouse-Lautrec summer home and duck dinner",
+    "status": "tentative",
+    "attire": {
+      "male": "Casual button-down or polo, chinos, walking shoes; bring light rain layer if forecast shifts.",
+      "female": "Comfortable day dress or separates with flats/sneakers; light cardigan for interiors."
+    },
+    "items": [
+      {
+        "start": "10:00",
+        "title": "Toulouse-Lautrec summer home",
+        "type": "sight",
+        "status": "tentative",
+        "description": "Host activity."
+      },
+      {
+        "start": "12:30",
+        "title": "Écluse 52 lunch",
+        "type": "food",
+        "status": "tentative",
+        "description": "Host lunch."
+      },
+      {
+        "start": "15:00",
+        "title": "Château Peyere tasting",
+        "type": "wine",
+        "status": "tentative",
+        "description": "Host tasting."
+      },
+      {
+        "start": "19:30",
+        "title": "Duck dinner",
+        "type": "food",
+        "status": "tentative",
+        "description": "Host dinner."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-04",
+    "city": "Bordeaux",
+    "title": "Prehistory and Font-de-Gaume",
+    "subtitle": "Museum, lunch, cave art, raclette",
+    "status": "tentative",
+    "attire": {
+      "male": "Breathable shirt, comfortable trousers, closed-toe walking shoes; layer for cave/museum interiors.",
+      "female": "Comfortable pants or skirt with top, closed-toe walking shoes; layer for cave/museum interiors."
+    },
+    "items": [
+      {
+        "start": "10:00",
+        "title": "National Prehistory Museum",
+        "type": "sight",
+        "status": "tentative",
+        "description": "Tentative host excursion."
+      },
+      {
+        "start": "12:30",
+        "title": "Hostellerie du Passeur",
+        "type": "food",
+        "status": "tentative",
+        "description": "Lunch plan."
+      },
+      {
+        "start": "15:00",
+        "title": "Font-de-Gaume",
+        "type": "sight",
+        "status": "tentative",
+        "description": "Tentative cave-art visit."
+      },
+      {
+        "start": "19:30",
+        "title": "Raclette dinner",
+        "type": "food",
+        "status": "tentative",
+        "description": "Host dinner."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-05",
+    "city": "Bordeaux / Lisbon",
+    "title": "Revision needed: Bordeaux farewell conflicts with flight",
+    "subtitle": "Protect the confirmed Lisbon flight",
+    "status": "planned",
+    "attire": {
+      "male": "Travel outfit: breathable shirt, stretch chinos, lightweight jacket, easy airport shoes; keep one fresh Lisbon layer handy.",
+      "female": "Travel outfit: comfortable dress or separates, light jacket/scarf, easy airport shoes; keep toiletries accessible for late check-in."
+    },
+    "alerts": [
+      {
+        "status": "tentative",
+        "title": "Host schedule needs revision",
+        "body": "The host's tentative Armagnac trip and 7:00 PM farewell dinner conflict with the confirmed 10:00 PM Bordeaux-to-Lisbon flight. Do not show the farewell dinner as viable."
+      }
+    ],
+    "items": [
+      {
+        "start": "09:00",
+        "title": "Host Armagnac trip",
+        "type": "tour",
+        "status": "tentative",
+        "description": "Tentative only; must be revised around the flight."
+      },
+      {
+        "start": "19:00",
+        "title": "Farewell dinner conflict",
+        "type": "alert",
+        "status": "tentative",
+        "description": "Not viable as planned because airport target is around 8:00 PM."
+      },
+      {
+        "start": "20:00",
+        "title": "Target Bordeaux Airport arrival",
+        "type": "transport",
+        "status": "planned",
+        "locationId": "bod-airport",
+        "description": "Luggage storage and transportation must be confirmed."
+      },
+      {
+        "start": "22:00",
+        "end": "22:55",
+        "title": "EasyJet U2 7606 to Lisbon",
+        "type": "flight",
+        "status": "confirmed",
+        "locationId": "bod-airport",
+        "description": "Depart Bordeaux 10:00 PM France time; arrive Lisbon 10:55 PM Portugal time."
+      },
+      {
+        "start": "23:15",
+        "title": "Bolt/taxi to Santos Calm",
+        "type": "transport",
+        "status": "planned",
+        "locationId": "santos-calm",
+        "description": "No planned nightlife after arrival."
+      },
+      {
+        "start": "23:45",
+        "title": "Late-night Santos Calm check-in",
+        "type": "lodging",
+        "status": "confirmed",
+        "locationId": "santos-calm",
+        "description": "Confirmed lodging check-in."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-06",
+    "city": "Lisbon",
+    "title": "Historic Lisbon",
+    "subtitle": "Waterfront, castle, Alfama, reset, Prado plan",
+    "status": "planned",
+    "routeIds": [
+      "santos-timeout",
+      "castle-alfama"
+    ],
+    "attire": {
+      "male": "Light linen/cotton shirt, breathable trousers or tailored shorts, grippy walking shoes for hills; bring sunglasses and a dinner shirt for Prado.",
+      "female": "Breathable dress or linen separates, supportive sandals/sneakers for hills; pack a dinner-ready top or dress for apartment reset."
+    },
+    "items": [
+      {
+        "start": "09:00",
+        "title": "Breakfast near Santos",
+        "type": "food",
+        "status": "planned",
+        "description": "Start relaxed."
+      },
+      {
+        "start": "10:00",
+        "title": "Waterfront walk to Cais do Sodré and Time Out Market browse",
+        "type": "walk",
+        "status": "planned",
+        "locationId": "timeout-market",
+        "description": "Browse only; do not eat a full meal."
+      },
+      {
+        "start": "11:30",
+        "title": "Bolt toward Castelo de São Jorge if Tram 28 queue is long",
+        "type": "transport",
+        "status": "planned",
+        "locationId": "castelo-sao-jorge",
+        "description": "Protect energy over transit novelty."
+      },
+      {
+        "start": "12:00",
+        "title": "Castelo de São Jorge",
+        "type": "sight",
+        "status": "planned",
+        "locationId": "castelo-sao-jorge",
+        "description": "Iconic hilltop sight."
+      },
+      {
+        "start": "13:30",
+        "title": "Lisbon Cathedral and Alfama wandering",
+        "type": "walk",
+        "status": "planned",
+        "locationId": "lisbon-cathedral",
+        "description": "Slow neighborhood walk."
+      },
+      {
+        "start": "15:30",
+        "title": "Intentional café or wine pause",
+        "type": "pause",
+        "status": "planned",
+        "description": "Sit down before more viewpoints."
+      },
+      {
+        "start": "16:30",
+        "title": "Santa Luzia and Portas do Sol",
+        "type": "viewpoint",
+        "status": "planned",
+        "locationId": "santa-luzia",
+        "description": "Viewpoint pair before heading home."
+      },
+      {
+        "start": "17:45",
+        "end": "18:00",
+        "title": "Bolt to Santos and apartment reset",
+        "type": "reset",
+        "status": "planned",
+        "locationId": "santos-calm",
+        "description": "Shower, rest, and change."
+      },
+      {
+        "start": "20:30",
+        "title": "Prado dinner",
+        "type": "food",
+        "status": "planned",
+        "locationId": "prado",
+        "description": "Planned but not confirmed."
+      },
+      {
+        "start": "22:15",
+        "title": "Optional cocktail: Red Frog, Foxtrot, or Imprensa",
+        "type": "drink",
+        "status": "optional",
+        "description": "Only if energy is good."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "city": "Lisbon",
+    "title": "Food tour and Belém",
+    "subtitle": "Confirmed tour, Monday exterior route, rooftop and dinner plan",
+    "status": "planned",
+    "routeIds": [
+      "belem-walk",
+      "park-avillez"
+    ],
+    "attire": {
+      "male": "Comfortable food-tour outfit: knit polo or linen shirt, stretch chinos, walking shoes; bring light evening layer for rooftop.",
+      "female": "Comfortable dress or separates with walking shoes; bring light layer or scarf for rooftop breeze."
+    },
+    "notes": [
+      "Jerónimos Monastery and Belém Tower interiors are closed Mondays; treat them as exterior stops only."
+    ],
+    "items": [
+      {
+        "start": "09:00",
+        "title": "Coffee only before tour",
+        "type": "food",
+        "status": "planned",
+        "description": "Tour replaces breakfast and lunch."
+      },
+      {
+        "start": "10:30",
+        "end": "13:30",
+        "title": "Lisbon Food and Wine Small Group Walking Tour",
+        "type": "tour",
+        "status": "confirmed",
+        "locationId": "food-tour-meeting",
+        "description": "Protect at least three hours or later."
+      },
+      {
+        "start": "14:15",
+        "title": "Travel to Belém",
+        "type": "transport",
+        "status": "planned",
+        "description": "Use transit/Bolt based on energy."
+      },
+      {
+        "start": "15:00",
+        "title": "Belém exterior loop",
+        "type": "walk",
+        "status": "planned",
+        "locationId": "jeronimos",
+        "description": "Jerónimos exterior, gardens, Monument, Belém Tower exterior, river promenade."
+      },
+      {
+        "start": "16:15",
+        "title": "Pastéis de Belém seated coffee break",
+        "type": "pause",
+        "status": "planned",
+        "locationId": "pasteis-belem",
+        "description": "Intentional sit-down break."
+      },
+      {
+        "start": "17:00",
+        "title": "Return to Santos, reset and change",
+        "type": "reset",
+        "status": "planned",
+        "locationId": "santos-calm",
+        "description": "Protect the evening."
+      },
+      {
+        "start": "19:00",
+        "title": "Park Rooftop",
+        "type": "drink",
+        "status": "planned",
+        "locationId": "park-rooftop",
+        "description": "Alternatives: Lumi Rooftop or Java Rooftop."
+      },
+      {
+        "start": "20:45",
+        "title": "Taberna – Bairro do Avillez",
+        "type": "food",
+        "status": "planned",
+        "locationId": "bairro-avillez",
+        "description": "Planned but not confirmed. Later drinks should stay nearby."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-08",
+    "city": "Lisbon / Porto",
+    "title": "Lisbon to Porto",
+    "subtitle": "Confirmed train and gentle Porto arrival walk",
+    "status": "planned",
+    "routeIds": [
+      "porto-walk"
+    ],
+    "attire": {
+      "male": "Rail day layers: breathable shirt, stretch trousers, jacket for train AC, comfortable shoes; fresh casual dinner shirt packed accessibly.",
+      "female": "Rail day outfit: comfortable dress/jumpsuit or separates, light sweater for train AC, supportive shoes; fresh dinner layer accessible."
+    },
+    "items": [
+      {
+        "start": "09:00",
+        "title": "Coffee, pastries, final Santos or river walk",
+        "type": "pause",
+        "status": "planned",
+        "description": "Short and luggage-aware."
+      },
+      {
+        "start": "11:00",
+        "title": "Check out Santos Calm",
+        "type": "lodging",
+        "status": "confirmed",
+        "locationId": "santos-calm",
+        "description": "Confirmed checkout."
+      },
+      {
+        "start": "11:15",
+        "title": "Bolt to Santa Apolónia with luggage buffer",
+        "type": "transport",
+        "status": "planned",
+        "locationId": "santa-apolonia",
+        "description": "Do not cut this close."
+      },
+      {
+        "start": "12:00",
+        "end": "14:48",
+        "title": "CP Alfa Pendular 125 to Porto Campanhã",
+        "type": "train",
+        "status": "confirmed",
+        "locationId": "santa-apolonia",
+        "description": "Confirmed train."
+      },
+      {
+        "start": "15:00",
+        "title": "Bolt from Porto Campanhã to Rua das Flores",
+        "type": "transport",
+        "status": "planned",
+        "locationId": "campanha",
+        "description": "Luggage transfer."
+      },
+      {
+        "start": "16:00",
+        "title": "Check in A Slice of Porto",
+        "type": "lodging",
+        "status": "confirmed",
+        "locationId": "slice-porto",
+        "description": "Confirmed lodging."
+      },
+      {
+        "start": "17:00",
+        "title": "São Bento, Porto Cathedral, Rua das Flores, Ribeira",
+        "type": "walk",
+        "status": "planned",
+        "locationId": "sao-bento",
+        "description": "Gentle arrival loop."
+      },
+      {
+        "start": "18:30",
+        "title": "Riverside beer or vinho verde pause",
+        "type": "pause",
+        "status": "planned",
+        "locationId": "ribeira",
+        "description": "Keep pace easy."
+      },
+      {
+        "start": "20:30",
+        "title": "Dinner options: Cantina 32, Taberna dos Mercadores, Adega São Nicolau",
+        "type": "food",
+        "status": "planned",
+        "description": "Cantina 32 is the top option; none confirmed."
+      },
+      {
+        "start": "22:15",
+        "title": "Optional cocktail: Torto or The Royal Cocktail Club",
+        "type": "drink",
+        "status": "optional",
+        "description": "Only if energy allows."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-09",
+    "city": "Porto / Douro",
+    "title": "Confirmed Douro tour",
+    "subtitle": "Full day wine country, then recovery",
+    "status": "planned",
+    "routeIds": [
+      "slice-douro"
+    ],
+    "attire": {
+      "male": "Smart casual tour outfit: breathable collared shirt, chinos, comfortable closed-toe shoes; hat/sunglasses for boat and vineyards.",
+      "female": "Comfortable wine-country dress or trousers, low wedges/flats or sneakers, hat/sunglasses; layer for boat breeze."
+    },
+    "items": [
+      {
+        "start": "08:00",
+        "title": "Breakfast",
+        "type": "food",
+        "status": "planned",
+        "description": "Keep simple before tour."
+      },
+      {
+        "start": "08:30",
+        "title": "Walk to Douro tour meeting point",
+        "type": "transport",
+        "status": "planned",
+        "locationId": "douro-meeting",
+        "description": "Arrive early."
+      },
+      {
+        "start": "09:00",
+        "end": "19:00",
+        "title": "Taste Douro: Sommelier, Boat & Farm-to-Table Lunch",
+        "type": "tour",
+        "status": "confirmed",
+        "locationId": "douro-meeting",
+        "description": "Confirmed full-day tour."
+      },
+      {
+        "start": "19:30",
+        "title": "Return to apartment",
+        "type": "reset",
+        "status": "planned",
+        "locationId": "slice-porto",
+        "description": "Recovery and hydration."
+      },
+      {
+        "start": "20:30",
+        "title": "Light local bite only if hungry",
+        "type": "food",
+        "status": "optional",
+        "description": "No dinner reservation."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-10",
+    "city": "Porto / Gaia",
+    "title": "Bolhão, one optional sight, and Yeatman dinner",
+    "subtitle": "Pack early, protect the celebration dinner",
+    "status": "planned",
+    "routeIds": [
+      "slice-yeatman"
+    ],
+    "attire": {
+      "male": "Day: polished casual linen/polo and walking shoes. Evening: smart casual jacket or crisp shirt, trousers, dress shoes or clean loafers for Yeatman.",
+      "female": "Day: breathable dress/separates and walking shoes. Evening: elegant dress or elevated separates, smart flats/heels suitable for photos and dinner."
+    },
+    "items": [
+      {
+        "start": "09:30",
+        "title": "Relaxed start, coffee, Mercado do Bolhão, Rua de Santa Catarina",
+        "type": "walk",
+        "status": "planned",
+        "locationId": "mercado-bolhao",
+        "description": "Keep morning easy."
+      },
+      {
+        "start": "12:30",
+        "title": "Light lunch",
+        "type": "food",
+        "status": "planned",
+        "description": "Do not overdo lunch before Yeatman."
+      },
+      {
+        "start": "14:00",
+        "title": "Choose no more than one optional activity",
+        "type": "sight",
+        "status": "optional",
+        "description": "One port lodge, Livraria Lello, or Clérigos Tower."
+      },
+      {
+        "start": "15:30",
+        "title": "Café or river pause",
+        "type": "pause",
+        "status": "planned",
+        "description": "Energy protection."
+      },
+      {
+        "start": "16:30",
+        "title": "Apartment reset and pack for early departure",
+        "type": "reset",
+        "status": "planned",
+        "locationId": "slice-porto",
+        "description": "Prepare airport clothing and luggage before dinner."
+      },
+      {
+        "start": "18:30",
+        "title": "Leave by Bolt for The Yeatman",
+        "type": "transport",
+        "status": "planned",
+        "locationId": "yeatman",
+        "description": "Arrive around 7:00 PM for views and photos."
+      },
+      {
+        "start": "19:30",
+        "end": "22:30",
+        "title": "The Yeatman Gastronomic Restaurant",
+        "type": "food",
+        "status": "confirmed",
+        "locationId": "yeatman",
+        "description": "Reservation for four, celebrating two September 11 birthdays; may run longer than three hours."
+      },
+      {
+        "start": "22:45",
+        "title": "Bolt directly back afterward",
+        "type": "transport",
+        "status": "planned",
+        "description": "No second venue."
+      }
+    ],
+    "alerts": [
+      {
+        "status": "confirmed",
+        "title": "Early checkout protection",
+        "body": "Pack airport clothing and luggage before The Yeatman dinner because checkout is confirmed for 5:35 AM the next morning."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-11",
+    "city": "Porto",
+    "title": "Early checkout",
+    "subtitle": "Pre-book transfer and leave prepared",
+    "status": "planned",
+    "attire": {
+      "male": "Airport outfit laid out before dinner: comfortable layers, slip-on shoes, passport/wallet in front pocket or travel pouch.",
+      "female": "Airport outfit laid out before dinner: comfortable layers, easy shoes, scarf/light layer, passport/wallet in secure pouch."
+    },
+    "items": [
+      {
+        "start": "05:35",
+        "title": "Check out A Slice of Porto",
+        "type": "lodging",
+        "status": "confirmed",
+        "locationId": "slice-porto",
+        "description": "Confirmed checkout."
+      },
+      {
+        "start": "05:45",
+        "title": "Airport transfer",
+        "type": "transport",
+        "status": "planned",
+        "description": "Book in advance; clothing and luggage prepared before Yeatman dinner."
+      }
+    ]
+  }
+]

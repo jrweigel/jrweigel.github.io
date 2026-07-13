@@ -1,0 +1,44 @@
+[
+  {
+    "id": "santos-timeout",
+    "label": "Santos Calm to Time Out Market",
+    "mode": "walk",
+    "url": "https://www.google.com/maps/dir/?api=1&origin=Cal%C3%A7ada+Marqu%C3%AAs+de+Abrantes+1200-808+Lisboa&destination=Time+Out+Market+Lisboa&travelmode=walking"
+  },
+  {
+    "id": "castle-alfama",
+    "label": "Castle through Sé, Santa Luzia, Portas do Sol",
+    "mode": "walk",
+    "url": "https://www.google.com/maps/dir/?api=1&origin=Castelo+de+S%C3%A3o+Jorge+Lisbon&destination=Portas+do+Sol+Lisbon&waypoints=Lisbon+Cathedral%7CMiradouro+de+Santa+Luzia&travelmode=walking"
+  },
+  {
+    "id": "belem-walk",
+    "label": "Belém exterior walk and pastry pause",
+    "mode": "walk",
+    "url": "https://www.google.com/maps/dir/?api=1&origin=Jer%C3%B3nimos+Monastery&destination=Bel%C3%A9m+Tower&waypoints=Monument+to+the+Discoveries%7CPast%C3%A9is+de+Bel%C3%A9m&travelmode=walking"
+  },
+  {
+    "id": "park-avillez",
+    "label": "Park Rooftop to Bairro do Avillez",
+    "mode": "walk",
+    "url": "https://www.google.com/maps/dir/?api=1&origin=Park+Rooftop+Lisbon&destination=Bairro+do+Avillez+Lisbon&travelmode=walking"
+  },
+  {
+    "id": "porto-walk",
+    "label": "A Slice of Porto to Ribeira via São Bento and Cathedral",
+    "mode": "walk",
+    "url": "https://www.google.com/maps/dir/?api=1&origin=Rua+das+Flores+200+Porto&destination=Ribeira+Porto&waypoints=S%C3%A3o+Bento+Station+Porto%7CPorto+Cathedral&travelmode=walking"
+  },
+  {
+    "id": "slice-douro",
+    "label": "A Slice of Porto to Douro tour meeting point",
+    "mode": "walk",
+    "url": "https://www.google.com/maps/dir/?api=1&origin=Rua+das+Flores+200+Porto&destination=Rua+de+Santa+Catarina+5+Porto&travelmode=walking"
+  },
+  {
+    "id": "slice-yeatman",
+    "label": "A Slice of Porto to The Yeatman by car",
+    "mode": "drive",
+    "url": "https://www.google.com/maps/dir/?api=1&origin=Rua+das+Flores+200+Porto&destination=The+Yeatman+Gastronomic+Restaurant&travelmode=driving"
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "date": "2026-08-30",
+    "start": "11:20",
+    "venue": "Rouge Bordeaux B&B check-in / group arrival",
+    "status": "confirmed",
+    "locationId": "rouge-bordeaux"
+  },
+  {
+    "date": "2026-09-05",
+    "start": "22:00",
+    "end": "22:55",
+    "venue": "EasyJet U2 7606 Bordeaux BOD to Lisbon LIS",
+    "status": "confirmed",
+    "locationId": "bod-airport",
+    "notes": "10:00 PM France time; arrives 10:55 PM Portugal time."
+  },
+  {
+    "date": "2026-09-05",
+    "start": "23:45",
+    "venue": "Late-night check-in Santos Calm",
+    "status": "confirmed",
+    "locationId": "santos-calm"
+  },
+  {
+    "date": "2026-09-07",
+    "start": "10:30",
+    "end": "13:30",
+    "venue": "Lisbon Food and Wine Small Group Walking Tour",
+    "status": "confirmed",
+    "locationId": "food-tour-meeting",
+    "notes": "Duration at least three hours; replaces breakfast and lunch."
+  },
+  {
+    "date": "2026-09-08",
+    "start": "11:00",
+    "venue": "Check out Santos Calm",
+    "status": "confirmed",
+    "locationId": "santos-calm"
+  },
+  {
+    "date": "2026-09-08",
+    "start": "12:00",
+    "end": "14:48",
+    "venue": "CP Alfa Pendular 125 Lisboa Santa Apolónia to Porto Campanhã",
+    "status": "confirmed",
+    "locationId": "santa-apolonia"
+  },
+  {
+    "date": "2026-09-08",
+    "start": "16:00",
+    "venue": "Check in A Slice of Porto",
+    "status": "confirmed",
+    "locationId": "slice-porto"
+  },
+  {
+    "date": "2026-09-09",
+    "start": "09:00",
+    "end": "19:00",
+    "venue": "Taste Douro: Sommelier, Boat & Farm-to-Table Lunch",
+    "status": "confirmed",
+    "locationId": "douro-meeting",
+    "cancellation": "Full refund at least one day before start."
+  },
+  {
+    "date": "2026-09-10",
+    "start": "19:30",
+    "end": "22:30",
+    "venue": "The Yeatman Gastronomic Restaurant",
+    "partySize": 4,
+    "status": "confirmed",
+    "locationId": "yeatman",
+    "celebration": "Celebrating two September 11 birthdays.",
+    "notes": "Treat meal as potentially longer than three hours."
+  },
+  {
+    "date": "2026-09-11",
+    "start": "05:35",
+    "venue": "Check out A Slice of Porto",
+    "status": "confirmed",
+    "locationId": "slice-porto"
+  }
+]

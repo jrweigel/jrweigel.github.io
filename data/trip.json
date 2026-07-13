@@ -1,0 +1,37 @@
+{
+  "title": "Europe 2027 Travel Guide",
+  "travelers": "Private group of four",
+  "startDate": "2026-08-30",
+  "endDate": "2026-09-11",
+  "basePath": "/europe2027/",
+  "philosophy": [
+    "Architecture and beautiful neighborhoods over museums",
+    "Walking and wandering rather than rushing between attractions",
+    "Great food, wine, cocktails, and local beer",
+    "A relaxed pace with cafés and people-watching",
+    "Hidden local gems mixed with a few iconic sights",
+    "No more than one organized activity per day",
+    "Strategic use of trams, funiculars, Bolt, Uber, and taxis instead of unnecessary hill climbing",
+    "Apartment resets before important dinners",
+    "Room for spontaneous discoveries",
+    "Skip rather than rush when the day becomes too full"
+  ],
+  "operationalRule": "Protect the reservation and the group’s energy. Skip the optional sight, take the Bolt, sit for the coffee, and arrive at dinner feeling human.",
+  "cities": [
+    "Bordeaux",
+    "Lisbon",
+    "Porto"
+  ],
+  "globalNotices": [
+    {
+      "status": "tentative",
+      "title": "Bordeaux host schedule is tentative",
+      "body": "Bordeaux activities are supplied by the host and should not be treated as confirmed reservations."
+    },
+    {
+      "status": "planned",
+      "title": "Laundry plan",
+      "body": "Pack for repeat outfits. Plan laundry at the end of Bordeaux or the beginning of Lisbon."
+    }
+  ]
+}

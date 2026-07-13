@@ -9,6 +9,8 @@ const routes = readJson('data/routes.json');
 
 const locationById = new Map(locations.map((location) => [location.id, location]));
 const routeById = new Map(routes.map((route) => [route.id, route]));
+const normalizedBasePath = String(trip.basePath || '').replace(/^\/+|\/+$/g, '');
+const outputDirs = ['site', normalizedBasePath ? `site/${normalizedBasePath}` : null].filter(Boolean);
 const escapeHtml = (value = '') => String(value)
   .replaceAll('&', '&amp;')
   .replaceAll('<', '&lt;')
@@ -142,12 +144,6 @@ const pdfText = [
   ]),
 ].join('\n');
 
-fs.mkdirSync('site', { recursive: true });
-fs.writeFileSync('site/index.html', html);
-fs.copyFileSync('public/styles.css', 'site/styles.css');
-fs.copyFileSync('public/manifest.webmanifest', 'site/manifest.webmanifest');
-fs.copyFileSync('public/sw.js', 'site/sw.js');
-
 // Build a structurally valid PDF-1.4 so it opens reliably in all readers.
 function generatePdf(text) {
   const W = 595, H = 842; // A4 in points
@@ -230,4 +226,12 @@ function generatePdf(text) {
   return buf;
 }
 
-fs.writeFileSync('site/Bordeaux_Portugal_Guide_2026.pdf', generatePdf(pdfText));
+const pdf = generatePdf(pdfText);
+for (const outputDir of outputDirs) {
+  fs.mkdirSync(outputDir, { recursive: true });
+  fs.writeFileSync(`${outputDir}/index.html`, html);
+  fs.copyFileSync('public/styles.css', `${outputDir}/styles.css`);
+  fs.copyFileSync('public/manifest.webmanifest', `${outputDir}/manifest.webmanifest`);
+  fs.copyFileSync('public/sw.js', `${outputDir}/sw.js`);
+  fs.writeFileSync(`${outputDir}/Bordeaux_Portugal_Guide_2026.pdf`, pdf);
+}

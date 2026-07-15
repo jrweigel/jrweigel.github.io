@@ -1,90 +1,47 @@
-# Europe 2026 Travel Guide
+# JR Weigel Site
 
-Mobile-first living travel guide for Bordeaux, Lisbon, and Porto, published at:
+This repository hosts the Docusaurus site at the root URL and several standalone apps at static subpaths.
 
-<https://jrweigel.github.io/Europe2026/>
+## Published URLs
 
-The site is generated from structured JSON content in `data/` into the published files in `site/`.
+* Root blog/site: <https://jrweigel.github.io/>
+* Europe travel guide: <https://jrweigel.github.io/Europe2026/>
+* Move the Work: <https://jrweigel.github.io/move-the-work/>
+* Which Tool: <https://jrweigel.github.io/which-tool/>
 
-## Repository structure
+## Source Layout
 
 ```text
 data/
-  trip.json          Trip-wide settings, philosophy, notices, base path
-  days.json          Daily itinerary, timeline items, attire, notes, route refs
-  locations.json     Stable venue/location IDs, addresses, Maps links, websites
-  reservations.json  Confirmed logistics and reservations
-  routes.json        One-tap Google Maps route links
+  trip.json             Europe guide settings, including base path
+  days.json             Day-by-day itinerary
+  locations.json        Places, addresses, maps, official URLs
+  reservations.json     Confirmed reservations and logistics
+  routes.json           Google Maps route links
 scripts/
-  build.mjs          Static site generator for site/index.html and PDF summary
-  validate-content.mjs Required content validation
-  check-links.mjs    Internal anchor, PDF, and base-path validation
-public/
-  styles.css         Mobile-first print-friendly styling
-  manifest.webmanifest
-  sw.js
-site/
-  index.html         Published guide
-  Bordeaux_Portugal_Guide_2026.pdf Downloadable PDF generated from itinerary summary
-.github/workflows/deploy.yml GitHub Pages deployment
+  build.mjs             Generates Europe guide files in static/Europe2026
+  validate-content.mjs  Validates itinerary and reservation data
+  check-links.mjs       Validates guide outputs and final built routes
+static/
+  Europe2026/           Generated Europe guide files
+  move-the-work/        Standalone app
+  which-tool/           Standalone app
+src/
+  pages/                Docusaurus root pages
+.github/workflows/
+  deploy.yml            GitHub Pages build and deploy workflow
 ```
 
-## Run locally
+## Build and Run
 
 ```bash
 npm install
-npm run build
-npm run dev
+npm run start
 ```
 
-`npm run dev` builds the site and serves `site/` at <http://localhost:4321>. The production URL uses the `/Europe2026/` base path.
+`npm run start` first generates Europe guide content into `static/Europe2026`, then runs Docusaurus locally.
 
-## Edit itinerary content
-
-Most changes should happen in `data/days.json`.
-
-1. Find the day by `date`.
-2. Edit the `items` array.
-3. Use a valid `status`: `confirmed`, `planned`, `optional`, or `tentative`.
-4. Reference places with `locationId` rather than duplicating addresses or URLs.
-5. Update the daily `attire` if the activity mix changes.
-6. Run `npm test` before finishing.
-
-Do not change confirmed dates, times, addresses, transportation, or reservations unless explicitly instructed.
-
-## Add a location
-
-Add one object to `data/locations.json`:
-
-```json
-{
-  "id": "stable-human-readable-id",
-  "name": "Venue Name",
-  "city": "Lisbon",
-  "address": "Known address only",
-  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Venue+Name+Lisbon",
-  "officialUrl": "https://official-site.example/",
-  "category": "restaurant",
-  "reservationStatus": "planned",
-  "notes": "Optional context."
-}
-```
-
-Omit `officialUrl` when an official website has not been verified. Then reference the location from a day with `locationId`.
-
-## Change a reservation
-
-Confirmed logistics live in `data/reservations.json`. Keep confirmed reservations distinct from planned meals or tentative host activities. Do not add confirmation numbers, private traveler details, emails, phone numbers, or booking codes.
-
-## Deployment
-
-GitHub Actions runs on pushes to `master` and manual workflow dispatches. The workflow installs Node, runs `npm test`, uploads the generated `site/` directory as the Pages artifact, and deploys with `actions/deploy-pages@v4`.
-
-Once merged to `master`, GitHub Pages publishes the guide at:
-
-<https://jrweigel.github.io/Europe2026/>
-
-## Checks
+Use these commands for CI-style validation:
 
 ```bash
 npm run validate
@@ -93,12 +50,26 @@ npm run check:links
 npm test
 ```
 
-The checks validate required dates, times, labels, links, statuses, location references, the downloadable PDF link, and `/Europe2026/` base-path handling.
+## Europe Guide Editing
 
-## Assumptions and content gaps
+Most itinerary edits happen in `data/days.json`.
 
-- Bordeaux activities are marked tentative unless listed as confirmed logistics.
-- Planned Lisbon and Porto dinners are clearly not confirmed unless included in confirmed logistics.
-- Official website buttons are included only where a likely official site was identified; otherwise only Google Maps is shown.
-- Weather-specific attire is based on likely late-summer conditions and planned activities, not a live forecast.
-- Laundry is planned for the end of Bordeaux or beginning of Lisbon, so attire guidance assumes repeatable, washable outfits.
+1. Find the day by `date`.
+2. Edit the `items` array.
+3. Use one of: `confirmed`, `planned`, `optional`, `tentative`.
+4. Use `locationId` references from `data/locations.json`.
+5. Update attire guidance when plans change.
+6. Run `npm test` before publishing.
+
+Do not change confirmed dates, times, addresses, transportation, or reservations unless explicitly instructed.
+
+## Deployment
+
+GitHub Actions runs on pushes to `master` and manual dispatch.
+
+1. Install dependencies.
+2. Run `npm test`.
+3. Upload the Docusaurus `build/` directory.
+4. Deploy to GitHub Pages.
+
+This keeps the root URL as the Docusaurus site while preserving standalone apps under their subpaths.

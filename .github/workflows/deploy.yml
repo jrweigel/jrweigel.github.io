@@ -1,4 +1,4 @@
-name: Deploy Europe 2027 Guide
+name: Deploy Site
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       - run: npm test
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: build
   deploy:
     needs: build
     runs-on: ubuntu-latest

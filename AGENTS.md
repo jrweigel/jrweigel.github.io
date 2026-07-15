@@ -2,8 +2,8 @@
 
 ## Source of truth
 
-- site/index.html is the mobile travel guide.
-- site/Bordeaux_Portugal_Guide_2026.pdf is the downloadable PDF.
+- static/Europe2026/index.html is the mobile travel guide source.
+- static/Europe2026/Bordeaux_Portugal_Guide_2026.pdf is the downloadable PDF source.
 - Confirmed TripIt reservations must be clearly distinguished from tentative plans.
 - The HTML and PDF must contain the same itinerary information.
 

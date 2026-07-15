@@ -2,7 +2,7 @@ import fs from 'node:fs';
 
 const readJson = (file) => JSON.parse(fs.readFileSync(file, 'utf8'));
 const normalizedBasePath = String(readJson('data/trip.json').basePath || '').replace(/^\/+|\/+$/g, '');
-const outputDirs = ['site', normalizedBasePath ? `site/${normalizedBasePath}` : null].filter(Boolean);
+const outputDirs = [normalizedBasePath ? `static/${normalizedBasePath}` : 'static', 'build'];
 const errors = [];
 
 for (const outputDir of outputDirs) {
@@ -32,14 +32,24 @@ for (const outputDir of outputDirs) {
     if (href === 'styles.css' && !fs.existsSync(`${outputDir}/styles.css`)) errors.push(`Missing stylesheet in ${outputDir}`);
     if (href.includes('www.google.com/maps') && !href.startsWith('https://www.google.com/maps/')) errors.push(`Malformed Google Maps link ${href}`);
   }
-  if (!fs.existsSync(`${outputDir}/sw.js`)) errors.push(`Missing service worker in ${outputDir}`);
-  const expectedBase = normalizedBasePath ? `/${normalizedBasePath}/` : '/';
-  if (!html.includes(`<base href="${expectedBase}">`)) errors.push(`Missing ${expectedBase} base path in ${htmlPath}`);
-  if (!html.includes('aria-label="Trip sections"')) errors.push(`Missing accessible navigation label in ${htmlPath}`);
+  if (outputDir.startsWith('static')) {
+    if (!fs.existsSync(`${outputDir}/sw.js`)) errors.push(`Missing service worker in ${outputDir}`);
+    const expectedBase = normalizedBasePath ? `/${normalizedBasePath}/` : '/';
+    if (!html.includes(`<base href="${expectedBase}">`)) errors.push(`Missing ${expectedBase} base path in ${htmlPath}`);
+    if (!html.includes('aria-label="Trip sections"')) errors.push(`Missing accessible navigation label in ${htmlPath}`);
+  }
 }
+
+for (const route of ['move-the-work', 'which-tool', normalizedBasePath]) {
+  if (!route) continue;
+  const routeHtml = `build/${route}/index.html`;
+  if (!fs.existsSync(routeHtml)) errors.push(`Missing built route ${routeHtml}`);
+}
+
+if (!fs.existsSync('build/index.html')) errors.push('Missing Docusaurus root build/index.html');
 
 if (errors.length) {
   console.error(errors.join('\n'));
   process.exit(1);
 }
-console.log('Internal links, Google Maps links, output files, accessibility hooks, and base path validated.');
+console.log('Internal links, Google Maps links, output files, accessibility hooks, and built routes validated.');

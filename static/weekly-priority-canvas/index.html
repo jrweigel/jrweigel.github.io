@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prioritization Canvas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Planning Tool</p>
+        <h1>Prioritization Canvas</h1>
+        <p class="subtitle">Paste your list. Let AI place each card. Drag to override based on your judgment.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="clearActiveBtn" class="btn btn-warn">Clear Active Board</button>
+        <button id="fullResetBtn" class="btn btn-danger">Full Reset</button>
+      </div>
+    </header>
+
+    <section class="input-panel">
+      <div class="access-mode-control">
+        <label for="axisModeSelect" class="control-label">Choose Axis Mode</label>
+        <select id="axisModeSelect" class="select-control" aria-label="Select axis mode">
+          <option value="impact_effort">Impact × Effort</option>
+          <option value="frequency_time">Frequency × Time Cost</option>
+          <option value="importance_urgency">Importance x Urgency</option>
+          <option value="value_risk">Value x Risk</option>
+          <option value="energy_joy">Energy x Joy</option>
+        </select>
+      </div>
+      <label for="taskInput">Add priorities (comma, semicolon, or line separated)</label>
+      <textarea id="taskInput" placeholder="Launch pricing experiment, Prepare customer QBR, Fix onboarding bug"></textarea>
+      <div class="input-actions">
+        <button id="importBtn" class="btn btn-primary">Merge Into Board</button>
+        <button id="addCardBtn" class="btn btn-secondary">Add Single Card</button>
+        <button id="openCopilotBtn" class="btn btn-ghost">Copy Copilot Prompt + Open M365</button>
+      </div>
+      <p id="statusLine" class="status-line" aria-live="polite"></p>
+      <p class="storage-warning">⚠️ This tool runs entirely in your local browser. No accounts, no telemetry, no data leaves this device unless you export it. <strong>Sessions won't save in private/incognito windows</strong> and will disappear if you clear browser or site data, or select the "full reset" button.</p>
+    </section>
+
+    <section class="board-wrapper" id="boardWrapper" aria-label="Impact x Effort board">
+      <div id="axisYLabel" class="axis axis-y">Impact (Low to High)</div>
+      <div id="axisXLabel" class="axis axis-x">Effort (Low to High)</div>
+      <div class="board-grid">
+        <section class="quadrant" data-quadrant="quick_wins" aria-label="Quick Wins">
+          <header>
+            <h2 id="label-quick_wins">Quick Wins</h2>
+            <span class="count" id="count-quick_wins">0</span>
+          </header>
+          <p id="hint-quick_wins" class="quadrant-hint">High impact, low effort</p>
+          <div class="card-lane" id="lane-quick_wins"></div>
+        </section>
+
+        <section class="quadrant" data-quadrant="big_bets" aria-label="Big Bets">
+          <header>
+            <h2 id="label-big_bets">Big Bets</h2>
+            <span class="count" id="count-big_bets">0</span>
+          </header>
+          <p id="hint-big_bets" class="quadrant-hint">High impact, high effort</p>
+          <div class="card-lane" id="lane-big_bets"></div>
+        </section>
+
+        <section class="quadrant" data-quadrant="fill_ins" aria-label="Fill-Ins">
+          <header>
+            <h2 id="label-fill_ins">Fill-Ins</h2>
+            <span class="count" id="count-fill_ins">0</span>
+          </header>
+          <p id="hint-fill_ins" class="quadrant-hint">Low impact, low effort</p>
+          <div class="card-lane" id="lane-fill_ins"></div>
+        </section>
+
+        <section class="quadrant" data-quadrant="money_pits" aria-label="Money Pits">
+          <header>
+            <h2 id="label-money_pits">Money Pits</h2>
+            <span class="count" id="count-money_pits">0</span>
+          </header>
+          <p id="hint-money_pits" class="quadrant-hint">Low impact, high effort</p>
+          <div class="card-lane" id="lane-money_pits"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="completed-panel" aria-label="Completed cards">
+      <header>
+        <h2>Completed</h2>
+        <div class="completed-actions">
+          <span id="completedCount">0</span>
+          <button id="clearCompletedBtn" class="btn btn-ghost">Clear Completed</button>
+        </div>
+      </header>
+      <div id="completedList" class="completed-list"></div>
+    </section>
+  </main>
+
+  <template id="cardTemplate">
+    <article class="card" draggable="true">
+      <p class="card-text"></p>
+      <div class="card-actions">
+        <button class="icon-btn" data-action="complete" title="Mark complete">Done</button>
+        <button class="icon-btn" data-action="edit" title="Edit">Edit</button>
+        <button class="icon-btn" data-action="delete" title="Delete">Delete</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="completedTemplate">
+    <article class="completed-card">
+      <p class="card-text"></p>
+      <div class="card-actions">
+        <button class="icon-btn" data-action="restore" title="Move back to board">Restore</button>
+        <button class="icon-btn" data-action="delete" title="Delete">Delete</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

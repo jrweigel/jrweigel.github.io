@@ -304,7 +304,7 @@ function addTasks(lines) {
   const additions = freshLines.map((text) => {
     const placement = heuristicPlacement(text);
     return {
-      id: crypto.randomUUID(),
+      id: uuid(),
       text,
       quadrant: placement.quadrant,
       status: "active",
@@ -607,6 +607,15 @@ function setStatus(message) {
   els.statusLine.textContent = message;
 }
 
+function uuid() {
+  if (crypto && crypto.randomUUID) return crypto.randomUUID();
+  // RFC4122 v4 fallback
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    return (c === "x" ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -624,7 +633,7 @@ function loadState() {
       cards: cards
         .filter((card) => card && typeof card === "object" && typeof card.text === "string")
         .map((card) => ({
-          id: typeof card.id === "string" ? card.id : crypto.randomUUID(),
+          id: typeof card.id === "string" ? card.id : uuid(),
           text: card.text,
           quadrant: QUADRANTS[card.quadrant] ? card.quadrant : "quick_wins",
           status: card.status === "completed" ? "completed" : "active",
@@ -666,8 +675,8 @@ function toConfidence(value) {
 function persist() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (_error) {
-    // keep in-memory state if storage is unavailable
+  } catch {
+    // storage unavailable (e.g. private browsing, quota exceeded) — keep in-memory state
   }
 }
 
@@ -688,7 +697,7 @@ function loadPrefs() {
 function persistPrefs() {
   try {
     localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
-  } catch (_error) {
-    // keep in-memory state if storage is unavailable
+  } catch {
+    // storage unavailable — keep in-memory prefs
   }
 }

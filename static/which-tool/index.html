@@ -90,8 +90,9 @@ p{margin:0 0 10px}a{color:var(--lnk)}.muted{color:var(--mu)}.soft{color:var(--so
 .tn{font-weight:700;font-size:1rem;color:var(--tc-c,var(--tx));margin-bottom:3px}.tt{font-size:.83rem;color:var(--mu);margin-bottom:9px}.tw{font-size:.875rem;color:var(--so);line-height:1.5}
 /* spectrum */
 .sp{display:flex;border:1px solid var(--bor);border-radius:12px;overflow:hidden;background:var(--sur-s)}
-.fc{flex:1;padding:11px 6px;text-align:center;font-size:.78rem;font-weight:600;color:var(--mu);border-right:1px solid var(--bor);transition:background 200ms,color 200ms,border-color 200ms;cursor:pointer;background:transparent;border-top:none;border-bottom:none;border-left:none;font:inherit}
+.fc{flex:1;padding:11px 6px;text-align:center;font-size:.78rem;font-weight:600;color:var(--mu);border-right:1px solid var(--bor);transition:background 200ms,color 200ms,border-color 200ms;cursor:pointer;background:transparent;border-top:none;border-bottom:none;border-left:none;font-family:inherit}
 .fc:hover{background:color-mix(in srgb,var(--sur) 60%,transparent)}
+.fc:focus-visible{outline:2px solid color-mix(in srgb,var(--fc-c,var(--acc)) 65%,transparent);outline-offset:-2px}
 .fc:last-child{border-right:none}.fc.on{background:color-mix(in srgb,var(--fc-c) 12%,transparent);color:var(--fc-c)}
 .fc.exp{outline:2px solid color-mix(in srgb,var(--fc-c) 45%,transparent);outline-offset:-2px}
 .fcl{display:block;font-size:.82rem}.fch{display:block;font-size:.68rem;margin-top:2px;opacity:.75;line-height:1.3}

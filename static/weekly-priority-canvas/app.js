@@ -608,7 +608,7 @@ function setStatus(message) {
 }
 
 function uuid() {
-  if (crypto && crypto.randomUUID) return crypto.randomUUID();
+  if (crypto?.randomUUID) return crypto.randomUUID();
   // RFC4122 v4 fallback
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
     const r = Math.random() * 16 | 0;

@@ -192,7 +192,7 @@ p{margin:0 0 10px}a{color:var(--lnk)}.muted{color:var(--mu)}.soft{color:var(--so
 const FORMS=[
   {id:"prompt",label:"Prompt",hint:"You need it once, right now",color:"#dc2626"},
   {id:"instruction",label:"Instruction",hint:"AI always behaves a certain way",color:"#ea580c"},
-  {id:"skill",label:"Skill",hint:"run same task over, you kick it off",color:"#ca8a04"},
+  {id:"skill",label:"Skill",hint:"Run the same task repeatedly; you kick it off",color:"#ca8a04"},
   {id:"workflow",label:"Workflow",hint:"triggered automatically",color:"#2563eb"},
   {id:"agent",label:"Agent",hint:"Goal-driven, AI finds the path",color:"#16a34a"},
   {id:"app",label:"App",hint:"Real interface, others can use it",color:"#7c3aed"}
@@ -383,11 +383,11 @@ function renderResult(keepScroll=false){
   const sp=FORMS.map(f=>{
     const on=jm.forms.includes(f.id);
     const ex=spectrumOpenId===f.id;
-    return`<button type="button" class="fc${on?" on":""}${ex?" exp":""}"${on||ex?` style="--fc-c:${f.color}"`:""} title="${f.hint}" aria-expanded="${ex?"true":"false"}" onclick="toggleSpectrumOpen('${f.id}')"><span class="fcl">${f.label}</span><span class="fch">${f.hint}</span></button>`;
+    return`<button type="button" class="fc${on?" on":""}${ex?" exp":""}"${on||ex?` style="--fc-c:${f.color}"`:""} title="${f.hint}" aria-expanded="${ex?"true":"false"}" aria-controls="spectrum-detail" data-form-id="${f.id}"><span class="fcl">${f.label}</span><span class="fch">${f.hint}</span></button>`;
   }).join("");
   const sf=spectrumOpenId?FORMS.find(f=>f.id===spectrumOpenId):null;
   const sd=spectrumOpenId?FORM_EXPLAINER[spectrumOpenId]:null;
-  const spd=(sf&&sd)?`<div class="spd" style="--sp-c:${sf.color}"><div class="spd-h">${sf.label}</div><div class="spd-r"><strong>What changes:</strong> ${sd.whatChanges}</div><div class="spd-r"><strong>Example:</strong> ${sd.example}</div></div>`:"";
+  const spd=(sf&&sd)?`<div id="spectrum-detail" class="spd" style="--sp-c:${sf.color}"><div class="spd-h">${sf.label}</div><div class="spd-r"><strong>What changes:</strong> ${sd.whatChanges}</div><div class="spd-r"><strong>Example:</strong> ${sd.example}</div></div>`:`<div id="spectrum-detail" hidden></div>`;
   const ctxBadges=scs.map(c=>`<span class="ctx-badge">${CTXS[c].emoji} ${CTXS[c].label}</span>`).join("");
   let clHtml=`<div class="sec"><div class="sl">${cl.title}</div><p class="ci">${cl.intro}</p>`;
   if(cl.mode==="ck"){
@@ -467,6 +467,7 @@ function restoreURL(){
   }catch{}
 }
 document.addEventListener("DOMContentLoaded",()=>{updateIcon();restoreURL()});
+document.addEventListener("click",function(e){const btn=e.target.closest("[data-form-id]");if(btn)toggleSpectrumOpen(btn.dataset.formId)});
 </script>
 </body>
 </html>

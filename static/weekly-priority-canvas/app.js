@@ -241,7 +241,7 @@ function applyAxisMode() {
 function onImport() {
   const lines = parseTaskLines(els.taskInput.value);
   if (!lines.length) {
-    setStatus("No tasks found. Add one task per line.");
+    setStatus("No tasks found. Add tasks separated by commas, semicolons, or line breaks.");
     return;
   }
 
@@ -287,7 +287,8 @@ async function onOpenCopilot() {
     return;
   }
 
-  setStatus("M365 Copilot opened. Copy prompt manually from the prompt field if clipboard blocked.");
+  window.prompt("Clipboard blocked. Select all and copy this prompt to paste into M365 Copilot:", prompt);
+  setStatus("M365 Copilot opened. Copy the prompt from the dialog and paste it in.");
 }
 
 function addTasks(lines) {
@@ -663,7 +664,11 @@ function toConfidence(value) {
 }
 
 function persist() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (_error) {
+    // keep in-memory state if storage is unavailable
+  }
 }
 
 function loadPrefs() {
@@ -681,5 +686,9 @@ function loadPrefs() {
 }
 
 function persistPrefs() {
-  localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+  try {
+    localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+  } catch (_error) {
+    // keep in-memory state if storage is unavailable
+  }
 }

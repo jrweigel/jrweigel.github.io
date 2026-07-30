@@ -121,7 +121,7 @@ p{margin:0 0 10px}a{color:var(--lnk)}.muted{color:var(--mu)}.soft{color:var(--so
 .drh{padding:16px 18px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between}.drh h3{margin:0;font-size:.97rem}
 .drb{flex:1;overflow-y:auto;padding:14px 18px}
 .de{font-size:.88rem;color:var(--mu);text-align:center;padding:24px 0}
-.hi{padding:12px 14px;border:1px solid var(--bor);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:background 120ms}.hi:hover{background:var(--sur-s)}
+.hi{display:block;width:100%;text-align:left;background:var(--sur);color:inherit;padding:12px 14px;border:1px solid var(--bor);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:background 120ms}.hi:hover{background:var(--sur-s)}
 .hip{font-weight:600;font-size:.88rem;margin-bottom:2px}.hit{font-size:.78rem;color:var(--so);margin-top:3px}.hid{font-size:.75rem;color:var(--mu);margin-top:3px}
 /* anim */
 .fin{animation:fu 220ms ease both}@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -436,6 +436,7 @@ function refreshCk(){
 function updURL(){try{const u=new URL(location.href);u.searchParams.set("j",sj);u.searchParams.set("c",scs.join(","));history.replaceState({},"",u)}catch{}}
 function copyLink(btn){const url=location.href;(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>fl(btn)).catch(()=>{const t=document.createElement("textarea");t.value=url;document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);fl(btn)})}
 function fl(btn){const o=btn.textContent;btn.textContent="Copied!";setTimeout(()=>btn.textContent=o,2000)}
+function escHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
 function saveHist(){
   try{
     const jm=JOBS[sj];
@@ -455,7 +456,7 @@ function renderHist(){
   b.innerHTML=h.map(x=>{
     const dt=new Date(x.time),ts=dt.toLocaleDateString([],{month:"short",day:"numeric"})+" at "+dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
     const cs=x.cs||[x.c].filter(Boolean);
-    return`<div class="hi" onclick="closeDrawer();replayHist('${x.j}','${cs.join(",")}')"><div class="hip">${x.path}</div><div class="hit">${x.tools}</div><div class="hid">${ts}</div></div>`;
+    return`<button type="button" class="hi" data-hist-item data-j="${encodeURIComponent(x.j||"")}" data-c="${encodeURIComponent(cs.join(","))}"><div class="hip">${escHtml(x.path)}</div><div class="hit">${escHtml(x.tools)}</div><div class="hid">${escHtml(ts)}</div></button>`;
   }).join("")
 }
 function replayHist(j,cStr){
@@ -482,6 +483,12 @@ function restoreURL(){
 }
 document.addEventListener("DOMContentLoaded",()=>{updateIcon();restoreURL()});
 document.addEventListener("click",function(e){const btn=e.target.closest("[data-form-id]");if(btn)toggleSpectrumOpen(btn.dataset.formId)});
+document.addEventListener("click",function(e){
+  const item=e.target.closest("[data-hist-item]");
+  if(!item)return;
+  closeDrawer();
+  replayHist(decodeURIComponent(item.dataset.j||""),decodeURIComponent(item.dataset.c||""));
+});
 </script>
 </body>
 </html>

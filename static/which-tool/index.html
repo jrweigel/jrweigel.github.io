@@ -78,6 +78,8 @@ p{margin:0 0 10px}a{color:var(--lnk)}.muted{color:var(--mu)}.soft{color:var(--so
 .rc{background:var(--sur);border:1px solid var(--bor);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 140ms}
 .rc:hover{border-color:var(--bor-s)}.rc.open{border-color:var(--acc)}
 .rch{display:flex;align-items:center;gap:10px;padding:13px 16px}
+.rchb{width:100%;border:0;background:none;color:inherit;text-align:left;cursor:pointer}
+.rchb:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
 .rci{font-size:1.2rem;flex-shrink:0}.rcq{font-weight:600;font-size:.93rem;flex:1}
 .rcv{font-size:.8rem;color:var(--mu);transition:transform 180ms;flex-shrink:0}.rc.open .rcv{transform:rotate(180deg)}
 .rcb{display:none;padding:0 16px 14px 44px;font-size:.875rem;color:var(--so);line-height:1.55}.rc.open .rcb{display:block}
@@ -119,7 +121,7 @@ p{margin:0 0 10px}a{color:var(--lnk)}.muted{color:var(--mu)}.soft{color:var(--so
 .drh{padding:16px 18px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between}.drh h3{margin:0;font-size:.97rem}
 .drb{flex:1;overflow-y:auto;padding:14px 18px}
 .de{font-size:.88rem;color:var(--mu);text-align:center;padding:24px 0}
-.hi{padding:12px 14px;border:1px solid var(--bor);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:background 120ms}.hi:hover{background:var(--sur-s)}
+.hi{display:block;width:100%;text-align:left;background:var(--sur);color:inherit;padding:12px 14px;border:1px solid var(--bor);border-radius:10px;margin-bottom:8px;cursor:pointer;transition:background 120ms}.hi:hover{background:var(--sur-s)}
 .hip{font-weight:600;font-size:.88rem;margin-bottom:2px}.hit{font-size:.78rem;color:var(--so);margin-top:3px}.hid{font-size:.75rem;color:var(--mu);margin-top:3px}
 /* anim */
 .fin{animation:fu 220ms ease both}@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -233,30 +235,28 @@ const CTXS={
 const JOBS={
   building:{label:"Building",emoji:"&#127959;&#65039;",desc:"Code, apps, agents &amp; automations",color:"#16a34a",forms:["workflow","agent","app"]},
   researching:{label:"Researching",emoji:"&#128269;",desc:"Explore, gather &amp; synthesize",color:"#2563eb",forms:["prompt","instruction","skill"]},
-  writing:{label:"Writing",emoji:"&#9997;&#65039;",desc:"Docs, emails, briefs &amp; decks",color:"#f59e0b",forms:["prompt","instruction"]},
+  writing:{label:"Writing",emoji:"&#9997;&#65039;",desc:"Docs, emails, briefs &amp; decks",color:"#f59e0b",forms:["prompt","instruction","skill","workflow"]},
   reviewing:{label:"Reviewing",emoji:"&#9989;",desc:"Checking and giving feedback",color:"#dc2626",forms:["prompt","skill"]},
   analyzing:{label:"Analyzing",emoji:"&#128202;",desc:"Making sense of data &amp; complex info",color:"#7c3aed",forms:["prompt","skill"]}
 };
-const ARCHETYPES={
-  prototyper:{emoji:"&#129514;",name:"Prototyper",what:"Turn rough ideas into working first versions fast",why:"Replaces abstract debate with concrete learning",impact:"More experiments, faster learning cycles, better idea quality"},
-  builder:{emoji:"&#127959;&#65039;",name:"Builder",what:"Harden a promising idea into something shippable and reliable",why:"Most prototypes fail without this step",impact:"Shippable systems, adoption-ready tooling, execution credibility"},
-  sweeper:{emoji:"&#129529;",name:"Sweeper",what:"Remove bloat, dead paths, and unnecessary complexity",why:"Speed dies when bad work accumulates",impact:"Higher throughput, lower cognitive load, better quality per unit"},
-  grower:{emoji:"&#127807;",name:"Grower",what:"Use real-world signals to improve fit, usage, and value",why:"Shipping is not the same as succeeding",impact:"Better product-market fit, measurable business lift"},
-  maintainer:{emoji:"&#128295;",name:"Maintainer",what:"Keep mature systems secure, reliable, and efficient",why:"Mature systems create most enterprise value and risk",impact:"Resilience, uptime, compliance, lower incident rate"},
-  scout:{emoji:"&#128301;",name:"Scout",what:"Scan across sources, distill signal, and surface what matters",why:"Teams stagnate without fresh signal",impact:"Better bets, earlier opportunity and risk detection"},
-  editor:{emoji:"&#9986;&#65039;",name:"Editor",what:"Decide what to pursue, what to cut, and what to sequence",why:"In an abundant-ideas world, focus is the bottleneck",impact:"Better portfolio ROI, reduced thrash, clearer alignment"},
-  evangelist:{emoji:"&#128226;",name:"Evangelist",what:"Turn capabilities into stories people understand and act on",why:"Great work fails if no one gets it or trusts it",impact:"Adoption, alignment, momentum, culture shift"},
-  orchestrator:{emoji:"&#128373;",name:"Orchestrator",what:"Coordinate dependencies, handoffs, and system coherence",why:"Local optimization breaks end-to-end outcomes",impact:"Faster delivery, fewer collisions, aligned execution"},
-  conductor:{emoji:"&#127917;",name:"Conductor",what:"Direct multi-agent workflows, quality checks, and escalation paths",why:"Agent outputs fragment without active management",impact:"Reliable automation, higher yield, consistent quality"},
-  steward:{emoji:"&#128737;&#65039;",name:"Risk Steward",what:"Anticipate governance, policy, safety, and reputational risks early",why:"Speed without risk discipline causes stops and rework",impact:"Sustained velocity, fewer failures, safer scaling"}
-};
-const JOB_ARCHETYPES={
-  building:["prototyper","builder","conductor"],
-  researching:["scout","editor"],
-  writing:["editor","evangelist"],
-  reviewing:["sweeper","maintainer","steward"],
-  analyzing:["scout","grower"]
-};
+const ROLES=[
+  {emoji:"&#128506;&#65039;",name:"Workflow Designer",you:"You map the problem",what:"Spot the pattern. Name what repeats. Define what \u201cdone\u201d looks like."},
+  {emoji:"&#128295;",name:"System Builder",you:"You shape the solution",what:"Direct the AI. Set up the tool. Shape input \u2192 output."},
+  {emoji:"&#129517;",name:"AI Supervisor",you:"You review and direct",what:"Watch it work. Catch errors. Redirect when it drifts."}
+];
+const ARCHETYPES=[
+  {emoji:"&#129514;",name:"Prototyper",desc:"Turn rough ideas into working first versions fast",why:"Replaces abstract debate with concrete learning",jobs:["building"]},
+  {emoji:"&#127959;&#65039;",name:"Builder",desc:"Harden a promising idea into something shippable and reliable",why:"Most prototypes fail without this step",jobs:["building"]},
+  {emoji:"&#129529;",name:"Sweeper",desc:"Remove bloat, dead paths, and unnecessary complexity",why:"Speed dies when bad work accumulates",jobs:["reviewing","analyzing"]},
+  {emoji:"&#127807;",name:"Grower",desc:"Use real-world signals to improve fit, usage, and value",why:"Shipping is not the same as succeeding",jobs:["analyzing"]},
+  {emoji:"&#128295;",name:"Maintainer",desc:"Keep mature systems secure, reliable, and efficient",why:"Mature systems create most enterprise value and risk",jobs:["reviewing"]},
+  {emoji:"&#128301;",name:"Scout",desc:"Scan across sources, distill signal, and surface what matters",why:"Teams stagnate without fresh signal",jobs:["researching","analyzing"]},
+  {emoji:"&#9986;&#65039;",name:"Editor",desc:"Decide what to pursue, what to cut, and what to sequence",why:"In an abundant-ideas world, focus is the bottleneck",jobs:["writing","researching"]},
+  {emoji:"&#128226;",name:"Evangelist",desc:"Turn capabilities into stories people understand and act on",why:"Great work fails if no one gets it or trusts it",jobs:["writing"]},
+  {emoji:"&#128373;",name:"Orchestrator",desc:"Coordinate dependencies, handoffs, and system coherence",why:"Local optimization breaks end-to-end outcomes",jobs:["building"]},
+  {emoji:"&#127917;",name:"Conductor",desc:"Direct multi-agent workflows, quality checks, and escalation paths",why:"Agent outputs fragment without active management",jobs:["building"]},
+  {emoji:"&#128737;&#65039;",name:"Risk Steward",desc:"Anticipate governance, policy, safety, and reputational risks early",why:"Speed without risk discipline causes stops and rework",jobs:["reviewing","analyzing"]}
+];
 const TOOLS={
   "vscode-ghcp":{name:"VS Code + GitHub Copilot",tag:"Full IDE — agent mode, multi-file, inline suggestions",c:"#238636",dk:"#3fb950",
     contexts:["code"],jobs:{building:1,reviewing:1},
@@ -269,7 +269,7 @@ const TOOLS={
     why:{building:"Handles longer-horizon, multi-step tasks and built-in automations. Can browse the web, connect to tools via MCP, and use heartbeat for continuous monitoring loops.",researching:"Searches across multiple sources, synthesizes findings, and explains what it found and why.",writing:"Strong at long-form drafting when your content isn&#8217;t already in M365.",reviewing:"Reads and reasons about code, docs, or specs with rich context&#8202;&#8212;&#8202;great for nuanced review.",analyzing:"Reads through complex data, documents, or multi-source content and surfaces patterns, anomalies, and key insights.",_:"Versatile for research, writing, code, and open-ended work, with built-in automation support and heartbeat monitoring loops."}},
   "copilot-studio":{name:"Copilot Studio",tag:"Build and deploy custom agents for your team",c:"#0078d4",dk:"#4da6ff",
     contexts:["work","quick"],jobs:{building:2},
-    why:{building:"When the output you&#8217;re making is something others will use. Low-code agent and workflow builder for enterprise scale.",_:"Build agents, skills, or workflows your team can trigger&#8202;&#8212;&#8202;without writing everything from scratch."}},
+    why:{building:"When the output you\u2019re making is something others will use and it lives inside M365. Low-code agent and workflow builder\u2014note that internal deployment takes more setup.",_:"Build agents, skills, or workflows your team can trigger\u2014without writing everything from scratch."}},
   "power-automate":{name:"Power Automate",tag:"Workflow automation across Microsoft 365",c:"#0066b8",dk:"#3a96dd",
     contexts:["work"],jobs:{building:3},
     why:{building:"Automate processes across M365, Teams, SharePoint, and Dynamics. Low-code, enterprise-grade, and deeply integrated with your org&#8217;s data and systems.",_:"Microsoft&#8217;s workflow automation platform. Triggers, actions, connectors&#8202;&#8212;&#8202;no code required for most scenarios."}},
@@ -320,7 +320,7 @@ const CL={
       {i:"&#128100;",q:"Who needs to act on your findings, and with how much confidence?",w:"A high-stakes decision needs stronger evidence than a quick directional read. Match the rigor of your analysis to the weight of the action it supports."}
     ]}
 };
-let scs=[],sj=null,spectrumOpenId=null;
+let scs=[],sj=null,spectrumOpenId=null,archetypeOpen=false;
 const idk=()=>document.documentElement.getAttribute("data-theme")==="dark";
 function toggleTheme(){const n=idk()?"light":"dark";document.documentElement.setAttribute("data-theme",n);try{localStorage.setItem("ftf:theme",n)}catch{}updateIcon()}
 function updateIcon(){
@@ -352,9 +352,15 @@ function nextStep(){
   show("s2");
 }
 function goBack(to){show(to)}
-function resetAll(){scs=[];sj=null;spectrumOpenId=null;["code","work","web","quick"].forEach(x=>{const b=document.getElementById("cc-"+x);if(b)b.classList.remove("sel")});document.getElementById("ctx-next").disabled=true;document.getElementById("sel-hint").textContent="Select at least one to continue";show("s1");try{const u=new URL(location.href);u.searchParams.delete("j");u.searchParams.delete("c");history.replaceState({},"",u)}catch{}}
+function resetAll(){scs=[];sj=null;spectrumOpenId=null;archetypeOpen=false;["code","work","web","quick"].forEach(x=>{const b=document.getElementById("cc-"+x);if(b)b.classList.remove("sel")});document.getElementById("ctx-next").disabled=true;document.getElementById("sel-hint").textContent="Select at least one to continue";show("s1");try{const u=new URL(location.href);u.searchParams.delete("j");u.searchParams.delete("c");history.replaceState({},"",u)}catch{}}
 function pickJob(j){sj=j;spectrumOpenId=null;renderResult(false)}
 function toggleSpectrumOpen(id){spectrumOpenId=spectrumOpenId===id?null:id;renderResult(true)}
+function toggleArchetypeExplore(){archetypeOpen=!archetypeOpen;renderResult(true)}
+function toggleRevealCard(btn){
+  const card=btn.closest(".rc");if(!card)return;
+  const open=card.classList.toggle("open");
+  btn.setAttribute("aria-expanded",open?"true":"false");
+}
 function scoreTools(job,selCtxs){
   const results=[];
   const nonQuick=selCtxs.filter(c=>c!=="quick");
@@ -372,11 +378,8 @@ function scoreTools(job,selCtxs){
 function renderResult(keepScroll=false){
   const jm=JOBS[sj],cl=CL[sj];
   const scored=scoreTools(sj,scs);
-  const archIds=JOB_ARCHETYPES[sj]||[];
-  const archCards=archIds.map(id=>{
-    const a=ARCHETYPES[id];
-    return`<div class="rc" onclick="this.classList.toggle('open')"><div class="rch"><span class="rci">${a.emoji}</span><span class="rcq">${a.name}</span><span class="rcv">&#9662;</span></div><div class="rcb"><div class="arch-meta"><div class="arch-row"><strong>You&#8217;ll work with AI to:</strong> ${a.what}</div><div class="arch-row"><strong>Why it matters:</strong> ${a.why}</div><div class="arch-row"><strong>Impact:</strong> ${a.impact}</div></div></div></div>`;
-  }).join("");
+  const roleCards=ROLES.map(r=>`<div class="tc" style="--tc-c:var(--acc);text-align:center;border-top:none"><div style="font-size:2rem;margin-bottom:8px">${r.emoji}</div><div class="tn">${r.name}</div><div class="tw" style="margin-top:8px">${r.what}</div></div>`).join("");
+  const archHtml=archetypeOpen?`<div class="rfl" style="margin-top:12px">${ARCHETYPES.map((a,i)=>`<div class="rc"><button type="button" class="rch rchb" aria-expanded="false" aria-controls="arch-card-${i}" onclick="toggleRevealCard(this)"><span class="rci">${a.emoji}</span><span class="rcq">${a.name}</span>${a.jobs.includes(sj)?`<span style="font-size:.7rem;color:var(--mu);margin-left:auto">${jm.label}</span>`:""}<span class="rcv">&#9662;</span></button><div class="rcb" id="arch-card-${i}"><div class="arch-meta"><div class="arch-row"><strong>What:</strong> ${a.desc}</div><div class="arch-row"><strong>Why:</strong> ${a.why}</div></div></div></div>`).join("")}</div>`:"";
   const tc=scored.map(({id,primary})=>{
     const t=TOOLS[id],cv=idk()&&t.dk?t.dk:t.c,wk=t.why[sj]?sj:"_",w=t.why[wk]||"";
     return`<div class="tc${primary?" prim":""}" style="--tc-c:${cv}"><span class="tbg ${primary?"p":"s"}">${primary?"Best fit":"Also consider"}</span><div class="tn">${t.name}</div><div class="tt">${t.tag}</div><div class="tw">${w}</div></div>`;
@@ -413,9 +416,11 @@ function renderResult(keepScroll=false){
       ${spd}
     </div>
     ${clHtml}
-    <div class="sec"><div class="sl">Archetypes you&#8217;re activating</div>
-      <p class="arch-intro">Your role is evolving. AI is changing what work looks like&#8212;not through new job titles, but through the emerging archetypes you activate on different parts of your work. Right now you&#8217;re likely playing at least one of these roles. As you progress, you may shift between them or bring in others. The key is understanding which role you&#8217;re playing at each step.</p>
-      <div class="rfl">${archCards}</div>
+    <div class="sec"><div class="sl">Your role in this work</div>
+      <p class="arch-intro">You are no longer just users of tools. You are designers of workflows, builders of small systems, and increasingly supervisors of AI doing work for you.</p>
+      <div class="tg" style="grid-template-columns:repeat(3,1fr)">${roleCards}</div>
+      <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--bor)"><button class="btn btn-g btn-sm" style="font-size:.82rem;color:var(--mu)" onclick="toggleArchetypeExplore()">&#128170; ${archetypeOpen?"Hide":"Explore"} emerging roles across the spectrum</button></div>
+      ${archHtml}
     </div>
     <div class="sr"><button class="btn btn-sm" onclick="copyLink(this)">&#128279; Copy share link</button><button class="btn btn-sm btn-g" onclick="resetAll()">&#8635; Try another path</button></div>`;
   show("result",keepScroll);saveHist();updURL();
@@ -431,6 +436,7 @@ function refreshCk(){
 function updURL(){try{const u=new URL(location.href);u.searchParams.set("j",sj);u.searchParams.set("c",scs.join(","));history.replaceState({},"",u)}catch{}}
 function copyLink(btn){const url=location.href;(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>fl(btn)).catch(()=>{const t=document.createElement("textarea");t.value=url;document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);fl(btn)})}
 function fl(btn){const o=btn.textContent;btn.textContent="Copied!";setTimeout(()=>btn.textContent=o,2000)}
+function escHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
 function saveHist(){
   try{
     const jm=JOBS[sj];
@@ -450,7 +456,7 @@ function renderHist(){
   b.innerHTML=h.map(x=>{
     const dt=new Date(x.time),ts=dt.toLocaleDateString([],{month:"short",day:"numeric"})+" at "+dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
     const cs=x.cs||[x.c].filter(Boolean);
-    return`<div class="hi" onclick="closeDrawer();replayHist('${x.j}','${cs.join(",")}')"><div class="hip">${x.path}</div><div class="hit">${x.tools}</div><div class="hid">${ts}</div></div>`;
+    return`<button type="button" class="hi" data-hist-item data-j="${encodeURIComponent(x.j||"")}" data-c="${encodeURIComponent(cs.join(","))}"><div class="hip">${escHtml(x.path)}</div><div class="hit">${escHtml(x.tools)}</div><div class="hid">${escHtml(ts)}</div></button>`;
   }).join("")
 }
 function replayHist(j,cStr){
@@ -460,15 +466,29 @@ function replayHist(j,cStr){
 }
 function restoreURL(){
   try{
-    const p=new URLSearchParams(location.search),j=p.get("j"),cRaw=p.get("c");
-    if(j&&cRaw&&JOBS[j]){
-      const cs=cRaw.split(",").filter(c=>CTXS[c]);
-      if(cs.length>0){scs=cs;sj=j;cs.forEach(c=>{const b=document.getElementById("cc-"+c);if(b)b.classList.add("sel")});renderResult();}
+    const u=new URL(location.href),j=u.searchParams.get("j"),c=u.searchParams.get("c")||"";
+    const valid=[...new Set(c.split(",").map(x=>x.trim()).filter(x=>CTXS[x]))];
+    if(valid.includes("quick")&&valid.length>1){
+      const q=valid.indexOf("quick");
+      valid.splice(q,1);
     }
+    if(!valid.length)return;
+    scs=valid;
+    ["code","work","web","quick"].forEach(x=>document.getElementById("cc-"+x).classList.toggle("sel",scs.includes(x)));
+    const nxt=document.getElementById("ctx-next"),hint=document.getElementById("sel-hint");
+    nxt.disabled=false;
+    hint.textContent=scs.length===1?"1 context selected":scs.length+" contexts selected";
+    if(j&&JOBS[j]){sj=j;renderResult(true)}
   }catch{}
 }
 document.addEventListener("DOMContentLoaded",()=>{updateIcon();restoreURL()});
 document.addEventListener("click",function(e){const btn=e.target.closest("[data-form-id]");if(btn)toggleSpectrumOpen(btn.dataset.formId)});
+document.addEventListener("click",function(e){
+  const item=e.target.closest("[data-hist-item]");
+  if(!item)return;
+  closeDrawer();
+  replayHist(decodeURIComponent(item.dataset.j||""),decodeURIComponent(item.dataset.c||""));
+});
 </script>
 </body>
 </html>

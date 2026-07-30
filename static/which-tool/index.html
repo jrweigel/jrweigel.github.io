@@ -78,6 +78,8 @@ p{margin:0 0 10px}a{color:var(--lnk)}.muted{color:var(--mu)}.soft{color:var(--so
 .rc{background:var(--sur);border:1px solid var(--bor);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 140ms}
 .rc:hover{border-color:var(--bor-s)}.rc.open{border-color:var(--acc)}
 .rch{display:flex;align-items:center;gap:10px;padding:13px 16px}
+.rchb{width:100%;border:0;background:none;color:inherit;text-align:left;cursor:pointer}
+.rchb:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
 .rci{font-size:1.2rem;flex-shrink:0}.rcq{font-weight:600;font-size:.93rem;flex:1}
 .rcv{font-size:.8rem;color:var(--mu);transition:transform 180ms;flex-shrink:0}.rc.open .rcv{transform:rotate(180deg)}
 .rcb{display:none;padding:0 16px 14px 44px;font-size:.875rem;color:var(--so);line-height:1.55}.rc.open .rcb{display:block}
@@ -354,6 +356,11 @@ function resetAll(){scs=[];sj=null;spectrumOpenId=null;archetypeOpen=false;["cod
 function pickJob(j){sj=j;spectrumOpenId=null;renderResult(false)}
 function toggleSpectrumOpen(id){spectrumOpenId=spectrumOpenId===id?null:id;renderResult(true)}
 function toggleArchetypeExplore(){archetypeOpen=!archetypeOpen;renderResult(true)}
+function toggleRevealCard(btn){
+  const card=btn.closest(".rc");if(!card)return;
+  const open=card.classList.toggle("open");
+  btn.setAttribute("aria-expanded",open?"true":"false");
+}
 function scoreTools(job,selCtxs){
   const results=[];
   const nonQuick=selCtxs.filter(c=>c!=="quick");
@@ -372,7 +379,7 @@ function renderResult(keepScroll=false){
   const jm=JOBS[sj],cl=CL[sj];
   const scored=scoreTools(sj,scs);
   const roleCards=ROLES.map(r=>`<div class="tc" style="--tc-c:var(--acc);text-align:center;border-top:none"><div style="font-size:2rem;margin-bottom:8px">${r.emoji}</div><div class="tn">${r.name}</div><div class="tw" style="margin-top:8px">${r.what}</div></div>`).join("");
-  const archHtml=archetypeOpen?`<div class="rfl" style="margin-top:12px">${ARCHETYPES.map(a=>`<div class="rc" onclick="this.classList.toggle('open')"><div class="rch"><span class="rci">${a.emoji}</span><span class="rcq">${a.name}</span>${a.jobs.includes(sj)?`<span style="font-size:.7rem;color:var(--mu);margin-left:auto">${jm.label}</span>`:""}<span class="rcv">&#9662;</span></div><div class="rcb"><div class="arch-meta"><div class="arch-row"><strong>What:</strong> ${a.desc}</div><div class="arch-row"><strong>Why:</strong> ${a.why}</div></div></div></div>`).join("")}</div>`:"";
+  const archHtml=archetypeOpen?`<div class="rfl" style="margin-top:12px">${ARCHETYPES.map((a,i)=>`<div class="rc"><button type="button" class="rch rchb" aria-expanded="false" aria-controls="arch-card-${i}" onclick="toggleRevealCard(this)"><span class="rci">${a.emoji}</span><span class="rcq">${a.name}</span>${a.jobs.includes(sj)?`<span style="font-size:.7rem;color:var(--mu);margin-left:auto">${jm.label}</span>`:""}<span class="rcv">&#9662;</span></button><div class="rcb" id="arch-card-${i}"><div class="arch-meta"><div class="arch-row"><strong>What:</strong> ${a.desc}</div><div class="arch-row"><strong>Why:</strong> ${a.why}</div></div></div></div>`).join("")}</div>`:"";
   const tc=scored.map(({id,primary})=>{
     const t=TOOLS[id],cv=idk()&&t.dk?t.dk:t.c,wk=t.why[sj]?sj:"_",w=t.why[wk]||"";
     return`<div class="tc${primary?" prim":""}" style="--tc-c:${cv}"><span class="tbg ${primary?"p":"s"}">${primary?"Best fit":"Also consider"}</span><div class="tn">${t.name}</div><div class="tt">${t.tag}</div><div class="tw">${w}</div></div>`;
@@ -458,6 +465,19 @@ function replayHist(j,cStr){
 }
 function restoreURL(){
   try{
+    const u=new URL(location.href),j=u.searchParams.get("j"),c=u.searchParams.get("c")||"";
+    const valid=[...new Set(c.split(",").map(x=>x.trim()).filter(x=>CTXS[x]))];
+    if(valid.includes("quick")&&valid.length>1){
+      const q=valid.indexOf("quick");
+      valid.splice(q,1);
+    }
+    if(!valid.length)return;
+    scs=valid;
+    ["code","work","web","quick"].forEach(x=>document.getElementById("cc-"+x).classList.toggle("sel",scs.includes(x)));
+    const nxt=document.getElementById("ctx-next"),hint=document.getElementById("sel-hint");
+    nxt.disabled=false;
+    hint.textContent=scs.length===1?"1 context selected":scs.length+" contexts selected";
+    if(j&&JOBS[j]){sj=j;renderResult(true)}
   }catch{}
 }
 document.addEventListener("DOMContentLoaded",()=>{updateIcon();restoreURL()});

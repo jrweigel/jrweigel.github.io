@@ -168,7 +168,7 @@ p{margin:0 0 12px}
 
 /* CTA slide */
 .bucket-intro{margin-top:4px}
-.bucket-list{display:flex; flex-direction:column; gap:8px; margin-top:10px; max-width:720px}
+.bucket-list{display:flex; flex-direction:column; gap:8px; margin:10px 0 0; padding:0; list-style:none; max-width:720px}
 .bucket-item{
   display:grid; grid-template-columns:110px 1fr; gap:12px; align-items:start;
   border:1px solid var(--border); border-left-width:4px; border-radius:8px;
@@ -338,20 +338,20 @@ p{margin:0 0 12px}
       <h1 id="ctaHeading">Now move the work.</h1>
       <p class="body">The audit you're about to run is Bette's reframe applied to your actual week. List your real tasks. See where AI can take work off your plate. Reinvest that time in the capabilities no machine can replicate.</p>
       <p class="body bucket-intro">You'll do this by putting your work into three buckets:</p>
-      <div class="bucket-list">
-        <div class="bucket-item bucket-1">
+      <ul class="bucket-list">
+        <li class="bucket-item bucket-1">
           <strong>Bucket 1 · Automate</strong>
           <span>Work AI can do alone: repeatable, predictable, rules-based, and usually with a clear right answer.</span>
-        </div>
-        <div class="bucket-item bucket-2">
+        </li>
+        <li class="bucket-item bucket-2">
           <strong>Bucket 2 · Assist</strong>
           <span>The biggest opportunity: AI handles basics, drafts, patterns, summaries, or options; you decide what matters and make it meaningful.</span>
-        </div>
-        <div class="bucket-item bucket-3">
+        </li>
+        <li class="bucket-item bucket-3">
           <strong>Bucket 3 · Human</strong>
           <span>The durable human zone: trust, ambiguity, ethical judgment, creative leaps, and emotional intelligence. Curate it actively as the boundaries move.</span>
-        </div>
-      </div>
+        </li>
+      </ul>
       <div class="cta-prompt" id="ctaPrompt">
         "What work should AI take so I can spend more time on the outcomes only humans can create?"
       </div>

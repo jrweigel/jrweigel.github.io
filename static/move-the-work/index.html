@@ -315,6 +315,18 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 .dropzone{border:2px dashed var(--cp-border);border-radius:14px;padding:24px;text-align:center;color:var(--cp-text-muted);cursor:pointer;transition:background 120ms ease,border-color 120ms ease}
 .dropzone:hover,.dropzone.on{background:var(--cp-accent-soft);border-color:var(--cp-accent);color:var(--cp-accent)}
 .kbd{font-family:Consolas,monospace;font-size:0.82em;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:6px;padding:1px 6px}
+.star-btn{background:none;border:none;padding:0 2px;font-size:1.25rem;line-height:1;cursor:pointer;color:var(--cp-border-strong);transition:color 80ms ease}
+.star-btn.filled{color:var(--cp-warning)}
+.star-btn:hover{color:var(--cp-warning)}
+.star-btn:focus-visible{color:var(--cp-warning);outline:2px solid var(--cp-warning);outline-offset:2px;border-radius:4px}
+.stars-row{display:inline-flex;gap:1px;align-items:center}
+.task-inv-row{border:1px solid var(--cp-border);border-radius:12px;background:var(--cp-surface);padding:12px 14px}
+.task-inv-row+.task-inv-row{margin-top:8px}
+.task-inv-top{display:flex;gap:8px;align-items:center}
+.task-inv-quality{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+.quality-item{display:flex;flex-direction:column}
+.quality-label{font-size:0.82rem;color:var(--cp-text-muted);font-weight:500;margin-bottom:3px}
+@media(max-width:600px){.task-inv-quality{grid-template-columns:1fr}}
 @media print{
   .site-header,.step-nav,.toast,.no-print{display:none !important}
   .page{padding:0;max-width:none}
@@ -419,11 +431,17 @@ const STARTER_CHIPS = [
   "Decision documentation"
 ];
 
+const STAR_LABELS = {
+  frequency:   ["Less than monthly", "Monthly", "Weekly", "A few times a week", "Daily"],
+  energyDrain: ["Easy — I don't think about it", "Light effort", "Moderate drain", "Draining", "Depleted after — need recovery time"],
+  ioClarity:   ["Highly subjective", "Mostly fuzzy inputs/outputs", "Moderate clarity", "Mostly well-defined", "Crystal clear inputs and outputs"]
+};
+
 const PROMPTS = {
   m365: {
     label: "M365 Copilot",
     note: "Recommended. Copilot has access to your calendar, sent mail, and Teams chats automatically.",
-    text: `You are helping me inventory the actual tasks I spend time on at work, for the
+    text: `You are helping me inventory and triage the actual tasks I spend time on at work, for the
 "Move the Work" three-bucket audit (Automate / Assist / Human).
 
 Look at:
@@ -431,7 +449,19 @@ Look at:
   - my sent email from the last 30 days
   - my Teams chats and channel messages I authored in the last 30 days
 
-Identify 10 to 15 RECURRING tasks or responsibilities that show up across that
+Conduct one interview round. Ask me these five short questions once in normal
+conversational text and wait for my answers. Do not turn these questions into
+task objects. You may ask at most three targeted clarification questions only if
+my answers leave a specific task detail genuinely ambiguous. Once I answer those
+clarifications, stop interviewing and produce the JSON immediately:
+  1. What work are you currently tolerating because fixing it feels harder than living with it?
+  2. What work do you procrastinate on, even though it matters?
+  3. What do you repeat that should be systematized or automated?
+  4. What work keeps landing on you even though it is not really your job?
+  5. What recurring work leaves you most depleted relative to the value it creates?
+
+After the interview (and any necessary targeted clarifications), use my answers
+together with the activity data. Identify 10 to 15 RECURRING tasks or responsibilities that show up across that
 activity. Cluster related items into one task — for example, "weekly status email"
 not seven individual emails. Include the boring, low-prestige work and any
 "not really my job but somehow always my job" tasks.
@@ -441,24 +471,31 @@ For each task return a JSON object with these fields:
   id              short kebab-case slug, e.g. "weekly-status-email"
   label           2-6 word task name, plain language
   description     1-2 sentences on what the task actually involves
-  cadence         one of: daily | weekly | biweekly | monthly | quarterly | adhoc
-  estWeeklyHours  rough estimate of hours per cadence period (e.g. 6 for a monthly task means 6h/month)
   source          always "graph-pre-seed"
   bucket          always "unsorted" (I will sort later)
   evidence        1-2 short examples from my actual data
+  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
+  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
+  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
 
-Return ONLY a JSON array of these objects. No prose before or after. No markdown
-fences. Just the raw JSON array, starting with [ and ending with ].
+Then respond with ONLY a JSON array of these task objects. No prose before or
+after. No markdown fences, HTML, tables, headings, bullets, or explanation. The
+first character must be [ and the last character must be ]. Use exactly the field
+names listed above. Set source to "graph-pre-seed" and bucket to "unsorted" for
+every object. Do not add a slug field. Before sending, validate the response as
+JSON.parse-compatible JSON. Never return the interview questions as task objects.
+Never return [] if you can identify tasks from my answers or activity; include
+inferred tasks with evidence: "inferred from role; please verify". If I say the
+result is not JSON, output the same JSON array again and nothing else.
 
 If you cannot find evidence for a task type that I obviously do but didn't show
 up in the data (e.g. I'm clearly a people manager but there are no career
-conversations on my calendar), include it anyway with estWeeklyHours of your
-best guess and evidence: "inferred from role; please verify".`
+conversations on my calendar), include it anyway with evidence: "inferred from role; please verify".`
   },
   workiq: {
     label: "WorkIQ",
     note: "Use an internal tool that accesses WorkIQ (like Clawpilot, Copilot CLI, or VS Code/GHCP).",
-    text: `Inventory the actual tasks I spend time on at work, for a personal three-bucket
+    text: `Inventory and triage the actual tasks I spend time on at work, for a personal three-bucket
 AI audit.
 
 Source material:
@@ -470,10 +507,16 @@ Source material:
 Identify 10 to 15 recurring tasks. Cluster related items. Include boring work
 and "always-my-job" tasks even if they're not in any formal job description.
 
+As you build the list, also look for hidden friction:
+  - work that recurs but seems to generate little visible output
+  - tasks that show up rarely but likely cause avoidance
+  - manual steps that happen repeatedly and look systematizable
+  - work that landed on me but doesn't belong to my role
+
 For each task output a JSON object with: id (kebab-case), label (2-6 words),
-description (1-2 sentences), cadence (daily/weekly/biweekly/monthly/quarterly/
-adhoc), estWeeklyHours (number), source ("graph-pre-seed"), bucket ("unsorted"),
-and evidence (1-2 short examples from the real data).
+description (1-2 sentences), source ("graph-pre-seed"), bucket ("unsorted"),
+evidence (1-2 short examples from the real data), frequency (1-5, where 5=daily/4=few times a week/3=weekly/2=monthly/1=less than monthly),
+energyDrain (1-5, where 1=effortless/5=depleted after), ioClarity (1-5, where 1=highly subjective/5=crystal clear inputs and outputs).
 
 Return ONLY a JSON array. No prose, no markdown fences.`
   },
@@ -485,7 +528,8 @@ time on at work — not my job title, the real day-to-day work.
 
 I'll either paste my recent calendar / email summary, or describe my week.
 
-Help me identify 10 to 15 recurring tasks. Cluster related items. Push me to
+Ask me 3-5 short interview questions first (tolerating, procrastinating, repeating),
+then identify 10 to 15 recurring tasks. Cluster related items. Push me to
 include the boring, recurring, low-prestige work and "always-my-job" tasks
 that aren't formally on my plate.
 
@@ -493,16 +537,15 @@ For each task return JSON with these fields:
   id              kebab-case slug
   label           2-6 word name
   description     1-2 sentences
-  cadence         daily | weekly | biweekly | monthly | quarterly | adhoc
-  estWeeklyHours  number
   source          "manual-paste"
   bucket          "unsorted"
   evidence        what I told you that supports this task being on the list
+  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
+  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
+  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
 
 Output ONLY the JSON array, no prose, no markdown fences.
-
-If you need more context from me to be accurate, ask me ONE short clarifying
-question first, then produce the JSON.`
+`
   }
 };
 
@@ -584,8 +627,10 @@ let ui = {
   currentTaskIdx: 0,
   inventoryTab: "prompt",
   inventoryTool: "m365",
+  inventoryInterview: { tolerating: "", procrastinating: "", repeating: "" },
   miniLessonsShown: { automate: false, assist: false, human: false },
   parsedPreview: null,
+  expandedDesc: new Set(),
   visited: new Set(["welcome"])
 };
 
@@ -655,11 +700,57 @@ function ensureSessionShape() {
     }
     if (!t.source) t.source = "user";
     if (!t.tags) t.tags = [];
+    if (!t.quality || typeof t.quality !== "object") t.quality = {};
+    if (typeof t.quality.frequency !== "number") t.quality.frequency = null;
+    if (typeof t.quality.energyDrain !== "number") t.quality.energyDrain = null;
+    if (typeof t.quality.ioClarity !== "number") t.quality.ioClarity = null;
+    if (!t.move || typeof t.move !== "object") t.move = null;
+    if (t.move) {
+      if (!("context" in t.move)) t.move.context = "";
+      if (!("constraints" in t.move)) t.move.constraints = "";
+      if (!("content" in t.move)) t.move.content = "";
+      if (!("calibration" in t.move)) t.move.calibration = "";
+    }
   });
 }
 
 function slugify(s) {
   return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "task";
+}
+
+function taskQuality(task) {
+  const q = task && task.quality ? task.quality : {};
+  return {
+    frequency: typeof q.frequency === "number" ? q.frequency : null,
+    energyDrain: typeof q.energyDrain === "number" ? q.energyDrain : null,
+    ioClarity: typeof q.ioClarity === "number" ? q.ioClarity : null
+  };
+}
+
+function bestFirstMoveScore(task) {
+  const q = taskQuality(task);
+  const f = q.frequency != null ? q.frequency : 3;
+  const d = q.energyDrain != null ? q.energyDrain : 3;
+  const c = q.ioClarity != null ? q.ioClarity : 3;
+  return +(0.4 * f + 0.35 * d + 0.25 * c).toFixed(2);
+}
+
+function bestFirstMoveLabel(score) {
+  if (score >= 4) return "Start now";
+  if (score >= 3) return "Good next";
+  return "Backlog";
+}
+
+function buildInventoryPromptWithInterview(toolKey) {
+  const base = (PROMPTS[toolKey] || PROMPTS.m365).text;
+  const iv = ui.inventoryInterview || {};
+  const notes = [
+    iv.tolerating && iv.tolerating.trim() ? `- What I'm currently tolerating: ${iv.tolerating.trim()}` : null,
+    iv.procrastinating && iv.procrastinating.trim() ? `- What I procrastinate on: ${iv.procrastinating.trim()}` : null,
+    iv.repeating && iv.repeating.trim() ? `- What I repeat weekly that should be systematized: ${iv.repeating.trim()}` : null
+  ].filter(Boolean);
+  if (notes.length === 0) return base;
+  return `${base}\n\nAdditional context from me (use this with the activity data):\n${notes.join("\n")}`;
 }
 
 // ---- computation ----
@@ -776,28 +867,73 @@ function parsePastedTasks(text) {
   let s = String(text).trim();
   // Strip markdown fences
   s = s.replace(/^```(?:json|JSON)?\s*/m, "").replace(/```\s*$/m, "");
-  // Trim to first [ ... matching ]
-  const firstBracket = s.indexOf("[");
-  if (firstBracket > 0) s = s.slice(firstBracket);
-  // For top-level object { tasks: [...] }, unwrap
-  // Try a few parses
+  // Normalize Unicode hyphens/dashes to ASCII (M365 Copilot streaming preview artifact)
+  s = s.replace(/[\u2010-\u2015\u2212]/g, "-");
+  // Remove backslashes M365 sometimes inserts before JSON punctuation or plain text
+  s = s.replace(/\\(?=[^"\\/bfnrtu])/g, "");
+
   let parsed = null;
-  try { parsed = JSON.parse(s); } catch (_) { /* try harder */ }
-  if (!parsed) {
-    // Find last ] and slice
-    const lastBracket = s.lastIndexOf("]");
-    if (lastBracket > 0) {
-      try { parsed = JSON.parse(s.slice(0, lastBracket + 1)); } catch (_) {}
+
+  // Strategy 1: look for [{ pattern — prefer the LAST occurrence (real JSON follows garbled preview)
+  let pos = -1;
+  let search = 0;
+  while (true) {
+    const found = s.indexOf("[{", search);
+    if (found === -1) break;
+    pos = found;
+    search = found + 1;
+  }
+  if (pos >= 0) {
+    const candidate = s.slice(pos);
+    const close = candidate.lastIndexOf("]");
+    if (close > 0) {
+      try { parsed = JSON.parse(candidate.slice(0, close + 1)); } catch (_) {}
     }
   }
+
+  // Strategy 2: the real JSON has no opening [ — find last }] and prepend [
   if (!parsed) {
-    // Try parsing as object
+    const lastClose = s.lastIndexOf("}]");
+    if (lastClose >= 0) {
+      // Scan back from lastClose to find the opening { of the first object in this run
+      let depth = 0, start = -1;
+      for (let i = lastClose + 1; i >= 0; i--) {
+        if (s[i] === "}") depth++;
+        else if (s[i] === "{") {
+          depth--;
+          if (depth === 0) { start = i; break; }
+        }
+      }
+      if (start >= 0) {
+        try { parsed = JSON.parse("[" + s.slice(start, lastClose + 2)); } catch (_) {}
+      }
+    }
+  }
+
+  // Strategy 3: classic first-[ approach
+  if (!parsed) {
+    const firstBracket = s.indexOf("[");
+    if (firstBracket >= 0) {
+      const candidate = s.slice(firstBracket);
+      try { parsed = JSON.parse(candidate); } catch (_) {}
+      if (!parsed) {
+        const lastBracket = candidate.lastIndexOf("]");
+        if (lastBracket > 0) {
+          try { parsed = JSON.parse(candidate.slice(0, lastBracket + 1)); } catch (_) {}
+        }
+      }
+    }
+  }
+
+  // Strategy 4: try as a bare object
+  if (!parsed) {
     const firstBrace = s.indexOf("{");
     const lastBrace = s.lastIndexOf("}");
     if (firstBrace >= 0 && lastBrace > firstBrace) {
       try { parsed = JSON.parse(s.slice(firstBrace, lastBrace + 1)); } catch (_) {}
     }
   }
+
   if (!parsed) return { ok: false, error: "I couldn't find JSON in that paste. Make sure you copied just the JSON array.", tasks: [] };
   let arr = null;
   if (Array.isArray(parsed)) arr = parsed;
@@ -812,26 +948,41 @@ function parsePastedTasks(text) {
 
 function normalizeIncomingTask(raw, idx) {
   if (!raw || typeof raw !== "object") return null;
-  const label = String(raw.label || raw.name || raw.title || raw.task || "").trim();
+  const label = String(raw.label || raw.name || raw.title || raw.task || raw.taskName || "").trim();
   if (!label) return null;
   const id = raw.id ? String(raw.id) : slugify(label) + "-" + (idx + 1);
   const description = String(raw.description || raw.detail || raw.notes || "").trim();
-  const cadenceRaw = String(raw.cadence || raw.frequency || "").toLowerCase().trim();
-  const cadenceMap = { day: "daily", daily: "daily", weekly: "weekly", week: "weekly", biweekly: "biweekly", "bi-weekly": "biweekly", monthly: "monthly", month: "monthly", quarterly: "quarterly", quarter: "quarterly", adhoc: "adhoc", "ad-hoc": "adhoc", "ad hoc": "adhoc", asneeded: "adhoc" };
-  const cadence = cadenceMap[cadenceRaw] || "unknown";
-  let est = Number(raw.estWeeklyHours != null ? raw.estWeeklyHours : raw.weeklyHours != null ? raw.weeklyHours : raw.hoursPerWeek);
-  if (!isFinite(est) || est < 0) est = null;
   const source = raw.source || "graph-pre-seed";
-  let bucket = String(raw.bucket || "unsorted").toLowerCase();
+  let bucket = String(raw.bucket || raw.suggestedBucket || "unsorted").toLowerCase();
   if (!["automate", "assist", "human", "unsorted"].includes(bucket)) bucket = "unsorted";
-  const evidence = raw.evidence ? String(raw.evidence) : "";
+  const rawEvidence = raw.evidence || raw.sourceEvidence;
+  const evidence = Array.isArray(rawEvidence) ? rawEvidence.join("; ") : rawEvidence ? String(rawEvidence) : "";
+  // map string quality labels to 1-5 scores
+  const ratingMap = { low: 2, medium: 3, moderate: 3, high: 4, "very high": 5, clear: 4, unclear: 2 };
+  const parseRating = (v) => {
+    if (v == null) return null;
+    const str = String(v).toLowerCase().trim();
+    if (ratingMap[str] != null) return ratingMap[str];
+    const n = Number(v);
+    if (!isFinite(n)) return null;
+    return Math.max(1, Math.min(5, Math.round(n)));
+  };
+  const frequency = parseRating(raw.frequencyScore != null ? raw.frequencyScore : raw.frequency != null ? raw.frequency : raw.freq);
+  const energyDrain = parseRating(raw.energyDrain != null ? raw.energyDrain : raw.drain);
+  const ioClarity = parseRating(raw.ioClarity != null ? raw.ioClarity : raw.inputOutputClarity);
+  // derive cadence from explicit field first, then from frequency score
+  const cadenceRaw = String(raw.cadence || "").toLowerCase().trim();
+  const cadenceMap = { day: "daily", daily: "daily", weekly: "weekly", week: "weekly", biweekly: "biweekly", "bi-weekly": "biweekly", "twice-weekly": "twice-weekly", "twice a week": "twice-weekly", monthly: "monthly", month: "monthly", quarterly: "quarterly", quarter: "quarterly", adhoc: "adhoc", "ad-hoc": "adhoc", "ad hoc": "adhoc", asneeded: "adhoc" };
+  const freqToCadence = { 5: "daily", 4: "twice-weekly", 3: "weekly", 2: "monthly", 1: "adhoc" };
+  const cadence = cadenceMap[cadenceRaw] || (frequency != null ? freqToCadence[frequency] : null) || "unknown";
   return {
     id, label, description,
     cadence,
-    estWeeklyHours: est,
-    effortWeight: est != null && est > 0 ? est : 1,
+    estWeeklyHours: null,
+    effortWeight: 1,
     source,
     bucket,
+    quality: { frequency, energyDrain, ioClarity },
     diagnostic: { freeformReasoning: evidence ? `Evidence from inventory: ${evidence}` : "" },
     move: null,
     tags: [],
@@ -1123,6 +1274,8 @@ function renderInventory() {
 function renderInventoryPrompt() {
   const tool = ui.inventoryTool;
   const prompt = PROMPTS[tool] || PROMPTS.m365;
+  const promptWithInterview = buildInventoryPromptWithInterview(tool);
+  const iv = ui.inventoryInterview || {};
   const preview = ui.parsedPreview;
   return `
     <div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text)">
@@ -1140,15 +1293,32 @@ function renderInventoryPrompt() {
     </div>
     <div class="field">
       <label>1. Copy this prompt and run it in ${escapeHtml(prompt.label)}</label>
-      <pre id="promptText">${escapeHtml(prompt.text)}</pre>
+      <pre id="promptText">${escapeHtml(promptWithInterview)}</pre>
       <div class="cluster" style="margin-top:8px">
-        <button class="btn btn-sm" data-act="copy-prompt">Copy prompt</button>
+        <button class="btn btn-sm" data-act="copy-prompt">Copy prompt (Generate + Interview)</button>
         <span class="muted">${escapeHtml(prompt.label === "M365 Copilot" ? "Tip: paste into M365 Copilot Chat (m365.cloud.microsoft.com/chat) or the Copilot pane in Word/Outlook." : prompt.label === "WorkIQ" ? "Tip: run in Clawpilot, Copilot CLI (workiq ask -q), or VS Code with GitHub Copilot." : "Tip: bring your own context — paste recent calendar/email or describe your week.")}</span>
       </div>
     </div>
     <div class="field">
+      <label>Optional interview context (improves prompt quality)</label>
+      <div class="row">
+        <div class="field">
+          <label>What are you currently tolerating?</label>
+          <textarea rows="2" data-act="inv-intake" data-key="tolerating" placeholder="e.g. Manual status synthesis from multiple sources">${escapeHtml(iv.tolerating || "")}</textarea>
+        </div>
+        <div class="field">
+          <label>What do you procrastinate on?</label>
+          <textarea rows="2" data-act="inv-intake" data-key="procrastinating" placeholder="e.g. Follow-ups that require finding context across long threads">${escapeHtml(iv.procrastinating || "")}</textarea>
+        </div>
+      </div>
+      <div class="field">
+        <label>What repeats weekly that could be systematized?</label>
+        <textarea rows="2" data-act="inv-intake" data-key="repeating" placeholder="e.g. Weekly update prep and recurring meeting notes">${escapeHtml(iv.repeating || "")}</textarea>
+      </div>
+    </div>
+    <div class="field">
       <label>2. Paste what your AI returned (the JSON array)</label>
-      <textarea id="pasteInput" rows="6" placeholder='Paste the JSON array here. Markdown fences and chatty preambles are fine — the parser strips them.'></textarea>
+      <textarea id="pasteInput" rows="6" placeholder='Paste the JSON array here. Markdown fences, chatty preambles, and M365 Copilot double-output are fine — the parser strips them.'></textarea>
       <div class="cluster" style="margin-top:8px">
         <button class="btn btn-primary btn-sm" data-act="parse-paste">Parse &amp; preview</button>
         <button class="btn btn-sm" data-act="clear-paste">Clear</button>
@@ -1171,7 +1341,7 @@ function renderParsedPreview(preview) {
         <div class="task-list-row">
           <div style="flex:1;min-width:0">
             <div class="name">${escapeHtml(t.label)}</div>
-            <div class="meta">${escapeHtml(t.cadence)} · ${t.estWeeklyHours != null ? t.estWeeklyHours + "h/" + ({daily:"day",weekly:"wk",biweekly:"2wk",monthly:"mo",quarterly:"qtr",adhoc:"occ",unknown:"cadence"}[t.cadence]||"cadence") : "weight 1"}${t.description ? " · " + escapeHtml(t.description.slice(0, 80) + (t.description.length > 80 ? "…" : "")) : ""}</div>
+            <div class="meta">${escapeHtml(t.cadence)} · ${t.estWeeklyHours != null ? t.estWeeklyHours + "h/" + ({daily:"day",weekly:"wk","twice-weekly":"2/wk",biweekly:"2wk",monthly:"mo",quarterly:"qtr",adhoc:"occ",unknown:"cadence"}[t.cadence]||"cadence") : "weight 1"} · Q:${(t.quality && t.quality.frequency) || "?"}/${(t.quality && t.quality.energyDrain) || "?"}/${(t.quality && t.quality.ioClarity) || "?"}${t.description ? " · " + escapeHtml(t.description.slice(0, 80) + (t.description.length > 80 ? "…" : "")) : ""}</div>
           </div>
           <div class="actions">
             <button class="btn btn-xs btn-danger" data-act="preview-remove" data-idx="${i}" title="Don't import this one">×</button>
@@ -1186,9 +1356,18 @@ function renderParsedPreview(preview) {
   `;
 }
 
+function renderStars(value, dataId, field) {
+  const v = value || 0;
+  const labels = STAR_LABELS[field] || ["1","2","3","4","5"];
+  const fieldLabelMap = { frequency: "Frequency", energyDrain: "Energy drain", ioClarity: "I/O clarity" };
+  const fieldLabel = fieldLabelMap[field] || field;
+  return `<div class="stars-row" role="group" aria-label="${escapeHtml(fieldLabel)} rating">${[1,2,3,4,5].map((n) => `<button class="star-btn${n <= v ? " filled" : ""}" data-act="set-quality" data-id="${escapeHtml(dataId)}" data-field="${escapeHtml(field)}" data-value="${n}" title="${escapeHtml(labels[n-1])}" aria-label="Set ${escapeHtml(fieldLabel)} to ${n} (${escapeHtml(labels[n-1])})" aria-pressed="${n <= v ? "true" : "false"}" type="button">★</button>`).join("")}</div>`;
+}
+
 function renderInventoryChips() {
   const existing = new Set(session.tasks.map((t) => t.label.toLowerCase().trim()));
   return `
+    <p class="muted" style="font-size:0.9rem;margin-bottom:6px"><strong>To jog your thinking:</strong> What are you currently tolerating? What do you procrastinate on? What do you repeat weekly that could be systematized?</p>
     <p>Tap any starter task that matches something you actually do. You can edit names after.</p>
     <div class="cluster" style="gap:8px">
       ${STARTER_CHIPS.map((c) => {
@@ -1202,6 +1381,7 @@ function renderInventoryChips() {
 
 function renderInventoryManual() {
   return `
+    <p class="muted" style="font-size:0.9rem;margin-bottom:6px"><strong>To jog your thinking:</strong> What are you currently tolerating? What do you procrastinate on? What do you repeat weekly that could be systematized?</p>
     <p>Type each task you spend time on. Write the actual task ("Weekly status email"), not the strategic version ("Stakeholder communication").</p>
     <div class="field">
       <label>New task</label>
@@ -1222,18 +1402,36 @@ function renderTaskInventoryList() {
   return `
     <section class="card">
       <h3 style="margin-bottom:4px">Your inventory <span class="badge">${session.tasks.length}</span></h3>
-      <p class="muted" style="margin-bottom:14px">Edit names, set hours per cadence (e.g. "6" for a monthly task = 6 hours/month), or remove items. Aim for 8–15 honest tasks.</p>
-      <div class="stack">
-        ${session.tasks.map((t, i) => {
-          const cadenceLabel = { daily: "h/day", weekly: "h/wk", biweekly: "h/2wk", monthly: "h/mo", quarterly: "h/qtr", adhoc: "h/occ", unknown: "h/cadence" }[t.cadence || "unknown"] || "h/cadence";
+      <p class="muted" style="margin-bottom:8px">Edit names, add descriptions, and rate each task before sorting. Aim for 8–15 honest tasks.</p>
+      <p class="muted" style="font-size:0.85rem;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:10px;padding:10px 12px;margin-bottom:14px">Rate each task on three dimensions to find where you’re spending the most painful effort on automatable work. <strong>High frequency + high energy drain + clear I/O</strong> = strongest candidate to offload or amplify with AI.</p>
+      <div>
+        ${session.tasks.map((t) => {
+          const expanded = (ui.expandedDesc && ui.expandedDesc.has(t.id)) || !!t.description;
           return `
-          <div class="task-list-row">
-            <input type="text" value="${escapeHtml(t.label)}" data-act="task-edit-label" data-id="${escapeHtml(t.id)}" style="flex:1;min-width:0">
-            <select data-act="task-edit-cadence" data-id="${escapeHtml(t.id)}" style="width:auto;flex:0 0 auto">
-              ${["daily","weekly","biweekly","monthly","quarterly","adhoc","unknown"].map((c) => `<option value="${c}" ${t.cadence === c ? "selected" : ""}>${c}</option>`).join("")}
-            </select>
-            <input type="text" inputmode="decimal" value="${t.estHoursPerCadence != null ? t.estHoursPerCadence : (t.estWeeklyHours != null ? t.estWeeklyHours : "")}" data-act="task-edit-hours" data-id="${escapeHtml(t.id)}" placeholder="${cadenceLabel}" style="width:90px;flex:0 0 auto">
-            <button class="btn btn-xs btn-danger" data-act="task-remove" data-id="${escapeHtml(t.id)}" title="Remove">×</button>
+          <div class="task-inv-row">
+            <div class="task-inv-top">
+              <input type="text" value="${escapeHtml(t.label)}" data-act="task-edit-label" data-id="${escapeHtml(t.id)}" style="flex:1;min-width:0">
+              <button class="btn btn-xs btn-danger" data-act="task-remove" data-id="${escapeHtml(t.id)}" title="Remove">×</button>
+            </div>
+            <button class="btn btn-ghost btn-xs" data-act="toggle-desc" data-id="${escapeHtml(t.id)}" style="margin:4px 0 0 0">${expanded ? "▾" : "▸"} description${t.description ? "" : " (add)"}</button>
+            ${expanded ? `<textarea data-act="task-edit-description" data-id="${escapeHtml(t.id)}" rows="2" style="margin-top:4px">${escapeHtml(t.description || "")}</textarea>` : ""}
+            <div class="task-inv-quality">
+              <div class="quality-item">
+                <span class="quality-label">Frequency</span>
+                ${renderStars(t.quality && t.quality.frequency, t.id, "frequency")}
+                <p class="muted" style="font-size:0.8rem;margin:3px 0 0 0">How often do you do this?</p>
+              </div>
+              <div class="quality-item">
+                <span class="quality-label">Energy Drain</span>
+                ${renderStars(t.quality && t.quality.energyDrain, t.id, "energyDrain")}
+                <p class="muted" style="font-size:0.8rem;margin:3px 0 0 0">How much energy does this take, relative to its importance?</p>
+              </div>
+              <div class="quality-item">
+                <span class="quality-label">I/O Clarity</span>
+                ${renderStars(t.quality && t.quality.ioClarity, t.id, "ioClarity")}
+                <p class="muted" style="font-size:0.8rem;margin:3px 0 0 0">How easily can inputs and outputs be defined, without a lot of human judgment?</p>
+              </div>
+            </div>
           </div>
         `; }).join("")}
       </div>
@@ -1302,7 +1500,6 @@ function renderSort() {
 
       <h2 style="margin-bottom:4px">${escapeHtml(task.label)}</h2>
       ${task.description ? `<p class="muted">${escapeHtml(task.description)}</p>` : ""}
-      ${task.cadence && task.cadence !== "unknown" ? `<p class="muted" style="margin-top:-4px">Cadence: ${escapeHtml(task.cadence)}${task.estWeeklyHours ? ` · about ${task.estWeeklyHours} h/wk` : ""}</p>` : ""}
 
       <h3 style="margin-top:18px">Six quick questions</h3>
       <p class="muted" style="margin-bottom:14px">Answer fast — your gut is usually right. Skip if you're not sure.</p>
@@ -1326,6 +1523,29 @@ function renderSort() {
           <h4>${escapeHtml(lesson.title)}</h4>
           <p>${escapeHtml(lesson.body)}</p>
         </div>` : ""}
+
+      <h3 style="margin-top:18px">Task quality</h3>
+      <p class="muted" style="font-size:0.85rem;margin:-4px 0 10px 0">Validate this is still correct — adjust if your first impression has changed.</p>
+      <div class="task-inv-quality" style="margin-top:8px">
+        <div class="quality-item">
+          <span class="quality-label">Frequency</span>
+          ${renderStars(task.quality && task.quality.frequency, task.id, "frequency")}
+          <p class="muted" style="font-size:0.82rem;margin:3px 0 0 0">How often do you do this work?</p>
+        </div>
+        <div class="quality-item">
+          <span class="quality-label">Energy Drain</span>
+          ${renderStars(task.quality && task.quality.energyDrain, task.id, "energyDrain")}
+          <p class="muted" style="font-size:0.82rem;margin:3px 0 0 0">How much energy does this take, relative to its importance?</p>
+        </div>
+        <div class="quality-item">
+          <span class="quality-label">I/O Clarity</span>
+          ${renderStars(task.quality && task.quality.ioClarity, task.id, "ioClarity")}
+          <p class="muted" style="font-size:0.82rem;margin:3px 0 0 0">How easily can inputs and good outputs be defined, without a lot of human judgment?</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:8px">
+        <strong>Best First Move score:</strong> ${bestFirstMoveScore(task)} (${bestFirstMoveLabel(bestFirstMoveScore(task))})
+      </div>
 
       <h3 style="margin-top:18px">Which bucket?</h3>
       ${suggested ? `<p class="muted" style="margin-top:-6px">Based on your answers, this looks like <span class="badge ${BUCKETS[suggested].badge}">${BUCKETS[suggested].name}</span>. You can confirm or override.</p>` : `<p class="muted" style="margin-top:-6px">Pick the bucket that feels right.</p>`}
@@ -1461,60 +1681,58 @@ function renderMove() {
   if (sortedTasks.length === 0) {
     return `<section class="card"><p>You need to sort some tasks first. <a href="#" data-act="goto" data-step="sort">Go sort →</a></p></section>`;
   }
-  // group by bucket
-  const byBucket = { automate: [], assist: [], human: [] };
-  sortedTasks.forEach((t) => byBucket[t.bucket].push(t));
+  const ranked = [...sortedTasks].sort((a, b) => bestFirstMoveScore(b) - bestFirstMoveScore(a));
+  const focusIds = new Set((session.plan.topMovesThisWeek || []).map((m) => m.taskId));
+  const focus = ranked.filter((t) => focusIds.has(t.id));
+  const backlog = ranked.filter((t) => !focusIds.has(t.id));
+
   return `
     <section class="card">
       <h2>Move some work</h2>
-      <p>For each task, decide the next move: <strong>offload</strong> (Bucket 1), <strong>amplify</strong> (Bucket 2), <strong>protect</strong> (Bucket 3), or <strong>hold</strong> (not now). Write the next step.</p>
+      <p>Narrow hard: pick up to 3 tasks to execute this cycle. Everything else stays backlog for the next cycle.</p>
       <div class="callout" style="border-left-color:var(--b2-color);margin-top:12px">
-        <strong>★ Star your top moves</strong> — only starred moves appear on the Plan stage. All moves (starred or not) will be included in the downloadable snapshot.
+        <strong>★ Star your focus moves (max 3)</strong> — only starred moves appear on the Plan stage and in the Scout Action Pack. All moves (starred or not) stay in your downloadable snapshot backlog.
       </div>
     </section>
-    ${["automate","assist","human"].map((b) => byBucket[b].length === 0 ? "" : `
-      <section class="card">
-        <div class="cluster" style="margin-bottom:12px">
-          <span class="badge ${BUCKETS[b].badge}">Bucket ${BUCKETS[b].num} · ${BUCKETS[b].name}</span>
-          <span class="muted">${byBucket[b].length} task${byBucket[b].length === 1 ? "" : "s"}</span>
-        </div>
-        ${b === "automate" ? `<div class="mini-lesson" style="border-left-color:var(--b1-color);background:var(--b1-soft);color:var(--cp-text);margin-bottom:14px">
-          <h4 style="color:var(--b1-color);margin-bottom:6px">💡 Ideas for offloading Bucket 1 tasks</h4>
-          <ul style="margin:0;padding-left:18px;font-size:0.92rem">
-            <li><strong>Delegate to an AI agent</strong> — set up a recurring automation (e.g. Copilot auto-drafts your weekly status from your work items)</li>
-            <li><strong>Template + trigger</strong> — create a template and have AI fill it each time (e.g. meeting recap auto-sent after every meeting)</li>
-            <li><strong>Hand to a teammate or shared service</strong> — if a human must own it, does it need to be you?</li>
-            <li><strong>Eliminate entirely</strong> — ask "if I stopped doing this, who would notice and when?" If the answer is murky, try stopping.</li>
-          </ul>
-        </div>` : ""}
-        ${b === "assist" ? `<div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text);margin-bottom:14px">
-          <h4 style="color:var(--b2-color);margin-bottom:6px">💡 Ideas for amplifying Bucket 2 tasks</h4>
-          <ul style="margin:0;padding-left:18px;font-size:0.92rem">
-            <li><strong>AI does the first draft, you edit</strong> — emails, docs, plans, reviews. You provide 20% of the effort for 80% of the quality.</li>
-            <li><strong>AI preps, you decide</strong> — summarize long threads, pull data, surface options. You bring the judgment.</li>
-            <li><strong>Build a reusable prompt or skill</strong> — write one great prompt for this task, save it as a reusable skill, invoke every time.</li>
-            <li><strong>Copilot + your files</strong> — point AI at your SharePoint/OneDrive docs and ask it to synthesize, compare, or draft from them.</li>
-            <li><strong>Create a custom GPT or Copilot agent</strong> — for recurring assist tasks, build a dedicated mini-tool with instructions baked in.</li>
-          </ul>
-        </div>` : ""}
-        ${b === "human" ? `<div class="mini-lesson" style="border-left-color:var(--b3-color);background:var(--b3-soft);color:var(--cp-text);margin-bottom:14px">
-          <h4 style="color:var(--b3-color);margin-bottom:6px">💡 Strengthening your human-only capabilities</h4>
-          <p style="font-size:0.9rem;margin:0 0 8px 0">These are the skills that become <em>more</em> valuable as AI improves. Invest here deliberately.</p>
-          <ul style="margin:0;padding-left:18px;font-size:0.88rem">
-            <li><strong>Problem Framing</strong> — AI answers questions; humans decide which questions matter. Practice asking "is this even the right problem?"</li>
-            <li><strong>Judgment & Decision-making</strong> — make calls under uncertainty, competing priorities, and incomplete info. This is why leadership isn't disappearing.</li>
-            <li><strong>Systems Thinking</strong> — see second-order effects, dependencies, incentives, and unintended consequences. AI optimizes locally; you optimize systemically.</li>
-            <li><strong>Sensemaking</strong> — different from summarization. Summarization = what happened. Sensemaking = what it means.</li>
-            <li><strong>Delegation to Agents</strong> — task decomposition, constraint setting, defining success, validation design. Future managers spend more time managing agents than creating deliverables.</li>
-            <li><strong>Original Thinking</strong> — when everyone can generate competent outputs, originality becomes the scarce premium.</li>
-            <li><strong>Influence & Communication</strong> — organizations still change through people. Simplifying complexity and creating clarity become more valuable as AI increases the volume of everything.</li>
-          </ul>
-        </div>` : ""}
-        <div class="stack">
-          ${byBucket[b].map((t) => renderMoveForTask(t)).join("")}
-        </div>
-      </section>
-    `).join("")}
+    <section class="card">
+      <h3>Ranked tasks (Best First Move)</h3>
+      <p class="muted">Score = 0.4 × Frequency + 0.35 × Energy drain + 0.25 × Input/output clarity.</p>
+      <div class="stack">
+        ${ranked.map((t, i) => {
+          const isFocus = focusIds.has(t.id);
+          const score = bestFirstMoveScore(t);
+          return `
+            <div class="task-list-row">
+              <div style="flex:1;min-width:0">
+                <div class="name">${escapeHtml(t.label)} <span class="badge ${BUCKETS[t.bucket].badge}">${escapeHtml(BUCKETS[t.bucket].name)}</span></div>
+                <div class="meta">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)} · Q ${(t.quality && t.quality.frequency) || "?"}/${(t.quality && t.quality.energyDrain) || "?"}/${(t.quality && t.quality.ioClarity) || "?"}</div>
+              </div>
+              <div class="actions">
+                <button class="btn btn-xs ${isFocus ? "btn-primary" : ""}" data-act="toggle-top" data-id="${escapeHtml(t.id)}" aria-pressed="${isFocus ? "true" : "false"}">${isFocus ? "Remove from focus" : "Add to focus"}</button>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Focus now (max 3)</h3>
+      ${focus.length === 0 ? `<div class="callout">No focus tasks selected yet. Pick up to 3 from the ranked list above.</div>` : ""}
+      <div class="stack">
+        ${focus.map((t) => renderMoveForTask(t)).join("")}
+      </div>
+    </section>
+
+    <section class="card card-soft">
+      <h3>Backlog (next cycle)</h3>
+      <div class="stack">
+        ${backlog.length === 0 ? `<p class="muted">No backlog tasks right now.</p>` : backlog.map((t) => {
+          const score = bestFirstMoveScore(t);
+          return `<div class="task-list-row"><div class="name">${escapeHtml(t.label)}</div><div class="meta">${escapeHtml(BUCKETS[t.bucket].name)} · Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)}</div></div>`;
+        }).join("")}
+      </div>
+    </section>
     <div class="card card-soft">
       <div class="cluster">
         <button class="btn" data-act="goto" data-step="assess">← Back to map</button>
@@ -1525,15 +1743,19 @@ function renderMove() {
 }
 
 function renderMoveForTask(t) {
-  const m = t.move || { intent: BUCKETS[t.bucket].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: "" };
+  const m = t.move || { intent: BUCKETS[t.bucket].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: "", context: "", constraints: "", content: "", calibration: "" };
   const isTopMove = (session.plan.topMovesThisWeek || []).some((mv) => mv.taskId === t.id);
+  const score = bestFirstMoveScore(t);
   return `
     <div class="card card-soft card-tight" style="margin:0">
       <div class="cluster" style="margin-bottom:6px">
-        <strong style="font-size:1rem">${escapeHtml(t.label)}</strong>
-        <button class="btn btn-xs ${isTopMove ? "btn-primary" : ""}" data-act="toggle-top" data-id="${escapeHtml(t.id)}" style="margin-left:auto">${isTopMove ? "★ Top move" : "☆ Star as top move"}</button>
+        <strong style="font-size:1rem">${escapeHtml(t.label)}</strong><span class="badge ${BUCKETS[t.bucket].badge}">${escapeHtml(BUCKETS[t.bucket].name)}</span>
+        <span class="muted" style="margin-left:auto">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)}</span>
       </div>
       ${t.diagnostic && t.diagnostic.freeformReasoning ? `<p class="muted" style="margin:0 0 10px 0">${escapeHtml(t.diagnostic.freeformReasoning)}</p>` : ""}
+      <div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text);margin-bottom:14px">
+        <p style="margin:0;font-size:0.9rem">Think about: What’s the most painful or repetitive part of this task? What would you hand to an AI if it were perfect at it? What’s the repeating judgment call that could be replaced by a clear rule?</p>
+      </div>
       <div class="row">
         <div class="field">
           <label>Intent</label>
@@ -1543,7 +1765,7 @@ function renderMoveForTask(t) {
         </div>
       </div>
       <div class="field">
-        <label>${escapeHtml(BUCKETS[t.bucket].moveLabel)}</label>
+        <label>${escapeHtml(BUCKETS[t.bucket].moveLabel)}${t.bucket === "assist" ? ` — <a href="https://jrweigel.github.io/which-tool/" target="_blank" rel="noopener" style="font-size:0.85em">Which tool fits? →</a>` : ""}</label>
         <input type="text" data-act="move-owner" data-id="${escapeHtml(t.id)}" value="${escapeHtml(m.ownerOrTool || "")}" placeholder="${t.bucket === "automate" ? "e.g. M365 Copilot, a teammate, a new template" : t.bucket === "assist" ? "e.g. M365 Copilot — meeting prep" : "e.g. block 2 focused hours every Tuesday"}">
       </div>
       ${t.bucket === "assist" ? `
@@ -1551,6 +1773,22 @@ function renderMoveForTask(t) {
           <label>Starter prompt (for the AI tool above)</label>
           <textarea data-act="move-prompt" data-id="${escapeHtml(t.id)}" rows="3" placeholder="A first draft you can paste into the tool. Edit it as you go.">${escapeHtml(m.starterPrompt || "")}</textarea>
         </div>` : ""}
+      <div class="field">
+        <label>Context (What’s the situation?)</label>
+        <textarea data-act="move-context" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "I need to send a weekly update to my team about project progress..."'>${escapeHtml(m.context || "")}</textarea>
+      </div>
+      <div class="field">
+        <label>Constraints (What are the rules?)</label>
+        <textarea data-act="move-constraints" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...it needs to be under 200 words, professional but not formal, and highlight both wins and blockers..."'>${escapeHtml(m.constraints || "")}</textarea>
+      </div>
+      <div class="field">
+        <label>Content (What’s the raw material?)</label>
+        <textarea data-act="move-content" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...here are my notes from this week’s meetings: [paste your rough notes]"'>${escapeHtml(m.content || "")}</textarea>
+      </div>
+      <div class="field">
+        <label>Calibration (What’s the target?)</label>
+        <textarea data-act="move-calibration" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...format it like this previous email that worked well: [paste example — or describe what good looks like so Scout can remind you]"'>${escapeHtml(m.calibration || "")}</textarea>
+      </div>
       <div class="row">
         <div class="field">
           <label>Next step</label>
@@ -1566,16 +1804,8 @@ function renderMoveForTask(t) {
 }
 
 function renderPlan() {
-  const sortedTasks = session.tasks.filter((t) => t.bucket && t.bucket !== "unsorted");
-  const tops = session.plan.topMovesThisWeek || [];
+  const { focus, backlog } = getScoutActionSlices();
   const traj = session.plan.ninetyDayTrajectory || { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
-  // refresh top moves to reflect current task data
-  const enrichedTops = tops.map((mv) => {
-    const t = session.tasks.find((x) => x.id === mv.taskId);
-    if (!t) return null;
-    const m = t.move || {};
-    return { ...mv, label: t.label, intent: m.intent || BUCKETS[t.bucket].intent, nextStep: m.nextStep || "", byWhen: m.byWhen || null };
-  }).filter(Boolean);
   return `
     <section class="card">
       <h2>Your AI Leverage Plan</h2>
@@ -1583,20 +1813,35 @@ function renderPlan() {
     </section>
 
     <section class="card">
-      <h3>Top moves this week</h3>
-      <p class="muted">Star up to 5 in the Move step. The single best thing you can do right now is hit <em>one</em> of these in the next 48 hours.</p>
-      ${enrichedTops.length === 0 ? `
-        <div class="callout">No moves starred yet. <a href="#" data-act="goto" data-step="move">Go back to Move</a> and star the ones that matter most.</div>
+      <h3>This cycle (focus now)</h3>
+      <p class="muted">Keep this cycle to 1-3 active tasks. The fastest progress comes from narrowing hard.</p>
+      ${focus.length === 0 ? `
+        <div class="callout">No focus tasks selected yet. <a href="#" data-act="goto" data-step="move">Go back to Move</a> and pick up to 3.</div>
       ` : `
         <div class="stack">
-          ${enrichedTops.map((mv) => `
+          ${focus.map((t) => {
+            const m = t.move || {};
+            const score = bestFirstMoveScore(t);
+            return `
             <div class="task-list-row">
               <div style="flex:1;min-width:0">
-                <div class="name">${escapeHtml(mv.label)} <span class="badge badge-accent">${escapeHtml(INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent)}</span></div>
-                <div class="meta">${escapeHtml(mv.nextStep || "(no next step written yet)")}${mv.byWhen ? " · by " + escapeHtml(fmtDate(mv.byWhen)) : ""}</div>
+                <div class="name">${escapeHtml(t.label)} <span class="badge badge-accent">${escapeHtml(INTENTS[m.intent] ? INTENTS[m.intent].name : (m.intent || BUCKETS[t.bucket].intent))}</span></div>
+                <div class="meta">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)} · ${escapeHtml(m.nextStep || "(no next step written yet)")}${m.byWhen ? " · by " + escapeHtml(fmtDate(m.byWhen)) : ""}</div>
               </div>
             </div>
-          `).join("")}
+          `; }).join("")}
+        </div>
+      `}
+    </section>
+
+    <section class="card card-soft">
+      <h3>Backlog (next cycle)</h3>
+      ${backlog.length === 0 ? `<p class="muted">No backlog tasks right now.</p>` : `
+        <div class="stack">
+          ${backlog.map((t) => {
+            const score = bestFirstMoveScore(t);
+            return `<div class="task-list-row"><div class="name">${escapeHtml(t.label)}</div><div class="meta">${escapeHtml(BUCKETS[t.bucket].name)} · Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)}</div></div>`;
+          }).join("")}
         </div>
       `}
     </section>
@@ -1626,23 +1871,22 @@ function renderPlan() {
 
     <section class="card">
       <h3>Where to go next</h3>
+      <p class="muted" style="margin-bottom:12px">Use one payload to kick off execution in Scout.</p>
       <div class="stack">
         <div class="card card-soft" style="border-left:4px solid var(--cp-accent);margin:0">
-          <h4 style="margin:0 0 6px 0">🚀 Give your plan to Copilot</h4>
-          <p class="meta" style="margin:0 0 8px 0">Copy your plan into M365 Copilot, VS Code, or Copilot CLI and ask it to help you implement. It can draft emails, build templates, create automations, and coach you through each move.</p>
-          <button class="btn btn-xs" data-act="copy-plan-for-copilot">📋 Copy plan for Copilot</button>
-          <span class="muted" style="font-size:0.85rem;margin-left:8px">or upload the session JSON into M365 Copilot / VS Code / Copilot CLI</span>
+          <h4 style="margin:0 0 6px 0">✅ Scout Action Pack</h4>
+          <p class="meta" style="margin:0 0 8px 0">This includes your focus tasks (max 3), backlog, split, and asks Scout to: calendar execution time, suggest approach and experiments, recommend skills, and set close-the-loop reviews.</p>
+          <div class="cluster" style="gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-xs" data-act="copy-scout-action-pack">📋 Copy for Scout</button>
+            <button class="btn btn-xs" data-act="copy-scout-calendar-only">📅 Copy calendar-only request</button>
+            <button class="btn btn-xs" data-act="copy-scout-close-loop">🔁 Copy close-the-loop template</button>
+          </div>
+          <p class="muted" style="font-size:0.85rem;margin:8px 0 0 0">Paste into Scout.</p>
         </div>
         <div class="card card-soft" style="border-left:4px solid var(--b2-color);margin:0">
-          <h4 style="margin:0 0 6px 0">🔬 Clone AI Workflow Designer and import the JSON</h4>
-          <p class="meta" style="margin:0 0 8px 0">It will walk you through specific tasks, one by one, and map each step-by-step: what triggers it, which steps become AI, where humans stay in the loop, and what the redesigned workflow looks like.</p>
-          <a class="btn btn-xs" href="${escapeHtml(HANDOFF.url)}" target="_blank" rel="noopener">Open AI Workflow Designer ↗</a>
-        </div>
-        <div class="card card-soft" style="border-left:4px solid var(--b3-color);margin:0">
-          <h4 style="margin:0 0 6px 0">🤖 Build your Digital Employees</h4>
-          <p class="meta" style="margin:0 0 8px 0">Build 4 persistent AI team members — each with a defined role, your voice, and your preferences — that you delegate to across all your work, not just one task.</p>
-          <p class="meta" style="margin:0 0 8px 0"><strong>How to use:</strong> Copy the digital-employees skill file (<a href="https://github.com/jrweigel/jrweigel.github.io/blob/master/digital-employees-SKILL.md" target="_blank" rel="noopener">GitHub view</a> | <a href="https://raw.githubusercontent.com/jrweigel/jrweigel.github.io/master/digital-employees-SKILL.md" target="_blank" rel="noopener">Raw (easy copy)</a>) into VS Code, Clawpilot, or Copilot CLI and run <code>/digital-employees</code> to start a guided interview.</p>
-          <button class="btn btn-xs" data-act="copy-context-for-de">📋 Copy your work context as a head start</button>
+          <h4 style="margin:0 0 4px 0">🔧 Not sure which AI tool to use?</h4>
+          <p class="meta" style="margin:0 0 8px 0">Answer a few quick questions to find the right tool for each Bucket 2 task.</p>
+          <a class="btn btn-sm" href="https://jrweigel.github.io/which-tool/" target="_blank" rel="noopener">Which tool fits? →</a>
         </div>
       </div>
     </section>
@@ -1693,24 +1937,17 @@ function renderExport() {
 
     <section class="card">
       <h3>Where to go next</h3>
-      <p class="muted" style="margin-bottom:12px">Pick a path based on what files you need:</p>
+      <p class="muted" style="margin-bottom:12px">Start actioning this plan now with a Scout-ready payload.</p>
       <div class="stack">
         <div class="card card-soft" style="border-left:4px solid var(--cp-accent);margin:0">
-          <h4 style="margin:0 0 6px 0">🚀 Give your plan to Copilot</h4>
-          <p class="meta" style="margin:0 0 8px 0">Paste your plan into M365 Copilot, VS Code, or Copilot CLI and ask it to help implement — draft emails, build templates, create automations.</p>
-          <button class="btn btn-xs" data-act="copy-plan-for-copilot">📋 Copy plan for Copilot</button>
-          <span class="muted" style="font-size:0.85rem;margin-left:8px">or upload the session JSON into M365 Copilot / VS Code / Copilot CLI</span>
-        </div>
-        <div class="card card-soft" style="border-left:4px solid var(--b2-color);margin:0">
-          <h4 style="margin:0 0 6px 0">🔬 Clone AI Workflow Designer and import the JSON</h4>
-          <p class="meta" style="margin:0 0 4px 0">It will walk you through specific tasks, one by one, and map each step-by-step: what triggers it, which steps become AI, where humans stay in the loop, and what the redesigned workflow looks like.</p>
-          <p class="meta" style="margin:0"><strong>What you need:</strong> Your session JSON (step 1 above). Import it directly into the <a href="${escapeHtml(HANDOFF.url)}" target="_blank" rel="noopener">AI Workflow Designer</a>.</p>
-        </div>
-        <div class="card card-soft" style="border-left:4px solid var(--b3-color);margin:0">
-          <h4 style="margin:0 0 6px 0">🤖 Build your Digital Employees</h4>
-          <p class="meta" style="margin:0 0 4px 0">Build 4 persistent AI team members — each with a defined role, your voice, and your preferences — that you delegate to across all your work, not just one task.</p>
-          <p class="meta" style="margin:0 0 8px 0"><strong>What you need:</strong> Copy the digital-employees skill file (<a href="https://github.com/jrweigel/jrweigel.github.io/blob/master/digital-employees-SKILL.md" target="_blank" rel="noopener">GitHub view</a> | <a href="https://raw.githubusercontent.com/jrweigel/jrweigel.github.io/master/digital-employees-SKILL.md" target="_blank" rel="noopener">Raw (easy copy)</a>) into VS Code, Clawpilot, or Copilot CLI and run <code>/digital-employees</code>. Paste your work context (below) at the start of the conversation for a head start.</p>
-          <button class="btn btn-xs" data-act="copy-context-for-de">📋 Copy your work context as a head start</button>
+          <h4 style="margin:0 0 6px 0">✅ Scout Action Pack</h4>
+          <p class="meta" style="margin:0 0 8px 0">This payload turns your narrowed plan into immediate next steps: schedule execution blocks, shape experiments, map skills, and run weekly close-the-loop reviews.</p>
+          <div class="cluster" style="gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-xs" data-act="copy-scout-action-pack">📋 Copy for Scout</button>
+            <button class="btn btn-xs" data-act="copy-scout-calendar-only">📅 Copy calendar-only request</button>
+            <button class="btn btn-xs" data-act="copy-scout-close-loop">🔁 Copy close-the-loop template</button>
+          </div>
+          <p class="muted" style="font-size:0.85rem;margin:8px 0 0 0">Paste into Scout.</p>
         </div>
       </div>
     </section>
@@ -1825,7 +2062,7 @@ function onClick(e) {
     case "inv-tool":
       ui.inventoryTool = t.getAttribute("data-tool"); render(); break;
     case "copy-prompt":
-      copyToClipboard(PROMPTS[ui.inventoryTool].text).then((ok) => toast(ok ? "Prompt copied — paste it into " + PROMPTS[ui.inventoryTool].label : "Copy failed — select the text manually"));
+      copyToClipboard(buildInventoryPromptWithInterview(ui.inventoryTool)).then((ok) => toast(ok ? "Prompt copied — paste it into " + PROMPTS[ui.inventoryTool].label : "Copy failed — select the text manually"));
       break;
     case "parse-paste": {
       const text = $("#pasteInput").value;
@@ -1849,6 +2086,30 @@ function onClick(e) {
     case "manual-add": {
       const inp = $("#manualTaskInput");
       addManualTask(inp.value); inp.value = ""; inp.focus();
+      break;
+    }
+    case "set-quality": {
+      const id = t.getAttribute("data-id");
+      const field = t.getAttribute("data-field");
+      const value = parseInt(t.getAttribute("data-value"), 10);
+      const task = session.tasks.find((x) => x.id === id);
+      if (!task) break;
+      if (!task.quality || typeof task.quality !== "object") task.quality = { frequency: null, energyDrain: null, ioClarity: null };
+      task.quality[field] = isFinite(value) ? Math.max(1, Math.min(5, value)) : null;
+      if (field === "frequency") {
+        const freqToCadence = { 5: "daily", 4: "twice-weekly", 3: "weekly", 2: "monthly", 1: "adhoc" };
+        task.cadence = freqToCadence[value] || "unknown";
+      }
+      save({ silent: true });
+      render();
+      break;
+    }
+    case "toggle-desc": {
+      const id = t.getAttribute("data-id");
+      if (!ui.expandedDesc) ui.expandedDesc = new Set();
+      if (ui.expandedDesc.has(id)) ui.expandedDesc.delete(id);
+      else ui.expandedDesc.add(id);
+      render();
       break;
     }
     case "task-remove":
@@ -1876,6 +2137,12 @@ function onClick(e) {
       copyRerunMeetingInvite(); break;
     case "copy-plan-for-copilot":
       copyPlanForCopilot(); break;
+    case "copy-scout-action-pack":
+      copyScoutActionPack(); break;
+    case "copy-scout-calendar-only":
+      copyScoutCalendarOnly(); break;
+    case "copy-scout-close-loop":
+      copyScoutCloseLoopTemplate(); break;
     case "copy-context-for-de":
       copyContextForDigitalEmployees(); break;
     default: break;
@@ -1893,25 +2160,22 @@ function onInput(e) {
       if (task) { if (!task.diagnostic) task.diagnostic = {}; task.diagnostic.freeformReasoning = t.value; save({ silent: true }); }
       break;
     }
+    case "task-edit-description": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { task.description = t.value; save({ silent: true }); }
+      break;
+    }
+    case "inv-intake": {
+      const key = t.getAttribute("data-key");
+      if (!ui.inventoryInterview) ui.inventoryInterview = { tolerating: "", procrastinating: "", repeating: "" };
+      ui.inventoryInterview[key] = t.value;
+      break;
+    }
     case "task-edit-label": {
       const id = t.getAttribute("data-id");
       const task = session.tasks.find((x) => x.id === id);
       if (task) { task.label = t.value; save({ silent: true }); }
-      break;
-    }
-    case "task-edit-hours": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) {
-        const v = parseFloat(t.value);
-        task.estHoursPerCadence = isFinite(v) && v >= 0 ? v : null;
-        // Convert to weekly equivalent for weighting
-        const cadenceMultiplier = { daily: 5, weekly: 1, biweekly: 0.5, monthly: 12/52, quarterly: 4/52, adhoc: 0.5, unknown: 1 };
-        const mult = cadenceMultiplier[task.cadence] || 1;
-        task.estWeeklyHours = task.estHoursPerCadence != null ? +(task.estHoursPerCadence * mult).toFixed(2) : null;
-        task.effortWeight = task.estWeeklyHours != null && task.estWeeklyHours > 0 ? task.estWeeklyHours : 1;
-        save({ silent: true });
-      }
       break;
     }
     case "move-owner": {
@@ -1930,6 +2194,21 @@ function onInput(e) {
       const id = t.getAttribute("data-id");
       const task = session.tasks.find((x) => x.id === id);
       if (task) { if (!task.move) task.move = {}; task.move.nextStep = t.value; save({ silent: true }); }
+      break;
+    }
+    case "move-context":
+    case "move-constraints":
+    case "move-content":
+    case "move-calibration": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (!task) break;
+      if (!task.move) task.move = {};
+      if (act === "move-context") task.move.context = t.value;
+      if (act === "move-constraints") task.move.constraints = t.value;
+      if (act === "move-content") task.move.content = t.value;
+      if (act === "move-calibration") task.move.calibration = t.value;
+      save({ silent: true });
       break;
     }
     case "traj": {
@@ -1953,23 +2232,6 @@ function onChange(e) {
   const act = t.getAttribute && t.getAttribute("data-act");
   if (!act) return;
   switch (act) {
-    case "task-edit-cadence": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) {
-        task.cadence = t.value;
-        // Recompute weekly equivalent if hours per cadence is set
-        if (task.estHoursPerCadence != null) {
-          const cadenceMultiplier = { daily: 5, weekly: 1, biweekly: 0.5, monthly: 12/52, quarterly: 4/52, adhoc: 0.5, unknown: 1 };
-          const mult = cadenceMultiplier[task.cadence] || 1;
-          task.estWeeklyHours = +(task.estHoursPerCadence * mult).toFixed(2);
-          task.effortWeight = task.estWeeklyHours > 0 ? task.estWeeklyHours : 1;
-        }
-        save({ silent: true });
-        render();
-      }
-      break;
-    }
     case "move-intent": {
       const id = t.getAttribute("data-id");
       const task = session.tasks.find((x) => x.id === id);
@@ -2019,11 +2281,12 @@ function addChipTask(label) {
   session.tasks.push({
     id: slugify(label) + "-" + Math.random().toString(36).slice(2, 6),
     label, description: "",
-    cadence: "weekly",
+    cadence: "unknown",
     estWeeklyHours: null,
     effortWeight: 1,
     source: "user",
     bucket: "unsorted",
+    quality: { frequency: null, energyDrain: null, ioClarity: null },
     diagnostic: {},
     move: null,
     tags: [],
@@ -2048,6 +2311,7 @@ function addManualTask(label) {
     effortWeight: 1,
     source: "user",
     bucket: "unsorted",
+    quality: { frequency: null, energyDrain: null, ioClarity: null },
     diagnostic: {},
     move: null,
     tags: [],
@@ -2089,8 +2353,14 @@ function setBucket(b) {
   if (!task) return;
   task.bucket = b;
   // initialize move based on bucket
-  if (!task.move) task.move = { intent: BUCKETS[b].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: null };
-  else task.move.intent = task.move.intent || BUCKETS[b].intent;
+  if (!task.move) task.move = { intent: BUCKETS[b].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: null, context: "", constraints: "", content: "", calibration: "" };
+  else {
+    task.move.intent = task.move.intent || BUCKETS[b].intent;
+    task.move.context = task.move.context || "";
+    task.move.constraints = task.move.constraints || "";
+    task.move.content = task.move.content || "";
+    task.move.calibration = task.move.calibration || "";
+  }
   if (b !== "unsorted" && !ui.miniLessonsShown[b]) ui.miniLessonsShown[b] = true;
   save();
   render();
@@ -2117,8 +2387,8 @@ function toggleTopMove(id) {
   const i = session.plan.topMovesThisWeek.findIndex((m) => m.taskId === id);
   if (i >= 0) session.plan.topMovesThisWeek.splice(i, 1);
   else {
-    if (session.plan.topMovesThisWeek.length >= 5) {
-      toast("Top moves limit reached (5). Unstar one first.");
+    if (session.plan.topMovesThisWeek.length >= 3) {
+      toast("Focus moves limit reached (3). Unstar one first.");
       return;
     }
     session.plan.topMovesThisWeek.push({
@@ -2232,6 +2502,128 @@ function copyPlanForCopilot() {
   copyToClipboard(text).then((ok) => toast(ok ? "Plan copied — paste into M365 Copilot" : "Copy failed — select manually"));
 }
 
+function getScoutActionSlices() {
+  refreshTopMoves();
+  const sortedTasks = session.tasks
+    .filter((t) => t.bucket && t.bucket !== "unsorted")
+    .sort((a, b) => bestFirstMoveScore(b) - bestFirstMoveScore(a));
+  const topMoves = (session.plan.topMovesThisWeek || []).slice(0, 3);
+  const topIds = new Set(topMoves.map((mv) => mv.taskId));
+
+  let focus = sortedTasks.filter((t) => topIds.has(t.id));
+  if (focus.length === 0) {
+    focus = sortedTasks.slice(0, 3);
+  }
+  const focusIds = new Set(focus.map((t) => t.id));
+  const backlog = sortedTasks.filter((t) => !focusIds.has(t.id));
+  return { focus, backlog };
+}
+
+function formatTaskForScout(task, idx) {
+  const bucketLabel = BUCKETS[task.bucket] ? `Bucket ${BUCKETS[task.bucket].num} · ${BUCKETS[task.bucket].name}` : "Unsorted";
+  const move = task.move || {};
+  const context = move.context || task.description || (task.diagnostic && task.diagnostic.freeformReasoning) || "Not captured yet.";
+  const constraints = [
+    move.constraints || null,
+    move.byWhen ? `Target date: ${move.byWhen}` : null,
+    move.intent ? `Intent: ${INTENTS[move.intent] ? INTENTS[move.intent].name : move.intent}` : null
+  ].filter(Boolean).join(" | ") || "Define constraints before execution.";
+  const content = [
+    move.content || null,
+    move.ownerOrTool ? `Tool/owner: ${move.ownerOrTool}` : null,
+    task.source ? `Source: ${task.source}` : null
+  ].filter(Boolean).join(" | ") || "List core inputs and artifacts.";
+  const calibration = move.calibration || move.starterPrompt || move.nextStep || "Define what a good first output should look like.";
+  return [
+    `${idx + 1}. ${task.label} [${bucketLabel}]`,
+    `   - Context: ${context}`,
+    `   - Constraints: ${constraints}`,
+    `   - Content: ${content}`,
+    `   - Calibration: ${calibration}`
+  ].join("\n");
+}
+
+function copyScoutActionPack() {
+  const { focus, backlog } = getScoutActionSlices();
+  if (focus.length === 0) {
+    toast("No sorted tasks yet. Sort tasks first, then copy the Scout Action Pack.");
+    return;
+  }
+
+  const pct = session.assessment && session.assessment.bucketPercents
+    ? session.assessment.bucketPercents
+    : { automate: 0, assist: 0, human: 0 };
+
+  const lines = [
+    "I completed Move the Work and narrowed my focus tasks.",
+    "Execute this as a lightweight 2-4 week sprint.",
+    "",
+    "Please do all of the following:",
+    "1) Create a practical execution plan for each focus task.",
+    "2) Show me the proposed plan and calendar blocks for review before taking any action.",
+    "3) Do not create, move, or block any calendar time until I explicitly approve the proposed plan.",
+    "4) Recommend learning threads (what to learn, where, and why now).",
+    "5) Recommend 1-2 small experiments per task with clear success criteria.",
+    "6) Suggest relevant existing Scout skills I should use.",
+    "7) Define weekly check-ins and a close-the-loop log format.",
+    "8) Keep scope bite-sized: no more than 3 active tasks at once.",
+    "",
+    `My current split: Automate ${pct.automate}% / Assist ${pct.assist}% / Human ${pct.human}%`,
+    "",
+    "Focus tasks (this cycle):",
+    ...focus.map((t, i) => formatTaskForScout(t, i)),
+    ""
+  ];
+
+  if (backlog.length) {
+    lines.push("Backlog (next cycles):");
+    backlog.forEach((t) => {
+      const bucketLabel = BUCKETS[t.bucket] ? `B${BUCKETS[t.bucket].num}-${BUCKETS[t.bucket].name}` : "Unsorted";
+      lines.push(`- ${t.label} [${bucketLabel}]`);
+    });
+    lines.push("");
+  }
+
+  lines.push("Output format I want:");
+  lines.push("A) Week-by-week plan");
+  lines.push("B) Calendar block suggestions");
+  lines.push("C) Skill recommendations");
+  lines.push("D) Experiments and success criteria");
+  lines.push("E) Close-the-loop tracker template");
+
+  copyToClipboard(lines.join("\n")).then((ok) => toast(ok ? "Scout Action Pack copied — paste into Scout" : "Copy failed — select manually"));
+}
+
+function copyScoutCalendarOnly() {
+  const { focus } = getScoutActionSlices();
+  if (focus.length === 0) {
+    toast("No focus tasks yet. Star up to 3 tasks first.");
+    return;
+  }
+  const lines = [
+    "Help me calendar execution time for my Move the Work focus tasks.",
+    "Please suggest time blocks over the next 2 weeks:",
+    "- setup blocks to prepare workflows/prompts",
+    "- execution blocks to run the work",
+    "- one short weekly review block",
+    "",
+    "Focus tasks:",
+    ...focus.map((t, i) => `${i + 1}. ${t.label}`)
+  ];
+  copyToClipboard(lines.join("\n")).then((ok) => toast(ok ? "Calendar-only request copied" : "Copy failed — select manually"));
+}
+
+function copyScoutCloseLoopTemplate() {
+  const lines = [
+    "Close-the-loop tracker (weekly):",
+    "",
+    "| Task | Input I gave | Output returned | Result (time saved / quality) | Confidence (1-5) | Next tweak |",
+    "|---|---|---|---|---|---|",
+    "|  |  |  |  |  |  |"
+  ];
+  copyToClipboard(lines.join("\n")).then((ok) => toast(ok ? "Close-the-loop template copied" : "Copy failed — select manually"));
+}
+
 function copyRerunInvite() {
   const when = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
   const text = [
@@ -2277,7 +2669,7 @@ function buildSnapshotHtml(p) {
   const zoneLabel = a.zone === "red" ? "RED ZONE" : a.zone === "yellow" ? "YELLOW ZONE" : a.zone === "green" ? "GREEN ZONE" : "—";
   const zoneColor = a.zone === "red" ? "#dc2626" : a.zone === "yellow" ? "#f59e0b" : a.zone === "green" ? "#16a34a" : "#919191";
   const personLine = [p.person.name, p.person.role, p.person.org].filter(Boolean).join(" · ") || "Anonymous";
-  const tops = (p.plan.topMovesThisWeek || []).slice(0, 5);
+  const tops = (p.plan.topMovesThisWeek || []).slice(0, 3);
   const intentLabel = (i) => INTENTS[i] ? INTENTS[i].name : (i || "");
   const intentColor = (i) => ({ offload: "#f59e0b", amplify: "#0078d4", protect: "#16a34a", hold: "#6f6f6f" }[i] || "#6f6f6f");
   const traj = p.plan.ninetyDayTrajectory || {};
@@ -2288,9 +2680,9 @@ function buildSnapshotHtml(p) {
   const tasksRows = p.tasks.map((t) => {
     const bcls = t.bucket === "automate" ? "bb1" : t.bucket === "assist" ? "bb2" : t.bucket === "human" ? "bb3" : "bbu";
     const bname = BUCKETS[t.bucket || "unsorted"].name;
-    const cadenceLabel = { daily: "h/day", weekly: "h/wk", biweekly: "h/2wk", monthly: "h/mo", quarterly: "h/qtr", adhoc: "h/occ", unknown: "" }[t.cadence || "unknown"] || "";
-    const hoursDisplay = t.estHoursPerCadence != null ? t.estHoursPerCadence + " " + cadenceLabel : (t.estWeeklyHours != null ? t.estWeeklyHours + " h/wk" : "");
-    return `<tr><td><strong>${escapeHtmlSnapshot(t.label)}</strong>${t.description ? `<br><span class="muted">${escapeHtmlSnapshot(t.description)}</span>` : ""}</td><td><span class="badge ${bcls}">${bname}</span></td><td>${escapeHtmlSnapshot(t.cadence || "")}</td><td>${hoursDisplay}</td></tr>`;
+    const q = t.quality || {};
+    const starStr = (v) => v != null ? "★".repeat(v) + "☆".repeat(5 - v) : "—";
+    return `<tr><td><strong>${escapeHtmlSnapshot(t.label)}</strong>${t.description ? `<br><span class="muted">${escapeHtmlSnapshot(t.description)}</span>` : ""}</td><td><span class="badge ${bcls}">${bname}</span></td><td>${starStr(q.frequency)}</td><td>${starStr(q.energyDrain)}</td><td>${starStr(q.ioClarity)}</td></tr>`;
   }).join("");
 
   const movesRows = p.tasks.filter((t) => t.move && (t.move.nextStep || t.move.ownerOrTool)).map((t) => {
@@ -2395,7 +2787,7 @@ function buildSnapshotHtml(p) {
   </div>
 
   <h2>Full task inventory</h2>
-  <table><thead><tr><th>Task</th><th>Bucket</th><th>Cadence</th><th>Effort</th></tr></thead><tbody>${tasksRows}</tbody></table>
+  <table><thead><tr><th>Task</th><th>Bucket</th><th>Frequency</th><th>Energy Drain</th><th>I/O Clarity</th></tr></thead><tbody>${tasksRows}</tbody></table>
 
   <h2>All moves</h2>
   ${movesRows ? `<table><thead><tr><th>Task</th><th>Intent</th><th>Owner / tool</th><th>Next step</th><th>By when</th></tr></thead><tbody>${movesRows}</tbody></table>` : `<p class="muted">No moves written yet.</p>`}
@@ -2425,8 +2817,9 @@ function buildSnapshotHtml(p) {
   </div>
 
   <h2>Where to go next</h2>
-  <p style="font-size:10pt">🤖 <strong>Build your Digital Employees</strong> — Run <code>/digital-employees</code> in Clawpilot to build a personalized AI workforce based on what you learned here.</p>
-  <p style="font-size:10pt">🔧 Drop the session JSON into <a href="${HANDOFF.url}">${HANDOFF.tool}</a> — it picks up where Move the Work left off.</p>
+  <p style="font-size:10pt">✅ <strong>Primary next step:</strong> paste your Scout Action Pack from the Move the Work app into Scout to start execution.</p>
+  <p style="font-size:10pt">Use a 2-4 week cycle with up to 3 active focus tasks; keep the rest as backlog for the next cycle.</p>
+  <p style="font-size:10pt">Run a weekly close-the-loop review: Task / Input / Output / Result / Confidence / Next tweak.</p>
 
   <div class="footer">
     <div>Re-run in 90 days · Import the saved JSON to see what's moved.</div>

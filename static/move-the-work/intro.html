@@ -167,6 +167,18 @@ p{margin:0 0 12px}
 .s-text{font-size:1.02rem}
 
 /* CTA slide */
+.bucket-intro{margin-top:4px}
+.bucket-list{display:flex; flex-direction:column; gap:8px; margin:10px 0 0; padding:0; list-style:none; max-width:720px}
+.bucket-item{
+  display:grid; grid-template-columns:110px 1fr; gap:12px; align-items:start;
+  border:1px solid var(--border); border-left-width:4px; border-radius:8px;
+  padding:9px 12px; background:var(--surface-soft);
+}
+.bucket-item strong{font-size:.92rem; line-height:1.45}
+.bucket-item span{font-size:.92rem; line-height:1.45; color:var(--muted)}
+.bucket-1{border-left-color:#f59e0b}
+.bucket-2{border-left-color:#2e67de}
+.bucket-3{border-left-color:var(--good)}
 .cta-prompt{
   border-left:4px solid var(--accent); background:var(--accent-soft);
   padding:14px 16px; border-radius:12px; font-size:1.12rem; font-style:italic;
@@ -203,6 +215,7 @@ p{margin:0 0 12px}
 @media(max-width:580px){
   .deck{padding:22px 18px 20px; min-height:400px}
   h1{font-size:1.5rem}
+  .bucket-item{grid-template-columns:1fr; gap:2px}
 }
 </style>
 </head>
@@ -324,6 +337,21 @@ p{margin:0 0 12px}
       <div class="kicker">You're ready</div>
       <h1 id="ctaHeading">Now move the work.</h1>
       <p class="body">The audit you're about to run is Bette's reframe applied to your actual week. List your real tasks. See where AI can take work off your plate. Reinvest that time in the capabilities no machine can replicate.</p>
+      <p class="body bucket-intro">You'll do this by putting your work into three buckets:</p>
+      <ul class="bucket-list">
+        <li class="bucket-item bucket-1">
+          <strong>Bucket 1 · Automate</strong>
+          <span>Work AI can do alone: repeatable, predictable, rules-based, and usually with a clear right answer.</span>
+        </li>
+        <li class="bucket-item bucket-2">
+          <strong>Bucket 2 · Assist</strong>
+          <span>The biggest opportunity: AI handles basics, drafts, patterns, summaries, or options; you decide what matters and make it meaningful.</span>
+        </li>
+        <li class="bucket-item bucket-3">
+          <strong>Bucket 3 · Human</strong>
+          <span>The durable human zone: trust, ambiguity, ethical judgment, creative leaps, and emotional intelligence. Curate it actively as the boundaries move.</span>
+        </li>
+      </ul>
       <div class="cta-prompt" id="ctaPrompt">
         "What work should AI take so I can spend more time on the outcomes only humans can create?"
       </div>

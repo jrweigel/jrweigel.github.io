@@ -317,7 +317,8 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 .kbd{font-family:Consolas,monospace;font-size:0.82em;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:6px;padding:1px 6px}
 .star-btn{background:none;border:none;padding:0 2px;font-size:1.25rem;line-height:1;cursor:pointer;color:var(--cp-border-strong);transition:color 80ms ease}
 .star-btn.filled{color:var(--cp-warning)}
-.star-btn:hover,.star-btn:focus{color:var(--cp-warning);outline:none}
+.star-btn:hover{color:var(--cp-warning)}
+.star-btn:focus-visible{color:var(--cp-warning);outline:2px solid var(--cp-warning);outline-offset:2px;border-radius:4px}
 .stars-row{display:inline-flex;gap:1px;align-items:center}
 .task-inv-row{border:1px solid var(--cp-border);border-radius:12px;background:var(--cp-surface);padding:12px 14px}
 .task-inv-row+.task-inv-row{margin-top:8px}
@@ -971,8 +972,8 @@ function normalizeIncomingTask(raw, idx) {
   const ioClarity = parseRating(raw.ioClarity != null ? raw.ioClarity : raw.inputOutputClarity);
   // derive cadence from explicit field first, then from frequency score
   const cadenceRaw = String(raw.cadence || "").toLowerCase().trim();
-  const cadenceMap = { day: "daily", daily: "daily", weekly: "weekly", week: "weekly", biweekly: "biweekly", "bi-weekly": "biweekly", monthly: "monthly", month: "monthly", quarterly: "quarterly", quarter: "quarterly", adhoc: "adhoc", "ad-hoc": "adhoc", "ad hoc": "adhoc", asneeded: "adhoc" };
-  const freqToCadence = { 5: "daily", 4: "biweekly", 3: "weekly", 2: "monthly", 1: "adhoc" };
+  const cadenceMap = { day: "daily", daily: "daily", weekly: "weekly", week: "weekly", biweekly: "biweekly", "bi-weekly": "biweekly", "twice-weekly": "twice-weekly", "twice a week": "twice-weekly", monthly: "monthly", month: "monthly", quarterly: "quarterly", quarter: "quarterly", adhoc: "adhoc", "ad-hoc": "adhoc", "ad hoc": "adhoc", asneeded: "adhoc" };
+  const freqToCadence = { 5: "daily", 4: "twice-weekly", 3: "weekly", 2: "monthly", 1: "adhoc" };
   const cadence = cadenceMap[cadenceRaw] || (frequency != null ? freqToCadence[frequency] : null) || "unknown";
   return {
     id, label, description,
@@ -1299,6 +1300,23 @@ function renderInventoryPrompt() {
       </div>
     </div>
     <div class="field">
+      <label>Optional interview context (improves prompt quality)</label>
+      <div class="row">
+        <div class="field">
+          <label>What are you currently tolerating?</label>
+          <textarea rows="2" data-act="inv-intake" data-key="tolerating" placeholder="e.g. Manual status synthesis from multiple sources">${escapeHtml(iv.tolerating || "")}</textarea>
+        </div>
+        <div class="field">
+          <label>What do you procrastinate on?</label>
+          <textarea rows="2" data-act="inv-intake" data-key="procrastinating" placeholder="e.g. Follow-ups that require finding context across long threads">${escapeHtml(iv.procrastinating || "")}</textarea>
+        </div>
+      </div>
+      <div class="field">
+        <label>What repeats weekly that could be systematized?</label>
+        <textarea rows="2" data-act="inv-intake" data-key="repeating" placeholder="e.g. Weekly update prep and recurring meeting notes">${escapeHtml(iv.repeating || "")}</textarea>
+      </div>
+    </div>
+    <div class="field">
       <label>2. Paste what your AI returned (the JSON array)</label>
       <textarea id="pasteInput" rows="6" placeholder='Paste the JSON array here. Markdown fences, chatty preambles, and M365 Copilot double-output are fine — the parser strips them.'></textarea>
       <div class="cluster" style="margin-top:8px">
@@ -1323,7 +1341,7 @@ function renderParsedPreview(preview) {
         <div class="task-list-row">
           <div style="flex:1;min-width:0">
             <div class="name">${escapeHtml(t.label)}</div>
-            <div class="meta">${escapeHtml(t.cadence)} · ${t.estWeeklyHours != null ? t.estWeeklyHours + "h/" + ({daily:"day",weekly:"wk",biweekly:"2wk",monthly:"mo",quarterly:"qtr",adhoc:"occ",unknown:"cadence"}[t.cadence]||"cadence") : "weight 1"} · Q:${(t.quality && t.quality.frequency) || "?"}/${(t.quality && t.quality.energyDrain) || "?"}/${(t.quality && t.quality.ioClarity) || "?"}${t.description ? " · " + escapeHtml(t.description.slice(0, 80) + (t.description.length > 80 ? "…" : "")) : ""}</div>
+            <div class="meta">${escapeHtml(t.cadence)} · ${t.estWeeklyHours != null ? t.estWeeklyHours + "h/" + ({daily:"day",weekly:"wk","twice-weekly":"2/wk",biweekly:"2wk",monthly:"mo",quarterly:"qtr",adhoc:"occ",unknown:"cadence"}[t.cadence]||"cadence") : "weight 1"} · Q:${(t.quality && t.quality.frequency) || "?"}/${(t.quality && t.quality.energyDrain) || "?"}/${(t.quality && t.quality.ioClarity) || "?"}${t.description ? " · " + escapeHtml(t.description.slice(0, 80) + (t.description.length > 80 ? "…" : "")) : ""}</div>
           </div>
           <div class="actions">
             <button class="btn btn-xs btn-danger" data-act="preview-remove" data-idx="${i}" title="Don't import this one">×</button>
@@ -1341,7 +1359,9 @@ function renderParsedPreview(preview) {
 function renderStars(value, dataId, field) {
   const v = value || 0;
   const labels = STAR_LABELS[field] || ["1","2","3","4","5"];
-  return `<div class="stars-row" role="group">${[1,2,3,4,5].map((n) => `<button class="star-btn${n <= v ? " filled" : ""}" data-act="set-quality" data-id="${escapeHtml(dataId)}" data-field="${escapeHtml(field)}" data-value="${n}" title="${escapeHtml(labels[n-1])}" type="button">★</button>`).join("")}</div>`;
+  const fieldLabelMap = { frequency: "Frequency", energyDrain: "Energy drain", ioClarity: "I/O clarity" };
+  const fieldLabel = fieldLabelMap[field] || field;
+  return `<div class="stars-row" role="group" aria-label="${escapeHtml(fieldLabel)} rating">${[1,2,3,4,5].map((n) => `<button class="star-btn${n <= v ? " filled" : ""}" data-act="set-quality" data-id="${escapeHtml(dataId)}" data-field="${escapeHtml(field)}" data-value="${n}" title="${escapeHtml(labels[n-1])}" aria-label="Set ${escapeHtml(fieldLabel)} to ${n} (${escapeHtml(labels[n-1])})" aria-pressed="${n <= v ? "true" : "false"}" type="button">★</button>`).join("")}</div>`;
 }
 
 function renderInventoryChips() {
@@ -1688,7 +1708,7 @@ function renderMove() {
                 <div class="meta">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)} · Q ${(t.quality && t.quality.frequency) || "?"}/${(t.quality && t.quality.energyDrain) || "?"}/${(t.quality && t.quality.ioClarity) || "?"}</div>
               </div>
               <div class="actions">
-                <button class="btn btn-xs ${isFocus ? "btn-primary" : ""}" data-act="toggle-top" data-id="${escapeHtml(t.id)}">${isFocus ? "Focus now" : "Add to focus"}</button>
+                <button class="btn btn-xs ${isFocus ? "btn-primary" : ""}" data-act="toggle-top" data-id="${escapeHtml(t.id)}" aria-pressed="${isFocus ? "true" : "false"}">${isFocus ? "Remove from focus" : "Add to focus"}</button>
               </div>
             </div>
           `;
@@ -2077,7 +2097,7 @@ function onClick(e) {
       if (!task.quality || typeof task.quality !== "object") task.quality = { frequency: null, energyDrain: null, ioClarity: null };
       task.quality[field] = isFinite(value) ? Math.max(1, Math.min(5, value)) : null;
       if (field === "frequency") {
-        const freqToCadence = { 5: "daily", 4: "biweekly", 3: "weekly", 2: "monthly", 1: "adhoc" };
+        const freqToCadence = { 5: "daily", 4: "twice-weekly", 3: "weekly", 2: "monthly", 1: "adhoc" };
         task.cadence = freqToCadence[value] || "unknown";
       }
       save({ silent: true });

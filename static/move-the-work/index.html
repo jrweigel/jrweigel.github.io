@@ -8,7 +8,7 @@
 <title>Move the Work</title>
 <script>
   (() => {
-    const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
     const stored = (() => { try { return localStorage.getItem("mtw:theme"); } catch (_) { return null; } })();
     const prefersDark = (typeof window.matchMedia === "function") && window.matchMedia("(prefers-color-scheme: dark)").matches;
     const theme = param || stored || (prefersDark ? "dark" : "light");
@@ -207,8 +207,6 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 .site-footer{border-top:1px solid var(--cp-border);padding:24px 20px 32px;background:var(--cp-bg-elevated)}
 .site-footer-inner{max-width:880px;margin:0 auto;color:var(--cp-text-muted);font-size:0.88rem}
 .site-footer-inner p{color:inherit;margin-bottom:8px}
-.site-footer-warning{display:flex;gap:8px;align-items:flex-start;margin:0}
-.site-footer-warning .icon{flex:0 0 auto;line-height:1.5}
 .site-header{
   background:var(--cp-bg-elevated);
   border-bottom:1px solid var(--cp-border);
@@ -367,8 +365,7 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 <main class="page" id="app"></main>
 <footer class="site-footer">
   <div class="site-footer-inner">
-    <p><a href="https://github.com/jrweigel/jrweigel.github.io/tree/master/static/move-the-work">Move the Work</a> runs entirely in your browser and will save to local storage in your browser. No accounts, no telemetry, no data leaves this device unless you export it.</p>
-    <p class="site-footer-warning"><span class="icon" aria-hidden="true">⚠️</span><span>Sessions won't save in private/incognito windows and will disappear if you clear browser or site data.</span></p>
+    <p><a href="https://github.com/jrweigel/jrweigel.github.io/tree/master/static/move-the-work">Move the Work</a> runs entirely in your browser and will save to local storage in your browser. No accounts, no telemetry, no data leaves this device unless you export it. ⚠️ Sessions won't save in private/incognito windows and will disappear if you clear browser or site data.</p>
   </div>
 </footer>
 <div class="toast" id="toast"></div>
@@ -447,10 +444,7 @@ const STARTER_CHIPS = [
   "Hiring / interview loops",
   "Career conversations with directs",
   "Cross-team coordination",
-  "Quarterly business review prep",
-  "Incident triage",
-  "Mentoring / coaching",
-  "Decision documentation"
+  "Quarterly business review prep"
 ];
 
 const STAR_LABELS = {
@@ -476,7 +470,7 @@ Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, inclu
 Round 3 — energy, judgment, and ownership:
 Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
 
-After I answer round 3, use my answers and the activity evidence to identify recurring tasks or responsibilities. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
+After I answer round 3, use my answers and the activity evidence to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
 
 For each task return a JSON object with these fields:
 
@@ -498,58 +492,67 @@ conversations on my calendar), include it anyway with evidence: "inferred from r
   },
   workiq: {
     label: "WorkIQ",
-    note: "Use an internal tool that accesses WorkIQ (like Clawpilot, Copilot CLI, or VS Code/GHCP).",
-    text: `Inventory and triage the actual tasks I spend time on at work, for a personal three-bucket
-AI audit.
+    note: "Use Scout, Copilot CLI, or VS Code with GitHub Copilot to access WorkIQ sources, then verify the inventory with you in three rounds.",
+    text: `You are helping me inventory the actual tasks I spend time on for the "Move the Work" three-bucket audit (Automate / Assist / Human).
 
-Source material:
-  - my calendar from the last 30 days
-  - my sent mail from the last 30 days
-  - my Teams chats and channel messages from the last 30 days
-  - any recent OneDrive documents I authored or co-authored
+First, verify which WorkIQ sources you can access in this session: my calendar, sent mail, Teams chats and channel messages from the last 30 days, and recent OneDrive documents I authored or co-authored. Tell me which sources you can use. If any source is unavailable, say so plainly and ask me to describe or paste the missing context; never invent activity or evidence. Then conduct exactly three conversational rounds, one round at a time. Wait for my answer after each round. Do not combine rounds, skip a round, ask extra rounds, or generate any inventory before I answer round 3.
 
-Identify 10 to 15 recurring tasks. Cluster related items. Include boring work
-and "always-my-job" tasks even if they're not in any formal job description.
+Round 1 — current work and evidence:
+Ask what work is most current or important and what evidence in the available WorkIQ sources would confirm it.
 
-As you build the list, also look for hidden friction:
-  - work that recurs but seems to generate little visible output
-  - tasks that show up rarely but likely cause avoidance
-  - manual steps that happen repeatedly and look systematizable
-  - work that landed on me but doesn't belong to my role
+Round 2 — friction, repetition, and deferred work:
+Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, including work that keeps landing on me but may not belong to my role.
 
-For each task output a JSON object with: id (kebab-case), label (2-6 words),
-description (1-2 sentences), source ("graph-pre-seed"), bucket ("unsorted"),
-evidence (1-2 short examples from the real data), frequency (1-5, where 5=daily/4=few times a week/3=weekly/2=monthly/1=less than monthly),
-energyDrain (1-5, where 1=effortless/5=depleted after), ioClarity (1-5, where 1=highly subjective/5=crystal clear inputs and outputs).
+Round 3 — energy, judgment, and ownership:
+Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
 
-Return ONLY a JSON array. No prose, no markdown fences.`
-  },
-  other: {
-    label: "ChatGPT / Claude / other",
-    note: "For when you don't have Copilot or WorkIQ. You'll need to paste or describe context yourself.",
-    text: `I'm doing a personal AI audit. I need to inventory the actual tasks I spend
-time on at work — not my job title, the real day-to-day work.
+After I answer round 3, use my answers and verified source evidence to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
 
-I'll either paste my recent calendar / email summary, or describe my week.
+For each task return a JSON object with these fields:
 
-Ask me 3-5 short interview questions first (tolerating, procrastinating, repeating),
-then identify 10 to 15 recurring tasks. Cluster related items. Push me to
-include the boring, recurring, low-prestige work and "always-my-job" tasks
-that aren't formally on my plate.
-
-For each task return JSON with these fields:
-  id              kebab-case slug
-  label           2-6 word name
-  description     1-2 sentences
-  source          "manual-paste"
-  bucket          "unsorted"
-  evidence        what I told you that supports this task being on the list
+  id              short kebab-case slug, e.g. "weekly-status-email"
+  label           2-6 word task name, plain language
+  description     1-2 sentences on what the task actually involves
+  source          always "graph-pre-seed"
+  bucket          always "unsorted" (I will sort later)
+  evidence        1-2 short examples from verified source data or my answers
   frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
   energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
   ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
 
-Output ONLY the JSON array, no prose, no markdown fences.
-`
+Then emit exactly one complete fenced JSON block containing one object whose top-level "tasks" property is the array of task objects. Emit no prose, duplicate preview, comments, headings, or second block before or after it. Use exactly the field names listed above. Set source to "graph-pre-seed" and bucket to "unsorted" for every task. Before sending, validate that the entire object is complete and JSON.parse-compatible; never truncate a field or task. Never return more than 12 tasks. Never invent evidence; when evidence comes only from my answer, say so plainly in the evidence field.`
+  },
+  other: {
+    label: "ChatGPT / Claude / other",
+    note: "For when you don't have Copilot or WorkIQ. The assistant will verify what context is available and interview you in three rounds.",
+    text: `You are helping me inventory the actual tasks I spend time on for the "Move the Work" three-bucket audit (Automate / Assist / Human).
+
+First, verify what work context you can access in this chat, such as files or connected sources. If you cannot access my calendar, email, messages, or documents, say so plainly and ask me to describe or paste relevant recent context; never invent activity or evidence. Then conduct exactly three conversational rounds, one round at a time. Wait for my answer after each round. Do not combine rounds, skip a round, ask extra rounds, or generate any inventory before I answer round 3.
+
+Round 1 — current work and evidence:
+Ask what work has taken the most time lately, what is most current or important, and what examples or context would confirm it.
+
+Round 2 — friction, repetition, and deferred work:
+Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, including work that keeps landing on me but may not belong to my role.
+
+Round 3 — energy, judgment, and ownership:
+Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
+
+After I answer round 3, use only my answers and context actually available in this chat to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
+
+For each task return a JSON object with these fields:
+
+  id              short kebab-case slug, e.g. "weekly-status-email"
+  label           2-6 word task name, plain language
+  description     1-2 sentences on what the task actually involves
+  source          always "manual-paste"
+  bucket          always "unsorted" (I will sort later)
+  evidence        what I provided that supports this task being on the list
+  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
+  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
+  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
+
+Then emit exactly one complete fenced JSON block containing one object whose top-level "tasks" property is the array of task objects. Emit no prose, duplicate preview, comments, headings, or second block before or after it. Use exactly the field names listed above. Set source to "manual-paste" and bucket to "unsorted" for every task. Before sending, validate that the entire object is complete and JSON.parse-compatible; never truncate a field or task. Never return more than 12 tasks. Never invent evidence; when something is an inference from my role or answer, label it "inferred from user-provided context; please verify" in the evidence field.`
   }
 };
 
@@ -568,14 +571,14 @@ const FRAME_COPY = {
   title: "Where does AI actually fit in your work?",
   pitch: "Most of us know AI can change our work. Most of us are stuck on <em>where</em> and <em>how</em>. This is the 30-minute audit that answers it — for you, for your work, today.",
   bullets: [
-    "List the ~12 tasks you actually spend time on — the real work, not your job title.",
+    "List the ~6 tasks you've spent the most time on lately — the real work, not your job title.",
     "Sort them into <strong>Automate / Assist / Human</strong> using diagnostic questions.",
-    "See your zone (red / yellow / green) and what it means for your career.",
+    "See your status: <strong>Red zone · High exposure</strong>, <strong>Yellow zone · Time to act</strong>, or <strong>Green zone · Lower exposure for now</strong>.",
     "Choose one move and leave with a four-week experiment you can bring to your 1:1."
   ],
   bankTeller: "In 1973, the <em>New York Times</em> predicted ATMs would replace 75% of bank tellers. Between 1970 and 2010, bank teller jobs <strong>doubled</strong>. The machines took the routine cash dispensing. The humans took the relationship work — reading the nervous retiree, sensing when the entrepreneur was ready for a line of credit. The job didn't disappear. It <strong>moved up the stack</strong>.",
   reframe: "Your job is not your title. Your job is a <strong>bag of tasks</strong>. Some of those tasks will be done by AI. Some will be done <em>with</em> AI. Some will stay yours alone. The work here is to sort them honestly — and decide where to invest your energy.",
-  conveyorBelt: "The conveyor belt describes how work evolves across buckets over time, not the app screens. Routine Bucket 1 work increasingly disappears; adding human judgment can turn suitable work into Bucket 2; using AI well in Bucket 2 creates capacity and possibilities for Bucket 3. Not every task moves mechanically through all three buckets, so return about every four weeks to curate the mix."
+  conveyorBelt: "Over time, model capabilities and your work evolve. Some assisted work becomes automated, some human-only work becomes AI assisted, and the capacity you create can be reinvested in more strategic Bucket 3 work. Return about every four weeks to curate the mix."
 };
 
 /* ==========================================================================
@@ -650,7 +653,6 @@ let ui = {
   currentTaskIdx: 0,
   inventoryTab: "prompt",
   inventoryTool: "m365",
-  inventoryInterview: { tolerating: "", procrastinating: "", repeating: "" },
   miniLessonsShown: { automate: false, assist: false, human: false },
   parsedPreview: null,
   expandedDesc: new Set(),
@@ -786,18 +788,6 @@ function bestFirstMoveLabel(score) {
   if (score >= 4) return "Start now";
   if (score >= 3) return "Good next";
   return "Backlog";
-}
-
-function buildInventoryPromptWithInterview(toolKey) {
-  const base = (PROMPTS[toolKey] || PROMPTS.m365).text;
-  const iv = ui.inventoryInterview || {};
-  const notes = [
-    iv.tolerating && iv.tolerating.trim() ? `- What I'm currently tolerating: ${iv.tolerating.trim()}` : null,
-    iv.procrastinating && iv.procrastinating.trim() ? `- What I procrastinate on: ${iv.procrastinating.trim()}` : null,
-    iv.repeating && iv.repeating.trim() ? `- What I repeat weekly that should be systematized: ${iv.repeating.trim()}` : null
-  ].filter(Boolean);
-  if (notes.length === 0) return base;
-  return `${base}\n\nOptional context I already entered in the app:\n${notes.join("\n")}\nTreat these notes only as background. They do not answer any interview round and must not cause you to skip, combine, or shorten the required three-round conversation.`;
 }
 
 // ---- computation ----
@@ -1238,10 +1228,6 @@ function renderWelcome() {
         </div>
       </section>` : ""}
 
-    <p class="muted center" style="margin-top:28px;font-size:0.85rem">
-      Move the Work runs entirely in your browser. No accounts, no telemetry, no data leaves this device unless you export it.
-      <br><strong>⚠️ Sessions won't save in private/incognito windows</strong> and will disappear if you clear browser or site data.
-    </p>
   `;
 }
 
@@ -1278,7 +1264,6 @@ function renderInventory() {
     <section class="card">
       <h2>Inventory your tasks</h2>
       <p>Start with 5–6 key things you actually spend time on — not your job title, the real day-to-day work. Add more if the extra sorting time is worthwhile.</p>
-      <p class="muted" style="font-size:0.9rem;margin-top:0">Delete, combine, or reframe overlapping tasks until each item represents a distinct kind of work.</p>
       <p class="muted" style="font-size:0.9rem;margin-top:0">There are a few different ways to build your inventory: use an AI prompt to generate it from your calendar/email, start with curated examples, or add your own from scratch.</p>
       <div class="tabs">
         <button class="tab ${tab === "prompt" ? "tab-on" : ""}" data-act="inv-tab" data-tab="prompt">Let AI inventory it</button>
@@ -1296,8 +1281,6 @@ function renderInventory() {
 function renderInventoryPrompt() {
   const tool = ui.inventoryTool;
   const prompt = PROMPTS[tool] || PROMPTS.m365;
-  const promptWithInterview = buildInventoryPromptWithInterview(tool);
-  const iv = ui.inventoryInterview || {};
   const preview = ui.parsedPreview;
   return `
     <div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text)">
@@ -1315,28 +1298,10 @@ function renderInventoryPrompt() {
     </div>
     <div class="field">
       <label>1. Copy this prompt and run it in ${escapeHtml(prompt.label)}</label>
-      <pre id="promptText">${escapeHtml(promptWithInterview)}</pre>
+      <pre id="promptText">${escapeHtml(prompt.text)}</pre>
       <div class="cluster" style="margin-top:8px">
         <button class="btn btn-sm" data-act="copy-prompt">Copy prompt (Generate + Interview)</button>
-        <span class="muted">${escapeHtml(prompt.label === "M365 Copilot" ? "Tip: paste into M365 Copilot Chat (m365.cloud.microsoft.com/chat) or the Copilot pane in Word/Outlook." : prompt.label === "WorkIQ" ? "Tip: run in Clawpilot, Copilot CLI (workiq ask -q), or VS Code with GitHub Copilot." : "Tip: bring your own context — paste recent calendar/email or describe your week.")}</span>
-      </div>
-    </div>
-    <div class="field">
-      <label>Optional interview context (background only)</label>
-      <p class="muted" style="font-size:0.85rem;margin-top:0">These notes enrich the prompt but do not replace any of the three conversational rounds. Your AI should still ask one round, wait, then continue.</p>
-      <div class="row">
-        <div class="field">
-          <label>What are you currently tolerating?</label>
-          <textarea rows="2" data-act="inv-intake" data-key="tolerating" placeholder="e.g. Manual status synthesis from multiple sources">${escapeHtml(iv.tolerating || "")}</textarea>
-        </div>
-        <div class="field">
-          <label>What do you procrastinate on?</label>
-          <textarea rows="2" data-act="inv-intake" data-key="procrastinating" placeholder="e.g. Follow-ups that require finding context across long threads">${escapeHtml(iv.procrastinating || "")}</textarea>
-        </div>
-      </div>
-      <div class="field">
-        <label>What repeats weekly that could be systematized?</label>
-        <textarea rows="2" data-act="inv-intake" data-key="repeating" placeholder="e.g. Weekly update prep and recurring meeting notes">${escapeHtml(iv.repeating || "")}</textarea>
+        <span class="muted">${escapeHtml(prompt.label === "M365 Copilot" ? "Tip: paste into M365 Copilot Chat (m365.cloud.microsoft.com/chat) or the Copilot pane in Word/Outlook." : prompt.label === "WorkIQ" ? "Tip: run in Scout, Copilot CLI (workiq ask -q), or VS Code with GitHub Copilot." : "Tip: bring your own context — paste recent calendar/email or describe your week.")}</span>
       </div>
     </div>
     <div class="field">
@@ -1382,7 +1347,7 @@ function renderParsedPreview(preview) {
 function renderStars(value, dataId, field) {
   const v = value || 0;
   const labels = STAR_LABELS[field] || ["1","2","3","4","5"];
-  const fieldLabelMap = { frequency: "Frequency", energyDrain: "Energy drain", ioClarity: "I/O clarity" };
+  const fieldLabelMap = { frequency: "Frequency", energyDrain: "Energy drain", ioClarity: "Input/output clarity" };
   const fieldLabel = fieldLabelMap[field] || field;
   return `<div class="stars-row" role="group" aria-label="${escapeHtml(fieldLabel)} rating">${[1,2,3,4,5].map((n) => `<button class="star-btn${n <= v ? " filled" : ""}" data-act="set-quality" data-id="${escapeHtml(dataId)}" data-field="${escapeHtml(field)}" data-value="${n}" title="${escapeHtml(labels[n-1])}" aria-label="Set ${escapeHtml(fieldLabel)} to ${n} (${escapeHtml(labels[n-1])})" aria-pressed="${n <= v ? "true" : "false"}" type="button">★</button>`).join("")}</div>`;
 }
@@ -1426,7 +1391,8 @@ function renderTaskInventoryList() {
     <section class="card">
       <h3 style="margin-bottom:4px">Your inventory <span class="badge">${session.tasks.length}</span></h3>
       <p class="muted" style="margin-bottom:8px">Edit names, add descriptions, and rate each task before sorting. Five or six key tasks is enough; add more when the broader view is worth the time.</p>
-      <p class="muted" style="font-size:0.85rem;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:10px;padding:10px 12px;margin-bottom:14px"><strong>Frequency</strong> reveals repeated leverage, <strong>energy drain</strong> reveals friction, and <strong>I/O clarity</strong> shows how readily work can be delegated or supported. These ratings feed the Best First Move recommendation; they do not dictate your choice. Delete, combine, or reframe overlap as you notice it.</p>
+      <p class="muted" style="margin-bottom:8px">Delete, combine, or reframe overlap as you notice it.</p>
+      <p class="muted" style="font-size:0.85rem;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:10px;padding:10px 12px;margin-bottom:14px"><strong>Frequency</strong> reveals repeated leverage, <strong>energy drain</strong> reveals friction, and <strong>input/output clarity</strong> shows how readily work can be delegated or supported. These ratings feed the Best First Move recommendation; they do not dictate your choice.</p>
       <div>
         ${session.tasks.map((t) => {
           const expanded = (ui.expandedDesc && ui.expandedDesc.has(t.id)) || !!t.description;
@@ -1450,7 +1416,7 @@ function renderTaskInventoryList() {
                 <p class="muted" style="font-size:0.8rem;margin:3px 0 0 0">How much energy does this take, relative to its importance?</p>
               </div>
               <div class="quality-item">
-                <span class="quality-label">I/O Clarity</span>
+                <span class="quality-label">Input/output clarity</span>
                 ${renderStars(t.quality && t.quality.ioClarity, t.id, "ioClarity")}
                 <p class="muted" style="font-size:0.8rem;margin:3px 0 0 0">How easily can inputs and outputs be defined, without a lot of human judgment?</p>
               </div>
@@ -1511,7 +1477,7 @@ function renderSort() {
   const idx = ui.currentTaskIdx;
   const sortedCount = session.tasks.filter((t) => t.bucket && t.bucket !== "unsorted").length;
   const suggested = suggestedBucketFor(task);
-  const lesson = suggested && !ui.miniLessonsShown[suggested] ? MINI_LESSONS[suggested] : null;
+  const lesson = suggested ? MINI_LESSONS[suggested] : null;
   const progressPct = total === 0 ? 0 : ((idx + 1) / total * 100);
   const currentBucket = task.bucket && task.bucket !== "unsorted" ? `Bucket ${BUCKETS[task.bucket].num} · ${BUCKETS[task.bucket].name}` : "Not placed";
   return `
@@ -1547,12 +1513,6 @@ function renderSort() {
         `;
       }).join("")}
 
-      ${lesson ? `
-        <div class="mini-lesson">
-          <h4>${escapeHtml(lesson.title)}</h4>
-          <p>${escapeHtml(lesson.body)}</p>
-        </div>` : ""}
-
       <h3 style="margin-top:18px">Task quality</h3>
       <p class="muted" style="font-size:0.85rem;margin:-4px 0 10px 0">Validate this is still correct — adjust if your first impression has changed.</p>
       <div class="task-inv-quality" style="margin-top:8px">
@@ -1567,7 +1527,7 @@ function renderSort() {
           <p class="muted" style="font-size:0.82rem;margin:3px 0 0 0">How much energy does this take, relative to its importance?</p>
         </div>
         <div class="quality-item">
-          <span class="quality-label">I/O Clarity</span>
+          <span class="quality-label">Input/output clarity</span>
           ${renderStars(task.quality && task.quality.ioClarity, task.id, "ioClarity")}
           <p class="muted" style="font-size:0.82rem;margin:3px 0 0 0">How easily can inputs and good outputs be defined, without a lot of human judgment?</p>
         </div>
@@ -1577,7 +1537,13 @@ function renderSort() {
       </div>
 
       <h3 style="margin-top:18px">Which bucket?</h3>
-      ${suggested ? `<p class="muted" style="margin-top:-6px">Based on your answers, this looks like <span class="badge ${BUCKETS[suggested].badge}">${BUCKETS[suggested].name}</span>. You can confirm or override.</p>` : `<p class="muted" style="margin-top:-6px">Pick the bucket that feels right.</p>`}
+      ${lesson ? `
+        <div class="mini-lesson">
+          <p style="margin-bottom:6px"><strong>Based on your answers, this looks like:</strong> <span class="badge ${BUCKETS[suggested].badge}">${BUCKETS[suggested].name}</span></p>
+          <h4>${escapeHtml(lesson.title)}</h4>
+          <p>${escapeHtml(lesson.body)}</p>
+        </div>
+        <p class="muted">You can confirm or override.</p>` : `<p class="muted" style="margin-top:-6px">Pick the bucket that feels right.</p>`}
 
       <div class="bucket-choice">
         ${["automate","assist","human","unsorted"].map((b) => {
@@ -1700,7 +1666,7 @@ function renderAssess() {
       </div>
 
       <div class="callout" style="border-left-color:var(--b2-color)">
-        <strong>How the conveyor belt works.</strong> The conveyor belt is work evolving across buckets over time, not movement through these app screens. Routine Bucket 1 work increasingly disappears. Adding human judgment to suitable Bucket 1 work can create Bucket 2 work; using AI well in Bucket 2 can create capacity and new possibilities for Bucket 3. Not every task should move mechanically from 1 to 2 to 3. Curate the mix and reassess it about every four weeks.
+        <strong>How the work shifts over time.</strong> AI keeps getting better, so tasks can change buckets. Work you do with AI today may be fully automated later. Work only humans do today may become work humans do with AI. As Bucket 1 work disappears, use Bucket 2 to save time and make more room for Bucket 3: strategic, creative, human work. Not every task moves from 1 to 2 to 3. Check your mix about every four weeks as your work changes.
       </div>
 
       <div class="callout" style="border-left-color:var(--b3-color)">
@@ -1741,6 +1707,7 @@ function renderMove() {
     <section class="card">
       <h3>Ranked tasks (Best First Move)</h3>
       <p class="muted">Score = 0.4 × Frequency + 0.35 × Energy drain + 0.25 × Input/output clarity.</p>
+      <p class="muted">Frequency reveals repeated leverage, energy drain reveals friction and cost, and input/output clarity shows how readily the work can be defined, delegated, or supported. Together they prioritize a useful first experiment without overriding your judgment.</p>
       <div class="stack">
         ${ranked.map((t, i) => {
           const isFocus = focusIds.has(t.id);
@@ -2094,7 +2061,7 @@ function onClick(e) {
     case "inv-tool":
       ui.inventoryTool = t.getAttribute("data-tool"); render(); break;
     case "copy-prompt":
-      copyToClipboard(buildInventoryPromptWithInterview(ui.inventoryTool)).then((ok) => toast(ok ? "Prompt copied — paste it into " + PROMPTS[ui.inventoryTool].label : "Copy failed — select the text manually"));
+      copyToClipboard((PROMPTS[ui.inventoryTool] || PROMPTS.m365).text).then((ok) => toast(ok ? "Prompt copied — paste it into " + PROMPTS[ui.inventoryTool].label : "Copy failed — select the text manually"));
       break;
     case "parse-paste": {
       const text = $("#pasteInput").value;
@@ -2198,12 +2165,6 @@ function onInput(e) {
       const id = t.getAttribute("data-id");
       const task = session.tasks.find((x) => x.id === id);
       if (task) { task.description = t.value; save({ silent: true }); }
-      break;
-    }
-    case "inv-intake": {
-      const key = t.getAttribute("data-key");
-      if (!ui.inventoryInterview) ui.inventoryInterview = { tolerating: "", procrastinating: "", repeating: "" };
-      ui.inventoryInterview[key] = t.value;
       break;
     }
     case "task-edit-label": {
@@ -2794,7 +2755,7 @@ function buildSnapshotHtml(p) {
   </div>
 
   <h2>Full task inventory</h2>
-  <table><thead><tr><th>Task</th><th>Bucket</th><th>Frequency</th><th>Energy Drain</th><th>I/O Clarity</th></tr></thead><tbody>${tasksRows}</tbody></table>
+  <table><thead><tr><th>Task</th><th>Bucket</th><th>Frequency</th><th>Energy Drain</th><th>Input/output clarity</th></tr></thead><tbody>${tasksRows}</tbody></table>
 
   <h2>All moves</h2>
   ${movesRows ? `<table><thead><tr><th>Task</th><th>Intent</th><th>Owner / tool</th><th>Next step</th><th>By when</th></tr></thead><tbody>${movesRows}</tbody></table>` : `<p class="muted">No moves written yet.</p>`}

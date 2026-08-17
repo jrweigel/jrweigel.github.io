@@ -16,7 +16,8 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "validate": "node scripts/validate-content.mjs",
     "check:links": "node scripts/check-links.mjs",
-    "test": "npm run build && npm run check:links"
+    "test": "npm run test:heist && npm run build && npm run check:links",
+    "test:heist": "node --test static/heist-table/tests/logic.test.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.0",

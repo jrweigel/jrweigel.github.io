@@ -8,6 +8,7 @@ This repository hosts the Docusaurus site at the root URL and several standalone
 * Europe travel guide: <https://jrweigel.github.io/Europe2026/>
 * Move the Work: <https://jrweigel.github.io/move-the-work/>
 * Which Tool: <https://jrweigel.github.io/which-tool/>
+* Heist Table: <https://jrweigel.github.io/heist-table/>
 
 ## Source Layout
 
@@ -73,3 +74,38 @@ GitHub Actions runs on pushes to `master` and manual dispatch.
 4. Deploy to GitHub Pages.
 
 This keeps the root URL as the Docusaurus site while preserving standalone apps under their subpaths.
+
+## Heist Table
+
+Heist Table is a mobile-first, offline cooperative poker companion at
+`static/heist-table/`. It stores the active game, recently used player names,
+session statistics, and lifetime statistics in the browser's `localStorage`;
+no data leaves the device.
+
+### Develop and build
+
+```bash
+npm install
+npm run start
+# Open http://localhost:3000/heist-table/
+
+npm run build
+# Production files are emitted to build/heist-table/
+```
+
+Run its game-logic tests with `npm run test:heist`. To install on iPhone, open
+the published HTTPS URL in Safari, tap **Share**, choose **Add to Home Screen**,
+and launch it once online so the app shell is cached.
+
+### Local data and reset
+
+Use **Settings > Erase all saved data** to remove the active game, names, and
+statistics. **Stats > Reset Stats** removes only statistics. Safari's
+website-data controls can also clear all saved data.
+
+### GitHub Pages deployment
+
+The existing GitHub Actions workflow builds and publishes the complete
+Docusaurus `build/` directory. Open a pull request, merge it to `master`, and
+the workflow will publish Heist Table at `/heist-table/`; no paid service is
+required.

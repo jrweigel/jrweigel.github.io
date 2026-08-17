@@ -8,7 +8,7 @@
 <title>Move the Work</title>
 <script>
   (() => {
-    const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
     const stored = (() => { try { return localStorage.getItem("mtw:theme"); } catch (_) { return null; } })();
     const prefersDark = (typeof window.matchMedia === "function") && window.matchMedia("(prefers-color-scheme: dark)").matches;
     const theme = param || stored || (prefersDark ? "dark" : "light");
@@ -204,6 +204,9 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 .tab:hover{color:var(--cp-text)}
 .tab-on{color:var(--cp-text);border-bottom-color:var(--cp-accent);font-weight:500}
 .page{max-width:880px;margin:0 auto;padding:24px 20px 80px}
+.site-footer{border-top:1px solid var(--cp-border);padding:24px 20px 32px;background:var(--cp-bg-elevated)}
+.site-footer-inner{max-width:880px;margin:0 auto;color:var(--cp-text-muted);font-size:0.88rem}
+.site-footer-inner p{color:inherit;margin-bottom:8px}
 .site-header{
   background:var(--cp-bg-elevated);
   border-bottom:1px solid var(--cp-border);
@@ -212,6 +215,15 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
   backdrop-filter:saturate(120%) blur(6px);
 }
 .site-header-inner{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.sort-context{
+  position:sticky;top:57px;z-index:9;
+  background:var(--cp-panel-strong);border:1px solid var(--cp-border);border-radius:12px;
+  padding:10px 14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  backdrop-filter:saturate(120%) blur(6px);
+}
+.sort-context-main{display:flex;align-items:baseline;gap:8px;min-width:0}
+.sort-context-label{font-weight:600;overflow-wrap:anywhere}
+.sort-context-meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--cp-text-muted);font-size:0.85rem;margin-top:3px}
 .brand{font-weight:700;letter-spacing:-0.01em;font-size:1.1rem;color:var(--cp-text);text-decoration:none}
 .brand span{color:var(--cp-accent)}
 .tagline-mini{color:var(--cp-text-muted);font-size:0.88rem}
@@ -260,14 +272,10 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 .bucket-stat.b1 .bucket-stat-num{color:var(--b1-color)}
 .bucket-stat.b2 .bucket-stat-num{color:var(--b2-color)}
 .bucket-stat.b3 .bucket-stat-num{color:var(--b3-color)}
-.zone-card{padding:18px 22px;border-radius:14px;display:flex;gap:14px;align-items:flex-start;border:1px solid var(--cp-border);background:var(--cp-surface)}
-.zone-red{border-color:var(--cp-danger);background:rgba(220,38,38,0.06)}
-.zone-yellow{border-color:var(--cp-warning);background:rgba(245,158,11,0.07)}
-.zone-green{border-color:var(--cp-success);background:rgba(22,163,74,0.06)}
-.zone-label{font-weight:700;font-size:1rem;display:inline-block;padding:4px 10px;border-radius:8px;color:#fff;letter-spacing:0.04em}
-.zone-red .zone-label{background:var(--cp-danger)}
-.zone-yellow .zone-label{background:var(--cp-warning)}
-.zone-green .zone-label{background:var(--cp-success)}
+.zone-card{padding:18px 22px;border-radius:14px;display:flex;gap:14px;align-items:flex-start;border:1px solid var(--cp-border-strong);background:var(--cp-surface-soft)}
+.zone-icon{width:28px;height:28px;flex:0 0 auto;color:var(--cp-text);margin-top:2px}
+.zone-name{font-weight:700;font-size:1.05rem;color:var(--cp-text)}
+.zone-subtitle{color:var(--cp-text-muted);font-weight:600;margin-bottom:6px}
 .diag-q{background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:12px;padding:14px 16px;margin-bottom:10px}
 .diag-q-text{font-weight:500;margin-bottom:10px}
 .diag-q .cluster{gap:6px}
@@ -315,8 +323,26 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 .dropzone{border:2px dashed var(--cp-border);border-radius:14px;padding:24px;text-align:center;color:var(--cp-text-muted);cursor:pointer;transition:background 120ms ease,border-color 120ms ease}
 .dropzone:hover,.dropzone.on{background:var(--cp-accent-soft);border-color:var(--cp-accent);color:var(--cp-accent)}
 .kbd{font-family:Consolas,monospace;font-size:0.82em;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:6px;padding:1px 6px}
+.star-btn{background:none;border:none;padding:0 2px;font-size:1.25rem;line-height:1;cursor:pointer;color:var(--cp-border-strong);transition:color 80ms ease}
+.star-btn.filled{color:var(--cp-warning)}
+.star-btn:hover{color:var(--cp-warning)}
+.star-btn:focus-visible{color:var(--cp-warning);outline:2px solid var(--cp-warning);outline-offset:2px;border-radius:4px}
+.stars-row{display:inline-flex;gap:1px;align-items:center}
+.task-inv-row{border:1px solid var(--cp-border);border-radius:12px;background:var(--cp-surface);padding:12px 14px}
+.task-inv-row+.task-inv-row{margin-top:8px}
+.task-inv-top{display:flex;gap:8px;align-items:center}
+.task-inv-quality{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+.quality-item{display:flex;flex-direction:column}
+.quality-label{font-size:0.82rem;color:var(--cp-text-muted);font-weight:500;margin-bottom:3px}
+@media(max-width:600px){.task-inv-quality{grid-template-columns:1fr}}
+@media(max-width:600px){
+  .hidden-mobile{display:none !important}
+  .sort-context{top:57px;margin-left:-8px;margin-right:-8px;padding:9px 12px}
+  .sort-context-main{align-items:flex-start;flex-direction:column;gap:2px}
+  .sort-context-meta{gap:5px 8px}
+}
 @media print{
-  .site-header,.step-nav,.toast,.no-print{display:none !important}
+  .site-header,.step-nav,.site-footer,.toast,.no-print{display:none !important}
   .page{padding:0;max-width:none}
   .card{box-shadow:none;border-color:#ccc;break-inside:avoid}
 }
@@ -337,6 +363,11 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 </header>
 <nav class="step-nav"><div class="step-nav-inner" id="stepNav"></div></nav>
 <main class="page" id="app"></main>
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p><a href="https://github.com/jrweigel/jrweigel.github.io/tree/master/static/move-the-work">Move the Work</a> runs entirely in your browser and will save to local storage in your browser. No accounts, no telemetry, no data leaves this device unless you export it. ⚠️ Sessions won't save in private/incognito windows and will disappear if you clear browser or site data.</p>
+  </div>
+</footer>
 <div class="toast" id="toast"></div>
 <input type="file" id="filePicker" accept=".json,application/json" class="hidden">
 <script>
@@ -344,7 +375,7 @@ label{display:block;font-size:0.92rem;color:var(--cp-text-muted);margin-bottom:4
 /* ==========================================================================
    Move the Work — Constants & content
    ========================================================================== */
-const SCHEMA_VERSION = "1.0.0";
+const SCHEMA_VERSION = "1.1.0";
 const APP_VERSION = "0.1.0";
 const STORAGE_PREFIX = "mtw:session:";
 const STORAGE_THEME_KEY = "mtw:theme";
@@ -413,96 +444,115 @@ const STARTER_CHIPS = [
   "Hiring / interview loops",
   "Career conversations with directs",
   "Cross-team coordination",
-  "Quarterly business review prep",
-  "Incident triage",
-  "Mentoring / coaching",
-  "Decision documentation"
+  "Quarterly business review prep"
 ];
+
+const STAR_LABELS = {
+  frequency:   ["Less than monthly", "Monthly", "Weekly", "A few times a week", "Daily"],
+  energyDrain: ["Easy — I don't think about it", "Light effort", "Moderate drain", "Draining", "Depleted after — need recovery time"],
+  ioClarity:   ["Highly subjective", "Mostly fuzzy inputs/outputs", "Moderate clarity", "Mostly well-defined", "Crystal clear inputs and outputs"]
+};
 
 const PROMPTS = {
   m365: {
     label: "M365 Copilot",
-    note: "Recommended. Copilot has access to your calendar, sent mail, and Teams chats automatically.",
-    text: `You are helping me inventory the actual tasks I spend time on at work, for the
-"Move the Work" three-bucket audit (Automate / Assist / Human).
+    note: "Recommended. When available, Copilot uses your email, calendar, and Teams activity to infer your current tasks, then verifies them with you in three rounds.",
+    text: `You are helping me inventory the actual tasks I spend time on for the "Move the Work" three-bucket audit (Automate / Assist / Human).
 
-Look at:
-  - my calendar events from the last 30 days (recurring and one-off)
-  - my sent email from the last 30 days
-  - my Teams chats and channel messages I authored in the last 30 days
+First, verify whether you can access my email, calendar, and Teams messages from the last 30 days in this chat. If you can, tell me that you will use those sources to infer my current tasks. If any source is unavailable, say so plainly and ask me to describe or paste the missing context; never invent activity or evidence. Then conduct exactly three conversational rounds, one round at a time. Wait for my answer after each round. Do not combine rounds, skip a round, ask extra rounds, or generate any inventory before I answer round 3.
 
-Identify 10 to 15 RECURRING tasks or responsibilities that show up across that
-activity. Cluster related items into one task — for example, "weekly status email"
-not seven individual emails. Include the boring, low-prestige work and any
-"not really my job but somehow always my job" tasks.
+Round 1 — current work and evidence:
+Ask what work is most current or important and what evidence in my email, calendar, or Teams would confirm it.
+
+Round 2 — friction, repetition, and deferred work:
+Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, including work that keeps landing on me but may not belong to my role.
+
+Round 3 — energy, judgment, and ownership:
+Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
+
+After I answer round 3, use my answers and the activity evidence to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
 
 For each task return a JSON object with these fields:
 
   id              short kebab-case slug, e.g. "weekly-status-email"
   label           2-6 word task name, plain language
   description     1-2 sentences on what the task actually involves
-  cadence         one of: daily | weekly | biweekly | monthly | quarterly | adhoc
-  estWeeklyHours  rough estimate of hours per cadence period (e.g. 6 for a monthly task means 6h/month)
   source          always "graph-pre-seed"
   bucket          always "unsorted" (I will sort later)
   evidence        1-2 short examples from my actual data
+  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
+  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
+  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
 
-Return ONLY a JSON array of these objects. No prose before or after. No markdown
-fences. Just the raw JSON array, starting with [ and ending with ].
+Then emit exactly one complete fenced JSON block containing one object whose top-level "tasks" property is the array of task objects. Emit no prose, duplicate preview, comments, headings, or second block before or after it. Use exactly the field names listed above. Set source to "graph-pre-seed" and bucket to "unsorted" for every task. Do not add a slug field. Before sending, validate that the entire object is complete and JSON.parse-compatible; never truncate a field or task. Never return the interview questions as task objects. Never return an empty tasks array if you can identify tasks from my answers or activity; include inferred tasks with evidence: "inferred from role; please verify".
 
 If you cannot find evidence for a task type that I obviously do but didn't show
 up in the data (e.g. I'm clearly a people manager but there are no career
-conversations on my calendar), include it anyway with estWeeklyHours of your
-best guess and evidence: "inferred from role; please verify".`
+conversations on my calendar), include it anyway with evidence: "inferred from role; please verify".`
   },
   workiq: {
     label: "WorkIQ",
-    note: "Use an internal tool that accesses WorkIQ (like Clawpilot, Copilot CLI, or VS Code/GHCP).",
-    text: `Inventory the actual tasks I spend time on at work, for a personal three-bucket
-AI audit.
+    note: "Use Scout, Copilot CLI, or VS Code with GitHub Copilot to access WorkIQ sources, then verify the inventory with you in three rounds.",
+    text: `You are helping me inventory the actual tasks I spend time on for the "Move the Work" three-bucket audit (Automate / Assist / Human).
 
-Source material:
-  - my calendar from the last 30 days
-  - my sent mail from the last 30 days
-  - my Teams chats and channel messages from the last 30 days
-  - any recent OneDrive documents I authored or co-authored
+First, verify which WorkIQ sources you can access in this session: my calendar, sent mail, Teams chats and channel messages from the last 30 days, and recent OneDrive documents I authored or co-authored. Tell me which sources you can use. If any source is unavailable, say so plainly and ask me to describe or paste the missing context; never invent activity or evidence. Then conduct exactly three conversational rounds, one round at a time. Wait for my answer after each round. Do not combine rounds, skip a round, ask extra rounds, or generate any inventory before I answer round 3.
 
-Identify 10 to 15 recurring tasks. Cluster related items. Include boring work
-and "always-my-job" tasks even if they're not in any formal job description.
+Round 1 — current work and evidence:
+Ask what work is most current or important and what evidence in the available WorkIQ sources would confirm it.
 
-For each task output a JSON object with: id (kebab-case), label (2-6 words),
-description (1-2 sentences), cadence (daily/weekly/biweekly/monthly/quarterly/
-adhoc), estWeeklyHours (number), source ("graph-pre-seed"), bucket ("unsorted"),
-and evidence (1-2 short examples from the real data).
+Round 2 — friction, repetition, and deferred work:
+Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, including work that keeps landing on me but may not belong to my role.
 
-Return ONLY a JSON array. No prose, no markdown fences.`
+Round 3 — energy, judgment, and ownership:
+Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
+
+After I answer round 3, use my answers and verified source evidence to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
+
+For each task return a JSON object with these fields:
+
+  id              short kebab-case slug, e.g. "weekly-status-email"
+  label           2-6 word task name, plain language
+  description     1-2 sentences on what the task actually involves
+  source          always "graph-pre-seed"
+  bucket          always "unsorted" (I will sort later)
+  evidence        1-2 short examples from verified source data or my answers
+  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
+  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
+  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
+
+Then emit exactly one complete fenced JSON block containing one object whose top-level "tasks" property is the array of task objects. Emit no prose, duplicate preview, comments, headings, or second block before or after it. Use exactly the field names listed above. Set source to "graph-pre-seed" and bucket to "unsorted" for every task. Before sending, validate that the entire object is complete and JSON.parse-compatible; never truncate a field or task. Never return more than 12 tasks. Never invent evidence; when evidence comes only from my answer, say so plainly in the evidence field.`
   },
   other: {
     label: "ChatGPT / Claude / other",
-    note: "For when you don't have Copilot or WorkIQ. You'll need to paste or describe context yourself.",
-    text: `I'm doing a personal AI audit. I need to inventory the actual tasks I spend
-time on at work — not my job title, the real day-to-day work.
+    note: "For when you don't have Copilot or WorkIQ. The assistant will verify what context is available and interview you in three rounds.",
+    text: `You are helping me inventory the actual tasks I spend time on for the "Move the Work" three-bucket audit (Automate / Assist / Human).
 
-I'll either paste my recent calendar / email summary, or describe my week.
+First, verify what work context you can access in this chat, such as files or connected sources. If you cannot access my calendar, email, messages, or documents, say so plainly and ask me to describe or paste relevant recent context; never invent activity or evidence. Then conduct exactly three conversational rounds, one round at a time. Wait for my answer after each round. Do not combine rounds, skip a round, ask extra rounds, or generate any inventory before I answer round 3.
 
-Help me identify 10 to 15 recurring tasks. Cluster related items. Push me to
-include the boring, recurring, low-prestige work and "always-my-job" tasks
-that aren't formally on my plate.
+Round 1 — current work and evidence:
+Ask what work has taken the most time lately, what is most current or important, and what examples or context would confirm it.
 
-For each task return JSON with these fields:
-  id              kebab-case slug
-  label           2-6 word name
-  description     1-2 sentences
-  cadence         daily | weekly | biweekly | monthly | quarterly | adhoc
-  estWeeklyHours  number
-  source          "manual-paste"
-  bucket          "unsorted"
-  evidence        what I told you that supports this task being on the list
+Round 2 — friction, repetition, and deferred work:
+Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, including work that keeps landing on me but may not belong to my role.
 
-Output ONLY the JSON array, no prose, no markdown fences.
+Round 3 — energy, judgment, and ownership:
+Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
 
-If you need more context from me to be accurate, ask me ONE short clarifying
-question first, then produce the JSON.`
+After I answer round 3, use only my answers and context actually available in this chat to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
+
+For each task return a JSON object with these fields:
+
+  id              short kebab-case slug, e.g. "weekly-status-email"
+  label           2-6 word task name, plain language
+  description     1-2 sentences on what the task actually involves
+  source          always "manual-paste"
+  bucket          always "unsorted" (I will sort later)
+  evidence        what I provided that supports this task being on the list
+  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
+  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
+  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
+
+Then emit exactly one complete fenced JSON block containing one object whose top-level "tasks" property is the array of task objects. Emit no prose, duplicate preview, comments, headings, or second block before or after it. Use exactly the field names listed above. Set source to "manual-paste" and bucket to "unsorted" for every task. Before sending, validate that the entire object is complete and JSON.parse-compatible; never truncate a field or task. Never return more than 12 tasks. Never invent evidence; when something is an inference from my role or answer, label it "inferred from user-provided context; please verify" in the evidence field.`
   }
 };
 
@@ -521,14 +571,14 @@ const FRAME_COPY = {
   title: "Where does AI actually fit in your work?",
   pitch: "Most of us know AI can change our work. Most of us are stuck on <em>where</em> and <em>how</em>. This is the 30-minute audit that answers it — for you, for your work, today.",
   bullets: [
-    "List the ~12 tasks you actually spend time on — the real work, not your job title.",
+    "List the ~6 tasks you've spent the most time on lately — the real work, not your job title.",
     "Sort them into <strong>Automate / Assist / Human</strong> using diagnostic questions.",
-    "See your zone (red / yellow / green) and what it means for your career.",
-    "Leave with concrete moves, a 90-day trajectory, and a plan you can bring to your 1:1."
+    "See your status: <strong>Red zone · High exposure</strong>, <strong>Yellow zone · Time to act</strong>, or <strong>Green zone · Lower exposure for now</strong>.",
+    "Choose one move and leave with a four-week experiment you can bring to your 1:1."
   ],
   bankTeller: "In 1973, the <em>New York Times</em> predicted ATMs would replace 75% of bank tellers. Between 1970 and 2010, bank teller jobs <strong>doubled</strong>. The machines took the routine cash dispensing. The humans took the relationship work — reading the nervous retiree, sensing when the entrepreneur was ready for a line of credit. The job didn't disappear. It <strong>moved up the stack</strong>.",
   reframe: "Your job is not your title. Your job is a <strong>bag of tasks</strong>. Some of those tasks will be done by AI. Some will be done <em>with</em> AI. Some will stay yours alone. The work here is to sort them honestly — and decide where to invest your energy.",
-  conveyorBelt: "This isn't a one-time exercise. The tasks move. The work you do today will keep shifting buckets as the tools get better. Green today is not green forever. That's why everything here is designed for you to run again in 90 days, and 90 days after that."
+  conveyorBelt: "Over time, model capabilities and your work evolve. Some assisted work becomes automated, some human-only work becomes AI assisted, and the capacity you create can be reinvested in more strategic Bucket 3 work. Return about every four weeks to curate the mix."
 };
 
 /* ==========================================================================
@@ -545,6 +595,25 @@ function uuid() {
 }
 
 function nowIso() { return new Date().toISOString(); }
+
+function toLocalDateString(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function dateAfterDays(days) {
+  return toLocalDateString(new Date(Date.now() + days * 24 * 60 * 60 * 1000));
+}
+
+function emptyActiveWorkstream() {
+  return { taskId: null, label: "", intent: "", nextStep: "", byWhen: null };
+}
+
+function emptyFourWeekSprint() {
+  return { outcome: "", weeklyCheckpoints: ["", "", "", ""], successSignal: "", nextReviewDate: dateAfterDays(28) };
+}
 
 function freshSession() {
   const t = nowIso();
@@ -564,7 +633,14 @@ function freshSession() {
     preferences: { preSeedSource: "none", shareWithFacilitator: false },
     tasks: [],
     assessment: emptyAssessment(),
-    plan: { topMovesThisWeek: [], ninetyDayTrajectory: { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" }, handoffs: [HANDOFF] }
+    plan: {
+      activeWorkstream: emptyActiveWorkstream(),
+      fourWeekSprint: emptyFourWeekSprint(),
+      topMovesThisWeek: [],
+      ninetyDayTrajectory: { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" },
+      legacy: {},
+      handoffs: [HANDOFF]
+    }
   };
 }
 
@@ -586,6 +662,7 @@ let ui = {
   inventoryTool: "m365",
   miniLessonsShown: { automate: false, assist: false, human: false },
   parsedPreview: null,
+  expandedDesc: new Set(),
   visited: new Set(["welcome"])
 };
 
@@ -636,8 +713,10 @@ function loadSession(sid) {
 
 function ensureSessionShape() {
   // tolerate older / partial sessions
-  if (!session.schemaVersion) session.schemaVersion = SCHEMA_VERSION;
+  const importedSchemaVersion = session.schemaVersion || "1.0.0";
   if (!session.meta) session.meta = freshSession().meta;
+  const importedRunNumber = Number(session.meta.runNumber);
+  session.meta.runNumber = Number.isFinite(importedRunNumber) && importedRunNumber > 0 ? Math.floor(importedRunNumber) : 1;
   if (!session.person) session.person = freshSession().person;
   if (!session.preferences) session.preferences = freshSession().preferences;
   if (!Array.isArray(session.tasks)) session.tasks = [];
@@ -646,20 +725,77 @@ function ensureSessionShape() {
   if (!Array.isArray(session.plan.handoffs)) session.plan.handoffs = [HANDOFF];
   if (!session.plan.ninetyDayTrajectory) session.plan.ninetyDayTrajectory = { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
   if (!Array.isArray(session.plan.topMovesThisWeek)) session.plan.topMovesThisWeek = [];
+  if (!session.plan.legacy || typeof session.plan.legacy !== "object") session.plan.legacy = {};
+  if (importedSchemaVersion === "1.0.0") {
+    if (!session.plan.legacy.topMovesThisWeek) session.plan.legacy.topMovesThisWeek = JSON.parse(JSON.stringify(session.plan.topMovesThisWeek));
+    if (!session.plan.legacy.ninetyDayTrajectory) session.plan.legacy.ninetyDayTrajectory = JSON.parse(JSON.stringify(session.plan.ninetyDayTrajectory));
+  }
+  if (!session.plan.activeWorkstream || typeof session.plan.activeWorkstream !== "object") {
+    const legacyActive = session.plan.topMovesThisWeek[0];
+    session.plan.activeWorkstream = legacyActive ? { ...legacyActive } : emptyActiveWorkstream();
+  }
+  if (!session.plan.fourWeekSprint || typeof session.plan.fourWeekSprint !== "object") session.plan.fourWeekSprint = emptyFourWeekSprint();
+  const sprint = session.plan.fourWeekSprint;
+  if (!Array.isArray(sprint.weeklyCheckpoints)) sprint.weeklyCheckpoints = ["", "", "", ""];
+  sprint.weeklyCheckpoints = [0, 1, 2, 3].map((i) => String(sprint.weeklyCheckpoints[i] || ""));
+  if (!("outcome" in sprint)) sprint.outcome = session.plan.ninetyDayTrajectory.narrative || "";
+  if (!("successSignal" in sprint)) sprint.successSignal = "";
+  if (!sprint.nextReviewDate) sprint.nextReviewDate = dateAfterDays(28);
+  session.plan.topMovesThisWeek = session.plan.activeWorkstream.taskId ? [{ ...session.plan.activeWorkstream }] : [];
+  session.schemaVersion = SCHEMA_VERSION;
   session.tasks.forEach((t) => {
     if (!t.id) t.id = slugify(t.label || "task") + "-" + Math.random().toString(36).slice(2, 6);
-    if (!t.bucket) t.bucket = "unsorted";
+    if (!["automate", "assist", "human", "unsorted"].includes(t.bucket)) t.bucket = "unsorted";
     if (!t.diagnostic) t.diagnostic = {};
-    if (typeof t.effortWeight !== "number") {
-      t.effortWeight = typeof t.estWeeklyHours === "number" ? t.estWeeklyHours : 1;
-    }
+    const importedWeight = Number(t.effortWeight);
+    const importedHours = Number(t.estWeeklyHours);
+    t.effortWeight = Number.isFinite(importedWeight) && importedWeight > 0 ? importedWeight : Number.isFinite(importedHours) && importedHours > 0 ? importedHours : 1;
     if (!t.source) t.source = "user";
     if (!t.tags) t.tags = [];
+    if (!t.quality || typeof t.quality !== "object") t.quality = {};
+    const normalizeQuality = (value) => {
+      const rating = Number(value);
+      if (!Number.isFinite(rating) || rating <= 0) return null;
+      return Math.max(1, Math.min(5, Math.round(rating)));
+    };
+    t.quality.frequency = normalizeQuality(t.quality.frequency);
+    t.quality.energyDrain = normalizeQuality(t.quality.energyDrain);
+    t.quality.ioClarity = normalizeQuality(t.quality.ioClarity);
+    if (!t.move || typeof t.move !== "object") t.move = null;
+    if (t.move) {
+      if (!("context" in t.move)) t.move.context = "";
+      if (!("constraints" in t.move)) t.move.constraints = "";
+      if (!("content" in t.move)) t.move.content = "";
+      if (!("calibration" in t.move)) t.move.calibration = "";
+    }
   });
 }
 
 function slugify(s) {
   return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "task";
+}
+
+function taskQuality(task) {
+  const q = task && task.quality ? task.quality : {};
+  return {
+    frequency: typeof q.frequency === "number" ? q.frequency : null,
+    energyDrain: typeof q.energyDrain === "number" ? q.energyDrain : null,
+    ioClarity: typeof q.ioClarity === "number" ? q.ioClarity : null
+  };
+}
+
+function bestFirstMoveScore(task) {
+  const q = taskQuality(task);
+  const f = q.frequency != null ? q.frequency : 3;
+  const d = q.energyDrain != null ? q.energyDrain : 3;
+  const c = q.ioClarity != null ? q.ioClarity : 3;
+  return +(0.4 * f + 0.35 * d + 0.25 * c).toFixed(2);
+}
+
+function bestFirstMoveLabel(score) {
+  if (score >= 4) return "Start now";
+  if (score >= 3) return "Good next";
+  return "Backlog";
 }
 
 // ---- computation ----
@@ -686,7 +822,7 @@ function computeAssessment() {
     else zone = "green";
   }
   const bucket2Empty = sorted > 0 && pct.assist < 15;
-  const bucket3Thin = sorted > 0 && pct.human < 30;
+  const bucket3Thin = sorted > 0 && pct.human < 50;
   const summary = buildVulnerabilitySummary(zone, pct, bucket2Empty, bucket3Thin);
   session.assessment = {
     bucketTotals: totals,
@@ -701,20 +837,20 @@ function buildVulnerabilitySummary(zone, pct, b2Empty, b3Thin) {
   if (zone === "unknown") return "Sort some tasks to see your zone.";
   const parts = [];
   if (zone === "red") {
-    parts.push("You're in the <strong>red zone</strong> — more than half of your effort is in work AI can do alone. Your job isn't being upended someday; it's being upended right now. Move fast on offloading Bucket 1 work so you have time to grow Bucket 2 and 3.");
+    parts.push("More than half of your mapped effort is currently in Bucket 1 work that AI may increasingly perform. Treat this as high exposure and a prompt to create capacity for stronger Bucket 2 and Bucket 3 work.");
   } else if (zone === "yellow") {
-    parts.push("You're in the <strong>yellow zone</strong> — a big chunk of your effort is in work AI can do. The clock is ticking. Start offloading Bucket 1 deliberately, and use the time to build your Bucket 2 and 3 capabilities.");
+    parts.push("A substantial share of your mapped effort is currently in Bucket 1. This is time to act deliberately: offload suitable routine work and reinvest the capacity in Bucket 2 and Bucket 3.");
   } else {
-    parts.push("You're in the <strong>green zone</strong>, for now. The percentages keep shifting toward more AI-doable work — that's the conveyor belt. Green today is not green forever.");
+    parts.push("Your current Bucket 1 share is lower exposure for now, not a permanent safe state. Capabilities and tasks change, so keep reassessing the full portfolio.");
   }
   if (b2Empty && b3Thin) {
-    parts.push("Both your Bucket 2 and Bucket 3 are underdeveloped. Bucket 2 is where new value gets created with AI; Bucket 3 is your durable advantage. Right now you have neither working for you — that's the most urgent thing to change.");
+    parts.push("Bucket 2 and Bucket 3 are both thin. Look for suitable Bucket 1 work where adding human judgment creates useful Bucket 2 collaboration, then use that leverage to make room for deeper Bucket 3 work.");
   } else if (b2Empty) {
-    parts.push("Your <strong>Bucket 2 is nearly empty</strong> (under 15%). That's the biggest <em>missed opportunity</em> in this era of work — the hybrid human-plus-AI tasks are where new value is being created. If you're not building Bucket 2, you're leaving leverage on the table.");
+    parts.push("Your Bucket 2 is nearly empty (under 15%). Look for work where AI can handle repeatable parts while you supply judgment, context, and accountability.");
   } else if (b3Thin) {
-    parts.push("Your <strong>Bucket 3 is thin</strong> (under 30%). The irreplaceable human work — trust, judgment, navigating ambiguity — is what protects your career across whatever the next disruption is. Worth investing more here.");
+    parts.push("Less than half of your mapped effort is in Bucket 3. Use capacity created in Bucket 2 to intentionally practice trust-building, judgment, ambiguity, innovation, and ownership while continuing to reassess what belongs here.");
   } else if (zone === "green") {
-    parts.push("Your bucket mix is healthy. Keep the conveyor belt moving — keep nudging tasks from 1 → 2, and keep growing 3.");
+    parts.push("Your current mix is balanced. Keep curating it: routine Bucket 1 work may disappear, suitable work can become Bucket 2 when human judgment is added, and effective Bucket 2 collaboration can create new Bucket 3 possibilities.");
   }
   return parts.join(" ");
 }
@@ -776,29 +912,47 @@ function parsePastedTasks(text) {
   let s = String(text).trim();
   // Strip markdown fences
   s = s.replace(/^```(?:json|JSON)?\s*/m, "").replace(/```\s*$/m, "");
-  // Trim to first [ ... matching ]
-  const firstBracket = s.indexOf("[");
-  if (firstBracket > 0) s = s.slice(firstBracket);
-  // For top-level object { tasks: [...] }, unwrap
-  // Try a few parses
+
+  // Preserve valid punctuation and escaping by trying the supplied JSON first.
   let parsed = null;
-  try { parsed = JSON.parse(s); } catch (_) { /* try harder */ }
-  if (!parsed) {
-    // Find last ] and slice
-    const lastBracket = s.lastIndexOf("]");
-    if (lastBracket > 0) {
-      try { parsed = JSON.parse(s.slice(0, lastBracket + 1)); } catch (_) {}
+  try { parsed = JSON.parse(s); } catch (_) { /* inspect prose-wrapped output below */ }
+
+  const balancedCandidates = (open, close) => {
+    const found = [];
+    for (let start = 0; start < s.length; start++) {
+      if (s[start] !== open) continue;
+      let depth = 0, inString = false, escaped = false;
+      for (let i = start; i < s.length; i++) {
+        const ch = s[i];
+        if (inString) {
+          if (escaped) escaped = false;
+          else if (ch === "\\") escaped = true;
+          else if (ch === '"') inString = false;
+          continue;
+        }
+        if (ch === '"') { inString = true; continue; }
+        if (ch === open) depth++;
+        else if (ch === close) depth--;
+        if (depth === 0) { found.push(s.slice(start, i + 1)); start = i; break; }
+      }
     }
-  }
+    return found;
+  };
+  const parseCandidate = (candidate) => { try { return JSON.parse(candidate); } catch (_) { return null; } };
+  const objectCandidates = balancedCandidates("{", "}").map(parseCandidate).filter(Boolean);
+  if (!parsed) parsed = objectCandidates.find((value) => value && !Array.isArray(value) && ["tasks", "responsibilities", "inventory"].some((key) => Array.isArray(value[key]))) || null;
+  if (!parsed) parsed = balancedCandidates("[", "]").map(parseCandidate).find(Array.isArray) || null;
+
+  // Narrow legacy salvage: complete comma-separated objects with only the outer array missing.
   if (!parsed) {
-    // Try parsing as object
-    const firstBrace = s.indexOf("{");
-    const lastBrace = s.lastIndexOf("}");
-    if (firstBrace >= 0 && lastBrace > firstBrace) {
-      try { parsed = JSON.parse(s.slice(firstBrace, lastBrace + 1)); } catch (_) {}
-    }
+    const trimmed = s.replace(/^[^\{]*/, "").replace(/[^\}]*$/, "");
+    if (trimmed && /^\s*\{/.test(trimmed) && /\}\s*,\s*\{/.test(trimmed)) parsed = parseCandidate(`[${trimmed}]`);
   }
-  if (!parsed) return { ok: false, error: "I couldn't find JSON in that paste. Make sure you copied just the JSON array.", tasks: [] };
+
+  const hasUnclosedObject = s.lastIndexOf("{") > s.lastIndexOf("}");
+  const hasUnclosedArray = s.lastIndexOf("[") > s.lastIndexOf("]");
+  if (!parsed && (hasUnclosedObject || hasUnclosedArray)) return { ok: false, error: "That JSON appears incomplete or truncated. Copy the complete fenced JSON object and try again; no tasks were imported.", tasks: [] };
+  if (!parsed) return { ok: false, error: "I couldn't find one complete JSON object or array containing tasks. Copy the full result and try again.", tasks: [] };
   let arr = null;
   if (Array.isArray(parsed)) arr = parsed;
   else if (parsed && Array.isArray(parsed.tasks)) arr = parsed.tasks;
@@ -812,26 +966,41 @@ function parsePastedTasks(text) {
 
 function normalizeIncomingTask(raw, idx) {
   if (!raw || typeof raw !== "object") return null;
-  const label = String(raw.label || raw.name || raw.title || raw.task || "").trim();
+  const label = String(raw.label || raw.name || raw.title || raw.task || raw.taskName || "").trim();
   if (!label) return null;
   const id = raw.id ? String(raw.id) : slugify(label) + "-" + (idx + 1);
   const description = String(raw.description || raw.detail || raw.notes || "").trim();
-  const cadenceRaw = String(raw.cadence || raw.frequency || "").toLowerCase().trim();
-  const cadenceMap = { day: "daily", daily: "daily", weekly: "weekly", week: "weekly", biweekly: "biweekly", "bi-weekly": "biweekly", monthly: "monthly", month: "monthly", quarterly: "quarterly", quarter: "quarterly", adhoc: "adhoc", "ad-hoc": "adhoc", "ad hoc": "adhoc", asneeded: "adhoc" };
-  const cadence = cadenceMap[cadenceRaw] || "unknown";
-  let est = Number(raw.estWeeklyHours != null ? raw.estWeeklyHours : raw.weeklyHours != null ? raw.weeklyHours : raw.hoursPerWeek);
-  if (!isFinite(est) || est < 0) est = null;
   const source = raw.source || "graph-pre-seed";
-  let bucket = String(raw.bucket || "unsorted").toLowerCase();
+  let bucket = String(raw.bucket || raw.suggestedBucket || "unsorted").toLowerCase();
   if (!["automate", "assist", "human", "unsorted"].includes(bucket)) bucket = "unsorted";
-  const evidence = raw.evidence ? String(raw.evidence) : "";
+  const rawEvidence = raw.evidence || raw.sourceEvidence;
+  const evidence = Array.isArray(rawEvidence) ? rawEvidence.join("; ") : rawEvidence ? String(rawEvidence) : "";
+  // map string quality labels to 1-5 scores
+  const ratingMap = { low: 2, medium: 3, moderate: 3, high: 4, "very high": 5, clear: 4, unclear: 2 };
+  const parseRating = (v) => {
+    if (v == null) return null;
+    const str = String(v).toLowerCase().trim();
+    if (ratingMap[str] != null) return ratingMap[str];
+    const n = Number(v);
+    if (!isFinite(n)) return null;
+    return Math.max(1, Math.min(5, Math.round(n)));
+  };
+  const frequency = parseRating(raw.frequencyScore != null ? raw.frequencyScore : raw.frequency != null ? raw.frequency : raw.freq);
+  const energyDrain = parseRating(raw.energyDrain != null ? raw.energyDrain : raw.drain);
+  const ioClarity = parseRating(raw.ioClarity != null ? raw.ioClarity : raw.inputOutputClarity);
+  // derive cadence from explicit field first, then from frequency score
+  const cadenceRaw = String(raw.cadence || "").toLowerCase().trim();
+  const cadenceMap = { day: "daily", daily: "daily", weekly: "weekly", week: "weekly", biweekly: "biweekly", "bi-weekly": "biweekly", "twice-weekly": "twice-weekly", "twice a week": "twice-weekly", monthly: "monthly", month: "monthly", quarterly: "quarterly", quarter: "quarterly", adhoc: "adhoc", "ad-hoc": "adhoc", "ad hoc": "adhoc", asneeded: "adhoc" };
+  const freqToCadence = { 5: "daily", 4: "twice-weekly", 3: "weekly", 2: "monthly", 1: "adhoc" };
+  const cadence = cadenceMap[cadenceRaw] || (frequency != null ? freqToCadence[frequency] : null) || "unknown";
   return {
     id, label, description,
     cadence,
-    estWeeklyHours: est,
-    effortWeight: est != null && est > 0 ? est : 1,
+    estWeeklyHours: null,
+    effortWeight: 1,
     source,
     bucket,
+    quality: { frequency, energyDrain, ioClarity },
     diagnostic: { freeformReasoning: evidence ? `Evidence from inventory: ${evidence}` : "" },
     move: null,
     tags: [],
@@ -1033,6 +1202,7 @@ function renderWelcome() {
       <div class="cluster">
         <button class="btn btn-primary" data-act="start-new">Start a new audit</button>
         <button class="btn" data-act="import">Continue from a saved file…</button>
+        <a class="btn" href="./intro.html">Take the 90-second mindset primer →</a>
       </div>
     </section>
 
@@ -1055,7 +1225,7 @@ function renderWelcome() {
               <div class="task-list-row">
                 <div style="flex:1;min-width:0">
                   <div class="name">${personLabel}</div>
-                  <div class="meta">Run ${s.meta.runNumber || 1} · ${tasks} task${tasks === 1 ? "" : "s"} · updated ${escapeHtml(fmtDate(s.meta.updatedAt))}</div>
+                  <div class="meta">Run ${escapeHtml(s.meta.runNumber || 1)} · ${tasks} task${tasks === 1 ? "" : "s"} · updated ${escapeHtml(fmtDate(s.meta.updatedAt))}</div>
                 </div>
                 <div class="actions">
                   <button class="btn btn-sm" data-act="resume" data-sid="${escapeHtml(s.meta.sessionId)}">Resume</button>
@@ -1066,10 +1236,6 @@ function renderWelcome() {
         </div>
       </section>` : ""}
 
-    <p class="muted center" style="margin-top:28px;font-size:0.85rem">
-      Move the Work runs entirely in your browser. No accounts, no telemetry, no data leaves this device unless you export it.
-      <br><strong>⚠️ Sessions won't save in private/incognito windows</strong> and will disappear if you clear browser or site data.
-    </p>
   `;
 }
 
@@ -1105,7 +1271,7 @@ function renderInventory() {
   return `
     <section class="card">
       <h2>Inventory your tasks</h2>
-      <p>The ~12 things you actually spend time on — not your job title, the real day-to-day work. Aim for 8–15. You can edit and add throughout.</p>
+      <p>Start with 5–6 key things you actually spend time on — not your job title, the real day-to-day work. Add more if the extra sorting time is worthwhile.</p>
       <p class="muted" style="font-size:0.9rem;margin-top:0">There are a few different ways to build your inventory: use an AI prompt to generate it from your calendar/email, start with curated examples, or add your own from scratch.</p>
       <div class="tabs">
         <button class="tab ${tab === "prompt" ? "tab-on" : ""}" data-act="inv-tab" data-tab="prompt">Let AI inventory it</button>
@@ -1142,13 +1308,13 @@ function renderInventoryPrompt() {
       <label>1. Copy this prompt and run it in ${escapeHtml(prompt.label)}</label>
       <pre id="promptText">${escapeHtml(prompt.text)}</pre>
       <div class="cluster" style="margin-top:8px">
-        <button class="btn btn-sm" data-act="copy-prompt">Copy prompt</button>
-        <span class="muted">${escapeHtml(prompt.label === "M365 Copilot" ? "Tip: paste into M365 Copilot Chat (m365.cloud.microsoft.com/chat) or the Copilot pane in Word/Outlook." : prompt.label === "WorkIQ" ? "Tip: run in Clawpilot, Copilot CLI (workiq ask -q), or VS Code with GitHub Copilot." : "Tip: bring your own context — paste recent calendar/email or describe your week.")}</span>
+        <button class="btn btn-sm" data-act="copy-prompt">Copy prompt (Generate + Interview)</button>
+        <span class="muted">${escapeHtml(prompt.label === "M365 Copilot" ? "Tip: paste into M365 Copilot Chat (m365.cloud.microsoft.com/chat) or the Copilot pane in Word/Outlook." : prompt.label === "WorkIQ" ? "Tip: run in Scout, Copilot CLI (workiq ask -q), or VS Code with GitHub Copilot." : "Tip: bring your own context — paste recent calendar/email or describe your week.")}</span>
       </div>
     </div>
     <div class="field">
-      <label>2. Paste what your AI returned (the JSON array)</label>
-      <textarea id="pasteInput" rows="6" placeholder='Paste the JSON array here. Markdown fences and chatty preambles are fine — the parser strips them.'></textarea>
+      <label>2. Paste the complete JSON result</label>
+      <textarea id="pasteInput" rows="6" placeholder='Paste the complete fenced JSON object or a legacy JSON array. The parser keeps wrapper properties and rejects truncated output.'></textarea>
       <div class="cluster" style="margin-top:8px">
         <button class="btn btn-primary btn-sm" data-act="parse-paste">Parse &amp; preview</button>
         <button class="btn btn-sm" data-act="clear-paste">Clear</button>
@@ -1171,7 +1337,7 @@ function renderParsedPreview(preview) {
         <div class="task-list-row">
           <div style="flex:1;min-width:0">
             <div class="name">${escapeHtml(t.label)}</div>
-            <div class="meta">${escapeHtml(t.cadence)} · ${t.estWeeklyHours != null ? t.estWeeklyHours + "h/" + ({daily:"day",weekly:"wk",biweekly:"2wk",monthly:"mo",quarterly:"qtr",adhoc:"occ",unknown:"cadence"}[t.cadence]||"cadence") : "weight 1"}${t.description ? " · " + escapeHtml(t.description.slice(0, 80) + (t.description.length > 80 ? "…" : "")) : ""}</div>
+            <div class="meta">${escapeHtml(t.cadence)} · ${t.estWeeklyHours != null ? t.estWeeklyHours + "h/" + ({daily:"day",weekly:"wk","twice-weekly":"2/wk",biweekly:"2wk",monthly:"mo",quarterly:"qtr",adhoc:"occ",unknown:"cadence"}[t.cadence]||"cadence") : "weight 1"} · Q:${(t.quality && t.quality.frequency) || "?"}/${(t.quality && t.quality.energyDrain) || "?"}/${(t.quality && t.quality.ioClarity) || "?"}${t.description ? " · " + escapeHtml(t.description.slice(0, 80) + (t.description.length > 80 ? "…" : "")) : ""}</div>
           </div>
           <div class="actions">
             <button class="btn btn-xs btn-danger" data-act="preview-remove" data-idx="${i}" title="Don't import this one">×</button>
@@ -1186,9 +1352,18 @@ function renderParsedPreview(preview) {
   `;
 }
 
+function renderStars(value, dataId, field) {
+  const v = value || 0;
+  const labels = STAR_LABELS[field] || ["1","2","3","4","5"];
+  const fieldLabelMap = { frequency: "Frequency", energyDrain: "Energy drain", ioClarity: "Input/output clarity" };
+  const fieldLabel = fieldLabelMap[field] || field;
+  return `<div class="stars-row" role="group" aria-label="${escapeHtml(fieldLabel)} rating">${[1,2,3,4,5].map((n) => `<button class="star-btn${n <= v ? " filled" : ""}" data-act="set-quality" data-id="${escapeHtml(dataId)}" data-field="${escapeHtml(field)}" data-value="${n}" title="${escapeHtml(labels[n-1])}" aria-label="Set ${escapeHtml(fieldLabel)} to ${n} (${escapeHtml(labels[n-1])})" aria-pressed="${n <= v ? "true" : "false"}" type="button">★</button>`).join("")}</div>`;
+}
+
 function renderInventoryChips() {
   const existing = new Set(session.tasks.map((t) => t.label.toLowerCase().trim()));
   return `
+    <p class="muted" style="font-size:0.9rem;margin-bottom:6px"><strong>To jog your thinking:</strong> What are you currently tolerating? What do you procrastinate on? What do you repeat weekly that could be systematized?</p>
     <p>Tap any starter task that matches something you actually do. You can edit names after.</p>
     <div class="cluster" style="gap:8px">
       ${STARTER_CHIPS.map((c) => {
@@ -1202,6 +1377,7 @@ function renderInventoryChips() {
 
 function renderInventoryManual() {
   return `
+    <p class="muted" style="font-size:0.9rem;margin-bottom:6px"><strong>To jog your thinking:</strong> What are you currently tolerating? What do you procrastinate on? What do you repeat weekly that could be systematized?</p>
     <p>Type each task you spend time on. Write the actual task ("Weekly status email"), not the strategic version ("Stakeholder communication").</p>
     <div class="field">
       <label>New task</label>
@@ -1222,18 +1398,37 @@ function renderTaskInventoryList() {
   return `
     <section class="card">
       <h3 style="margin-bottom:4px">Your inventory <span class="badge">${session.tasks.length}</span></h3>
-      <p class="muted" style="margin-bottom:14px">Edit names, set hours per cadence (e.g. "6" for a monthly task = 6 hours/month), or remove items. Aim for 8–15 honest tasks.</p>
-      <div class="stack">
-        ${session.tasks.map((t, i) => {
-          const cadenceLabel = { daily: "h/day", weekly: "h/wk", biweekly: "h/2wk", monthly: "h/mo", quarterly: "h/qtr", adhoc: "h/occ", unknown: "h/cadence" }[t.cadence || "unknown"] || "h/cadence";
+      <p class="muted" style="margin-bottom:8px">Edit names, add descriptions, and rate each task before sorting. Five or six key tasks is enough; add more when the broader view is worth the time.</p>
+      <p class="muted" style="margin-bottom:8px">Delete, combine, or reframe overlap as you notice it.</p>
+      <p class="muted" style="font-size:0.85rem;background:var(--cp-surface-soft);border:1px solid var(--cp-border);border-radius:10px;padding:10px 12px;margin-bottom:14px"><strong>Frequency</strong> reveals repeated leverage, <strong>energy drain</strong> reveals friction, and <strong>input/output clarity</strong> shows how readily work can be delegated or supported. These ratings feed the Best First Move recommendation; they do not dictate your choice.</p>
+      <div>
+        ${session.tasks.map((t) => {
+          const expanded = (ui.expandedDesc && ui.expandedDesc.has(t.id)) || !!t.description;
           return `
-          <div class="task-list-row">
-            <input type="text" value="${escapeHtml(t.label)}" data-act="task-edit-label" data-id="${escapeHtml(t.id)}" style="flex:1;min-width:0">
-            <select data-act="task-edit-cadence" data-id="${escapeHtml(t.id)}" style="width:auto;flex:0 0 auto">
-              ${["daily","weekly","biweekly","monthly","quarterly","adhoc","unknown"].map((c) => `<option value="${c}" ${t.cadence === c ? "selected" : ""}>${c}</option>`).join("")}
-            </select>
-            <input type="text" inputmode="decimal" value="${t.estHoursPerCadence != null ? t.estHoursPerCadence : (t.estWeeklyHours != null ? t.estWeeklyHours : "")}" data-act="task-edit-hours" data-id="${escapeHtml(t.id)}" placeholder="${cadenceLabel}" style="width:90px;flex:0 0 auto">
-            <button class="btn btn-xs btn-danger" data-act="task-remove" data-id="${escapeHtml(t.id)}" title="Remove">×</button>
+          <div class="task-inv-row">
+            <div class="task-inv-top">
+              <input type="text" value="${escapeHtml(t.label)}" data-act="task-edit-label" data-id="${escapeHtml(t.id)}" style="flex:1;min-width:0">
+              <button class="btn btn-xs btn-danger" data-act="task-remove" data-id="${escapeHtml(t.id)}" title="Remove">×</button>
+            </div>
+            <button class="btn btn-ghost btn-xs" data-act="toggle-desc" data-id="${escapeHtml(t.id)}" style="margin:4px 0 0 0">${expanded ? "▾" : "▸"} description${t.description ? "" : " (add)"}</button>
+            ${expanded ? `<textarea data-act="task-edit-description" data-id="${escapeHtml(t.id)}" rows="2" style="margin-top:4px">${escapeHtml(t.description || "")}</textarea>` : ""}
+            <div class="task-inv-quality">
+              <div class="quality-item">
+                <span class="quality-label">Frequency</span>
+                ${renderStars(t.quality && t.quality.frequency, t.id, "frequency")}
+                <p class="muted" style="font-size:0.8rem;margin:3px 0 0 0">How often do you do this?</p>
+              </div>
+              <div class="quality-item">
+                <span class="quality-label">Energy Drain</span>
+                ${renderStars(t.quality && t.quality.energyDrain, t.id, "energyDrain")}
+                <p class="muted" style="font-size:0.8rem;margin:3px 0 0 0">How much energy does this take, relative to its importance?</p>
+              </div>
+              <div class="quality-item">
+                <span class="quality-label">Input/output clarity</span>
+                ${renderStars(t.quality && t.quality.ioClarity, t.id, "ioClarity")}
+                <p class="muted" style="font-size:0.8rem;margin:3px 0 0 0">How easily can inputs and outputs be defined, without a lot of human judgment?</p>
+              </div>
+            </div>
           </div>
         `; }).join("")}
       </div>
@@ -1290,9 +1485,14 @@ function renderSort() {
   const idx = ui.currentTaskIdx;
   const sortedCount = session.tasks.filter((t) => t.bucket && t.bucket !== "unsorted").length;
   const suggested = suggestedBucketFor(task);
-  const lesson = suggested && !ui.miniLessonsShown[suggested] ? MINI_LESSONS[suggested] : null;
+  const lesson = suggested ? MINI_LESSONS[suggested] : null;
   const progressPct = total === 0 ? 0 : ((idx + 1) / total * 100);
+  const currentBucket = task.bucket && task.bucket !== "unsorted" ? `Bucket ${BUCKETS[task.bucket].num} · ${BUCKETS[task.bucket].name}` : "Not placed";
   return `
+    <aside class="sort-context" aria-label="Current task context">
+      <div class="sort-context-main"><span class="sort-context-label">${escapeHtml(task.label)}</span><span class="badge">${idx + 1} of ${total}</span></div>
+      <div class="sort-context-meta"><span>${escapeHtml(currentBucket)}</span><span>Classification questions + quality confirmation</span></div>
+    </aside>
     <section class="card">
       <div class="cluster" style="margin-bottom:6px">
         <span class="badge">Task ${idx + 1} of ${total}</span>
@@ -1302,7 +1502,7 @@ function renderSort() {
 
       <h2 style="margin-bottom:4px">${escapeHtml(task.label)}</h2>
       ${task.description ? `<p class="muted">${escapeHtml(task.description)}</p>` : ""}
-      ${task.cadence && task.cadence !== "unknown" ? `<p class="muted" style="margin-top:-4px">Cadence: ${escapeHtml(task.cadence)}${task.estWeeklyHours ? ` · about ${task.estWeeklyHours} h/wk` : ""}</p>` : ""}
+      <p class="muted"><strong>Sort</strong> classifies this task's current human/AI relationship. You can revise the placement as the work and tools change.</p>
 
       <h3 style="margin-top:18px">Six quick questions</h3>
       <p class="muted" style="margin-bottom:14px">Answer fast — your gut is usually right. Skip if you're not sure.</p>
@@ -1321,14 +1521,37 @@ function renderSort() {
         `;
       }).join("")}
 
-      ${lesson ? `
-        <div class="mini-lesson">
-          <h4>${escapeHtml(lesson.title)}</h4>
-          <p>${escapeHtml(lesson.body)}</p>
-        </div>` : ""}
+      <h3 style="margin-top:18px">Task quality</h3>
+      <p class="muted" style="font-size:0.85rem;margin:-4px 0 10px 0">Validate this is still correct — adjust if your first impression has changed.</p>
+      <div class="task-inv-quality" style="margin-top:8px">
+        <div class="quality-item">
+          <span class="quality-label">Frequency</span>
+          ${renderStars(task.quality && task.quality.frequency, task.id, "frequency")}
+          <p class="muted" style="font-size:0.82rem;margin:3px 0 0 0">How often do you do this work?</p>
+        </div>
+        <div class="quality-item">
+          <span class="quality-label">Energy Drain</span>
+          ${renderStars(task.quality && task.quality.energyDrain, task.id, "energyDrain")}
+          <p class="muted" style="font-size:0.82rem;margin:3px 0 0 0">How much energy does this take, relative to its importance?</p>
+        </div>
+        <div class="quality-item">
+          <span class="quality-label">Input/output clarity</span>
+          ${renderStars(task.quality && task.quality.ioClarity, task.id, "ioClarity")}
+          <p class="muted" style="font-size:0.82rem;margin:3px 0 0 0">How easily can inputs and good outputs be defined, without a lot of human judgment?</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:8px">
+        <strong>Best First Move score:</strong> ${bestFirstMoveScore(task)} (${bestFirstMoveLabel(bestFirstMoveScore(task))})
+      </div>
 
       <h3 style="margin-top:18px">Which bucket?</h3>
-      ${suggested ? `<p class="muted" style="margin-top:-6px">Based on your answers, this looks like <span class="badge ${BUCKETS[suggested].badge}">${BUCKETS[suggested].name}</span>. You can confirm or override.</p>` : `<p class="muted" style="margin-top:-6px">Pick the bucket that feels right.</p>`}
+      ${lesson ? `
+        <div class="mini-lesson">
+          <p style="margin-bottom:6px"><strong>Based on your answers, this looks like:</strong> <span class="badge ${BUCKETS[suggested].badge}">${BUCKETS[suggested].name}</span></p>
+          <h4>${escapeHtml(lesson.title)}</h4>
+          <p>${escapeHtml(lesson.body)}</p>
+        </div>
+        <p class="muted">You can confirm or override.</p>` : `<p class="muted" style="margin-top:-6px">Pick the bucket that feels right.</p>`}
 
       <div class="bucket-choice">
         ${["automate","assist","human","unsorted"].map((b) => {
@@ -1348,7 +1571,7 @@ function renderSort() {
       <div class="field" style="margin-top:18px">
         <label>Your reasoning in a sentence (optional, but worth it)</label>
         <textarea data-act="reason" data-id="${escapeHtml(task.id)}" placeholder="In your own words, why this bucket?">${escapeHtml((task.diagnostic && task.diagnostic.freeformReasoning) || "")}</textarea>
-        <p class="muted" style="font-size:0.85rem;margin-top:4px">Future you will thank you when you re-run this in 90 days and want to remember why you placed it here.</p>
+        <p class="muted" style="font-size:0.85rem;margin-top:4px">Future you will thank you when you return in about four weeks and want to remember why you placed it here.</p>
       </div>
 
       <div class="cluster" style="margin-top:18px">
@@ -1407,6 +1630,21 @@ function renderBucketBar() {
 
 function countInBucket(b) { return session.tasks.filter((t) => t.bucket === b).length; }
 
+function zoneView(zone) {
+  if (zone === "red") return {
+    name: "Red zone", subtitle: "High exposure",
+    icon: '<svg class="zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10.3 3.7 1.8 18.5A2 2 0 0 0 3.5 21h17a2 2 0 0 0 1.7-2.5L13.7 3.7a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>'
+  };
+  if (zone === "yellow") return {
+    name: "Yellow zone", subtitle: "Time to act",
+    icon: '<svg class="zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+  };
+  return {
+    name: "Green zone", subtitle: "Lower exposure for now",
+    icon: '<svg class="zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.5"/></svg>'
+  };
+}
+
 function renderAssess() {
   const a = session.assessment;
   const sorted = a.bucketTotals.automate + a.bucketTotals.assist + a.bucketTotals.human;
@@ -1414,34 +1652,33 @@ function renderAssess() {
   if (sorted === 0) {
     return `<section class="card"><p>Nothing sorted yet. <a href="#" data-act="goto" data-step="sort">Start sorting →</a></p></section>`;
   }
-  const zoneCls = a.zone === "red" ? "zone-red" : a.zone === "yellow" ? "zone-yellow" : "zone-green";
-  const zoneLabel = a.zone === "red" ? "RED ZONE" : a.zone === "yellow" ? "YELLOW ZONE" : "GREEN ZONE";
+  const zone = zoneView(a.zone);
   return `
     <section class="card">
       <h2>Your map</h2>
-      <p class="muted">Look at it. Notice what you feel. Sit with it for a minute.</p>
+      <p class="muted"><strong>Assess</strong> shows vulnerability and opportunity across the whole bucket mix; it does not replace your current task classifications.</p>
       <div class="spacer"></div>
       ${renderBucketBar()}
 
       <div class="spacer-lg"></div>
 
-      <div class="zone-card ${zoneCls}">
-        <span class="zone-label">${zoneLabel}</span>
-        <div style="flex:1"><p style="margin:0">${a.vulnerabilityRead.summary}</p></div>
+      <div class="zone-card" role="status" aria-label="${escapeHtml(zone.name + ". " + zone.subtitle)}">
+        ${zone.icon}
+        <div style="flex:1"><div class="zone-name">${escapeHtml(zone.name)}</div><div class="zone-subtitle">${escapeHtml(zone.subtitle)}</div><p style="margin:0">${escapeHtml(a.vulnerabilityRead.summary)}</p></div>
       </div>
 
       ${unsortedN > 0 ? `<div class="callout" style="margin-top:16px">You have <strong>${unsortedN} unsorted task${unsortedN === 1 ? "" : "s"}</strong>. You can finish them now or keep going — <a href="#" data-act="goto" data-step="sort">go back to sort</a>.</div>` : ""}
 
       <div class="callout">
-        <strong>What the zones mean.</strong> Red = more than 50% of your effort is in Bucket 1 (AI can do it). Yellow = 40-50%. Green = under 40%. The percentages keep shifting toward more AI-doable work as the tools get better — green today is not green forever.
+        <strong>What the zones mean.</strong> The status reflects only your current Bucket 1 share: Red is over 50%, Yellow is 40–50%, and Green is under 40%. It is a vulnerability signal, not another bucket system or a permanent safety label.
       </div>
 
       <div class="callout" style="border-left-color:var(--b2-color)">
-        <strong>Why this matters now.</strong> This isn't about AI replacing you. It's about the <strong>conveyor belt</strong> — every quarter, more of what used to be Bucket 2 becomes Bucket 1 as the models improve. The people who thrive are the ones who keep moving up the stack: offloading Bucket 1 work, building new Bucket 2 skills, and deepening their Bucket 3 capabilities. The audit gives you a starting point. The re-run in 90 days shows you whether you're moving.
+        <strong>How the work shifts over time.</strong> AI keeps getting better, so tasks can change buckets. Work you do with AI today may be fully automated later. Work only humans do today may become work humans do with AI. As Bucket 1 work disappears, use Bucket 2 to save time and make more room for Bucket 3: strategic, creative, human work. Not every task moves from 1 to 2 to 3. Check your mix about every four weeks as your work changes.
       </div>
 
       <div class="callout" style="border-left-color:var(--b3-color)">
-        <strong>Where's the opportunity?</strong> Look at your Bucket 2 — if it's thin, you're missing the biggest leverage in this era. The hybrid human+AI tasks are where new value gets created. Look at your Bucket 3 — if it's thin, you're not building the durable capabilities that protect your career across whatever the next disruption is.
+        <strong>Where's the opportunity?</strong> Offload Bucket 1 work that should disappear, amplify Bucket 2 work where AI and human judgment combine, and protect Bucket 3 work rooted in trust, ambiguity, and accountability. The relationship among all three buckets matters more than any single percentage.
       </div>
 
       <div class="cluster" style="margin-top:18px">
@@ -1461,60 +1698,60 @@ function renderMove() {
   if (sortedTasks.length === 0) {
     return `<section class="card"><p>You need to sort some tasks first. <a href="#" data-act="goto" data-step="sort">Go sort →</a></p></section>`;
   }
-  // group by bucket
-  const byBucket = { automate: [], assist: [], human: [] };
-  sortedTasks.forEach((t) => byBucket[t.bucket].push(t));
+  const ranked = [...sortedTasks].sort((a, b) => bestFirstMoveScore(b) - bestFirstMoveScore(a));
+  const activeId = session.plan.activeWorkstream && session.plan.activeWorkstream.taskId;
+  const focusIds = new Set(activeId ? [activeId] : []);
+  const focus = ranked.filter((t) => focusIds.has(t.id));
+  const backlog = ranked.filter((t) => !focusIds.has(t.id));
+
   return `
     <section class="card">
       <h2>Move some work</h2>
-      <p>For each task, decide the next move: <strong>offload</strong> (Bucket 1), <strong>amplify</strong> (Bucket 2), <strong>protect</strong> (Bucket 3), or <strong>hold</strong> (not now). Write the next step.</p>
+      <p><strong>Move</strong> means choosing one task to change now. One active workstream makes the four-week experiment manageable; everything else stays in backlog for a future monthly cycle.</p>
       <div class="callout" style="border-left-color:var(--b2-color);margin-top:12px">
-        <strong>★ Star your top moves</strong> — only starred moves appear on the Plan stage. All moves (starred or not) will be included in the downloadable snapshot.
+        <strong>Choose one active task.</strong> Selecting another task replaces the current one in a single click. Ratings recommend a Best First Move, but your judgment decides.
       </div>
     </section>
-    ${["automate","assist","human"].map((b) => byBucket[b].length === 0 ? "" : `
-      <section class="card">
-        <div class="cluster" style="margin-bottom:12px">
-          <span class="badge ${BUCKETS[b].badge}">Bucket ${BUCKETS[b].num} · ${BUCKETS[b].name}</span>
-          <span class="muted">${byBucket[b].length} task${byBucket[b].length === 1 ? "" : "s"}</span>
-        </div>
-        ${b === "automate" ? `<div class="mini-lesson" style="border-left-color:var(--b1-color);background:var(--b1-soft);color:var(--cp-text);margin-bottom:14px">
-          <h4 style="color:var(--b1-color);margin-bottom:6px">💡 Ideas for offloading Bucket 1 tasks</h4>
-          <ul style="margin:0;padding-left:18px;font-size:0.92rem">
-            <li><strong>Delegate to an AI agent</strong> — set up a recurring automation (e.g. Copilot auto-drafts your weekly status from your work items)</li>
-            <li><strong>Template + trigger</strong> — create a template and have AI fill it each time (e.g. meeting recap auto-sent after every meeting)</li>
-            <li><strong>Hand to a teammate or shared service</strong> — if a human must own it, does it need to be you?</li>
-            <li><strong>Eliminate entirely</strong> — ask "if I stopped doing this, who would notice and when?" If the answer is murky, try stopping.</li>
-          </ul>
-        </div>` : ""}
-        ${b === "assist" ? `<div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text);margin-bottom:14px">
-          <h4 style="color:var(--b2-color);margin-bottom:6px">💡 Ideas for amplifying Bucket 2 tasks</h4>
-          <ul style="margin:0;padding-left:18px;font-size:0.92rem">
-            <li><strong>AI does the first draft, you edit</strong> — emails, docs, plans, reviews. You provide 20% of the effort for 80% of the quality.</li>
-            <li><strong>AI preps, you decide</strong> — summarize long threads, pull data, surface options. You bring the judgment.</li>
-            <li><strong>Build a reusable prompt or skill</strong> — write one great prompt for this task, save it as a reusable skill, invoke every time.</li>
-            <li><strong>Copilot + your files</strong> — point AI at your SharePoint/OneDrive docs and ask it to synthesize, compare, or draft from them.</li>
-            <li><strong>Create a custom GPT or Copilot agent</strong> — for recurring assist tasks, build a dedicated mini-tool with instructions baked in.</li>
-          </ul>
-        </div>` : ""}
-        ${b === "human" ? `<div class="mini-lesson" style="border-left-color:var(--b3-color);background:var(--b3-soft);color:var(--cp-text);margin-bottom:14px">
-          <h4 style="color:var(--b3-color);margin-bottom:6px">💡 Strengthening your human-only capabilities</h4>
-          <p style="font-size:0.9rem;margin:0 0 8px 0">These are the skills that become <em>more</em> valuable as AI improves. Invest here deliberately.</p>
-          <ul style="margin:0;padding-left:18px;font-size:0.88rem">
-            <li><strong>Problem Framing</strong> — AI answers questions; humans decide which questions matter. Practice asking "is this even the right problem?"</li>
-            <li><strong>Judgment & Decision-making</strong> — make calls under uncertainty, competing priorities, and incomplete info. This is why leadership isn't disappearing.</li>
-            <li><strong>Systems Thinking</strong> — see second-order effects, dependencies, incentives, and unintended consequences. AI optimizes locally; you optimize systemically.</li>
-            <li><strong>Sensemaking</strong> — different from summarization. Summarization = what happened. Sensemaking = what it means.</li>
-            <li><strong>Delegation to Agents</strong> — task decomposition, constraint setting, defining success, validation design. Future managers spend more time managing agents than creating deliverables.</li>
-            <li><strong>Original Thinking</strong> — when everyone can generate competent outputs, originality becomes the scarce premium.</li>
-            <li><strong>Influence & Communication</strong> — organizations still change through people. Simplifying complexity and creating clarity become more valuable as AI increases the volume of everything.</li>
-          </ul>
-        </div>` : ""}
-        <div class="stack">
-          ${byBucket[b].map((t) => renderMoveForTask(t)).join("")}
-        </div>
-      </section>
-    `).join("")}
+    <section class="card">
+      <h3>Ranked tasks (Best First Move)</h3>
+      <p class="muted">Score = 0.4 × Frequency + 0.35 × Energy drain + 0.25 × Input/output clarity.</p>
+      <p class="muted">Frequency reveals repeated leverage, energy drain reveals friction and cost, and input/output clarity shows how readily the work can be defined, delegated, or supported. Together they prioritize a useful first experiment without overriding your judgment.</p>
+      <div class="stack">
+        ${ranked.map((t, i) => {
+          const isFocus = focusIds.has(t.id);
+          const score = bestFirstMoveScore(t);
+          return `
+            <div class="task-list-row">
+              <div style="flex:1;min-width:0">
+                <div class="name">${escapeHtml(t.label)} <span class="badge ${BUCKETS[t.bucket].badge}">${escapeHtml(BUCKETS[t.bucket].name)}</span></div>
+                <div class="meta">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)} · Q ${(t.quality && t.quality.frequency) || "?"}/${(t.quality && t.quality.energyDrain) || "?"}/${(t.quality && t.quality.ioClarity) || "?"}</div>
+              </div>
+              <div class="actions">
+                <button class="btn btn-xs ${isFocus ? "btn-primary" : ""}" data-act="toggle-top" data-id="${escapeHtml(t.id)}" aria-pressed="${isFocus ? "true" : "false"}">${isFocus ? "Active task" : activeId ? "Replace active task" : "Make active task"}</button>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Active task</h3>
+      ${focus.length === 0 ? `<div class="callout">No active task selected yet. Choose one from the ranked list above.</div>` : ""}
+      <div class="stack">
+        ${focus.map((t) => renderMoveForTask(t)).join("")}
+      </div>
+    </section>
+
+    <section class="card card-soft">
+      <h3>Backlog (future monthly cycles)</h3>
+      <div class="stack">
+        ${backlog.length === 0 ? `<p class="muted">No backlog tasks right now.</p>` : backlog.map((t) => {
+          const score = bestFirstMoveScore(t);
+          return `<div class="task-list-row"><div class="name">${escapeHtml(t.label)}</div><div class="meta">${escapeHtml(BUCKETS[t.bucket].name)} · Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)}</div></div>`;
+        }).join("")}
+      </div>
+    </section>
     <div class="card card-soft">
       <div class="cluster">
         <button class="btn" data-act="goto" data-step="assess">← Back to map</button>
@@ -1525,15 +1762,18 @@ function renderMove() {
 }
 
 function renderMoveForTask(t) {
-  const m = t.move || { intent: BUCKETS[t.bucket].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: "" };
-  const isTopMove = (session.plan.topMovesThisWeek || []).some((mv) => mv.taskId === t.id);
+  const m = t.move || { intent: BUCKETS[t.bucket].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: "", context: "", constraints: "", content: "", calibration: "" };
+  const score = bestFirstMoveScore(t);
   return `
     <div class="card card-soft card-tight" style="margin:0">
       <div class="cluster" style="margin-bottom:6px">
-        <strong style="font-size:1rem">${escapeHtml(t.label)}</strong>
-        <button class="btn btn-xs ${isTopMove ? "btn-primary" : ""}" data-act="toggle-top" data-id="${escapeHtml(t.id)}" style="margin-left:auto">${isTopMove ? "★ Top move" : "☆ Star as top move"}</button>
+        <strong style="font-size:1rem">${escapeHtml(t.label)}</strong><span class="badge ${BUCKETS[t.bucket].badge}">${escapeHtml(BUCKETS[t.bucket].name)}</span>
+        <span class="muted" style="margin-left:auto">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)}</span>
       </div>
       ${t.diagnostic && t.diagnostic.freeformReasoning ? `<p class="muted" style="margin:0 0 10px 0">${escapeHtml(t.diagnostic.freeformReasoning)}</p>` : ""}
+      <div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text);margin-bottom:14px">
+        <p style="margin:0;font-size:0.9rem">Think about: What’s the most painful or repetitive part of this task? What would you hand to an AI if it were perfect at it? What’s the repeating judgment call that could be replaced by a clear rule?</p>
+      </div>
       <div class="row">
         <div class="field">
           <label>Intent</label>
@@ -1543,7 +1783,7 @@ function renderMoveForTask(t) {
         </div>
       </div>
       <div class="field">
-        <label>${escapeHtml(BUCKETS[t.bucket].moveLabel)}</label>
+        <label>${escapeHtml(BUCKETS[t.bucket].moveLabel)}${t.bucket === "assist" ? ` — <a href="https://jrweigel.github.io/which-tool/" target="_blank" rel="noopener" style="font-size:0.85em">Which tool fits? →</a>` : ""}</label>
         <input type="text" data-act="move-owner" data-id="${escapeHtml(t.id)}" value="${escapeHtml(m.ownerOrTool || "")}" placeholder="${t.bucket === "automate" ? "e.g. M365 Copilot, a teammate, a new template" : t.bucket === "assist" ? "e.g. M365 Copilot — meeting prep" : "e.g. block 2 focused hours every Tuesday"}">
       </div>
       ${t.bucket === "assist" ? `
@@ -1551,6 +1791,22 @@ function renderMoveForTask(t) {
           <label>Starter prompt (for the AI tool above)</label>
           <textarea data-act="move-prompt" data-id="${escapeHtml(t.id)}" rows="3" placeholder="A first draft you can paste into the tool. Edit it as you go.">${escapeHtml(m.starterPrompt || "")}</textarea>
         </div>` : ""}
+      <div class="field">
+        <label>Context (What’s the situation?)</label>
+        <textarea data-act="move-context" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "I need to send a weekly update to my team about project progress..."'>${escapeHtml(m.context || "")}</textarea>
+      </div>
+      <div class="field">
+        <label>Constraints (What are the rules?)</label>
+        <textarea data-act="move-constraints" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...it needs to be under 200 words, professional but not formal, and highlight both wins and blockers..."'>${escapeHtml(m.constraints || "")}</textarea>
+      </div>
+      <div class="field">
+        <label>Content (What’s the raw material?)</label>
+        <textarea data-act="move-content" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...here are my notes from this week’s meetings: [paste your rough notes]"'>${escapeHtml(m.content || "")}</textarea>
+      </div>
+      <div class="field">
+        <label>Calibration (What’s the target?)</label>
+        <textarea data-act="move-calibration" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...format it like this previous email that worked well: [paste example — or describe what good looks like so Scout can remind you]"'>${escapeHtml(m.calibration || "")}</textarea>
+      </div>
       <div class="row">
         <div class="field">
           <label>Next step</label>
@@ -1566,83 +1822,80 @@ function renderMoveForTask(t) {
 }
 
 function renderPlan() {
-  const sortedTasks = session.tasks.filter((t) => t.bucket && t.bucket !== "unsorted");
-  const tops = session.plan.topMovesThisWeek || [];
-  const traj = session.plan.ninetyDayTrajectory || { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
-  // refresh top moves to reflect current task data
-  const enrichedTops = tops.map((mv) => {
-    const t = session.tasks.find((x) => x.id === mv.taskId);
-    if (!t) return null;
-    const m = t.move || {};
-    return { ...mv, label: t.label, intent: m.intent || BUCKETS[t.bucket].intent, nextStep: m.nextStep || "", byWhen: m.byWhen || null };
-  }).filter(Boolean);
+  const { focus, backlog } = getActionPackSlices();
+  const sprint = session.plan.fourWeekSprint || emptyFourWeekSprint();
   return `
     <section class="card">
       <h2>Your AI Leverage Plan</h2>
-      <p>The leave-behind. Top 3 moves this week, your 90-day trajectory, and where to go next.</p>
+      <p><strong>Plan</strong> turns one active task into a bounded four-week experiment. Return roughly monthly, about 12 times a year, to review evidence and choose the next cycle.</p>
     </section>
 
     <section class="card">
-      <h3>Top moves this week</h3>
-      <p class="muted">Star up to 5 in the Move step. The single best thing you can do right now is hit <em>one</em> of these in the next 48 hours.</p>
-      ${enrichedTops.length === 0 ? `
-        <div class="callout">No moves starred yet. <a href="#" data-act="goto" data-step="move">Go back to Move</a> and star the ones that matter most.</div>
+      <h3>This four-week sprint</h3>
+      <p class="muted">Exactly one task can be active. Replace it from Move at any time; the other tasks remain in backlog.</p>
+      ${focus.length === 0 ? `
+        <div class="callout">No active task selected yet. <a href="#" data-act="goto" data-step="move">Go back to Move</a> and choose one.</div>
       ` : `
         <div class="stack">
-          ${enrichedTops.map((mv) => `
+          ${focus.map((t) => {
+            const m = t.move || {};
+            const score = bestFirstMoveScore(t);
+            return `
             <div class="task-list-row">
               <div style="flex:1;min-width:0">
-                <div class="name">${escapeHtml(mv.label)} <span class="badge badge-accent">${escapeHtml(INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent)}</span></div>
-                <div class="meta">${escapeHtml(mv.nextStep || "(no next step written yet)")}${mv.byWhen ? " · by " + escapeHtml(fmtDate(mv.byWhen)) : ""}</div>
+                <div class="name">${escapeHtml(t.label)} <span class="badge badge-accent">${escapeHtml(INTENTS[m.intent] ? INTENTS[m.intent].name : (m.intent || BUCKETS[t.bucket].intent))}</span></div>
+                <div class="meta">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)} · ${escapeHtml(m.nextStep || "(no next step written yet)")}${m.byWhen ? " · by " + escapeHtml(fmtDate(m.byWhen)) : ""}</div>
               </div>
             </div>
-          `).join("")}
+          `; }).join("")}
+        </div>
+      `}
+    </section>
+
+    <section class="card card-soft">
+      <h3>Backlog (future monthly cycles)</h3>
+      ${backlog.length === 0 ? `<p class="muted">No backlog tasks right now.</p>` : `
+        <div class="stack">
+          ${backlog.map((t) => {
+            const score = bestFirstMoveScore(t);
+            return `<div class="task-list-row"><div class="name">${escapeHtml(t.label)}</div><div class="meta">${escapeHtml(BUCKETS[t.bucket].name)} · Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)}</div></div>`;
+          }).join("")}
         </div>
       `}
     </section>
 
     <section class="card">
-      <h3>90-day trajectory</h3>
-      <p class="muted">Where do you want your bucket mix to be in 90 days? Round numbers are fine. The diff view on your next run will tell you whether you got there.</p>
-      <div class="row">
-        <div class="field">
-          <label>Target Bucket 1 (Automate) %</label>
-          <input type="text" inputmode="numeric" data-act="traj" data-key="targetAutomatePercent" value="${traj.targetAutomatePercent != null ? traj.targetAutomatePercent : ""}" placeholder="${fmtPct(session.assessment.bucketPercents.automate)}">
-        </div>
-        <div class="field">
-          <label>Target Bucket 2 (Assist) %</label>
-          <input type="text" inputmode="numeric" data-act="traj" data-key="targetAssistPercent" value="${traj.targetAssistPercent != null ? traj.targetAssistPercent : ""}" placeholder="${fmtPct(session.assessment.bucketPercents.assist)}">
-        </div>
-        <div class="field">
-          <label>Target Bucket 3 (Human) %</label>
-          <input type="text" inputmode="numeric" data-act="traj" data-key="targetHumanPercent" value="${traj.targetHumanPercent != null ? traj.targetHumanPercent : ""}" placeholder="${fmtPct(session.assessment.bucketPercents.human)}">
-        </div>
-      </div>
+      <h3>Four-week experiment</h3>
       <div class="field">
-        <label>North star — what kind of work do you want to be doing?</label>
-        <textarea data-act="traj-narrative" rows="3" placeholder="In 90 days I want to be spending more time on… and less time on…">${escapeHtml(traj.narrative || "")}</textarea>
+        <label>Four-week outcome</label>
+        <textarea data-act="sprint-outcome" rows="3" placeholder="At the end of four weeks, this work will…">${escapeHtml(sprint.outcome || "")}</textarea>
+      </div>
+      <div class="row">
+        ${[0,1,2,3].map((i) => `<div class="field"><label>Week ${i + 1} checkpoint</label><input type="text" data-act="sprint-checkpoint" data-index="${i}" value="${escapeHtml(sprint.weeklyCheckpoints[i] || "")}" placeholder="Lightweight evidence or decision"></div>`).join("")}
+      </div>
+      <div class="row">
+        <div class="field"><label>Success signal</label><input type="text" data-act="sprint-success" value="${escapeHtml(sprint.successSignal || "")}" placeholder="What evidence will show this worked?"></div>
+        <div class="field" style="flex:0 0 200px"><label>Next review date</label><input type="date" data-act="sprint-review" value="${escapeHtml(sprint.nextReviewDate || "")}"></div>
       </div>
     </section>
 
     <section class="card">
       <h3>Where to go next</h3>
+      <p class="muted" style="margin-bottom:12px">Choose either path using the same complete action-pack data. Use Scout if it is available in your Microsoft environment; otherwise Cowork or ChatGPT is a complete path, especially for external users.</p>
       <div class="stack">
         <div class="card card-soft" style="border-left:4px solid var(--cp-accent);margin:0">
-          <h4 style="margin:0 0 6px 0">🚀 Give your plan to Copilot</h4>
-          <p class="meta" style="margin:0 0 8px 0">Copy your plan into M365 Copilot, VS Code, or Copilot CLI and ask it to help you implement. It can draft emails, build templates, create automations, and coach you through each move.</p>
-          <button class="btn btn-xs" data-act="copy-plan-for-copilot">📋 Copy plan for Copilot</button>
-          <span class="muted" style="font-size:0.85rem;margin-left:8px">or upload the session JSON into M365 Copilot / VS Code / Copilot CLI</span>
+          <h4 style="margin:0 0 6px 0">Continue with a work agent</h4>
+          <p class="meta" style="margin:0 0 8px 0">Both prompts carry one workstream, four-week scope, checkpoints, evidence, and first action. They are alternatives, not sequential steps.</p>
+          <div class="cluster" style="gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" data-act="copy-scout-action-pack">Copy for Scout</button>
+            <button class="btn btn-sm" data-act="copy-work-agent">Copy for Cowork or ChatGPT</button>
+          </div>
+          <p class="muted" style="font-size:0.85rem;margin:8px 0 0 0">The portable option works with Claude Cowork, Microsoft Cowork, and ChatGPT Work and adapts to the host's actual capabilities.</p>
         </div>
         <div class="card card-soft" style="border-left:4px solid var(--b2-color);margin:0">
-          <h4 style="margin:0 0 6px 0">🔬 Clone AI Workflow Designer and import the JSON</h4>
-          <p class="meta" style="margin:0 0 8px 0">It will walk you through specific tasks, one by one, and map each step-by-step: what triggers it, which steps become AI, where humans stay in the loop, and what the redesigned workflow looks like.</p>
-          <a class="btn btn-xs" href="${escapeHtml(HANDOFF.url)}" target="_blank" rel="noopener">Open AI Workflow Designer ↗</a>
-        </div>
-        <div class="card card-soft" style="border-left:4px solid var(--b3-color);margin:0">
-          <h4 style="margin:0 0 6px 0">🤖 Build your Digital Employees</h4>
-          <p class="meta" style="margin:0 0 8px 0">Build 4 persistent AI team members — each with a defined role, your voice, and your preferences — that you delegate to across all your work, not just one task.</p>
-          <p class="meta" style="margin:0 0 8px 0"><strong>How to use:</strong> Copy the digital-employees skill file (<a href="https://github.com/jrweigel/jrweigel.github.io/blob/master/digital-employees-SKILL.md" target="_blank" rel="noopener">GitHub view</a> | <a href="https://raw.githubusercontent.com/jrweigel/jrweigel.github.io/master/digital-employees-SKILL.md" target="_blank" rel="noopener">Raw (easy copy)</a>) into VS Code, Clawpilot, or Copilot CLI and run <code>/digital-employees</code> to start a guided interview.</p>
-          <button class="btn btn-xs" data-act="copy-context-for-de">📋 Copy your work context as a head start</button>
+          <h4 style="margin:0 0 4px 0">🔧 Not sure which AI tool to use?</h4>
+          <p class="meta" style="margin:0 0 8px 0">Answer a few quick questions to find the right tool for each Bucket 2 task.</p>
+          <a class="btn btn-sm" href="https://jrweigel.github.io/which-tool/" target="_blank" rel="noopener">Which tool fits? →</a>
         </div>
       </div>
     </section>
@@ -1662,7 +1915,7 @@ function renderExport() {
   return `
     <section class="card">
       <h2>Save your work</h2>
-      <p>Save these now. The JSON is what you'll re-import in 90 days to see what's moved. The snapshot is the readable, printable record you can send to your manager, attach to a calendar invite, or bring to a 1:1.</p>
+      <p>Save these now. Re-import the JSON in about four weeks to see what's moved. The snapshot is the readable, printable record you can send to your manager, attach to a calendar invite, or bring to a 1:1.</p>
     </section>
 
     <section class="card">
@@ -1676,7 +1929,7 @@ function renderExport() {
 
     <section class="card">
       <h3>2. Download your snapshot</h3>
-      <p class="muted">A self-contained, print-friendly HTML page: your map, top moves, all moves, 90-day target, and conversation prompts for your 1:1 and your team. The leave-behind.</p>
+      <p class="muted">A self-contained, print-friendly HTML page: your map, active four-week sprint, backlog, and conversation prompts for your 1:1 and your team.</p>
       <div class="cluster">
         <button class="btn btn-primary" data-act="export-html">Download snapshot</button>
       </div>
@@ -1684,7 +1937,7 @@ function renderExport() {
 
     <section class="card">
       <h3>3. Schedule the re-run</h3>
-      <p class="muted">Put a 60-minute hold on your calendar 90 days from now. The diff view between runs is where the real learning lives. The button below copies a scheduling prompt to your clipboard — just paste it into Copilot.</p>
+      <p class="muted">Put a 60-minute hold on your calendar about four weeks from now. A roughly monthly return, about 12 cycles each year, keeps the portfolio current.</p>
       <div class="cluster" style="flex-wrap:wrap;gap:8px">
         <button class="btn btn-primary" data-act="open-copilot-rerun">Open M365 Copilot + Hit paste</button>
         <button class="btn" data-act="copy-rerun-invite">📋 No M365 Copilot? Copy invite to paste in a new meeting</button>
@@ -1693,24 +1946,15 @@ function renderExport() {
 
     <section class="card">
       <h3>Where to go next</h3>
-      <p class="muted" style="margin-bottom:12px">Pick a path based on what files you need:</p>
+      <p class="muted" style="margin-bottom:12px">Start the same four-week plan in Scout, Cowork, or ChatGPT.</p>
       <div class="stack">
         <div class="card card-soft" style="border-left:4px solid var(--cp-accent);margin:0">
-          <h4 style="margin:0 0 6px 0">🚀 Give your plan to Copilot</h4>
-          <p class="meta" style="margin:0 0 8px 0">Paste your plan into M365 Copilot, VS Code, or Copilot CLI and ask it to help implement — draft emails, build templates, create automations.</p>
-          <button class="btn btn-xs" data-act="copy-plan-for-copilot">📋 Copy plan for Copilot</button>
-          <span class="muted" style="font-size:0.85rem;margin-left:8px">or upload the session JSON into M365 Copilot / VS Code / Copilot CLI</span>
-        </div>
-        <div class="card card-soft" style="border-left:4px solid var(--b2-color);margin:0">
-          <h4 style="margin:0 0 6px 0">🔬 Clone AI Workflow Designer and import the JSON</h4>
-          <p class="meta" style="margin:0 0 4px 0">It will walk you through specific tasks, one by one, and map each step-by-step: what triggers it, which steps become AI, where humans stay in the loop, and what the redesigned workflow looks like.</p>
-          <p class="meta" style="margin:0"><strong>What you need:</strong> Your session JSON (step 1 above). Import it directly into the <a href="${escapeHtml(HANDOFF.url)}" target="_blank" rel="noopener">AI Workflow Designer</a>.</p>
-        </div>
-        <div class="card card-soft" style="border-left:4px solid var(--b3-color);margin:0">
-          <h4 style="margin:0 0 6px 0">🤖 Build your Digital Employees</h4>
-          <p class="meta" style="margin:0 0 4px 0">Build 4 persistent AI team members — each with a defined role, your voice, and your preferences — that you delegate to across all your work, not just one task.</p>
-          <p class="meta" style="margin:0 0 8px 0"><strong>What you need:</strong> Copy the digital-employees skill file (<a href="https://github.com/jrweigel/jrweigel.github.io/blob/master/digital-employees-SKILL.md" target="_blank" rel="noopener">GitHub view</a> | <a href="https://raw.githubusercontent.com/jrweigel/jrweigel.github.io/master/digital-employees-SKILL.md" target="_blank" rel="noopener">Raw (easy copy)</a>) into VS Code, Clawpilot, or Copilot CLI and run <code>/digital-employees</code>. Paste your work context (below) at the start of the conversation for a head start.</p>
-          <button class="btn btn-xs" data-act="copy-context-for-de">📋 Copy your work context as a head start</button>
+          <h4 style="margin:0 0 6px 0">Choose an execution path</h4>
+          <p class="meta" style="margin:0 0 8px 0">Use Scout when available in your Microsoft environment. Cowork or ChatGPT is a complete alternative, including for external users.</p>
+          <div class="cluster" style="gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" data-act="copy-scout-action-pack">Copy for Scout</button>
+            <button class="btn btn-sm" data-act="copy-work-agent">Copy for Cowork or ChatGPT</button>
+          </div>
         </div>
       </div>
     </section>
@@ -1734,7 +1978,7 @@ function renderDiff() {
   return `
     <section class="card">
       <h2>Welcome back</h2>
-      <p>Here's what changed since your <strong>${escapeHtml(priorWhen)}</strong> run (run ${priorSession.meta.runNumber || 1}).</p>
+      <p>Here's what changed since your <strong>${escapeHtml(priorWhen)}</strong> run (run ${escapeHtml(priorSession.meta.runNumber || 1)}).</p>
       <p>${diff.narrative}</p>
     </section>
 
@@ -1825,7 +2069,7 @@ function onClick(e) {
     case "inv-tool":
       ui.inventoryTool = t.getAttribute("data-tool"); render(); break;
     case "copy-prompt":
-      copyToClipboard(PROMPTS[ui.inventoryTool].text).then((ok) => toast(ok ? "Prompt copied — paste it into " + PROMPTS[ui.inventoryTool].label : "Copy failed — select the text manually"));
+      copyToClipboard((PROMPTS[ui.inventoryTool] || PROMPTS.m365).text).then((ok) => toast(ok ? "Prompt copied — paste it into " + PROMPTS[ui.inventoryTool].label : "Copy failed — select the text manually"));
       break;
     case "parse-paste": {
       const text = $("#pasteInput").value;
@@ -1849,6 +2093,30 @@ function onClick(e) {
     case "manual-add": {
       const inp = $("#manualTaskInput");
       addManualTask(inp.value); inp.value = ""; inp.focus();
+      break;
+    }
+    case "set-quality": {
+      const id = t.getAttribute("data-id");
+      const field = t.getAttribute("data-field");
+      const value = parseInt(t.getAttribute("data-value"), 10);
+      const task = session.tasks.find((x) => x.id === id);
+      if (!task) break;
+      if (!task.quality || typeof task.quality !== "object") task.quality = { frequency: null, energyDrain: null, ioClarity: null };
+      task.quality[field] = isFinite(value) ? Math.max(1, Math.min(5, value)) : null;
+      if (field === "frequency") {
+        const freqToCadence = { 5: "daily", 4: "twice-weekly", 3: "weekly", 2: "monthly", 1: "adhoc" };
+        task.cadence = freqToCadence[value] || "unknown";
+      }
+      save({ silent: true });
+      render();
+      break;
+    }
+    case "toggle-desc": {
+      const id = t.getAttribute("data-id");
+      if (!ui.expandedDesc) ui.expandedDesc = new Set();
+      if (ui.expandedDesc.has(id)) ui.expandedDesc.delete(id);
+      else ui.expandedDesc.add(id);
+      render();
       break;
     }
     case "task-remove":
@@ -1876,6 +2144,14 @@ function onClick(e) {
       copyRerunMeetingInvite(); break;
     case "copy-plan-for-copilot":
       copyPlanForCopilot(); break;
+    case "copy-scout-action-pack":
+      copyScoutActionPack(); break;
+    case "copy-work-agent":
+      copyWorkAgentActionPack(); break;
+    case "copy-scout-calendar-only":
+      copyScoutCalendarOnly(); break;
+    case "copy-scout-close-loop":
+      copyScoutCloseLoopTemplate(); break;
     case "copy-context-for-de":
       copyContextForDigitalEmployees(); break;
     default: break;
@@ -1893,25 +2169,16 @@ function onInput(e) {
       if (task) { if (!task.diagnostic) task.diagnostic = {}; task.diagnostic.freeformReasoning = t.value; save({ silent: true }); }
       break;
     }
+    case "task-edit-description": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (task) { task.description = t.value; save({ silent: true }); }
+      break;
+    }
     case "task-edit-label": {
       const id = t.getAttribute("data-id");
       const task = session.tasks.find((x) => x.id === id);
       if (task) { task.label = t.value; save({ silent: true }); }
-      break;
-    }
-    case "task-edit-hours": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) {
-        const v = parseFloat(t.value);
-        task.estHoursPerCadence = isFinite(v) && v >= 0 ? v : null;
-        // Convert to weekly equivalent for weighting
-        const cadenceMultiplier = { daily: 5, weekly: 1, biweekly: 0.5, monthly: 12/52, quarterly: 4/52, adhoc: 0.5, unknown: 1 };
-        const mult = cadenceMultiplier[task.cadence] || 1;
-        task.estWeeklyHours = task.estHoursPerCadence != null ? +(task.estHoursPerCadence * mult).toFixed(2) : null;
-        task.effortWeight = task.estWeeklyHours != null && task.estWeeklyHours > 0 ? task.estWeeklyHours : 1;
-        save({ silent: true });
-      }
       break;
     }
     case "move-owner": {
@@ -1932,18 +2199,28 @@ function onInput(e) {
       if (task) { if (!task.move) task.move = {}; task.move.nextStep = t.value; save({ silent: true }); }
       break;
     }
-    case "traj": {
-      const key = t.getAttribute("data-key");
-      const v = parseFloat(t.value);
-      if (!session.plan.ninetyDayTrajectory) session.plan.ninetyDayTrajectory = { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
-      session.plan.ninetyDayTrajectory[key] = isFinite(v) ? Math.max(0, Math.min(100, v)) : null;
+    case "move-context":
+    case "move-constraints":
+    case "move-content":
+    case "move-calibration": {
+      const id = t.getAttribute("data-id");
+      const task = session.tasks.find((x) => x.id === id);
+      if (!task) break;
+      if (!task.move) task.move = {};
+      if (act === "move-context") task.move.context = t.value;
+      if (act === "move-constraints") task.move.constraints = t.value;
+      if (act === "move-content") task.move.content = t.value;
+      if (act === "move-calibration") task.move.calibration = t.value;
       save({ silent: true });
       break;
     }
-    case "traj-narrative":
-      if (!session.plan.ninetyDayTrajectory) session.plan.ninetyDayTrajectory = { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
-      session.plan.ninetyDayTrajectory.narrative = t.value; save({ silent: true });
-      break;
+    case "sprint-outcome": session.plan.fourWeekSprint.outcome = t.value; save({ silent: true }); break;
+    case "sprint-checkpoint": {
+      const index = parseInt(t.getAttribute("data-index"), 10);
+      if (index >= 0 && index < 4) session.plan.fourWeekSprint.weeklyCheckpoints[index] = t.value;
+      save({ silent: true }); break;
+    }
+    case "sprint-success": session.plan.fourWeekSprint.successSignal = t.value; save({ silent: true }); break;
     default: break;
   }
 }
@@ -1953,23 +2230,6 @@ function onChange(e) {
   const act = t.getAttribute && t.getAttribute("data-act");
   if (!act) return;
   switch (act) {
-    case "task-edit-cadence": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) {
-        task.cadence = t.value;
-        // Recompute weekly equivalent if hours per cadence is set
-        if (task.estHoursPerCadence != null) {
-          const cadenceMultiplier = { daily: 5, weekly: 1, biweekly: 0.5, monthly: 12/52, quarterly: 4/52, adhoc: 0.5, unknown: 1 };
-          const mult = cadenceMultiplier[task.cadence] || 1;
-          task.estWeeklyHours = +(task.estHoursPerCadence * mult).toFixed(2);
-          task.effortWeight = task.estWeeklyHours > 0 ? task.estWeeklyHours : 1;
-        }
-        save({ silent: true });
-        render();
-      }
-      break;
-    }
     case "move-intent": {
       const id = t.getAttribute("data-id");
       const task = session.tasks.find((x) => x.id === id);
@@ -1982,6 +2242,9 @@ function onChange(e) {
       if (task) { if (!task.move) task.move = {}; task.move.byWhen = t.value || null; save({ silent: true }); }
       break;
     }
+    case "sprint-review":
+      session.plan.fourWeekSprint.nextReviewDate = t.value || dateAfterDays(28); save({ silent: true });
+      break;
     default: break;
   }
 }
@@ -2019,11 +2282,12 @@ function addChipTask(label) {
   session.tasks.push({
     id: slugify(label) + "-" + Math.random().toString(36).slice(2, 6),
     label, description: "",
-    cadence: "weekly",
+    cadence: "unknown",
     estWeeklyHours: null,
     effortWeight: 1,
     source: "user",
     bucket: "unsorted",
+    quality: { frequency: null, energyDrain: null, ioClarity: null },
     diagnostic: {},
     move: null,
     tags: [],
@@ -2048,6 +2312,7 @@ function addManualTask(label) {
     effortWeight: 1,
     source: "user",
     bucket: "unsorted",
+    quality: { frequency: null, energyDrain: null, ioClarity: null },
     diagnostic: {},
     move: null,
     tags: [],
@@ -2061,9 +2326,12 @@ function removeTask(id) {
   const idx = session.tasks.findIndex((t) => t.id === id);
   if (idx < 0) return;
   session.tasks.splice(idx, 1);
-  // also unstar from top moves
+  // also remove it from the active workstream compatibility alias
   if (session.plan && Array.isArray(session.plan.topMovesThisWeek)) {
     session.plan.topMovesThisWeek = session.plan.topMovesThisWeek.filter((m) => m.taskId !== id);
+  }
+  if (session.plan && session.plan.activeWorkstream && session.plan.activeWorkstream.taskId === id) {
+    session.plan.activeWorkstream = emptyActiveWorkstream();
   }
   if (ui.currentTaskIdx >= session.tasks.length) ui.currentTaskIdx = Math.max(0, session.tasks.length - 1);
   save();
@@ -2089,8 +2357,14 @@ function setBucket(b) {
   if (!task) return;
   task.bucket = b;
   // initialize move based on bucket
-  if (!task.move) task.move = { intent: BUCKETS[b].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: null };
-  else task.move.intent = task.move.intent || BUCKETS[b].intent;
+  if (!task.move) task.move = { intent: BUCKETS[b].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: null, context: "", constraints: "", content: "", calibration: "" };
+  else {
+    task.move.intent = task.move.intent || BUCKETS[b].intent;
+    task.move.context = task.move.context || "";
+    task.move.constraints = task.move.constraints || "";
+    task.move.content = task.move.content || "";
+    task.move.calibration = task.move.calibration || "";
+  }
   if (b !== "unsorted" && !ui.miniLessonsShown[b]) ui.miniLessonsShown[b] = true;
   save();
   render();
@@ -2113,22 +2387,16 @@ function nextTask() {
 function toggleTopMove(id) {
   const task = session.tasks.find((t) => t.id === id);
   if (!task) return;
-  if (!Array.isArray(session.plan.topMovesThisWeek)) session.plan.topMovesThisWeek = [];
-  const i = session.plan.topMovesThisWeek.findIndex((m) => m.taskId === id);
-  if (i >= 0) session.plan.topMovesThisWeek.splice(i, 1);
-  else {
-    if (session.plan.topMovesThisWeek.length >= 5) {
-      toast("Top moves limit reached (5). Unstar one first.");
-      return;
-    }
-    session.plan.topMovesThisWeek.push({
-      taskId: id,
-      label: task.label,
-      intent: (task.move && task.move.intent) || BUCKETS[task.bucket].intent,
-      nextStep: (task.move && task.move.nextStep) || "",
-      byWhen: (task.move && task.move.byWhen) || null
-    });
-  }
+  const wasActive = session.plan.activeWorkstream && session.plan.activeWorkstream.taskId === id;
+  session.plan.activeWorkstream = wasActive ? emptyActiveWorkstream() : {
+    taskId: id,
+    label: task.label,
+    intent: (task.move && task.move.intent) || BUCKETS[task.bucket].intent,
+    nextStep: (task.move && task.move.nextStep) || "",
+    byWhen: (task.move && task.move.byWhen) || null
+  };
+  session.plan.topMovesThisWeek = session.plan.activeWorkstream.taskId ? [{ ...session.plan.activeWorkstream }] : [];
+  if (!wasActive) toast("Active task updated. The previous task remains in backlog.");
   save();
   render();
 }
@@ -2136,19 +2404,22 @@ function toggleTopMove(id) {
 // ---- export ----
 
 function refreshTopMoves() {
-  if (!Array.isArray(session.plan.topMovesThisWeek)) return;
-  session.plan.topMovesThisWeek = session.plan.topMovesThisWeek.map((mv) => {
-    const t = session.tasks.find((x) => x.id === mv.taskId);
-    if (!t) return null;
-    const m = t.move || {};
-    return {
-      taskId: t.id,
-      label: t.label,
-      intent: m.intent || (BUCKETS[t.bucket] && BUCKETS[t.bucket].intent) || "hold",
-      nextStep: m.nextStep || "",
-      byWhen: m.byWhen || null
-    };
-  }).filter(Boolean);
+  const active = session.plan.activeWorkstream || emptyActiveWorkstream();
+  const task = session.tasks.find((item) => item.id === active.taskId);
+  if (!task) {
+    session.plan.activeWorkstream = emptyActiveWorkstream();
+    session.plan.topMovesThisWeek = [];
+    return;
+  }
+  const move = task.move || {};
+  session.plan.activeWorkstream = {
+    taskId: task.id,
+    label: task.label,
+    intent: move.intent || (BUCKETS[task.bucket] && BUCKETS[task.bucket].intent) || "hold",
+    nextStep: move.nextStep || "",
+    byWhen: move.byWhen || null
+  };
+  session.plan.topMovesThisWeek = [{ ...session.plan.activeWorkstream }];
 }
 
 function buildExportPayload() {
@@ -2156,7 +2427,15 @@ function buildExportPayload() {
   refreshTopMoves();
   session.meta.surface = "web-companion";
   if (!session.meta.completedAt && allSorted()) session.meta.completedAt = nowIso();
-  return { ...session, aiwfdInterop: buildAiwfdInterop() };
+  return {
+    ...session,
+    plan: {
+      ...session.plan,
+      topMovesThisWeek: session.plan.activeWorkstream.taskId ? [{ ...session.plan.activeWorkstream }] : [],
+      ninetyDayTrajectory: session.plan.ninetyDayTrajectory
+    },
+    aiwfdInterop: buildAiwfdInterop()
+  };
 }
 
 function exportJson() {
@@ -2164,7 +2443,7 @@ function exportJson() {
   const stamp = new Date().toISOString().slice(0, 10);
   const fname = `move-the-work_${(session.person.name || "session").replace(/[^a-z0-9-]+/gi, "-").toLowerCase()}_${stamp}.json`;
   downloadBlob(fname, JSON.stringify(payload, null, 2), "application/json");
-  toast("Session JSON downloaded — keep it safe for your re-run.");
+  toast("Session JSON downloaded — keep it for your four-week review.");
   save();
 }
 
@@ -2212,11 +2491,11 @@ function copyContextForDigitalEmployees() {
 function copyPlanForCopilot() {
   const topMoves = session.plan.topMovesThisWeek || [];
   const lines = [
-    "I just completed a personal AI audit called 'Move the Work.' Here are my top moves — help me implement them.",
+    "I just completed a personal AI audit called 'Move the Work.' Here is my one active four-week workstream — help me implement it.",
     ""
   ];
   if (topMoves.length) {
-    lines.push("## My Top Moves");
+    lines.push("## My Active Workstream");
     topMoves.forEach((mv, i) => {
       const t = session.tasks.find((x) => x.id === mv.taskId);
       lines.push(`${i + 1}. **${mv.label || (t && t.label) || "Task"}** — Intent: ${INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent}${mv.nextStep ? ". Next step: " + mv.nextStep : ""}${mv.byWhen ? " (by " + mv.byWhen + ")" : ""}`);
@@ -2227,13 +2506,105 @@ function copyPlanForCopilot() {
   session.tasks.forEach((t) => { if (bucketCounts[t.bucket] !== undefined) bucketCounts[t.bucket]++; });
   lines.push(`## My Current Split: ${bucketCounts.automate} Automate / ${bucketCounts.assist} Assist / ${bucketCounts.human} Human`);
   lines.push("");
-  lines.push("Help me take action on these moves. For each one, suggest specific next steps I can do this week — drafts, prompts, templates, or workflows I should build.");
+  lines.push("Help me define a bounded four-week outcome, lightweight weekly checkpoints, success evidence, and the first concrete action for this one workstream.");
   const text = lines.join("\n");
   copyToClipboard(text).then((ok) => toast(ok ? "Plan copied — paste into M365 Copilot" : "Copy failed — select manually"));
 }
 
+function getActionPackSlices() {
+  refreshTopMoves();
+  const sortedTasks = session.tasks
+    .filter((t) => t.bucket && t.bucket !== "unsorted")
+    .sort((a, b) => bestFirstMoveScore(b) - bestFirstMoveScore(a));
+  const activeId = session.plan.activeWorkstream && session.plan.activeWorkstream.taskId;
+  const focus = activeId ? sortedTasks.filter((t) => t.id === activeId).slice(0, 1) : [];
+  const focusIds = new Set(focus.map((t) => t.id));
+  const backlog = sortedTasks.filter((t) => !focusIds.has(t.id));
+  return { focus, backlog };
+}
+
+function buildActionPackPayload() {
+  const { focus, backlog } = getActionPackSlices();
+  if (focus.length === 0) return null;
+  const task = focus[0];
+  const move = task.move || {};
+  const sprint = session.plan.fourWeekSprint || emptyFourWeekSprint();
+  return {
+    activeWorkstream: {
+      taskId: task.id,
+      task: task.label,
+      bucket: BUCKETS[task.bucket] ? `Bucket ${BUCKETS[task.bucket].num} · ${BUCKETS[task.bucket].name}` : "Unsorted",
+      intent: INTENTS[move.intent] ? INTENTS[move.intent].name : (move.intent || BUCKETS[task.bucket].intent),
+      context: move.context || task.description || (task.diagnostic && task.diagnostic.freeformReasoning) || "Not captured yet",
+      constraints: move.constraints || "Not captured yet",
+      availableSourceMaterial: move.content || "Not captured yet",
+      ownerOrTool: move.ownerOrTool || "To be agreed",
+      calibrationTarget: move.calibration || move.starterPrompt || "To be agreed",
+      currentNextStep: move.nextStep || "To be agreed",
+      targetDate: move.byWhen || null
+    },
+    fourWeekSprint: {
+      outcome: sprint.outcome || "To be agreed",
+      weeklyCheckpoints: sprint.weeklyCheckpoints,
+      successSignal: sprint.successSignal || "To be agreed",
+      nextReviewDate: sprint.nextReviewDate
+    },
+    backlog: backlog.map((item) => ({ taskId: item.id, task: item.label, bucket: BUCKETS[item.bucket] ? BUCKETS[item.bucket].name : "Unsorted" }))
+  };
+}
+
+function buildScoutPrompt(payload) {
+  return `Help me turn this Move the Work action pack into one agreed four-week workstream.\n\n${JSON.stringify(payload, null, 2)}\n\nRecommend a lightweight approach and explain why it fits. Ask for my feedback, then iterate with me until we agree on exactly one workstream, the four-week scope and outcome, weekly checkpoints, success evidence, and the first concrete action. Do not finalize the plan before that agreement. Keep backlog items out of the active sprint. After agreement, propose any calendar blocks or actions for my review and wait for explicit approval before taking consequential or external action. Report progress against the agreed checkpoints and close the loop with evidence at the review date.`;
+}
+
+function buildWorkAgentPrompt(payload) {
+  return `Help me execute this Move the Work action pack as one bounded four-week workstream. This prompt must adapt to the capabilities actually available in this host.\n\n${JSON.stringify(payload, null, 2)}\n\nFirst discover and summarize the current files, connectors, tools, and action permissions you can actually access. Do not claim a tool or permission you have not verified. State your assumptions. Propose a bounded four-week plan with one active workstream, weekly checkpoints, success evidence, reporting, and a first action. Ask for missing access and my feedback. Pause for explicit approval before consequential or external actions, including sending messages, changing shared files, scheduling meetings, or publishing. If an action is unavailable, provide a practical manual alternative. After approval, report progress and results against each checkpoint. Keep vendor-specific syntax out of the plan so this works in Claude Cowork, Microsoft Cowork, or ChatGPT Work.`;
+}
+
+function copyScoutActionPack() {
+  const payload = buildActionPackPayload();
+  if (!payload) { toast("Choose one active task before copying an action pack."); return; }
+  copyToClipboard(buildScoutPrompt(payload)).then((ok) => toast(ok ? "Scout prompt copied" : "Copy failed — select manually"));
+}
+
+function copyWorkAgentActionPack() {
+  const payload = buildActionPackPayload();
+  if (!payload) { toast("Choose one active task before copying an action pack."); return; }
+  copyToClipboard(buildWorkAgentPrompt(payload)).then((ok) => toast(ok ? "Cowork or ChatGPT prompt copied" : "Copy failed — select manually"));
+}
+
+function copyScoutCalendarOnly() {
+  const { focus } = getActionPackSlices();
+  if (focus.length === 0) {
+    toast("Choose one active task first.");
+    return;
+  }
+  const lines = [
+    "Help me calendar execution time for my one active Move the Work task.",
+    "Suggest lightweight time blocks over the next four weeks:",
+    "- setup blocks to prepare workflows/prompts",
+    "- execution blocks to run the work",
+    "- one short weekly review block",
+    "",
+    "Active task:",
+    ...focus.map((t, i) => `${i + 1}. ${t.label}`)
+  ];
+  copyToClipboard(lines.join("\n")).then((ok) => toast(ok ? "Calendar-only request copied" : "Copy failed — select manually"));
+}
+
+function copyScoutCloseLoopTemplate() {
+  const lines = [
+    "Close-the-loop tracker (weekly):",
+    "",
+    "| Task | Input I gave | Output returned | Result (time saved / quality) | Confidence (1-5) | Next tweak |",
+    "|---|---|---|---|---|---|",
+    "|  |  |  |  |  |  |"
+  ];
+  copyToClipboard(lines.join("\n")).then((ok) => toast(ok ? "Close-the-loop template copied" : "Copy failed — select manually"));
+}
+
 function copyRerunInvite() {
-  const when = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const when = session.plan.fourWeekSprint.nextReviewDate || dateAfterDays(28);
   const text = [
     `Create a 60-minute calendar event called "Move the Work re-run" on ${when}.`,
     "",
@@ -2245,7 +2616,7 @@ function copyRerunInvite() {
 }
 
 function openCopilotRerun() {
-  const when = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const when = session.plan.fourWeekSprint.nextReviewDate || dateAfterDays(28);
   const prompt = `Create a 60-minute calendar event called "Move the Work re-run" on ${when}. Description: Re-run my personal AI audit using the Move the Work web app. Import the attached session JSON and walk through the audit again. The diff view between runs shows where I've actually shifted my work. Set a reminder 1 day before.`;
   copyToClipboard(prompt).then(() => {
     window.open("https://m365.cloud.microsoft.com/chat", "_blank");
@@ -2254,7 +2625,7 @@ function openCopilotRerun() {
 }
 
 function copyRerunMeetingInvite() {
-  const when = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const when = session.plan.fourWeekSprint.nextReviewDate || dateAfterDays(28);
   const text = [
     "Subject: Move the Work re-run",
     `Date: ${when}`,
@@ -2274,23 +2645,20 @@ function copyRerunMeetingInvite() {
 function buildSnapshotHtml(p) {
   const stamp = fmtDate(p.meta.updatedAt || p.meta.createdAt);
   const a = p.assessment;
-  const zoneLabel = a.zone === "red" ? "RED ZONE" : a.zone === "yellow" ? "YELLOW ZONE" : a.zone === "green" ? "GREEN ZONE" : "—";
-  const zoneColor = a.zone === "red" ? "#dc2626" : a.zone === "yellow" ? "#f59e0b" : a.zone === "green" ? "#16a34a" : "#919191";
+  const zoneLabel = a.zone === "red" ? "Alert · Red zone · High exposure" : a.zone === "yellow" ? "Clock · Yellow zone · Time to act" : a.zone === "green" ? "Eye · Green zone · Lower exposure for now" : "Zone unavailable";
   const personLine = [p.person.name, p.person.role, p.person.org].filter(Boolean).join(" · ") || "Anonymous";
-  const tops = (p.plan.topMovesThisWeek || []).slice(0, 5);
+  const tops = (p.plan.topMovesThisWeek || []).slice(0, 1);
   const intentLabel = (i) => INTENTS[i] ? INTENTS[i].name : (i || "");
   const intentColor = (i) => ({ offload: "#f59e0b", amplify: "#0078d4", protect: "#16a34a", hold: "#6f6f6f" }[i] || "#6f6f6f");
-  const traj = p.plan.ninetyDayTrajectory || {};
-  const trajLine = (traj.targetAutomatePercent != null || traj.targetAssistPercent != null || traj.targetHumanPercent != null)
-    ? `Target mix: <strong>B1 ${traj.targetAutomatePercent != null ? traj.targetAutomatePercent + "%" : "—"}</strong> · <strong>B2 ${traj.targetAssistPercent != null ? traj.targetAssistPercent + "%" : "—"}</strong> · <strong>B3 ${traj.targetHumanPercent != null ? traj.targetHumanPercent + "%" : "—"}</strong>`
-    : `<em>Target mix: not yet set</em>`;
+  const sprint = p.plan.fourWeekSprint || emptyFourWeekSprint();
+  const checkpointList = sprint.weeklyCheckpoints.map((value, i) => `<li><strong>Week ${i + 1}:</strong> ${escapeHtmlSnapshot(value || "Not set")}</li>`).join("");
 
   const tasksRows = p.tasks.map((t) => {
     const bcls = t.bucket === "automate" ? "bb1" : t.bucket === "assist" ? "bb2" : t.bucket === "human" ? "bb3" : "bbu";
     const bname = BUCKETS[t.bucket || "unsorted"].name;
-    const cadenceLabel = { daily: "h/day", weekly: "h/wk", biweekly: "h/2wk", monthly: "h/mo", quarterly: "h/qtr", adhoc: "h/occ", unknown: "" }[t.cadence || "unknown"] || "";
-    const hoursDisplay = t.estHoursPerCadence != null ? t.estHoursPerCadence + " " + cadenceLabel : (t.estWeeklyHours != null ? t.estWeeklyHours + " h/wk" : "");
-    return `<tr><td><strong>${escapeHtmlSnapshot(t.label)}</strong>${t.description ? `<br><span class="muted">${escapeHtmlSnapshot(t.description)}</span>` : ""}</td><td><span class="badge ${bcls}">${bname}</span></td><td>${escapeHtmlSnapshot(t.cadence || "")}</td><td>${hoursDisplay}</td></tr>`;
+    const q = t.quality || {};
+    const starStr = (v) => v != null ? "★".repeat(v) + "☆".repeat(5 - v) : "—";
+    return `<tr><td><strong>${escapeHtmlSnapshot(t.label)}</strong>${t.description ? `<br><span class="muted">${escapeHtmlSnapshot(t.description)}</span>` : ""}</td><td><span class="badge ${bcls}">${bname}</span></td><td>${starStr(q.frequency)}</td><td>${starStr(q.energyDrain)}</td><td>${starStr(q.ioClarity)}</td></tr>`;
   }).join("");
 
   const movesRows = p.tasks.filter((t) => t.move && (t.move.nextStep || t.move.ownerOrTool)).map((t) => {
@@ -2318,7 +2686,7 @@ function buildSnapshotHtml(p) {
     .bar-labels{display:flex;margin:-4px 0 10px 0;font-size:9pt;font-weight:600;color:#5c5c5c}
     .bar-labels > div{display:flex;align-items:center;gap:4px}
     .bar-labels .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
-    .zone{display:inline-block;padding:4px 10px;color:#fff;font-weight:700;border-radius:6px;letter-spacing:0.04em;font-size:9pt}
+    .zone{display:inline-block;padding:4px 10px;color:#242424;background:#f7f4ef;border:1px solid #919191;font-weight:700;border-radius:6px;font-size:9pt}
     .zoneline{display:flex;align-items:center;gap:10px;margin:6px 0 10px 0}
     table{border-collapse:collapse;width:100%;margin:8px 0}
     th,td{text-align:left;padding:6px 10px;border-bottom:1px solid #eee;vertical-align:top;font-size:10pt}
@@ -2353,7 +2721,7 @@ function buildSnapshotHtml(p) {
       <div class="tag">Hand the toil to AI. Reclaim the work that only you can do.</div>
     </div>
     <div style="text-align:right;font-size:9pt;color:#5c5c5c">
-      Run ${p.meta.runNumber || 1} · ${escapeHtmlSnapshot(stamp)}
+      Run ${escapeHtmlSnapshot(p.meta.runNumber || 1)} · ${escapeHtmlSnapshot(stamp)}
     </div>
   </div>
   <div class="meta" style="margin-bottom:14px">${escapeHtmlSnapshot(personLine)}</div>
@@ -2370,14 +2738,14 @@ function buildSnapshotHtml(p) {
     <div><span class="dot" style="background:#16a34a"></span> Bucket 3 · Human (Only you)</div>
   </div>
   <div class="zoneline">
-    <span class="zone" style="background:${zoneColor}">${zoneLabel}</span>
-    <span style="font-size:10pt;color:#242424">${a.vulnerabilityRead.summary}</span>
+    <span class="zone">${zoneLabel}</span>
+    <span style="font-size:10pt;color:#242424">${escapeHtmlSnapshot(a.vulnerabilityRead.summary)}</span>
   </div>
 
-  <h2>Top moves</h2>
+  <h2>Active four-week workstream</h2>
   <div class="moves">
     ${tops.length === 0
-      ? `<div class="move"><div class="body" style="color:#6f6f6f;font-style:italic">No top moves starred.</div></div>`
+      ? `<div class="move"><div class="body" style="color:#6f6f6f;font-style:italic">No active task selected.</div></div>`
       : tops.map((mv, i) => `
         <div class="move">
           <div class="n">${i + 1}</div>
@@ -2395,14 +2763,16 @@ function buildSnapshotHtml(p) {
   </div>
 
   <h2>Full task inventory</h2>
-  <table><thead><tr><th>Task</th><th>Bucket</th><th>Cadence</th><th>Effort</th></tr></thead><tbody>${tasksRows}</tbody></table>
+  <table><thead><tr><th>Task</th><th>Bucket</th><th>Frequency</th><th>Energy Drain</th><th>Input/output clarity</th></tr></thead><tbody>${tasksRows}</tbody></table>
 
   <h2>All moves</h2>
   ${movesRows ? `<table><thead><tr><th>Task</th><th>Intent</th><th>Owner / tool</th><th>Next step</th><th>By when</th></tr></thead><tbody>${movesRows}</tbody></table>` : `<p class="muted">No moves written yet.</p>`}
 
-  <h2>90-day trajectory</h2>
-  <div style="font-size:10pt;margin-bottom:4px">${trajLine}</div>
-  ${traj.narrative ? `<div class="callout">"${escapeHtmlSnapshot(traj.narrative)}"</div>` : ""}
+  <h2>Four-week experiment</h2>
+  <div style="font-size:10pt"><strong>Outcome:</strong> ${escapeHtmlSnapshot(sprint.outcome || "Not set")}</div>
+  <ul style="font-size:10pt">${checkpointList}</ul>
+  <div style="font-size:10pt"><strong>Success signal:</strong> ${escapeHtmlSnapshot(sprint.successSignal || "Not set")}</div>
+  <div style="font-size:10pt"><strong>Next review:</strong> ${escapeHtmlSnapshot(fmtDate(sprint.nextReviewDate) || "Not set")}</div>
 
   <h2>Bring this to a conversation</h2>
   <div class="narrow prompts">
@@ -2410,7 +2780,7 @@ function buildSnapshotHtml(p) {
       <strong style="font-size:10pt">In your next 1:1 with your manager</strong>
       <ul>
         <li>"Here's where my time actually goes today — does the mix look right to you?"</li>
-        <li>"These are the three moves I'm making this week."</li>
+        <li>"This is the one four-week workstream I'm testing now."</li>
         <li>"What do you see in Bucket 3 that I might be undervaluing?"</li>
       </ul>
     </div>
@@ -2425,11 +2795,12 @@ function buildSnapshotHtml(p) {
   </div>
 
   <h2>Where to go next</h2>
-  <p style="font-size:10pt">🤖 <strong>Build your Digital Employees</strong> — Run <code>/digital-employees</code> in Clawpilot to build a personalized AI workforce based on what you learned here.</p>
-  <p style="font-size:10pt">🔧 Drop the session JSON into <a href="${HANDOFF.url}">${HANDOFF.tool}</a> — it picks up where Move the Work left off.</p>
+  <p style="font-size:10pt"><strong>Scout:</strong> If Scout is available in your Microsoft environment, copy the Scout prompt from the app to agree on scope, checkpoints, evidence, and the first action.</p>
+  <p style="font-size:10pt"><strong>Cowork or ChatGPT:</strong> Copy the portable prompt for Claude Cowork, Microsoft Cowork, or ChatGPT Work. It is a complete path and adapts to available files, connectors, tools, and permissions.</p>
+  <p style="font-size:10pt">Keep exactly one active task; leave everything else in backlog for a future monthly cycle.</p>
 
   <div class="footer">
-    <div>Re-run in 90 days · Import the saved JSON to see what's moved.</div>
+    <div>Return in about four weeks · Import the saved JSON to see what's moved.</div>
     <div>Generated by Move the Work</div>
   </div>
 </body></html>`;
@@ -2466,12 +2837,15 @@ function importSession(data) {
   // If user has no current session OR a fresh empty one, treat this as resume-prior-run
   const isFresh = session.tasks.length === 0;
   if (isFresh) {
+    const importedRunNumber = Number(data.meta.runNumber);
+    const priorRunNumber = Number.isFinite(importedRunNumber) && importedRunNumber > 0 ? Math.floor(importedRunNumber) : 1;
     // Load as a *new* run that references the imported one
     priorSession = JSON.parse(JSON.stringify(data));
+    priorSession.meta.runNumber = priorRunNumber;
     // start a new run keeping person info
     const next = freshSession();
     next.person = data.person || next.person;
-    next.meta.runNumber = (data.meta.runNumber || 1) + 1;
+    next.meta.runNumber = priorRunNumber + 1;
     next.meta.previousRunSessionRef = data.meta.sessionId;
     next.meta.tags = data.meta.tags || [];
     // carry forward tasks (reset bucket to existing assignment so user can revise)
@@ -2479,6 +2853,8 @@ function importSession(data) {
       ...t,
       move: t.move || null
     }));
+    next.schemaVersion = data.schemaVersion || "1.0.0";
+    next.plan = JSON.parse(JSON.stringify(data.plan || next.plan));
     session = next;
     ensureSessionShape();
     computeAssessment();
@@ -2486,7 +2862,7 @@ function importSession(data) {
     ui.step = "diff";
     ui.visited.add("diff");
     render();
-    toast(`Imported run ${data.meta.runNumber} — here's what changed.`);
+    toast(`Imported run ${priorRunNumber} — here's what changed.`);
   } else {
     if (!confirm("This will replace your current in-progress audit. Continue?")) return;
     session = data;

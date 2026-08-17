@@ -1,0 +1,111 @@
+[
+  {
+    "name": "TBM mobilités",
+    "kind": "download",
+    "regions": "Bordeaux",
+    "url": "https://www.infotbm.com/en",
+    "use": "Plan Bordeaux tram, bus, and river-shuttle trips and check service updates."
+  },
+  {
+    "name": "SNCF Connect",
+    "kind": "download",
+    "regions": "France",
+    "url": "https://www.sncf-connect.com/en-en",
+    "use": "Book and manage French trains, including independent trips toward Arcachon or Saint-Émilion."
+  },
+  {
+    "name": "CARRISway",
+    "kind": "download",
+    "regions": "Lisbon",
+    "url": "https://www.carris.pt/en/",
+    "use": "Check Lisbon bus, tram, and funicular routes and real-time arrivals.",
+    "caveat": "Lisbon Metro contactless payment rules do not automatically apply on every CARRIS vehicle."
+  },
+  {
+    "name": "CP – Comboios de Portugal",
+    "kind": "download",
+    "regions": "Lisbon, Porto, Douro",
+    "url": "https://www.cp.pt/en",
+    "use": "Manage the Lisbon–Porto train and check suburban or Douro regional services."
+  },
+  {
+    "name": "Anda",
+    "kind": "download",
+    "regions": "Porto",
+    "url": "https://andante.pt/en/purchase/anda-app/",
+    "use": "Validate participating Porto Metro, bus, and train journeys by phone.",
+    "caveat": "Android only; NFC and Bluetooth are required. iPhone users should use a physical Andante ticket or card."
+  },
+  {
+    "name": "Bolt",
+    "kind": "download",
+    "regions": "Bordeaux, Lisbon, Porto",
+    "url": "https://bolt.eu/en/",
+    "use": "Use for airport transfers, luggage trips, late nights, and urban transit gaps.",
+    "caveat": "Do not assume availability in rural Armagnac, vineyards, Bazas, or the Douro."
+  },
+  {
+    "name": "ANA Portuguese Airports",
+    "kind": "download",
+    "regions": "Lisbon, Porto",
+    "url": "https://www.ana.pt/en/corporate/ana/app-ana",
+    "use": "Check official Lisbon and Porto airport flight and terminal information."
+  },
+  {
+    "name": "Lisbon Metro",
+    "kind": "bookmark",
+    "regions": "Lisbon",
+    "url": "https://www.metrolisboa.pt/en/travel/",
+    "use": "Keep Metro maps, travel guidance, fares, and contactless-payment rules handy.",
+    "caveat": "One contactless card or device covers one passenger; use the same payment credential throughout a trip."
+  },
+  {
+    "name": "Andante",
+    "kind": "bookmark",
+    "regions": "Porto",
+    "url": "https://andante.pt/en/",
+    "use": "Check Porto-area zones, fares, physical tickets, and participating operators."
+  },
+  {
+    "name": "Nouvelle-Aquitaine Transport",
+    "kind": "bookmark",
+    "regions": "Bordeaux region, Bazas",
+    "url": "https://transports.nouvelle-aquitaine.fr/",
+    "use": "Check regional coaches and service notices outside Bordeaux’s local TBM network."
+  },
+  {
+    "name": "Bordeaux Airport",
+    "kind": "bookmark",
+    "regions": "Bordeaux",
+    "url": "https://www.bordeaux.aeroport.fr/en",
+    "use": "Check official flight status, airport access, and ground transportation."
+  },
+  {
+    "name": "Lisbon Airport",
+    "kind": "bookmark",
+    "regions": "Lisbon",
+    "url": "https://www.lisbonairport.pt/en/lis/home",
+    "use": "Check official airport arrivals, departures, and transportation."
+  },
+  {
+    "name": "Porto Airport",
+    "kind": "bookmark",
+    "regions": "Porto",
+    "url": "https://www.portoairport.pt/en/opo/home",
+    "use": "Check official airport status and early-morning transportation information."
+  },
+  {
+    "name": "Underground Saint-Émilion tickets",
+    "kind": "bookmark",
+    "regions": "Saint-Émilion",
+    "url": "https://boutique.saint-emilion-tourisme.com/en/product/underground-st-emilion",
+    "use": "Prebook a dated, language-specific underground-monuments tour if visiting independently."
+  },
+  {
+    "name": "Livraria Lello tickets",
+    "kind": "bookmark",
+    "regions": "Porto",
+    "url": "https://tickets.livrarialello.pt/",
+    "use": "Buy the required timed Ticket-Voucher if this optional stop makes the final plan."
+  }
+]

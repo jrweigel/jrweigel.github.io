@@ -3,52 +3,71 @@
     "date": "2026-08-30",
     "city": "Bordeaux",
     "title": "Arrival and Bordeaux first look",
-    "subtitle": "Tentative host day plus confirmed group arrival",
+    "subtitle": "La Cité du Vin, city walk, and Rouge Bordeaux welcome",
     "status": "tentative",
-    "attire": {
-      "male": "Breathable linen or cotton shirt, chinos or smart shorts, comfortable walking shoes; light layer for evening picnic.",
-      "female": "Breathable sundress, skirt, or linen set with supportive sandals/sneakers; light wrap for evening."
-    },
     "notes": [
-      "Bordeaux schedule is tentative except confirmed Rouge Bordeaux check-in.",
+      "Bordeaux host activities are tentative; the Mondrian pickup and Rouge Bordeaux room check-in are confirmed.",
       "Laundry is planned after Bordeaux or at Lisbon arrival."
     ],
     "items": [
       {
-        "start": "11:20",
-        "title": "Rouge Bordeaux B&B check-in / group arrival",
-        "type": "lodging",
+        "start": "10:00",
+        "title": "Pickup at Mondrian Bordeaux Les Carmes",
+        "type": "transport",
         "status": "confirmed",
-        "locationId": "rouge-bordeaux",
-        "description": "Confirmed arrival logistics."
+        "locationId": "mondrian-bordeaux",
+        "description": "Confirmed group pickup before the host itinerary begins."
       },
       {
-        "start": "13:00",
-        "title": "Garonne picnic",
-        "type": "food",
-        "status": "tentative",
-        "description": "Host plan; keep flexible."
-      },
-      {
-        "start": "14:30",
-        "title": "Cité du Vin",
+        "start": "10:30",
+        "title": "La Cité du Vin",
         "type": "sight",
         "status": "tentative",
-        "description": "Tentative cultural stop."
+        "locationId": "cite-du-vin",
+        "description": "Immersive museum exploring the history, culture, and artistry of wine around the world."
+      },
+      {
+        "start": "12:15",
+        "title": "Picnic lunch",
+        "type": "food",
+        "status": "tentative",
+        "description": "Baguettes, local cheeses, charcuterie, and wine with riverside views."
+      },
+      {
+        "start": "13:15",
+        "title": "Private Bordeaux walking tour with Julien",
+        "type": "walk",
+        "status": "tentative",
+        "description": "Explore the city’s architecture, squares, hidden gems, history, and wine heritage."
       },
       {
         "start": "16:30",
-        "title": "Private Bordeaux walk",
-        "type": "walk",
-        "status": "tentative",
-        "description": "Cathedral, Miroir d’Eau, Grosse Cloche, and Grand Théâtre."
+        "title": "Check in at Rouge Bordeaux B&B",
+        "type": "lodging",
+        "status": "confirmed",
+        "locationId": "rouge-bordeaux",
+        "description": "Room check-in, welcome glass of Bordeaux wine, and time to unwind."
       },
       {
-        "start": "19:30",
-        "title": "Pizza dinner",
+        "start": "17:30",
+        "title": "Creative Travel Journaling with Angela",
+        "type": "activity",
+        "status": "tentative",
+        "description": "Introduction to creative travel journaling and art-journaling supplies."
+      },
+      {
+        "start": "18:00",
+        "title": "Bordeaux 101 with Jason",
+        "type": "wine",
+        "status": "tentative",
+        "description": "Wine tasting and an introduction to Bordeaux geography and terroir."
+      },
+      {
+        "start": "19:00",
+        "title": "Welcome dinner, venue TBD",
         "type": "food",
         "status": "tentative",
-        "description": "Casual first-night dinner."
+        "description": "Host welcome dinner; venue has not yet been selected."
       }
     ]
   },
@@ -56,67 +75,138 @@
     "date": "2026-08-31",
     "city": "Bordeaux",
     "title": "Arcachon and Dune du Pilat",
-    "subtitle": "Coast, oysters, boat, and barbecue",
+    "subtitle": "Atlantic coast, pinasse boat, oysters, and creative time",
     "status": "tentative",
-    "attire": {
-      "male": "Short-sleeve shirt, swim-ready shorts, hat, sunglasses, sandals plus secure shoes for dune sand.",
-      "female": "Light dress or shorts set over swimwear, sun hat, sunglasses, sandals plus secure shoes for dune sand."
-    },
+    "practicalRequirements": "Wear secure shoes for the dune sand and bring sun protection for exposed coastal activities.",
     "items": [
       {
-        "start": "09:00",
-        "title": "Arcachon and Dune du Pilat",
-        "type": "tour",
-        "status": "tentative",
-        "description": "Host itinerary with traditional pinasse boat and oyster beds."
-      },
-      {
-        "start": "13:00",
-        "title": "Chez Pascaud",
+        "start": "08:00",
+        "title": "Breakfast at Rouge Bordeaux",
         "type": "food",
         "status": "tentative",
-        "description": "Lunch plan supplied by host."
+        "locationId": "rouge-bordeaux",
+        "description": "Petit déjeuner at the B&B."
       },
       {
-        "start": "19:00",
-        "title": "Poolside barbecue",
+        "start": "10:00",
+        "title": "Climb the Dune du Pilat",
+        "type": "sight",
+        "status": "tentative",
+        "locationId": "dune-du-pilat",
+        "description": "Climb Europe’s tallest sand dune for views of the Atlantic and Landes forest."
+      },
+      {
+        "start": "12:00",
+        "title": "Traditional pinasse boat ride to Cap Ferret",
+        "type": "boat",
+        "status": "tentative",
+        "locationId": "cap-ferret",
+        "description": "Cross the bay past fishing villages, beach cabins, and oyster farms."
+      },
+      {
+        "start": "13:30",
+        "title": "Fresh oysters at Chez Pascaud",
         "type": "food",
         "status": "tentative",
-        "description": "Relaxed B&B evening."
+        "locationId": "chez-pascaud",
+        "description": "Waterside seafood tasting with oysters, prawns, and white wine."
+      },
+      {
+        "start": "15:00",
+        "title": "Artistic exploration of the fishing community",
+        "type": "activity",
+        "status": "tentative",
+        "description": "Use sketchbooks and cameras to document boats, fishermen’s huts, and village life."
+      },
+      {
+        "start": "18:00",
+        "end": "19:00",
+        "title": "Creative Travel Journaling with Angela",
+        "type": "activity",
+        "status": "tentative",
+        "description": "Observational drawing exercise; no art experience is needed."
+      },
+      {
+        "start": "19:30",
+        "title": "Dinner, venue TBD",
+        "type": "food",
+        "status": "tentative",
+        "description": "Host dinner; venue has not yet been selected."
       }
     ]
   },
   {
     "date": "2026-09-01",
     "city": "Bordeaux",
-    "title": "Chocolate and vineyard day",
-    "subtitle": "Workshop, Château La Corne, barrel tasting",
+    "title": "Harvest experience at Château La Corne",
+    "subtitle": "Hands-on harvest, winery tour, and four-course lunch",
     "status": "tentative",
-    "attire": {
-      "male": "Smart-casual polo or linen shirt, lightweight trousers or chinos, comfortable closed-toe shoes for cellar/vineyard.",
-      "female": "Casual dress or blouse with trousers, comfortable flats/sneakers for vineyard and cellar, light layer."
-    },
+    "practicalRequirements": "Wear closed-toe shoes suitable for vineyard rows and winery work; bring a light layer for cellar areas.",
     "items": [
       {
-        "start": "10:00",
-        "title": "Bean-to-bar chocolate workshop",
+        "start": "08:00",
+        "title": "Breakfast at Rouge Bordeaux",
+        "type": "food",
+        "status": "tentative",
+        "locationId": "rouge-bordeaux",
+        "description": "Petit déjeuner before the harvest day."
+      },
+      {
+        "start": "09:00",
+        "title": "Grape harvesting at Château La Corne",
         "type": "activity",
         "status": "tentative",
-        "description": "Host-supplied activity."
+        "locationId": "chateau-la-corne",
+        "description": "Winemaker Steve introduces the estate’s organic and biodynamic practices."
+      },
+      {
+        "start": "09:30",
+        "end": "11:00",
+        "title": "Hands-on harvesting",
+        "type": "activity",
+        "status": "tentative",
+        "locationId": "chateau-la-corne",
+        "description": "Pick ripe grape clusters alongside Steve and his tractor."
+      },
+      {
+        "start": "11:00",
+        "title": "Harvest casse-croûte",
+        "type": "food",
+        "status": "tentative",
+        "locationId": "chateau-la-corne",
+        "description": "Coffee, hot chocolate, and pastries during the harvest."
+      },
+      {
+        "start": "11:30",
+        "end": "12:30",
+        "title": "Continued harvesting and winery tour",
+        "type": "tour",
+        "status": "tentative",
+        "locationId": "chateau-la-corne",
+        "description": "Continue the harvest and tour the fermentation tanks and aging barrels."
       },
       {
         "start": "12:30",
-        "title": "Château La Corne vineyard tour and lunch",
-        "type": "tour",
+        "title": "Four-course harvest lunch with wine pairings",
+        "type": "food",
         "status": "tentative",
-        "description": "Barrel tasting plus four-course lunch and wine pairings."
+        "locationId": "chateau-la-corne",
+        "description": "Chef Diana prepares a seasonal meal with local ingredients and Château La Corne wines."
       },
       {
-        "start": "19:00",
+        "start": "18:00",
+        "title": "Art Journaling with Angela",
+        "type": "activity",
+        "status": "tentative",
+        "description": "Landscape-painting techniques inspired by the vineyards and views."
+      },
+      {
+        "start": "20:00",
         "title": "Light B&B dinner",
         "type": "food",
         "status": "tentative",
-        "description": "Keep dinner light after wine lunch."
+        "locationId": "rouge-bordeaux",
+        "description": "A cozy light dinner after the harvest lunch."
       }
     ]
   },
@@ -124,156 +214,237 @@
     "date": "2026-09-02",
     "city": "Bordeaux",
     "title": "Saint-Émilion",
-    "subtitle": "Village, lunch, and underground-cellar tasting",
+    "subtitle": "Medieval village, underground tasting, Pomerol, and creativity",
     "status": "tentative",
-    "attire": {
-      "male": "Collared shirt, chinos or tailored shorts, comfortable walking shoes for cobblestones.",
-      "female": "Midi dress or linen trousers with blouse, low-profile walking shoes for cobblestones."
-    },
+    "practicalRequirements": "Wear supportive, grippy shoes for Saint-Émilion’s steep and uneven cobblestones; bring a light cellar layer.",
     "items": [
       {
-        "start": "10:00",
-        "title": "Saint-Émilion",
-        "type": "walk",
-        "status": "tentative",
-        "description": "Tentative host excursion."
-      },
-      {
-        "start": "12:30",
-        "title": "Clos Mirande lunch",
+        "start": "08:00",
+        "title": "Breakfast at Rouge Bordeaux",
         "type": "food",
         "status": "tentative",
-        "description": "Lunch plan supplied by host."
+        "locationId": "rouge-bordeaux",
+        "description": "Petit déjeuner before the wine-country day trip."
       },
       {
-        "start": "15:00",
-        "title": "ETS Martin underground-cellar tasting",
+        "start": "09:30",
+        "title": "Departure and introduction",
+        "type": "transport",
+        "status": "tentative",
+        "description": "Travel into Bordeaux wine country with an introduction to Saint-Émilion."
+      },
+      {
+        "start": "10:00",
+        "title": "Explore medieval Saint-Émilion",
+        "type": "walk",
+        "status": "tentative",
+        "locationId": "saint-emilion",
+        "description": "Walk the village and see landmarks including the Monolithic Church and King’s Tower."
+      },
+      {
+        "start": "11:30",
+        "title": "Underground wine tasting at ETS Martin",
         "type": "wine",
         "status": "tentative",
-        "description": "Tasting plan; cellar layer recommended."
+        "locationId": "ets-martin",
+        "description": "Visit limestone caves and learn about aging, terroir, and Saint-Émilion wines."
+      },
+      {
+        "start": "13:30",
+        "title": "Lunch at Le Clos Mirande",
+        "type": "food",
+        "status": "tentative",
+        "locationId": "le-clos-mirande",
+        "description": "Lunch surrounded by Saint-Émilion vineyards."
+      },
+      {
+        "start": "16:00",
+        "title": "Visit Pomerol with Julien and Jason",
+        "type": "tour",
+        "status": "tentative",
+        "locationId": "pomerol",
+        "description": "Explore the hamlet and learn about its terroir, appellation, and Château Pétrus."
+      },
+      {
+        "start": "18:00",
+        "title": "Art Journaling with Angela",
+        "type": "activity",
+        "status": "optional",
+        "description": "Optional crazy-quilt exercise revisiting the colors and flavors of Saint-Émilion."
       },
       {
         "start": "19:30",
-        "title": "Dinner at the B&B",
+        "title": "Relaxed dinner at Rouge Bordeaux",
         "type": "food",
         "status": "tentative",
-        "description": "Host dinner."
+        "locationId": "rouge-bordeaux",
+        "description": "Moules-frites followed by lemon meringue pie."
       }
     ]
   },
   {
     "date": "2026-09-03",
     "city": "Bordeaux",
-    "title": "Countryside château day",
-    "subtitle": "Toulouse-Lautrec summer home and duck dinner",
+    "title": "Chocolate, cooking, and Toulouse-Lautrec",
+    "subtitle": "Hands-on food and art in rural France",
     "status": "tentative",
-    "attire": {
-      "male": "Casual button-down or polo, chinos, walking shoes; bring light rain layer if forecast shifts.",
-      "female": "Comfortable day dress or separates with flats/sneakers; light cardigan for interiors."
-    },
     "items": [
       {
-        "start": "10:00",
-        "title": "Toulouse-Lautrec summer home",
-        "type": "sight",
+        "start": "08:30",
+        "title": "Breakfast at Rouge Bordeaux",
+        "type": "food",
         "status": "tentative",
-        "description": "Host activity."
+        "locationId": "rouge-bordeaux",
+        "description": "Petit déjeuner before a slower rural day."
+      },
+      {
+        "start": "10:00",
+        "title": "Chocolate workshop with Patrick Brossard",
+        "type": "activity",
+        "status": "tentative",
+        "locationId": "patrick-brossard",
+        "description": "Hands-on bean-to-bar workshop covering cacao origins and artisan chocolate making."
       },
       {
         "start": "12:30",
-        "title": "Écluse 52 lunch",
+        "title": "Group lunch at Écluse 52",
         "type": "food",
         "status": "tentative",
-        "description": "Host lunch."
+        "locationId": "ecluse-52",
+        "description": "Seasonal French cuisine with local ingredients in a waterfront canal setting."
       },
       {
-        "start": "15:00",
-        "title": "Château Peyere tasting",
-        "type": "wine",
+        "start": "14:00",
+        "title": "Tour Château Toulouse-Lautrec",
+        "type": "sight",
         "status": "tentative",
-        "description": "Host tasting."
+        "locationId": "chateau-toulouse-lautrec",
+        "description": "Angela guides a tour of the château, its history, and Henri de Toulouse-Lautrec’s life."
       },
       {
-        "start": "19:30",
-        "title": "Duck dinner",
+        "start": "17:00",
+        "title": "Art Journaling with Angela",
+        "type": "activity",
+        "status": "tentative",
+        "description": "Explore line, symbol, and meaning inspired by Toulouse-Lautrec."
+      },
+      {
+        "start": "18:00",
+        "title": "Cooking with Julien: special duck dinner",
         "type": "food",
         "status": "tentative",
-        "description": "Host dinner."
+        "locationId": "rouge-bordeaux",
+        "description": "Prepare duck cooked over sarment and tarte Tatin."
       }
     ]
   },
   {
     "date": "2026-09-04",
     "city": "Bordeaux",
-    "title": "Prehistory and Font-de-Gaume",
-    "subtitle": "Museum, lunch, cave art, raclette",
+    "title": "Armagnac",
+    "subtitle": "Gascony estates, a bastide lunch, and farewell raclette",
     "status": "tentative",
-    "attire": {
-      "male": "Breathable shirt, comfortable trousers, closed-toe walking shoes; layer for cave/museum interiors.",
-      "female": "Comfortable pants or skirt with top, closed-toe walking shoes; layer for cave/museum interiors."
-    },
     "items": [
       {
-        "start": "10:00",
-        "title": "National Prehistory Museum",
-        "type": "sight",
-        "status": "tentative",
-        "description": "Tentative host excursion."
-      },
-      {
-        "start": "12:30",
-        "title": "Hostellerie du Passeur",
+        "start": "07:30",
+        "title": "Breakfast at Rouge Bordeaux",
         "type": "food",
         "status": "tentative",
-        "description": "Lunch plan."
+        "locationId": "rouge-bordeaux",
+        "description": "Early petit déjeuner before the Gascony day trip."
+      },
+      {
+        "start": "09:00",
+        "title": "Departure for Armagnac",
+        "type": "transport",
+        "status": "tentative",
+        "description": "Drive through Gascony, a region known for Armagnac brandy."
+      },
+      {
+        "start": "11:00",
+        "title": "Visit Domaine de Jouatmaou",
+        "type": "wine",
+        "status": "tentative",
+        "locationId": "domaine-jouatmaou",
+        "description": "Tour the historic estate, underground clay cellar, and estate-oak aging barrels."
+      },
+      {
+        "start": "13:00",
+        "title": "Lunch at Au Relais Gascon",
+        "type": "food",
+        "status": "tentative",
+        "locationId": "au-relais-gascon",
+        "description": "Traditional Gascon lunch in La Bastide-d’Armagnac."
       },
       {
         "start": "15:00",
-        "title": "Font-de-Gaume",
-        "type": "sight",
+        "title": "Tasting and cellar visit at Domaine d’Espérance",
+        "type": "wine",
         "status": "tentative",
-        "description": "Tentative cave-art visit."
+        "locationId": "domaine-esperance",
+        "description": "Meet Claire de Montesquiou and tour the family estate in Bas-Armagnac."
+      },
+      {
+        "start": "18:00",
+        "title": "Creative Gaming with Angela",
+        "type": "activity",
+        "status": "tentative",
+        "description": "Play a creative game favored by early twentieth-century surrealist artists."
       },
       {
         "start": "19:30",
-        "title": "Raclette dinner",
+        "title": "Farewell raclette dinner with Apremont",
         "type": "food",
         "status": "tentative",
-        "description": "Host dinner."
+        "locationId": "rouge-bordeaux",
+        "description": "Melted cheese, charcuterie, roasted potatoes, and baguettes."
       }
     ]
   },
   {
     "date": "2026-09-05",
     "city": "Bordeaux / Lisbon",
-    "title": "Revision needed: Bordeaux farewell conflicts with flight",
-    "subtitle": "Protect the confirmed Lisbon flight",
+    "title": "Bazas Market and departure",
+    "subtitle": "Market morning, flexible lunch, and confirmed Lisbon flight",
     "status": "planned",
-    "attire": {
-      "male": "Travel outfit: breathable shirt, stretch chinos, lightweight jacket, easy airport shoes; keep one fresh Lisbon layer handy.",
-      "female": "Travel outfit: comfortable dress or separates, light jacket/scarf, easy airport shoes; keep toiletries accessible for late check-in."
-    },
     "alerts": [
       {
-        "status": "tentative",
-        "title": "Host schedule needs revision",
-        "body": "The host's tentative Armagnac trip and 7:00 PM farewell dinner conflict with the confirmed 10:00 PM Bordeaux-to-Lisbon flight. Do not show the farewell dinner as viable."
+        "status": "planned",
+        "title": "Confirm afternoon airport transfer",
+        "body": "The host itinerary does not specify the van departure time. Confirm luggage collection and departure with Julien early enough to reach Bordeaux Airport by the 8:00 PM target for the confirmed 10:00 PM flight."
       }
     ],
     "items": [
       {
         "start": "09:00",
-        "title": "Host Armagnac trip",
-        "type": "tour",
+        "title": "Breakfast at Rouge Bordeaux",
+        "type": "food",
         "status": "tentative",
-        "description": "Tentative only; must be revised around the flight."
+        "locationId": "rouge-bordeaux",
+        "description": "Final petit déjeuner at the B&B."
       },
       {
-        "start": "19:00",
-        "title": "Farewell dinner conflict",
-        "type": "alert",
+        "start": "10:00",
+        "title": "Depart for Bazas Market",
+        "type": "sight",
         "status": "tentative",
-        "description": "Not viable as planned because airport target is around 8:00 PM."
+        "locationId": "bazas-market",
+        "description": "Visit the medieval town, cathedral, produce stalls, crafts, and local-food vendors."
+      },
+      {
+        "start": "12:00",
+        "title": "Lunch on your own in Bazas",
+        "type": "food",
+        "status": "optional",
+        "description": "Suggested options are Hugo Délices for regional fare or L’Indigo for a modern local menu; neither is reserved."
+      },
+      {
+        "start": "Afternoon",
+        "title": "Collect bags and depart with Julien",
+        "type": "transport",
+        "status": "tentative",
+        "locationId": "rouge-bordeaux",
+        "description": "Return to the house for luggage, then leave by van; exact departure time must be confirmed."
       },
       {
         "start": "20:00",
@@ -281,7 +452,7 @@
         "type": "transport",
         "status": "planned",
         "locationId": "bod-airport",
-        "description": "Luggage storage and transportation must be confirmed."
+        "description": "Target arrival time; luggage collection and van departure must be confirmed with Julien."
       },
       {
         "start": "22:00",
@@ -320,10 +491,7 @@
       "santos-timeout",
       "castle-alfama"
     ],
-    "attire": {
-      "male": "Light linen/cotton shirt, breathable trousers or tailored shorts, grippy walking shoes for hills; bring sunglasses and a dinner shirt for Prado.",
-      "female": "Breathable dress or linen separates, supportive sandals/sneakers for hills; pack a dinner-ready top or dress for apartment reset."
-    },
+    "practicalRequirements": "Wear supportive, grippy shoes for Lisbon’s steep hills and uneven stone streets.",
     "items": [
       {
         "start": "09:00",
@@ -415,10 +583,7 @@
       "belem-walk",
       "park-avillez"
     ],
-    "attire": {
-      "male": "Comfortable food-tour outfit: knit polo or linen shirt, stretch chinos, walking shoes; bring light evening layer for rooftop.",
-      "female": "Comfortable dress or separates with walking shoes; bring light layer or scarf for rooftop breeze."
-    },
+    "practicalRequirements": "Bring a light layer for the exposed rooftop in the evening.",
     "notes": [
       "Jerónimos Monastery and Belém Tower interiors are closed Mondays; treat them as exterior stops only."
     ],
@@ -497,10 +662,7 @@
     "routeIds": [
       "porto-walk"
     ],
-    "attire": {
-      "male": "Rail day layers: breathable shirt, stretch trousers, jacket for train AC, comfortable shoes; fresh casual dinner shirt packed accessibly.",
-      "female": "Rail day outfit: comfortable dress/jumpsuit or separates, light sweater for train AC, supportive shoes; fresh dinner layer accessible."
-    },
+    "practicalRequirements": "Keep a light layer accessible for the air-conditioned train.",
     "items": [
       {
         "start": "09:00",
@@ -591,10 +753,7 @@
     "routeIds": [
       "slice-douro"
     ],
-    "attire": {
-      "male": "Smart casual tour outfit: breathable collared shirt, chinos, comfortable closed-toe shoes; hat/sunglasses for boat and vineyards.",
-      "female": "Comfortable wine-country dress or trousers, low wedges/flats or sneakers, hat/sunglasses; layer for boat breeze."
-    },
+    "practicalRequirements": "Bring sun protection and a layer for boat-deck wind; wear closed-toe shoes suitable for vineyard terrain.",
     "items": [
       {
         "start": "08:00",
@@ -646,10 +805,7 @@
     "routeIds": [
       "slice-yeatman"
     ],
-    "attire": {
-      "male": "Day: polished casual linen/polo and walking shoes. Evening: smart casual jacket or crisp shirt, trousers, dress shoes or clean loafers for Yeatman.",
-      "female": "Day: breathable dress/separates and walking shoes. Evening: elegant dress or elevated separates, smart flats/heels suitable for photos and dinner."
-    },
+    "practicalRequirements": "The Yeatman Gastronomic Restaurant dress code is smart casual.",
     "items": [
       {
         "start": "09:30",
@@ -727,10 +883,6 @@
     "title": "Early checkout",
     "subtitle": "Pre-book transfer and leave prepared",
     "status": "planned",
-    "attire": {
-      "male": "Airport outfit laid out before dinner: comfortable layers, slip-on shoes, passport/wallet in front pocket or travel pouch.",
-      "female": "Airport outfit laid out before dinner: comfortable layers, easy shoes, scarf/light layer, passport/wallet in secure pouch."
-    },
     "items": [
       {
         "start": "05:35",

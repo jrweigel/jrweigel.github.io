@@ -6,6 +6,8 @@ const locations = readJson('data/locations.json');
 const days = readJson('data/days.json');
 const reservations = readJson('data/reservations.json');
 const routes = readJson('data/routes.json');
+const travelResources = readJson('data/travel-resources.json');
+const phraseGuides = readJson('data/phrases.json');
 const locationIds = new Set(locations.map((location) => location.id));
 const routeIds = new Set(routes.map((route) => route.id));
 const errors = [];
@@ -29,7 +31,10 @@ for (const day of days) {
     if (!day[field]) errors.push(`day missing ${field}`);
   }
   if (!statuses.has(day.status)) errors.push(`bad day status ${day.date}`);
-  if (!day.attire?.male || !day.attire?.female) errors.push(`day ${day.date} missing male/female attire`);
+  if (day.practicalRequirements !== undefined && (!day.practicalRequirements || typeof day.practicalRequirements !== 'string')) {
+    errors.push(`day ${day.date} practicalRequirements must be a non-empty string`);
+  }
+  if (day.attire !== undefined) errors.push(`day ${day.date} uses legacy gendered attire guidance`);
   if (day.status === 'confirmed' && day.items.some((item) => item.status !== 'confirmed')) {
     errors.push(`day ${day.date} is confirmed but contains non-confirmed items`);
   }
@@ -41,6 +46,7 @@ for (const day of days) {
       if (!item[field]) errors.push(`item ${day.date} missing ${field}`);
     }
     if (!statuses.has(item.status)) errors.push(`bad item status ${item.title}`);
+    if (!/^\d{2}:\d{2}$/.test(item.start) && item.start !== 'Afternoon') errors.push(`bad item start ${item.title}`);
     if (item.locationId && !locationIds.has(item.locationId)) errors.push(`missing location ${item.locationId}`);
   }
 }
@@ -58,9 +64,33 @@ for (const route of routes) {
   if (!route.label || !route.mode) errors.push(`route ${route.id} missing label or mode`);
 }
 
+for (const resource of travelResources) {
+  for (const field of ['name', 'kind', 'regions', 'url', 'use']) {
+    if (!resource[field]) errors.push(`travel resource ${resource.name || '?'} missing ${field}`);
+  }
+  if (!['download', 'bookmark'].includes(resource.kind)) errors.push(`bad travel resource kind ${resource.name}`);
+  if (!resource.url?.startsWith('https://')) errors.push(`travel resource URL must be https for ${resource.name}`);
+}
+if (new Set(travelResources.map((resource) => resource.name)).size !== travelResources.length) {
+  errors.push('travel resource names must be unique');
+}
+
+for (const guide of phraseGuides) {
+  for (const field of ['language', 'regions', 'note', 'phrases']) {
+    if (!guide[field]) errors.push(`phrase guide ${guide.language || '?'} missing ${field}`);
+  }
+  if (guide.phrases?.length !== 12) errors.push(`${guide.language} must contain exactly 12 phrases`);
+  for (const phrase of guide.phrases || []) {
+    for (const field of ['english', 'local', 'pronunciation']) {
+      if (!phrase[field]) errors.push(`${guide.language} phrase missing ${field}`);
+    }
+  }
+}
+if (phraseGuides.length !== 2) errors.push('exactly two phrase guides are required');
+
 const september5 = days.find((day) => day.date === '2026-09-05');
-if (!september5?.alerts?.some((alert) => alert.title.includes('Host schedule needs revision'))) {
-  errors.push('September 5 must flag the host schedule conflict');
+if (!september5?.alerts?.some((alert) => alert.title.includes('Confirm afternoon airport transfer'))) {
+  errors.push('September 5 must flag the unconfirmed afternoon airport transfer');
 }
 if (!september5?.items?.some((item) => item.title.includes('EasyJet U2 7606') && item.status === 'confirmed' && item.start === '22:00')) {
   errors.push('September 5 confirmed EasyJet flight is missing or altered');
@@ -88,4 +118,4 @@ if (errors.length) {
   console.error(errors.join('\n'));
   process.exit(1);
 }
-console.log(`Validated ${days.length} days, ${locations.length} locations, ${reservations.length} reservations, ${routes.length} routes.`);
+console.log(`Validated ${days.length} days, ${locations.length} locations, ${reservations.length} reservations, ${routes.length} routes, ${travelResources.length} travel resources, and ${phraseGuides.length} phrase guides.`);

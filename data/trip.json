@@ -1,9 +1,14 @@
 {
-  "title": "Europe 2026 Travel Guide",
+  "title": "Sip Your Best Life: Europe 2026",
   "travelers": "Private group of four",
   "startDate": "2026-08-30",
   "endDate": "2026-09-11",
   "basePath": "/Europe2026/",
+  "itinerarySource": {
+    "label": "Bordeaux host itinerary on Sutori",
+    "url": "https://www.sutori.com/en/story/bordeaux-september-2026-art-vine-voyage--ptCDG2PpGVKzfLA7AmYivzhw",
+    "reconciledDate": "August 16, 2026"
+  },
   "philosophy": [
     "Architecture and beautiful neighborhoods over museums",
     "Walking and wandering rather than rushing between attractions",
@@ -26,7 +31,7 @@
     {
       "status": "tentative",
       "title": "Bordeaux host schedule is tentative",
-      "body": "Bordeaux activities are supplied by the host and should not be treated as confirmed reservations."
+      "body": "Bordeaux activities are supplied by the host and remain subject to change unless they are explicitly marked confirmed."
     },
     {
       "status": "planned",

@@ -1,5 +1,186 @@
 [
   {
+    "id": "mondrian-bordeaux",
+    "name": "Mondrian Bordeaux Les Carmes",
+    "city": "Bordeaux",
+    "address": "81 Cours du Médoc, 33300 Bordeaux, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mondrian+Bordeaux+Les+Carmes",
+    "officialUrl": "https://mondrianhotels.com/bordeaux-les-carmes/",
+    "category": "lodging",
+    "reservationStatus": "confirmed",
+    "notes": "Confirmed group pickup point; not the Bordeaux lodging."
+  },
+  {
+    "id": "cite-du-vin",
+    "name": "La Cité du Vin",
+    "city": "Bordeaux",
+    "address": "134 Quai de Bacalan, 33300 Bordeaux, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=La+Cit%C3%A9+du+Vin+Bordeaux",
+    "officialUrl": "https://www.laciteduvin.com/en",
+    "category": "sight",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "dune-du-pilat",
+    "name": "Dune du Pilat",
+    "city": "La Teste-de-Buch",
+    "address": "Route de Biscarrosse, 33115 La Teste-de-Buch, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Dune+du+Pilat",
+    "officialUrl": "https://www.ladunedupilat.com/en/",
+    "category": "sight",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "cap-ferret",
+    "name": "Cap Ferret",
+    "city": "Lège-Cap-Ferret",
+    "address": "Cap Ferret, 33970 Lège-Cap-Ferret, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cap+Ferret+France",
+    "category": "sight",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "chez-pascaud",
+    "name": "Chez Pascaud",
+    "city": "Lège-Cap-Ferret",
+    "address": "Cap Ferret, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Chez+Pascaud+Cap+Ferret",
+    "category": "restaurant",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "chateau-la-corne",
+    "name": "Château La Corne",
+    "city": "Bordeaux region",
+    "address": "Bordeaux region, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ch%C3%A2teau+La+Corne+Bordeaux",
+    "category": "wine",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "saint-emilion",
+    "name": "Saint-Émilion",
+    "city": "Saint-Émilion",
+    "address": "33330 Saint-Émilion, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Saint-%C3%89milion+France",
+    "officialUrl": "https://www.saint-emilion-tourisme.com/",
+    "category": "sight",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "ets-martin",
+    "name": "ETS Martin",
+    "city": "Saint-Émilion",
+    "address": "Saint-Émilion, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=ETS+Martin+Saint-%C3%89milion",
+    "category": "wine",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "le-clos-mirande",
+    "name": "Le Clos Mirande",
+    "city": "Montagne",
+    "address": "Montagne, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Le+Clos+Mirande+Montagne+France",
+    "category": "restaurant",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "pomerol",
+    "name": "Pomerol",
+    "city": "Pomerol",
+    "address": "33500 Pomerol, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pomerol+France",
+    "category": "sight",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "patrick-brossard",
+    "name": "Patrick Brossard chocolate workshop",
+    "city": "Bordeaux region",
+    "address": "Bordeaux region, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Patrick+Brossard+chocolatier+Bordeaux",
+    "category": "food",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "ecluse-52",
+    "name": "Écluse 52",
+    "city": "Bordeaux region",
+    "address": "Canal de Garonne, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=%C3%89cluse+52+restaurant+Gironde",
+    "category": "restaurant",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "chateau-toulouse-lautrec",
+    "name": "Château Toulouse-Lautrec",
+    "city": "Saint-André-du-Bois",
+    "address": "Saint-André-du-Bois, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Ch%C3%A2teau+Toulouse-Lautrec",
+    "officialUrl": "https://www.chateautoulouselautrec.com/",
+    "category": "sight",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "domaine-jouatmaou",
+    "name": "Domaine de Jouatmaou",
+    "city": "Le Frêche",
+    "address": "40190 Le Frêche, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Domaine+de+Jouatmaou",
+    "category": "wine",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "au-relais-gascon",
+    "name": "Au Relais Gascon",
+    "city": "Labastide-d’Armagnac",
+    "address": "Labastide-d’Armagnac, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Au+Relais+Gascon+Labastide-d%27Armagnac",
+    "category": "restaurant",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "domaine-esperance",
+    "name": "Domaine d’Espérance",
+    "city": "Mauvezin-d’Armagnac",
+    "address": "40240 Mauvezin-d’Armagnac, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Domaine+d%27Esp%C3%A9rance+Armagnac",
+    "officialUrl": "https://www.armagnac-esperance.com/",
+    "category": "wine",
+    "reservationStatus": "tentative"
+  },
+  {
+    "id": "bazas-market",
+    "name": "Bazas Market",
+    "city": "Bazas",
+    "address": "Place de la Cathédrale, 33430 Bazas, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bazas+Market+Place+de+la+Cath%C3%A9drale",
+    "category": "market",
+    "reservationStatus": "tentative",
+    "notes": "Saturday host outing; details remain subject to change."
+  },
+  {
+    "id": "hugo-delices",
+    "name": "Hugo Délices",
+    "city": "Bazas",
+    "address": "Bazas, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hugo+D%C3%A9lices+Bazas",
+    "category": "restaurant",
+    "reservationStatus": "optional",
+    "notes": "Suggested September 5 lunch; not reserved."
+  },
+  {
+    "id": "l-indigo-bazas",
+    "name": "L’Indigo",
+    "city": "Bazas",
+    "address": "Bazas, France",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=L%27Indigo+Bazas+restaurant",
+    "category": "restaurant",
+    "reservationStatus": "optional",
+    "notes": "Suggested September 5 lunch; not reserved."
+  },
+  {
     "id": "rouge-bordeaux",
     "name": "Rouge Bordeaux B&B",
     "city": "Bordeaux",

@@ -1,8 +1,15 @@
 [
   {
     "date": "2026-08-30",
-    "start": "11:20",
-    "venue": "Rouge Bordeaux B&B check-in / group arrival",
+    "start": "10:00",
+    "venue": "Group pickup at Mondrian Bordeaux Les Carmes",
+    "status": "confirmed",
+    "locationId": "mondrian-bordeaux"
+  },
+  {
+    "date": "2026-08-30",
+    "start": "16:30",
+    "venue": "Check in at Rouge Bordeaux B&B",
     "status": "confirmed",
     "locationId": "rouge-bordeaux"
   },

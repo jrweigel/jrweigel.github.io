@@ -1,0 +1,40 @@
+[
+  {
+    "language": "French",
+    "regions": "Bordeaux and France",
+    "note": "Nasal endings usually do not pronounce a final n, and many final consonants are silent.",
+    "phrases": [
+      { "english": "Hello / good day", "local": "Bonjour", "pronunciation": "bohn-ZHOOR" },
+      { "english": "Please", "local": "S’il vous plaît", "pronunciation": "seel voo PLEH" },
+      { "english": "Thank you", "local": "Merci", "pronunciation": "mehr-SEE" },
+      { "english": "Excuse me", "local": "Excusez-moi", "pronunciation": "ehk-skew-ZAY mwah" },
+      { "english": "Do you speak English?", "local": "Parlez-vous anglais ?", "pronunciation": "par-lay voo ahn-GLEH" },
+      { "english": "One ticket to ___, please", "local": "Un billet pour ___, s’il vous plaît", "pronunciation": "uhn bee-YEH poor ___, seel voo PLEH" },
+      { "english": "Does this train stop at ___?", "local": "Ce train s’arrête à ___ ?", "pronunciation": "suh tran sah-RET ah ___" },
+      { "english": "Where is the station?", "local": "Où se trouve la gare ?", "pronunciation": "oo suh TROOV lah gar" },
+      { "english": "I have a reservation under ___", "local": "J’ai une réservation au nom de ___", "pronunciation": "zhay ewn ray-zehr-va-SYOHN oh nohn duh ___" },
+      { "english": "A table for two, please", "local": "Une table pour deux, s’il vous plaît", "pronunciation": "ewn TAH-bluh poor duh, seel voo PLEH" },
+      { "english": "I would like ___", "local": "Je voudrais ___", "pronunciation": "zhuh voo-DREH ___" },
+      { "english": "The bill, please", "local": "L’addition, s’il vous plaît", "pronunciation": "lah-dee-SYOHN, seel voo PLEH" }
+    ]
+  },
+  {
+    "language": "European Portuguese",
+    "regions": "Lisbon and Porto",
+    "note": "Unstressed vowels are often reduced. Obrigado is traditionally used by a man and obrigada by a woman.",
+    "phrases": [
+      { "english": "Good morning / hello", "local": "Bom dia", "pronunciation": "bohn DEE-uh" },
+      { "english": "Please", "local": "Por favor", "pronunciation": "poor fuh-VOR" },
+      { "english": "Thank you", "local": "Obrigado / Obrigada", "pronunciation": "oh-bree-GAH-doo / oh-bree-GAH-duh" },
+      { "english": "Excuse me / sorry", "local": "Desculpe", "pronunciation": "dish-KOOL-puh" },
+      { "english": "Do you speak English?", "local": "Fala inglês?", "pronunciation": "FAH-luh een-GLAYSH" },
+      { "english": "One ticket to ___, please", "local": "Um bilhete para ___, por favor", "pronunciation": "oong bee-LYEH-tuh puh-ruh ___, poor fuh-VOR" },
+      { "english": "Does this train stop at ___?", "local": "Este comboio para em ___?", "pronunciation": "ESH-tuh kohm-BOY-oo PAH-ruh eng ___" },
+      { "english": "Where is the station?", "local": "Onde fica a estação?", "pronunciation": "ON-duh FEE-kuh uh shtuh-SOWN" },
+      { "english": "I have a reservation under ___", "local": "Tenho uma reserva em nome de ___", "pronunciation": "TEN-yoo OO-muh ruh-ZEHR-vuh eng NO-muh duh ___" },
+      { "english": "A table for two, please", "local": "Uma mesa para duas pessoas, por favor", "pronunciation": "OO-muh MAY-zuh puh-ruh DOO-ush puh-SOH-ush, poor fuh-VOR" },
+      { "english": "I would like ___", "local": "Queria ___", "pronunciation": "kuh-REE-uh ___" },
+      { "english": "The bill, please", "local": "A conta, por favor", "pronunciation": "uh KON-tuh, poor fuh-VOR" }
+    ]
+  }
+]

@@ -127,7 +127,7 @@ summary small { display: block; color: var(--muted); }
 .item time { font-weight: 800; color: var(--wine); }
 .item h3 { margin: 0; }
 .where, .note { color: var(--muted); }
-.attire {
+.practical-requirements {
   background: #f6ecd5;
   border-radius: 16px;
   padding: .8rem;
@@ -136,9 +136,35 @@ summary small { display: block; color: var(--muted); }
 .route { margin: .25rem .25rem .25rem 0; background: var(--wine); }
 .today { outline: 4px solid var(--gold); }
 
+.resource-groups { display: grid; gap: 1.5rem; }
+.resources, .phrases { list-style: none; margin: 0; padding: 0; }
+.resource {
+  border-top: 1px solid #eadfca;
+  padding: .9rem 0;
+}
+.resource:first-child { border-top: 0; }
+.resource div { display: flex; justify-content: space-between; gap: 1rem; }
+.resource small { color: var(--muted); text-align: right; }
+.resource p { margin: .35rem 0 0; }
+.phrase-guide {
+  background: white;
+  border: 1px solid #eadfca;
+  border-radius: 16px;
+  margin: .8rem 0;
+  overflow: hidden;
+}
+.phrase-body { padding: 0 1rem 1rem; }
+.phrase { border-top: 1px solid #eadfca; padding: .8rem 0; }
+.phrase dt { font-weight: 700; }
+.phrase dd { margin: .2rem 0 0; }
+.phrase dd span { display: block; color: var(--muted); }
+
 @media (min-width: 720px) {
   .pillars { grid-template-columns: repeat(2, 1fr); }
   .card { margin: .8rem 0; }
+  .resource-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .phrase { display: grid; grid-template-columns: minmax(12rem, 1fr) 2fr; gap: 1rem; }
+  .phrase dd { margin: 0; }
 }
 @media print {
   .nav, .buttons, .route { display: none; }

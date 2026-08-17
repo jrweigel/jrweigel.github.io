@@ -6,6 +6,8 @@ const days = readJson('data/days.json');
 const locations = readJson('data/locations.json');
 const reservations = readJson('data/reservations.json');
 const routes = readJson('data/routes.json');
+const travelResources = readJson('data/travel-resources.json');
+const phraseGuides = readJson('data/phrases.json');
 
 const locationById = new Map(locations.map((location) => [location.id, location]));
 const routeById = new Map(routes.map((route) => [route.id, route]));
@@ -36,6 +38,22 @@ const routeButtons = (ids = []) => ids.map((id) => {
   return `<a class="route" href="${escapeHtml(route.url)}" aria-label="Open Google Maps ${escapeHtml(route.mode)} route: ${escapeHtml(route.label)}">${escapeHtml(route.mode)} route · ${escapeHtml(route.label)}</a>`;
 }).join('');
 
+const renderPracticalRequirements = (day) => {
+  if (!day.practicalRequirements) return '';
+  return `<section class="practical-requirements" aria-label="Practical requirements for ${escapeHtml(day.title)}">
+          <h4>Practical requirements</h4>
+          <p>${escapeHtml(day.practicalRequirements)}</p>
+        </section>`;
+};
+
+const renderTime = (day, item) => {
+  const label = `${item.start}${item.end ? `–${item.end}` : ''}`;
+  const hasClockTime = /^\d{2}:\d{2}$/.test(item.start);
+  return hasClockTime
+    ? `<time datetime="${escapeHtml(day.date)}T${escapeHtml(item.start)}">${escapeHtml(label)}</time>`
+    : `<time>${escapeHtml(label)}</time>`;
+};
+
 const renderDay = (day) => `
   <article class="day ${day.status}" id="${day.date}">
     <details open>
@@ -46,17 +64,13 @@ const renderDay = (day) => `
       <div class="daybody">
         ${(day.alerts || []).map((alert) => `<div class="alert ${alert.status}" role="note"><b>${escapeHtml(alert.title)}</b><p>${escapeHtml(alert.body)}</p></div>`).join('')}
         ${routeButtons(day.routeIds)}
-        <section class="attire" aria-label="Recommended attire for ${escapeHtml(day.title)}">
-          <h4>Recommended attire</h4>
-          <p><b>Male:</b> ${escapeHtml(day.attire?.male)}</p>
-          <p><b>Female:</b> ${escapeHtml(day.attire?.female)}</p>
-        </section>
+        ${renderPracticalRequirements(day)}
         ${(day.notes || []).map((note) => `<p class="note">${escapeHtml(note)}</p>`).join('')}
         <ol class="timeline">
           ${day.items.map((item) => {
             const location = locationById.get(item.locationId);
             return `<li class="item ${item.status} ${item.type}">
-              <time datetime="${escapeHtml(day.date)}T${escapeHtml(item.start)}">${escapeHtml(item.start)}${item.end ? `–${escapeHtml(item.end)}` : ''}</time>
+              ${renderTime(day, item)}
               <div>
                 <h3>${escapeHtml(item.title)} ${statusBadge(item.status)}</h3>
                 <p>${escapeHtml(item.description)}</p>
@@ -91,6 +105,24 @@ const renderReservationCard = (reservation) => {
     </article>`;
 };
 
+const renderTravelResource = (resource) => `
+  <li class="resource">
+    <div><a href="${escapeHtml(resource.url)}"><b>${escapeHtml(resource.name)}</b></a><small>${escapeHtml(resource.regions)}</small></div>
+    <p>${escapeHtml(resource.use)}</p>
+    ${resource.caveat ? `<p class="note"><b>Good to know:</b> ${escapeHtml(resource.caveat)}</p>` : ''}
+  </li>`;
+
+const renderPhraseGuide = (guide) => `
+  <details class="phrase-guide">
+    <summary><span><b>${escapeHtml(guide.language)}</b><small>${escapeHtml(guide.regions)}</small></span></summary>
+    <div class="phrase-body">
+      <p class="note">${escapeHtml(guide.note)}</p>
+      <dl class="phrases">
+        ${guide.phrases.map((phrase) => `<div class="phrase"><dt>${escapeHtml(phrase.english)}</dt><dd><b>${escapeHtml(phrase.local)}</b><span>${escapeHtml(phrase.pronunciation)}</span></dd></div>`).join('')}
+      </dl>
+    </div>
+  </details>`;
+
 const citySections = trip.cities.map((city) => `
   <section id="${city.toLowerCase()}">
     <h2>${escapeHtml(city)}</h2>
@@ -115,121 +147,23 @@ const html = `<!doctype html>
     <h1>${escapeHtml(trip.title)}</h1>
     <p>${escapeHtml(tripDateRange)} · ${escapeHtml(trip.travelers)}</p>
     <p class="rule">${escapeHtml(trip.operationalRule)}</p>
-    <p class="buttons"><a href="Bordeaux_Portugal_Guide_2026.pdf">Download PDF</a><a href="#reservations">Reservations</a></p>
   </header>
-  <nav class="nav" aria-label="Trip sections"><a href="#home">Home</a><a href="#bordeaux">Bordeaux</a><a href="#lisbon">Lisbon</a><a href="#porto">Porto</a><a href="#reservations">Reservations</a><a href="#food">Food</a><a href="#practical">Practical</a></nav>
+  <nav class="nav" aria-label="Trip sections"><a href="#home">Home</a><a href="#bordeaux">Bordeaux</a><a href="#lisbon">Lisbon</a><a href="#porto">Porto</a><a href="#reservations">Reservations</a><a href="#food">Food</a><a href="#tools">Tools</a><a href="#phrases">Phrases</a><a href="#practical">Practical</a></nav>
   <main>
-    <section><h2>Trip philosophy</h2><ul class="pillars">${trip.philosophy.map((pillar) => `<li>${escapeHtml(pillar)}</li>`).join('')}</ul>${trip.globalNotices.map((notice) => `<div class="alert ${notice.status}" role="note"><b>${escapeHtml(notice.title)}</b><p>${escapeHtml(notice.body)}</p></div>`).join('')}</section>
+    <section><h2>Trip philosophy</h2><ul class="pillars">${trip.philosophy.map((pillar) => `<li>${escapeHtml(pillar)}</li>`).join('')}</ul>${trip.globalNotices.map((notice) => `<div class="alert ${notice.status}" role="note"><b>${escapeHtml(notice.title)}</b><p>${escapeHtml(notice.body)}</p></div>`).join('')}${trip.itinerarySource ? `<div class="card"><h3>Bordeaux itinerary source</h3><p><a href="${escapeHtml(trip.itinerarySource.url)}">${escapeHtml(trip.itinerarySource.label)}</a></p><p class="note">Last reconciled ${escapeHtml(trip.itinerarySource.reconciledDate)}.</p></div>` : ''}</section>
     ${citySections}
     <section id="reservations"><h2>Confirmed reservations & logistics</h2>${reservations.map(renderReservationCard).join('')}</section>
     <section id="food"><h2>Food & drink</h2>${foodLocations.map(renderLocationCard).join('')}</section>
+    <section id="tools"><h2>Travel tools</h2><div class="resource-groups"><div><h3>Download before departure</h3><ul class="resources">${travelResources.filter((resource) => resource.kind === 'download').map(renderTravelResource).join('')}</ul></div><div><h3>Bookmark</h3><ul class="resources">${travelResources.filter((resource) => resource.kind === 'bookmark').map(renderTravelResource).join('')}</ul></div></div></section>
+    <section id="phrases"><h2>Useful phrases</h2>${phraseGuides.map(renderPhraseGuide).join('')}</section>
     <section id="practical"><h2>Practical information</h2><div class="card"><h3>Status definitions</h3><p><b>Confirmed</b>: booking is held. <b>Planned</b>: intended but unbooked. <b>Optional</b>: only if energy/timing/weather allow. <b>Tentative</b>: supplied by another party and still being revised.</p><p>Pack for repeat outfits and plan laundry at the end of Bordeaux or beginning of Lisbon.</p></div></section>
   </main>
   <script>const today=new Date().toISOString().slice(0,10);document.querySelectorAll('.day').forEach((day)=>{if(day.id===today)day.classList.add('today')});if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
 </body>
 </html>`;
 
-const pdfText = [
-  trip.title,
-  tripDateRange,
-  '',
-  trip.operationalRule,
-  '',
-  ...days.flatMap((day) => [
-    `${day.date} — ${day.city}: ${day.title} [${day.status}]`,
-    `Attire — Male: ${day.attire.male}`,
-    `Attire — Female: ${day.attire.female}`,
-    ...day.items.map((item) => `  ${item.start}${item.end ? `-${item.end}` : ''} ${item.title} [${item.status}] — ${item.description}`),
-    '',
-  ]),
-].join('\n');
-
-// Build a structurally valid PDF-1.4 so it opens reliably in all readers.
-function generatePdf(text) {
-  const W = 595, H = 842; // A4 in points
-  const marginL = 50, marginT = 62;
-  const lh = 12; // leading / line height in points
-  const fontSize = 9;
-  const linesPerPage = Math.floor((H - 2 * marginT) / lh);
-
-  // Escape a string for use inside a PDF literal string ( ... )
-  const esc = (s) => String(s)
-    .replace(/\\/g, '\\\\')
-    .replace(/\(/g, '\\(')
-    .replace(/\)/g, '\\)')
-    .replace(/[^\x20-\x7e]/g, '?'); // replace non-printable / non-ASCII
-
-  const allLines = text.split('\n');
-  const pageGroups = [];
-  for (let i = 0; i < allLines.length; i += linesPerPage) {
-    pageGroups.push(allLines.slice(i, i + linesPerPage));
-  }
-  if (pageGroups.length === 0) pageGroups.push([]);
-  const nP = pageGroups.length;
-
-  // Object numbering (1-indexed):
-  //   1            Catalog
-  //   2            Pages tree
-  //   3..nP+2      Page objects
-  //   nP+3..2nP+2  Content streams
-  //   2nP+3        Font
-  const catN    = 1;
-  const pagesN  = 2;
-  const pageN   = (i) => 3 + i;
-  const contN   = (i) => 3 + nP + i;
-  const fontN   = 3 + 2 * nP;
-  const totalN  = fontN;
-
-  const offsets = {};
-  let buf = '%PDF-1.4\n';
-
-  // All content is ASCII (esc() strips non-ASCII), so buf.length === byte offset.
-  const appendObj = (n, content) => {
-    offsets[n] = buf.length;
-    buf += `${n} 0 obj\n${content}\nendobj\n`;
-  };
-  const appendStreamObj = (n, streamContent) => {
-    offsets[n] = buf.length;
-    // /Length excludes the required EOL marker placed before endstream (PDF spec §7.3.8.1)
-    buf += `${n} 0 obj\n<< /Length ${streamContent.length} >>\nstream\n${streamContent}\nendstream\nendobj\n`;
-  };
-
-  appendObj(catN,   `<< /Type /Catalog /Pages ${pagesN} 0 R >>`);
-  appendObj(pagesN, `<< /Type /Pages /Kids [${pageGroups.map((_, i) => `${pageN(i)} 0 R`).join(' ')}] /Count ${nP} >>`);
-
-  for (let i = 0; i < nP; i++) {
-    appendObj(pageN(i),
-      `<< /Type /Page /Parent ${pagesN} 0 R /MediaBox [0 0 ${W} ${H}] ` +
-      `/Resources << /Font << /F1 ${fontN} 0 R >> >> /Contents ${contN(i)} 0 R >>`);
-
-    const lines = pageGroups[i];
-    const firstY = H - marginT;
-    const streamLines = [`BT`, `/F1 ${fontSize} Tf`, `${lh} TL`, `${marginL} ${firstY} Td`];
-    for (let j = 0; j < lines.length; j++) {
-      streamLines.push(j === 0 ? `(${esc(lines[j])}) Tj` : `T* (${esc(lines[j])}) Tj`);
-    }
-    streamLines.push('ET');
-    appendStreamObj(contN(i), streamLines.join('\n'));
-  }
-
-  appendObj(fontN, '<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>');
-
-  // Cross-reference table — each entry is exactly 20 bytes (10+1+5+1+1+1+\n = 20)
-  const xrefPos = buf.length;
-  buf += `xref\n0 ${totalN + 1}\n`;
-  buf += `0000000000 65535 f \n`;
-  for (let i = 1; i <= totalN; i++) {
-    buf += `${String(offsets[i]).padStart(10, '0')} 00000 n \n`;
-  }
-
-  buf += `trailer\n<< /Size ${totalN + 1} /Root ${catN} 0 R >>\nstartxref\n${xrefPos}\n%%EOF\n`;
-  return buf;
-}
-
-const pdf = generatePdf(pdfText);
 fs.mkdirSync(outputDir, { recursive: true });
 fs.writeFileSync(`${outputDir}/index.html`, html);
 fs.copyFileSync('public/styles.css', `${outputDir}/styles.css`);
 fs.copyFileSync('public/manifest.webmanifest', `${outputDir}/manifest.webmanifest`);
 fs.copyFileSync('public/sw.js', `${outputDir}/sw.js`);
-fs.writeFileSync(`${outputDir}/Bordeaux_Portugal_Guide_2026.pdf`, pdf);

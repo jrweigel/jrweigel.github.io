@@ -2,7 +2,7 @@ import fs from 'node:fs';
 
 const readJson = (file) => JSON.parse(fs.readFileSync(file, 'utf8'));
 const normalizedBasePath = String(readJson('data/trip.json').basePath || '').replace(/^\/+|\/+$/g, '');
-const outputDirs = [normalizedBasePath ? `static/${normalizedBasePath}` : 'static', 'build'];
+const outputDirs = [normalizedBasePath ? `static/${normalizedBasePath}` : 'static', normalizedBasePath ? `build/${normalizedBasePath}` : 'build'];
 const errors = [];
 
 for (const outputDir of outputDirs) {
@@ -15,6 +15,10 @@ for (const outputDir of outputDirs) {
   const html = fs.readFileSync(htmlPath, 'utf8');
   const allIdValues = [...html.matchAll(/id="([^"]+)"/g)].map((match) => match[1]);
   const ids = new Set(allIdValues);
+  for (const requiredId of ['tools', 'phrases']) {
+    if (!ids.has(requiredId)) errors.push(`Missing ${requiredId} section in ${htmlPath}`);
+  }
+  if (/href="[^"]*\.pdf(?:[?#][^"]*)?"/i.test(html)) errors.push(`Unexpected PDF link in ${htmlPath}`);
 
   // Detect duplicate id attributes
   const seen = new Set();
@@ -27,7 +31,6 @@ for (const outputDir of outputDirs) {
 
   for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
     if (href.startsWith('#') && !ids.has(href.slice(1))) errors.push(`Missing internal anchor ${href} in ${htmlPath}`);
-    if (href === 'Bordeaux_Portugal_Guide_2026.pdf' && !fs.existsSync(`${outputDir}/Bordeaux_Portugal_Guide_2026.pdf`)) errors.push(`Missing PDF in ${outputDir}`);
     if (href === 'manifest.webmanifest' && !fs.existsSync(`${outputDir}/manifest.webmanifest`)) errors.push(`Missing manifest in ${outputDir}`);
     if (href === 'styles.css' && !fs.existsSync(`${outputDir}/styles.css`)) errors.push(`Missing stylesheet in ${outputDir}`);
     if (href.includes('www.google.com/maps') && !href.startsWith('https://www.google.com/maps/')) errors.push(`Malformed Google Maps link ${href}`);

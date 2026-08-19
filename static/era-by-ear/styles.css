@@ -1,0 +1,53 @@
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+*{box-sizing:border-box}body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}#app{width:min(100%,900px);min-height:100vh;margin:auto;padding:max(16px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));display:grid;align-content:start;gap:16px}.mast{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--cp-border);padding-bottom:12px}.mast h1{font-size:clamp(30px,9vw,52px);line-height:.9;margin:4px 0;letter-spacing:0}.eyebrow,.step{margin:0;color:var(--cp-accent);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0}.icon-button{width:44px;height:44px;border:1px solid var(--cp-border);border-radius:10px;background:var(--cp-surface);color:var(--cp-text);font-size:24px}.panel,.controls,.now-playing,.status{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;padding:20px;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border)}.intro{text-align:center}.intro h2,.panel h2{font-size:28px;margin:12px 0 8px}.record{width:132px;aspect-ratio:1;border:30px solid var(--cp-text);border-radius:50%;margin:8px auto 24px;display:grid;place-items:center;background:var(--cp-accent)}.record span{width:20px;aspect-ratio:1;border-radius:50%;background:var(--cp-surface)}label{display:grid;gap:6px;text-align:left;font-weight:700;margin:14px 0}input,textarea,select{width:100%;padding:12px;border:1px solid var(--cp-border-strong);border-radius:10px;background:var(--cp-bg-elevated);color:var(--cp-text)}textarea{min-height:88px;resize:vertical}.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.primary,.secondary,.play{width:100%;border-radius:10px;border:1px solid var(--cp-accent);padding:13px 16px;font-weight:800;margin-top:8px}.primary,.play{background:var(--cp-accent);color:var(--cp-accent-fg)}.primary:hover,.play:hover{background:var(--cp-accent-hover)}.secondary{background:var(--cp-surface);color:var(--cp-accent)}.text-button{border:0;background:transparent;color:var(--cp-link);margin-top:16px}.fine,footer{font-size:12px;color:var(--cp-text-muted);line-height:1.5}.fine code{word-break:break-all}.notice{margin:0;padding:10px 12px;border-left:4px solid var(--cp-warning);background:var(--cp-surface);color:var(--cp-text)}.status{display:flex;justify-content:space-between;gap:16px}.status>div{display:grid;gap:4px}.status>div span{font-size:12px;color:var(--cp-text-muted)}.status ul{display:flex;gap:8px;list-style:none;padding:0;margin:0;overflow:auto}.status li{min-width:74px;padding:6px 8px;border-bottom:2px solid var(--cp-border);display:flex;justify-content:space-between;gap:8px}.status li.active{border-color:var(--cp-accent)}.now-playing{display:flex;align-items:center;gap:16px}.now-playing h2{margin:3px 0}.now-playing p:last-child{margin:0;color:var(--cp-text-muted)}.mystery{display:grid;place-items:center;flex:0 0 76px;aspect-ratio:1;border-radius:50%;background:var(--cp-text);color:var(--cp-bg);font-size:38px;font-weight:900}.timeline{display:flex;align-items:stretch;overflow-x:auto;padding:12px 4px;min-height:116px}.year-card{flex:0 0 92px;display:grid;place-items:center;align-content:center;border:1px solid var(--cp-border);border-radius:8px;background:var(--cp-surface);box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border)}.year-card small{max-width:78px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--cp-text-muted)}.year-card strong{font-size:25px}.gap{flex:0 0 38px;border:0;background:transparent;color:var(--cp-border-strong);font-size:28px}.gap:not(:disabled):hover,.gap.selected{color:var(--cp-accent);background:var(--cp-accent-soft);border-radius:8px}.controls{display:grid;gap:10px}.calls{display:grid;grid-template-columns:1fr 1fr;gap:12px}.check{display:flex;align-items:center;gap:10px}.check input{width:auto}.instruction{text-align:center;color:var(--cp-text-muted)}.confirm{text-align:center}.reveal{text-align:center}.spotify-year{font-size:56px;line-height:1;margin:4px 0;font-weight:900;color:var(--cp-accent)}.reveal ul{list-style:none;padding:0;display:grid;gap:4px}.reveal li,.turn-total,.winner li{display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid var(--cp-border)}.turn-total{font-size:20px}.winner ol{list-style:none;padding:0}.winner{text-align:center}footer{text-align:center;padding:10px}@media(max-width:600px){.split,.calls{grid-template-columns:1fr}.status{display:grid}.panel,.controls,.now-playing,.status{padding:16px}}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Compare Microsoft and GitHub AI tools by strengths, customization, and harness.">
+<meta name="color-scheme" content="light dark">
+<title>Compare AI tools | Which tool fits?</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<script src="../tool-data.js"></script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--cp-link)}
+button{font:inherit}
+.header{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated)}
+.header-inner{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:16px}
+.brand{color:var(--cp-text);font-weight:800;text-decoration:none;white-space:nowrap}
+.brand-mark{color:var(--cp-accent)}
+.view-nav{display:flex;border:1px solid var(--cp-border);border-radius:.625rem;padding:3px;background:var(--cp-surface-soft)}
+.view-link{color:var(--cp-text-muted);text-decoration:none;padding:5px 10px;border-radius:.45rem;font-size:.84rem;font-weight:650;white-space:nowrap}
+.view-link:hover{color:var(--cp-text)}
+.view-link.active{background:var(--cp-surface);color:var(--cp-accent);box-shadow:0 0 2px var(--cp-border)}
+.icon-button{margin-left:auto;width:36px;height:36px;border:1px solid transparent;border-radius:.625rem;background:transparent;color:var(--cp-text-muted);cursor:pointer;display:grid;place-items:center;font-size:1.05rem}
+.icon-button:hover{border-color:var(--cp-border);background:var(--cp-surface-soft);color:var(--cp-text)}
+.icon-button:focus-visible,.view-link:focus-visible,.tool-link:focus-visible,summary:focus-visible{outline:2px solid var(--cp-accent);outline-offset:3px}
+.page{max-width:1040px;margin:0 auto;padding:48px 20px 96px}
+.eyebrow{margin:0 0 8px;color:var(--cp-accent);font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+h1,h2,h3{line-height:1.16;margin:0;color:var(--cp-text)}
+h1{max-width:780px;font-size:clamp(2.15rem,6vw,4.5rem);font-weight:800;letter-spacing:0}
+h2{font-size:1.55rem;margin-bottom:8px}
+h3{font-size:1.03rem}
+.lede{max-width:720px;margin:16px 0 0;font-size:1.08rem;color:var(--cp-text-soft)}
+.hero-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:24px}
+.button{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);font-weight:650;text-decoration:none}
+.button:hover{border-color:var(--cp-border-strong);background:var(--cp-surface-soft)}
+.button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}
+.button.primary:hover{background:var(--cp-accent-hover);border-color:var(--cp-accent-hover)}
+.section{margin-top:56px}
+.section-intro{max-width:700px;color:var(--cp-text-muted);margin:0 0 20px}
+.vocab{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.term{padding:16px;background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px var(--cp-border)}
+.term-number{display:grid;place-items:center;width:28px;height:28px;margin-bottom:12px;border-radius:50%;background:var(--cp-accent-soft);color:var(--cp-accent);font-weight:800;font-size:.8rem}
+.term p{margin:6px 0 0;color:var(--cp-text-soft);font-size:.88rem}
+.harness-map{margin-top:16px;padding:16px;border:1px solid var(--cp-border);border-radius:16px;background:var(--cp-bg-elevated);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px}
+.map-items{display:flex;flex-wrap:wrap;gap:6px}
+.map-items:last-child{justify-content:flex-end}
+.map-chip,.badge,.level{display:inline-flex;align-items:center;border:1px solid var(--cp-border);border-radius:999px;background:var(--cp-surface);color:var(--cp-text-soft);font-size:.74rem;font-weight:650;padding:3px 8px}
+.model{padding:12px 18px;border-radius:.625rem;background:var(--cp-accent);color:var(--cp-accent-fg);font-weight:800;text-align:center;white-space:nowrap}
+.scan-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.scan-card{display:flex;flex-direction:column;min-height:228px;padding:20px;background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border)}
+.scan-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.scan-tag{margin-top:4px;color:var(--cp-text-muted);font-size:.82rem}
+.scan-best{margin:16px 0 12px;color:var(--cp-text-soft);font-size:.92rem}
+.scan-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:12px;border-top:1px solid var(--cp-border)}
+.level{background:var(--cp-accent-soft);border-color:var(--cp-highlight);color:var(--cp-accent)}
+.detail-list{display:flex;flex-direction:column;gap:12px}
+.tool-detail{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;overflow:hidden;box-shadow:0 0 2px var(--cp-border),0 1px 2px var(--cp-border)}
+.tool-detail[open]{border-color:var(--cp-border-strong)}
+summary{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+.summary-main{min-width:0;flex:1}
+.summary-tag{color:var(--cp-text-muted);font-size:.82rem;margin-top:3px}
+.chevron{color:var(--cp-accent);font-size:1.2rem;transition:transform 160ms}
+.tool-detail[open] .chevron{transform:rotate(90deg)}
+.detail-body{padding:0 20px 22px}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:20px}
+.fact{padding:12px;background:var(--cp-surface-soft);border-radius:.625rem}
+.fact-label,.dimension-label{display:block;margin-bottom:4px;color:var(--cp-text-muted);font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.fact p{margin:0;color:var(--cp-text-soft);font-size:.88rem}
+.dimension-title{margin:4px 0 10px;font-size:.92rem;font-weight:800}
+.dimensions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.dimension{padding:12px;border:1px solid var(--cp-border);border-radius:.625rem}
+.dimension-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+.dimension-label{margin:0;color:var(--cp-text)}
+.dimension p{margin:0;color:var(--cp-text-soft);font-size:.86rem}
+.harness{margin-top:14px;padding:14px;border-left:3px solid var(--cp-accent);background:var(--cp-accent-soft);border-radius:0 .625rem .625rem 0}
+.harness strong{display:block;margin-bottom:4px}
+.harness p{margin:0;color:var(--cp-text-soft);font-size:.88rem}
+.detail-actions{margin-top:16px}
+.tool-link{font-weight:700;text-decoration:none}
+.tool-link:hover{text-decoration:underline}
+.source-note{margin-top:16px;color:var(--cp-text-muted);font-size:.8rem}
+@media(max-width:760px){
+  .header-inner{gap:8px}.brand{font-size:.9rem}.view-link{padding:5px 8px}.page{padding-top:36px}
+  .vocab{grid-template-columns:repeat(2,minmax(0,1fr))}.harness-map{grid-template-columns:1fr}.map-items:last-child{justify-content:flex-start}.model{justify-self:start}
+  .scan-grid{grid-template-columns:1fr}.facts,.dimensions{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .header-inner{padding-inline:12px}.brand{display:none}.view-nav{flex:1}.view-link{flex:1;text-align:center}.icon-button{margin-left:0}
+  .page{padding-inline:16px}.vocab{grid-template-columns:1fr}.section{margin-top:44px}.scan-card{min-height:0}
+  summary{padding:16px}.detail-body{padding:0 16px 18px}
+}
+@media print{
+  .header,.hero-actions{display:none}.page{max-width:none;padding:0}.section{break-inside:avoid;margin-top:28px}.tool-detail{break-inside:avoid}.tool-detail .detail-body{display:block}.scan-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <a class="brand" href="../"><span class="brand-mark">◆</span> Which tool fits?</a>
+    <nav class="view-nav" aria-label="Which Tool views">
+      <a class="view-link" href="../">Guide me</a>
+      <a class="view-link active" href="./" aria-current="page">Compare tools</a>
+    </nav>
+    <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+  </div>
+</header>
+<main class="page">
+  <section aria-labelledby="page-title">
+    <p class="eyebrow">The landscape view</p>
+    <h1 id="page-title">Know what each tool brings to the work.</h1>
+    <p class="lede">Compare the tools at a glance: where each one is strongest, what it can connect to, how deeply you can shape it, and what surrounds the model when it works.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#at-a-glance">Compare all eight ↓</a>
+      <a class="button" href="../">I have a specific job →</a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="vocabulary-title">
+    <p class="eyebrow">Four useful distinctions</p>
+    <h2 id="vocabulary-title">The model is only part of the tool.</h2>
+    <p class="section-intro">These terms are related, but they answer different questions. Keeping them separate makes the comparison more honest.</p>
+    <div class="vocab">
+      <article class="term"><span class="term-number">01</span><h3>Personalization</h3><p>How the product adapts to you: your preferences, history, work context, or remembered conventions.</p></article>
+      <article class="term"><span class="term-number">02</span><h3>Customization</h3><p>How you shape reusable behavior through instructions, knowledge, skills, tools, agents, or workflows.</p></article>
+      <article class="term"><span class="term-number">03</span><h3>Scaffolding</h3><p>The starter structure used to assemble a solution: templates, files, conventions, and generated building blocks.</p></article>
+      <article class="term"><span class="term-number">04</span><h3>Harness</h3><p>The operating environment around the model that supplies context, tools, memory, permissions, triggers, and guardrails.</p></article>
+    </div>
+    <div class="harness-map" aria-label="A model surrounded by harness capabilities">
+      <div class="map-items"><span class="map-chip">Context</span><span class="map-chip">Instructions</span><span class="map-chip">Memory</span></div>
+      <div class="model">AI model</div>
+      <div class="map-items"><span class="map-chip">Tools</span><span class="map-chip">Permissions</span><span class="map-chip">Guardrails</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="at-a-glance" aria-labelledby="scan-title">
+    <p class="eyebrow">At a glance</p>
+    <h2 id="scan-title">Start with the strongest fit.</h2>
+    <p class="section-intro">The labels describe different kinds of customization. They are not an overall product score.</p>
+    <div class="scan-grid" id="scan-grid"></div>
+  </section>
+
+  <section class="section" aria-labelledby="details-title">
+    <p class="eyebrow">Tool by tool</p>
+    <h2 id="details-title">See what you can shape.</h2>
+    <p class="section-intro">Open a tool for its working context, setup tradeoffs, four customization dimensions, and harness.</p>
+    <div class="detail-list" id="detail-list"></div>
+    <p class="source-note">Public product descriptions were checked against the linked Microsoft and GitHub documentation. Scout is organization-specific and uses owner-provided capability descriptions.</p>
+  </section>
+</main>
+<script>
+const CONTEXT_LABELS={code:"Code",work:"Work data",web:"Web",quick:"General"};
+const DIMENSIONS=[
+  ["personalization","Personalization"],
+  ["instructionsKnowledge","Instructions & knowledge"],
+  ["toolsActions","Tools & actions"],
+  ["orchestration","Workflow & orchestration"]
+];
+
+function escapeHtml(value){
+  return String(value??"").replace(/[&<>"']/g,character=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[character]));
+}
+
+function badges(tool){
+  return tool.contexts.map(context=>`<span class="badge">${escapeHtml(CONTEXT_LABELS[context]||context)}</span>`).join("");
+}
+
+function dimensions(tool){
+  return DIMENSIONS.map(([key,label])=>{
+    const dimension=tool.customization[key];
+    return `<article class="dimension"><div class="dimension-head"><span class="dimension-label">${escapeHtml(label)}</span><span class="level">${escapeHtml(dimension.level)}</span></div><p>${escapeHtml(dimension.detail)}</p></article>`;
+  }).join("");
+}
+
+function render(){
+  const entries=Object.entries(TOOLS);
+  document.getElementById("scan-grid").innerHTML=entries.map(([id,tool])=>`
+    <article class="scan-card">
+      <div class="scan-top"><div><h3>${escapeHtml(tool.name)}</h3><div class="scan-tag">${escapeHtml(tool.tag)}</div></div><span class="level">${escapeHtml(tool.setupEffort.level)} setup</span></div>
+      <p class="scan-best">${escapeHtml(tool.bestAt)}</p>
+      <div class="scan-meta">${badges(tool)}<a class="badge" href="#tool-${escapeHtml(id)}">Details ↓</a></div>
+    </article>`).join("");
+
+  document.getElementById("detail-list").innerHTML=entries.map(([id,tool])=>`
+    <details class="tool-detail" id="tool-${escapeHtml(id)}">
+      <summary><div class="summary-main"><h3>${escapeHtml(tool.name)}</h3><div class="summary-tag">${escapeHtml(tool.tag)}</div></div><span class="chevron" aria-hidden="true">›</span></summary>
+      <div class="detail-body">
+        <div class="facts">
+          <div class="fact"><span class="fact-label">Use it for</span><p>${escapeHtml(tool.useFor)}</p></div>
+          <div class="fact"><span class="fact-label">Best at</span><p>${escapeHtml(tool.bestAt)}</p></div>
+          <div class="fact"><span class="fact-label">Working context</span><p>${escapeHtml(tool.dataContext)}</p></div>
+          <div class="fact"><span class="fact-label">Setup · ${escapeHtml(tool.setupEffort.level)}</span><p>${escapeHtml(tool.setupEffort.detail)}</p></div>
+          <div class="fact"><span class="fact-label">Keep in mind</span><p>${escapeHtml(tool.limitation)}</p></div>
+          <div class="fact"><span class="fact-label">Contexts</span><p>${badges(tool)}</p></div>
+        </div>
+        <h3 class="dimension-title">Customization, separated</h3>
+        <div class="dimensions">${dimensions(tool)}</div>
+        <div class="harness"><strong>Harness</strong><p>${escapeHtml(tool.harness)}</p></div>
+        <div class="detail-actions"><a class="tool-link" href="${escapeHtml(TOOL_URLS[id])}" target="_blank" rel="noopener noreferrer">Open official resource ↗</a></div>
+      </div>
+    </details>`).join("");
+}
+
+document.getElementById("theme-toggle").addEventListener("click",()=>{
+  const current=document.documentElement.getAttribute("data-theme");
+  document.documentElement.setAttribute("data-theme",current==="dark"?"light":"dark");
+});
+
+render();
+</script>
+</body>
+</html>

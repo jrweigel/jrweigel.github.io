@@ -49,6 +49,10 @@ for (const route of ['move-the-work', 'which-tool', normalizedBasePath]) {
   if (!fs.existsSync(routeHtml)) errors.push(`Missing built route ${routeHtml}`);
 }
 
+for (const requiredFile of ['build/which-tool/guide/index.html', 'build/which-tool/tool-data.js']) {
+  if (!fs.existsSync(requiredFile)) errors.push(`Missing built Which Tool asset ${requiredFile}`);
+}
+
 if (!fs.existsSync('build/index.html')) errors.push('Missing Docusaurus root build/index.html');
 
 if (errors.length) {

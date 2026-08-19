@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Compare Microsoft and GitHub AI tools by strengths, customization, and harness.">
+<meta name="color-scheme" content="light dark">
+<title>Compare AI tools | Which tool fits?</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<script src="../tool-data.js"></script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cp-bg);color:var(--cp-text);font-family:"Segoe UI",Aptos,Calibri,-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--cp-link)}
+button{font:inherit}
+.header{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--cp-border);background:var(--cp-bg-elevated)}
+.header-inner{max-width:1040px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:16px}
+.brand{color:var(--cp-text);font-weight:800;text-decoration:none;white-space:nowrap}
+.brand-mark{color:var(--cp-accent)}
+.view-nav{display:flex;border:1px solid var(--cp-border);border-radius:.625rem;padding:3px;background:var(--cp-surface-soft)}
+.view-link{color:var(--cp-text-muted);text-decoration:none;padding:5px 10px;border-radius:.45rem;font-size:.84rem;font-weight:650;white-space:nowrap}
+.view-link:hover{color:var(--cp-text)}
+.view-link.active{background:var(--cp-surface);color:var(--cp-accent);box-shadow:0 0 2px var(--cp-border)}
+.icon-button{margin-left:auto;width:36px;height:36px;border:1px solid transparent;border-radius:.625rem;background:transparent;color:var(--cp-text-muted);cursor:pointer;display:grid;place-items:center;font-size:1.05rem}
+.icon-button:hover{border-color:var(--cp-border);background:var(--cp-surface-soft);color:var(--cp-text)}
+.icon-button:focus-visible,.view-link:focus-visible,.tool-link:focus-visible,input:focus-visible{outline:2px solid var(--cp-accent);outline-offset:3px}
+.page{max-width:1040px;margin:0 auto;padding:48px 20px 96px}
+.eyebrow{margin:0 0 8px;color:var(--cp-accent);font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+h1,h2,h3{line-height:1.16;margin:0;color:var(--cp-text)}
+h1{max-width:780px;font-size:clamp(2.15rem,6vw,4.5rem);font-weight:800;letter-spacing:0}
+h2{font-size:1.55rem;margin-bottom:8px}
+h3{font-size:1.03rem}
+.lede{max-width:720px;margin:16px 0 0;font-size:1.08rem;color:var(--cp-text-soft)}
+.hero-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:24px}
+.button{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);color:var(--cp-text);font-weight:650;text-decoration:none}
+.button:hover{border-color:var(--cp-border-strong);background:var(--cp-surface-soft)}
+.button.primary{background:var(--cp-accent);border-color:var(--cp-accent);color:var(--cp-accent-fg)}
+.button.primary:hover{background:var(--cp-accent-hover);border-color:var(--cp-accent-hover)}
+.section{margin-top:56px}
+.section-intro{max-width:700px;color:var(--cp-text-muted);margin:0 0 20px}
+.vocab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.term{padding:16px;background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px var(--cp-border)}
+.term-number{display:grid;place-items:center;width:28px;height:28px;margin-bottom:12px;border-radius:50%;background:var(--cp-accent-soft);color:var(--cp-accent);font-weight:800;font-size:.8rem}
+.term p{margin:6px 0 0;color:var(--cp-text-soft);font-size:.88rem}
+.glossary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0 0}
+.glossary-group{margin:0;padding:16px;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface)}
+.glossary-group h3{margin-bottom:12px}.definition+.definition{margin-top:12px;padding-top:12px;border-top:1px solid var(--cp-border)}
+.definition dt{font-weight:800}.definition dd{margin:4px 0 0;color:var(--cp-text-soft);font-size:.88rem}
+.filters{margin:24px 0}
+.filter-group{min-width:0;margin:0;padding:16px;border:1px solid var(--cp-border);border-radius:.625rem}
+.filter-group legend{padding:0 6px;color:var(--cp-text);font-weight:800}
+.check-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px}
+.check-option{display:flex;align-items:flex-start;gap:8px;color:var(--cp-text-soft);font-size:.84rem;cursor:pointer}
+.check-option input{flex:none;width:16px;height:16px;margin:3px 0 0;accent-color:var(--cp-accent)}
+.result-status{margin:0 0 10px;color:var(--cp-text-muted);font-size:.82rem}
+.table-shell{max-width:100%;max-height:min(72vh,760px);overflow:auto;overscroll-behavior:contain;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);scrollbar-gutter:stable}
+.comparison-table{width:100%;min-width:760px;border-collapse:separate;border-spacing:0;font-size:.86rem}
+.comparison-table caption{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.comparison-table th,.comparison-table td{min-width:220px;padding:14px;vertical-align:top;text-align:left;border-right:1px solid var(--cp-border);border-bottom:1px solid var(--cp-border)}
+.comparison-table thead th{position:sticky;top:0;z-index:4;background:var(--cp-bg-elevated);font-size:.76rem;text-transform:uppercase;color:var(--cp-text-muted);box-shadow:0 1px 0 var(--cp-border)}
+.comparison-table th:first-child,.comparison-table td:first-child{position:sticky;left:0;z-index:3;min-width:190px;width:190px;background:var(--cp-surface)}
+.comparison-table thead th:first-child{z-index:5;background:var(--cp-bg-elevated)}
+.comparison-table tr:last-child th,.comparison-table tr:last-child td{border-bottom:0}
+.comparison-table th:last-child,.comparison-table td:last-child{border-right:0}
+.tool-name{display:block;color:var(--cp-text);font-size:.96rem;line-height:1.25}.tool-tag{display:block;margin-top:5px;color:var(--cp-text-muted);font-size:.76rem;font-weight:400}.tool-resource{display:inline-block;margin-top:9px;font-size:.76rem}
+.cell-copy{margin:8px 0 0;color:var(--cp-text-soft)}
+.config-part{padding-bottom:10px}.config-part+.config-part{padding-top:10px;border-top:1px solid var(--cp-border)}.config-part:last-child{padding-bottom:0}.config-label{display:block;margin-bottom:4px;color:var(--cp-text);font-size:.72rem;font-weight:800;text-transform:uppercase}.config-part .cell-copy{margin-top:0}
+.use-cases{margin:12px 0 0;padding-left:18px;color:var(--cp-text-soft)}.use-cases li+li{margin-top:6px}.cell-heading{display:block;color:var(--cp-text);font-weight:800}
+.tool-link{font-weight:700;text-decoration:none}
+.tool-link:hover{text-decoration:underline}
+.source-note{margin-top:16px;color:var(--cp-text-muted);font-size:.8rem}
+@media(max-width:760px){
+  .header-inner{gap:8px}.brand{font-size:.9rem}.view-link{padding:5px 8px}.page{padding-top:36px}
+  .vocab{grid-template-columns:repeat(2,minmax(0,1fr))}.glossary{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .header-inner{padding-inline:12px}.brand{display:none}.view-nav{flex:1}.view-link{flex:1;text-align:center}.icon-button{margin-left:0}
+  .page{padding-inline:16px}.vocab{grid-template-columns:1fr}.section{margin-top:44px}.check-list{grid-template-columns:1fr}
+}
+@media print{
+  .header,.hero-actions,.filters{display:none}.page{max-width:none;padding:0}.section{margin-top:28px}.table-shell{overflow:visible}.comparison-table{font-size:.68rem}.comparison-table thead th,.comparison-table th:first-child,.comparison-table td:first-child{position:static}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <a class="brand" href="../"><span class="brand-mark">◆</span> Which tool fits?</a>
+    <nav class="view-nav" aria-label="Which Tool views">
+      <a class="view-link" href="../">Guide me</a>
+      <a class="view-link active" href="./" aria-current="page">Compare tools</a>
+    </nav>
+    <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+  </div>
+</header>
+<main class="page">
+  <section aria-labelledby="page-title">
+    <p class="eyebrow">The landscape view</p>
+    <h1 id="page-title">Know what each tool brings to the work.</h1>
+    <p class="lede">Compare AI-powered tools: what each helps you do, how it adapts to you, what you can configure, and the environment that runs and controls the AI.</p>
+    <div class="hero-actions">
+      <a class="button primary" href="#comparison">Compare all eight ↓</a>
+      <a class="button" href="../">I have a specific task →</a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="vocabulary-title">
+    <p class="eyebrow">Three useful distinctions</p>
+    <h2 id="vocabulary-title">The tool is more than the model it uses.</h2>
+    <p class="section-intro">These products are AI-powered tools, not AI models. What makes them feel and work differently is the harness that operates the AI, how the experience adapts to you, and what behavior you can deliberately configure.</p>
+    <div class="vocab">
+      <article class="term"><span class="term-number">01</span><h3>The harness operates the AI</h3><p>It is the environment that <strong>runs and controls the AI</strong>, determining what information and actions are available and what controls apply.</p></article>
+      <article class="term"><span class="term-number">02</span><h3>Personalization adapts the experience</h3><p>It adapts to <strong>you</strong>. For example, it remembers preferences, uses your work context, or learns repository conventions.</p></article>
+      <article class="term"><span class="term-number">03</span><h3>Customization shapes behavior</h3><p>You deliberately change <strong>how the tool behaves</strong> through instructions, knowledge sources, skills, agents, connectors, or workflows.</p></article>
+    </div>
+    <p class="section-intro" style="margin-top:16px">Each AI tool provides a different harness around its AI model or models. The harness may supply context, instructions, memory, tools, permissions, triggers, runtime, approvals, and guardrails. Which elements are available, inherited, or configurable varies by tool.</p>
+  </section>
+
+  <section class="section" aria-labelledby="glossary-title">
+    <p class="eyebrow">Plain-English definitions</p><h2 id="glossary-title">Terms you will see in the comparison.</h2>
+    <p class="section-intro">You do not need to memorize these. They explain where a tool gets information and what it can do with it.</p>
+    <div class="glossary">
+      <section class="glossary-group"><h3>Information</h3><dl><div class="definition"><dt>Context</dt><dd>The information available for the current task, such as your open file, meeting, email, or conversation.</dd></div><div class="definition"><dt>Microsoft Graph</dt><dd>The secure connection to Microsoft 365 data and services, such as mail, calendars, people, Teams, and files.</dd></div><div class="definition"><dt>Work IQ</dt><dd>Microsoft's intelligence layer that uses your permitted work information and relationships to make Microsoft 365 Copilot experiences relevant to you.</dd></div></dl></section>
+      <section class="glossary-group"><h3>Behavior</h3><dl><div class="definition"><dt>Instructions and knowledge</dt><dd>Directions for how the AI should behave plus trusted information it can refer to.</dd></div><div class="definition"><dt>Memory</dt><dd>Information retained from earlier work, such as preferences or project conventions.</dd></div><div class="definition"><dt>Skills</dt><dd>Reusable instructions and resources packaged for a specific kind of task.</dd></div></dl></section>
+      <section class="glossary-group"><h3>Actions and connections</h3><dl><div class="definition"><dt>Tools and actions</dt><dd>Capabilities the AI can use, such as searching, editing a file, sending an email, or calling a business system.</dd></div><div class="definition"><dt>Plugins</dt><dd>Add-ons that connect a tool to another service or capability.</dd></div><div class="definition"><dt>MCP</dt><dd>Model Context Protocol, a common way for AI tools to connect to outside data and actions. Think of it as a standard adapter.</dd></div></dl></section>
+      <section class="glossary-group"><h3>Control</h3><dl><div class="definition"><dt>Permissions and guardrails</dt><dd>Rules controlling what the AI can see and do, including identity, access limits, approvals, and safety policies.</dd></div></dl></section>
+    </div>
+  </section>
+
+  <section class="section" id="comparison" aria-labelledby="comparison-title">
+    <p class="eyebrow">Side-by-side comparison</p>
+    <h2 id="comparison-title">Compare the differences that matter.</h2>
+    <p class="section-intro">Compare how each tool adapts to you, what behavior you can configure, and the harness that supplies its information, actions, and controls.</p>
+    <div class="filters">
+      <fieldset class="filter-group"><legend>Tools</legend><div class="check-list" id="tool-filters"></div></fieldset>
+    </div>
+    <p class="result-status" id="result-status" role="status" aria-live="polite"></p>
+    <div class="table-shell" tabindex="0" aria-label="Scrollable tool comparison">
+      <table class="comparison-table">
+        <caption>Comparison of AI tools by best fit, adaptation, configuration, operation, and practical considerations.</caption>
+        <thead id="comparison-head"></thead>
+        <tbody id="comparison-body"></tbody>
+      </table>
+    </div>
+    <p class="source-note"><strong>About the examples:</strong> Example tasks are representative scenarios inferred from each product's linked capabilities. They are not benchmark results, rankings, or an exhaustive list of what the tool can do. Public product descriptions were checked against linked Microsoft and GitHub documentation; Scout uses owner-provided capability descriptions.</p>
+  </section>
+</main>
+<script>
+const TOOL_ORDER=["m365-copilot","cowork","scout","ghcp-app","copilot-cli","vscode-ghcp","power-automate","copilot-studio"];
+const COLUMNS=[
+  {id:"bestFor",label:"Best for",render:tool=>`<p class="cell-copy">${escapeHtml(tool.bestAt)}</p><span class="cell-heading">Example tasks</span><ul class="use-cases">${tool.commonUseCases.map(item=>`<li>${escapeHtml(item)}</li>`).join("")}</ul>`},
+  {id:"personalization",label:"How it adapts to you",render:tool=>`<p class="cell-copy">${escapeHtml(tool.customization.personalization.detail)}</p>`},
+  {id:"configuration",label:"What you can configure",render:tool=>customizationCell(tool)},
+  {id:"operation",label:"How it works",render:tool=>`<p class="cell-copy">${escapeHtml(tool.harness)}</p>`},
+  {id:"considerations",label:"Things to know",render:tool=>`<span class="cell-heading">Setup: ${escapeHtml(tool.setupEffort.level)}</span><p class="cell-copy">${escapeHtml(tool.setupEffort.detail)}</p><span class="cell-heading">Keep in mind</span><p class="cell-copy">${escapeHtml(tool.limitation)}</p>`}
+];
+const selectedTools=new Set(TOOL_ORDER);
+
+function escapeHtml(value){
+  return String(value??"").replace(/[&<>"']/g,character=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[character]));
+}
+
+function customizationCell(tool){
+  return [["Instructions & knowledge",tool.customization.instructionsKnowledge],["Tools & actions",tool.customization.toolsActions],["Workflow",tool.customization.orchestration]].map(([label,value])=>`<div class="config-part"><span class="config-label">${escapeHtml(label)}</span><p class="cell-copy">${escapeHtml(value.detail)}</p></div>`).join("");
+}
+
+function filterOption(id,label){
+  return `<label class="check-option"><input type="checkbox" value="${escapeHtml(id)}" checked><span>${escapeHtml(label)}</span></label>`;
+}
+
+function renderFilters(){
+  document.getElementById("tool-filters").innerHTML=TOOL_ORDER.map(id=>filterOption(id,TOOLS[id].name)).join("");
+  document.querySelectorAll('.filters input[type="checkbox"]').forEach(input=>input.addEventListener("change",event=>{
+    event.target.checked?selectedTools.add(event.target.value):selectedTools.delete(event.target.value);
+    renderTable();
+  }));
+}
+
+function renderTable(){
+  const tools=TOOL_ORDER.filter(id=>selectedTools.has(id));
+  document.getElementById("comparison-head").innerHTML=`<tr><th scope="col">Tool</th>${COLUMNS.map(column=>`<th scope="col">${escapeHtml(column.label)}</th>`).join("")}</tr>`;
+  document.getElementById("comparison-body").innerHTML=tools.map(id=>{
+    const tool=TOOLS[id];
+    return `<tr><th scope="row"><span class="tool-name">${escapeHtml(tool.name)}</span><span class="tool-tag">${escapeHtml(tool.tag)}</span><a class="tool-link tool-resource" href="${escapeHtml(TOOL_URLS[id])}" target="_blank" rel="noopener noreferrer">Open resource ↗</a></th>${COLUMNS.map(column=>`<td>${column.render(tool,id)}</td>`).join("")}</tr>`;
+  }).join("");
+  document.getElementById("result-status").textContent=`Showing ${tools.length} of ${TOOL_ORDER.length} tools.`;
+}
+
+document.getElementById("theme-toggle").addEventListener("click",()=>{
+  const current=document.documentElement.getAttribute("data-theme");
+  document.documentElement.setAttribute("data-theme",current==="dark"?"light":"dark");
+});
+
+renderFilters();
+renderTable();
+</script>
+</body>
+</html>

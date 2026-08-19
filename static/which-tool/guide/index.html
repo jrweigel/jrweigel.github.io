@@ -100,21 +100,24 @@ h3{font-size:1.03rem}
 .section-intro{max-width:700px;color:var(--cp-text-muted);margin:0 0 20px}
 .vocab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .term{padding:16px;background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px var(--cp-border)}
-.term-number{display:grid;place-items:center;width:28px;height:28px;margin-bottom:12px;border-radius:50%;background:var(--cp-accent-soft);color:var(--cp-accent);font-weight:800;font-size:.8rem}
+.term-label{display:inline-block;margin-bottom:12px;padding:3px 8px;border-radius:.45rem;background:var(--cp-accent-soft);color:var(--cp-accent);font-size:.72rem;font-weight:800;text-transform:uppercase}
 .term p{margin:6px 0 0;color:var(--cp-text-soft);font-size:.88rem}
 .glossary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0 0}
 .glossary-group{margin:0;padding:16px;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface)}
 .glossary-group h3{margin-bottom:12px;color:var(--cp-accent)}.definition+.definition{margin-top:12px;padding-top:12px;border-top:1px solid var(--cp-border)}
 .definition dt{font-weight:800}.definition dd{margin:4px 0 0;color:var(--cp-text-soft);font-size:.88rem}
-.work-modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:24px 0 16px}
-.work-mode{padding:16px;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface)}
-.work-mode h3{color:var(--cp-accent)}.work-mode p{margin:6px 0 0;color:var(--cp-text-soft);font-size:.88rem}
+.work-mode-filter{min-width:0;margin:24px 0 12px;padding:0;border:0}.work-mode-filter legend{padding:0;color:var(--cp-text);font-weight:800}
+.work-modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:10px}
+.work-mode{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:16px;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);cursor:pointer}
+.work-mode:has(input:checked){border-color:var(--cp-accent);background:var(--cp-accent-soft)}.work-mode input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--cp-accent)}
+.work-mode-title{display:block;color:var(--cp-accent);font-weight:800}.work-mode-copy{display:block;margin-top:4px;color:var(--cp-text-soft);font-size:.88rem}
 .decision-prompt{max-width:760px;margin:0;color:var(--cp-text);font-weight:650}.mode-note{max-width:760px;margin:6px 0 0;color:var(--cp-text-muted);font-size:.84rem}
 .filters{margin:24px 0}
 .filter-group{min-width:0;margin:0;padding:16px;border:1px solid var(--cp-border);border-radius:.625rem}
 .filter-group legend{padding:0 6px;color:var(--cp-text);font-weight:800}
 .check-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px}
 .check-option{display:flex;align-items:flex-start;gap:8px;color:var(--cp-text-soft);font-size:.84rem;cursor:pointer}
+.check-option:has(input:disabled){opacity:.48;cursor:not-allowed}
 .check-option input{flex:none;width:16px;height:16px;margin:3px 0 0;accent-color:var(--cp-accent)}
 .result-status{margin:0 0 10px;color:var(--cp-text-muted);font-size:.82rem}
 .table-shell{position:relative;left:50%;width:min(1600px,calc(100vw - 40px));max-width:none;max-height:min(72vh,760px);transform:translateX(-50%);overflow:auto;overscroll-behavior:contain;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface);scrollbar-gutter:stable}
@@ -142,7 +145,7 @@ h3{font-size:1.03rem}
   .page{padding-inline:16px}.vocab{grid-template-columns:1fr}.section{margin-top:44px}.check-list{grid-template-columns:1fr}.table-shell{width:calc(100vw - 32px)}
 }
 @media print{
-  .header,.hero-actions,.filters{display:none}.page{max-width:none;padding:0}.section{margin-top:28px}.table-shell{position:static;width:auto;max-width:none;max-height:none;transform:none;overflow:visible}.comparison-table{font-size:.68rem}.comparison-table thead th,.comparison-table th:first-child,.comparison-table td:first-child{position:static}
+  .header,.hero-actions,.work-mode-filter,.mode-note,.filters{display:none}.page{max-width:none;padding:0}.section{margin-top:28px}.table-shell{position:static;width:auto;max-width:none;max-height:none;transform:none;overflow:visible}.comparison-table{font-size:.68rem}.comparison-table thead th,.comparison-table th:first-child,.comparison-table td:first-child{position:static}
 }
 </style>
 </head>
@@ -171,13 +174,12 @@ h3{font-size:1.03rem}
   <section class="section" aria-labelledby="vocabulary-title">
     <p class="eyebrow">How these tools differ</p>
     <h2 id="vocabulary-title">An AI-powered tool is more than its model.</h2>
-    <p class="section-intro">The model generates responses. The surrounding tool determines what information it can use, what actions it can take, and what you can control.</p>
+    <p class="section-intro">The model generates responses. These three differences determine whether the surrounding tool fits your task, available information, and desired level of control.</p>
     <div class="vocab">
-      <article class="term"><span class="term-number">01</span><h3>The harness operates the AI</h3><p>It is the environment that <strong>runs and controls the AI</strong>, determining what information and actions are available and what controls apply.</p></article>
-      <article class="term"><span class="term-number">02</span><h3>Personalization adapts the experience</h3><p>It adapts to <strong>you</strong>. For example, it remembers preferences, uses your work context, or learns repository conventions.</p></article>
-      <article class="term"><span class="term-number">03</span><h3>Customization shapes behavior</h3><p>You deliberately change <strong>how the tool behaves</strong> through instructions, knowledge sources, skills, agents, connectors, or workflows.</p></article>
+      <article class="term"><span class="term-label">Harness</span><h3>What can it use and do?</h3><p>The harness determines the information, actions, permissions, approvals, and safety controls available to the AI.</p></article>
+      <article class="term"><span class="term-label">Personalization</span><h3>How does it adapt to me?</h3><p>Personalization uses work context, preferences, memory, and project conventions to make the experience relevant to you.</p></article>
+      <article class="term"><span class="term-label">Customization</span><h3>What can I deliberately change?</h3><p>Customization lets you shape behavior with instructions, knowledge, skills, connectors, agents, and workflows.</p></article>
     </div>
-    <p class="section-intro" style="margin-top:16px">Each tool provides a different environment around its AI model or models. It may supply information, instructions, memory, actions, permissions, triggers, scheduled work, confirmation steps, and safety rules. What is available or configurable varies by tool.</p>
   </section>
 
   <section class="section" aria-labelledby="glossary-title">
@@ -195,12 +197,12 @@ h3{font-size:1.03rem}
     <p class="eyebrow">Side-by-side comparison</p>
     <h2 id="comparison-title">Compare the differences that matter.</h2>
     <p class="section-intro">Compare how each tool adapts to you, what you can configure, how it works, and what to know before choosing it.</p>
-    <div class="work-modes" aria-label="Ways to work with AI">
-      <article class="work-mode"><h3>Work with AI</h3><p>Stay involved as the work happens. Choose this when you want to explore, guide, revise, or decide along the way.</p></article>
-      <article class="work-mode"><h3>Delegate to AI</h3><p>Describe the outcome, let the tool carry out more of the work, then review the result or approve important actions.</p></article>
-    </div>
     <p class="decision-prompt">Start with the way you want to work. Use the table below to compare which tool fits your task, information, and level of control.</p>
-    <p class="mode-note">These are ways of working, not levels of advancement. Some tools support both.</p>
+    <fieldset class="work-mode-filter"><legend>How do you want to work?</legend><div class="work-modes" id="work-mode-filters">
+      <label class="work-mode"><input type="checkbox" value="work-with" checked><span><span class="work-mode-title">Work with AI</span><span class="work-mode-copy">Stay involved to explore, guide, revise, or decide as the work happens.</span></span></label>
+      <label class="work-mode"><input type="checkbox" value="delegate" checked><span><span class="work-mode-title">Delegate to AI</span><span class="work-mode-copy">Describe the outcome, let the tool carry out more of the work, then review or approve important actions.</span></span></label>
+    </div></fieldset>
+    <p class="mode-note">These are ways of working, not levels of advancement. Some tools support both, so they appear in either view.</p>
     <div class="filters">
       <fieldset class="filter-group"><legend>Tools</legend><div class="check-list" id="tool-filters"></div></fieldset>
     </div>
@@ -225,6 +227,8 @@ const COLUMNS=[
   {id:"considerations",label:"Things to know",render:tool=>`<span class="cell-heading">Setup: ${escapeHtml(tool.setupEffort.level)}</span><p class="cell-copy">${escapeHtml(tool.setupEffort.detail)}</p><span class="cell-heading">Keep in mind</span><p class="cell-copy">${escapeHtml(tool.limitation)}</p>`}
 ];
 const selectedTools=new Set(TOOL_ORDER);
+const WORK_MODE_LABELS={"work-with":"Work with AI",delegate:"Delegate to AI"};
+const selectedModes=new Set(Object.keys(WORK_MODE_LABELS));
 
 function escapeHtml(value){
   return String(value??"").replace(/[&<>"']/g,character=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[character]));
@@ -240,20 +244,40 @@ function filterOption(id,label){
 
 function renderFilters(){
   document.getElementById("tool-filters").innerHTML=TOOL_ORDER.map(id=>filterOption(id,TOOLS[id].name)).join("");
-  document.querySelectorAll('.filters input[type="checkbox"]').forEach(input=>input.addEventListener("change",event=>{
+  document.querySelectorAll('#tool-filters input[type="checkbox"]').forEach(input=>input.addEventListener("change",event=>{
     event.target.checked?selectedTools.add(event.target.value):selectedTools.delete(event.target.value);
     renderTable();
   }));
+  document.querySelectorAll('#work-mode-filters input[type="checkbox"]').forEach(input=>input.addEventListener("change",event=>{
+    event.target.checked?selectedModes.add(event.target.value):selectedModes.delete(event.target.value);
+    syncFilterControls();
+    renderTable();
+  }));
+  syncFilterControls();
+}
+
+function matchesSelectedMode(tool){
+  return tool.workModes.some(mode=>selectedModes.has(mode));
+}
+
+function syncFilterControls(){
+  document.querySelectorAll('#work-mode-filters input[type="checkbox"]').forEach(input=>{
+    input.disabled=input.checked&&selectedModes.size===1;
+  });
+  document.querySelectorAll('#tool-filters input[type="checkbox"]').forEach(input=>{
+    input.disabled=!matchesSelectedMode(TOOLS[input.value]);
+  });
 }
 
 function renderTable(){
-  const tools=TOOL_ORDER.filter(id=>selectedTools.has(id));
+  const tools=TOOL_ORDER.filter(id=>selectedTools.has(id)&&matchesSelectedMode(TOOLS[id]));
   document.getElementById("comparison-head").innerHTML=`<tr><th scope="col">Tool</th>${COLUMNS.map(column=>`<th scope="col">${escapeHtml(column.label)}</th>`).join("")}</tr>`;
   document.getElementById("comparison-body").innerHTML=tools.map(id=>{
     const tool=TOOLS[id];
     return `<tr><th scope="row"><span class="tool-name">${escapeHtml(tool.name)}</span><span class="tool-tag">${escapeHtml(tool.tag)}</span><a class="tool-link tool-resource" href="${escapeHtml(TOOL_URLS[id])}" target="_blank" rel="noopener noreferrer">Open resource ↗</a></th>${COLUMNS.map(column=>`<td>${column.render(tool,id)}</td>`).join("")}</tr>`;
   }).join("");
-  document.getElementById("result-status").textContent=`Showing ${tools.length} of ${TOOL_ORDER.length} tools.`;
+  const modeText=selectedModes.size===2?"both ways of working":WORK_MODE_LABELS[[...selectedModes][0]];
+  document.getElementById("result-status").textContent=`Showing ${tools.length} of ${TOOL_ORDER.length} tools for ${modeText}.`;
 }
 
 document.getElementById("theme-toggle").addEventListener("click",()=>{

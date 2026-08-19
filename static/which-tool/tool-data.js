@@ -12,7 +12,7 @@ const TOOLS = Object.freeze({
       toolsActions:{level:"High",detail:"Editor tools, terminal commands, extensions, and MCP servers can read, change, test, and inspect a project."},
       orchestration:{level:"High",detail:"Custom agents can plan and carry out coding work in multiple steps, pausing for review when needed."}
     },
-    harness:"VS Code assists you inside the current code project. It gives the AI access to project files, editing and terminal tools, extensions, permissions, error reports, tests, and your review.",
+    harness:"It responds to your request and project context, then may choose and adjust steps as it works. VS Code gives the AI access to project files, editing and terminal tools, extensions, permissions, error reports, tests, and your review.",
     commonUseCases:["Implement and test a multi-file feature","Debug a repository with terminal and diagnostics","Review a pull request with full code context"],
     why:{building:"Agent mode plans, writes, and tests multi-file changes&#8202;&#8212;&#8202;reading your whole repo, not just the open file. The right harness when you&#8217;re deep in a codebase.",writing:"Draft documentation, plans, and other repo-grounded content with your codebase in context. It can handle general prose, but dedicated drafting tools often work better.",reviewing:"Reads diffs inline, surfaces bugs, explains changes, and suggests fixes without leaving the editor.",_:"Best for sustained, multi-file work. Use when you need full repo context and IDE integration."}},
   "copilot-cli":{name:"Copilot CLI",tag:"Terminal — commands, scripts, Git, and automated build checks",c:"#1a7f37",dk:"#56d364",
@@ -28,7 +28,7 @@ const TOOLS = Object.freeze({
       toolsActions:{level:"High",detail:"Shell, file writes, GitHub, MCP servers, hooks, and fine-grained allow or deny rules are configurable."},
       orchestration:{level:"High",detail:"Saved prompts, automatic actions, custom agents, and cloud sessions support repeatable or delegated work."}
     },
-    harness:"Copilot CLI works inside the terminal. The current folder, shell, GitHub access, connected tools, automatic actions, safety limits, and confirmation settings determine what the AI can see and do.",
+    harness:"It responds to your request and terminal context, then may choose and adjust commands as it works. The current folder, shell, GitHub access, connected tools, automatic actions, safety limits, and confirmation settings determine what the AI can see and do.",
     commonUseCases:["Generate and explain shell commands","Automate Git and GitHub workflows","Run repository checks and apply fixes"],
     why:{building:"Generate commands, automate pipelines, and script workflows you&#8217;d otherwise have to look up. Best when the work is terminal-native.",reviewing:"Run CI-style checks, quick diffs, and code analysis from the terminal without opening an IDE.",_:"Use when you&#8217;re in the terminal. Commands, Git workflows, shell scripts, and build pipeline automation."}},
   scout:{name:"Scout",tag:"Conversational AI for complex, open-ended work",c:"#6e40c9",dk:"#a78bfa",
@@ -44,7 +44,7 @@ const TOOLS = Object.freeze({
       toolsActions:{level:"High",detail:"MCP connections and built-in tools can extend the sources Scout reads and the actions it takes."},
       orchestration:{level:"High",detail:"Automations and recurring monitoring can continue multi-step work beyond a single chat message."}
     },
-    harness:"Scout can work across conversation, saved memory, the web, connected tools, automations, recurring monitoring, permissions, and review controls.",
+    harness:"It chooses and adjusts steps while working toward an open-ended goal, so its path and results may vary. Scout can work across conversation, saved memory, the web, connected tools, automations, recurring monitoring, permissions, and review controls.",
     commonUseCases:["Research and synthesize across many sources","Draft a long-form strategy or briefing","Monitor a recurring question with automations"],
     why:{building:"Handles longer-horizon, multi-step tasks and built-in automations. Can browse the web, connect to tools via MCP, and use heartbeat for continuous monitoring loops.",researching:"Searches across multiple sources, synthesizes findings, and explains what it found and why.",writing:"Strong at long-form drafting when your content isn&#8217;t already in M365.",reviewing:"Reads and reasons about code, docs, or specs with rich context&#8202;&#8212;&#8202;great for nuanced review.",analyzing:"Reads through complex data, documents, or multi-source content and surfaces patterns, anomalies, and key insights.",_:"Versatile for research, writing, code, and open-ended work, with built-in automation support and heartbeat monitoring loops."}},
   "copilot-studio":{name:"Copilot Studio",tag:"Build and deploy custom agents for your team",c:"#0078d4",dk:"#4da6ff",
@@ -60,7 +60,7 @@ const TOOLS = Object.freeze({
       toolsActions:{level:"Very high",detail:"Connectors, custom tools, agent flows, skills, other agents, and MCP servers can extend behavior."},
       orchestration:{level:"Very high",detail:"Agents and workflows can coordinate steps, triggers, quality checks, publishing destinations, and monitoring."}
     },
-    harness:"Copilot Studio lets a builder choose how an agent works: its instructions, knowledge, tools, workflow steps, sign-in rules, publishing destinations, quality checks, usage reports, and oversight.",
+    harness:"A builder can combine predefined workflow steps with AI that chooses how to respond. Copilot Studio lets the builder configure instructions, knowledge, tools, sign-in rules, publishing destinations, quality checks, usage reports, and oversight.",
     commonUseCases:["Publish a support agent that uses team knowledge","Build an employee self-service agent","Connect an agent to approved business actions"],
     why:{building:"When the output you’re making is something others will use and it lives inside M365. Low-code agent and workflow builder—note that internal deployment takes more setup.",_:"Build agents, skills, or workflows your team can trigger—without writing everything from scratch."}},
   "power-automate":{name:"Power Automate",tag:"Workflow automation across Microsoft 365",c:"#0066b8",dk:"#3a96dd",
@@ -76,7 +76,7 @@ const TOOLS = Object.freeze({
       toolsActions:{level:"Very high",detail:"A broad connector ecosystem, custom connectors, APIs, desktop automation, and code extension points provide actions."},
       orchestration:{level:"Very high",detail:"Automated, scheduled, instant, desktop, and business process flows coordinate predefined steps and confirmation points."}
     },
-    harness:"Power Automate follows a defined process. Triggers start it, connections reach other services, conditions choose the next step, and settings control sign-in, retries, confirmations, test and live environments, rules, and monitoring.",
+    harness:"It follows predefined rules and steps. Triggers start the process, connections reach other services, conditions choose the next step, and settings control sign-in, retries, confirmations, test and live environments, rules, and monitoring.",
     commonUseCases:["Route documents through an approval process","Send notifications when business data changes","Synchronize records across connected systems"],
     why:{building:"Automate processes across M365, Teams, SharePoint, and Dynamics. Low-code, enterprise-grade, and deeply integrated with your org&#8217;s data and systems.",_:"Microsoft&#8217;s workflow automation platform. Triggers, actions, connectors&#8202;&#8212;&#8202;no code required for most scenarios."}},
   "m365-copilot":{name:"Microsoft 365 Copilot",tag:"Deep Microsoft 365 integration and WorkIQ",c:"#d83b01",dk:"#ff8c00",
@@ -92,7 +92,7 @@ const TOOLS = Object.freeze({
       toolsActions:{level:"Medium",detail:"Built-in M365 app actions are strong, while broader custom actions generally arrive through agents and extensibility."},
       orchestration:{level:"Medium",detail:"Agents can automate focused tasks, but the main experience assists you while you direct the work."}
     },
-    harness:"Microsoft 365 Copilot assists you in the app or chat you are using. It uses Microsoft Graph and Work IQ to find permitted work information, while your identity, permissions, agents, and organization’s rules control what it can see and do.",
+    harness:"It responds to your request and context, so answers may vary. Microsoft 365 Copilot assists you in the app or chat you are using. It uses Microsoft Graph and Work IQ to find permitted work information, while your identity, permissions, agents, and organization’s rules control what it can see and do.",
     commonUseCases:["Summarize meetings, email threads, and documents","Draft content in Word, Outlook, or PowerPoint","Analyze work data with organizational context"],
     why:{researching:"Research across work and web in Microsoft 365 Copilot Chat. Use Teams for meeting context and Outlook for email threads.",writing:"Draft where the output belongs: Word for documents, Outlook for email, and PowerPoint for presentations, grounded in your work context.",reviewing:"Review in context: Word for documents, Outlook for email clarity and tone, PowerPoint for decks, and Teams for meeting decisions.",analyzing:"Use Excel to analyze structured data and Microsoft 365 Copilot Chat to synthesize across emails, meetings, and files.",_:"Built into Microsoft 365 apps. Best when the context is your organization&#8217;s Microsoft 365 data."}},
   cowork:{name:"Cowork",tag:"Action-taking agent across your Microsoft 365 work",c:"#8764b8",dk:"#c084fc",
@@ -108,7 +108,7 @@ const TOOLS = Object.freeze({
       toolsActions:{level:"High",detail:"Built-in M365 skills and App Store plugins can create files, send communications, schedule meetings, and connect services."},
       orchestration:{level:"High",detail:"Cowork breaks goals into steps and can start work on a schedule or when something happens, with confirmation before sensitive actions."}
     },
-    harness:"Cowork accepts a goal you delegate, plans multiple steps, and carries out work across Microsoft 365. Work IQ, built-in actions, plugins, schedules, permissions, and confirmation before sensitive actions control what it can do.",
+    harness:"It chooses and adjusts steps while pursuing a goal you delegate. Cowork plans and carries out work across Microsoft 365. Work IQ, built-in actions, plugins, schedules, permissions, and confirmation before sensitive actions control what it can do.",
     commonUseCases:["Create a facilitator guide and presentation deck","Coordinate a meeting and send follow-up communications","Turn recurring M365 work into scheduled tasks"],
     why:{building:"Delegates multi-step work across Microsoft 365, including documents, email, Teams, calendar, and files. Scheduled prompts and event-driven tasks can turn repeat work into automation.",researching:"Searches your organization, conducts deep research across sources, and turns findings into usable briefings or documents.",writing:"Creates and refines Word documents, presentations, spreadsheets, PDFs, emails, and Teams communications using your Work IQ context.",reviewing:"Works through files and communications with visible steps, letting you steer, pause, and approve sensitive actions.",_:"Use when you want an agent to carry out multi-step work across Microsoft 365, with skills, plugins, schedules, triggers, and approval gates."}},
   "ghcp-app":{name:"GitHub Copilot App",tag:"Desktop app — sessions, canvases, multi-tool AI work",c:"#1a7f37",dk:"#56d364",
@@ -124,7 +124,7 @@ const TOOLS = Object.freeze({
       toolsActions:{level:"High",detail:"Native GitHub actions, local or HTTP MCP servers, plugins, and skills extend what agents can do."},
       orchestration:{level:"High",detail:"Separate parallel sessions, repeated checks, automations, and reusable skills support delegated work."}
     },
-    harness:"The desktop app gives the AI GitHub information, separate working copies, branches and files, connected tools, plugins, skills, checks, automation, and review controls.",
+    harness:"It chooses and adjusts steps while pursuing a development goal, so its path may vary. The desktop app gives the AI GitHub information, separate working copies, branches and files, connected tools, plugins, skills, checks, automation, and review controls.",
     commonUseCases:["Delegate fixes from GitHub issues","Run parallel development sessions","Review and validate agent-created changes"],
     why:{building:"Scaffold ideas, explore an approach, or ask code questions without spinning up an IDE. Supports canvas extensions and built-in automation flows for rich, interactive outputs.",researching:"Ask questions about repos, look up technical topics, and synthesize code-related research. The app&#8217;s session memory keeps long threads coherent.",writing:"Draft technical content in a focused session with repo and web context. Useful when you do not need a full IDE, though dedicated drafting tools often work better for general prose.",reviewing:"Review PRs and check code asynchronously &#8212; no IDE required. Canvas extensions let you visualize diffs and results.",analyzing:"Work through code, data structures, or technical documents in a full session context. Canvas extensions help surface structured outputs.",_:"Desktop app install (not a browser). Full session context, canvas extensions, MCP tool support, and built-in automation capabilities for multi-step work."}}
 });

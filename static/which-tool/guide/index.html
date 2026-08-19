@@ -106,6 +106,10 @@ h3{font-size:1.03rem}
 .glossary-group{margin:0;padding:16px;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface)}
 .glossary-group h3{margin-bottom:12px;color:var(--cp-accent)}.definition+.definition{margin-top:12px;padding-top:12px;border-top:1px solid var(--cp-border)}
 .definition dt{font-weight:800}.definition dd{margin:4px 0 0;color:var(--cp-text-soft);font-size:.88rem}
+.work-modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:24px 0 16px}
+.work-mode{padding:16px;border:1px solid var(--cp-border);border-radius:.625rem;background:var(--cp-surface)}
+.work-mode h3{color:var(--cp-accent)}.work-mode p{margin:6px 0 0;color:var(--cp-text-soft);font-size:.88rem}
+.decision-prompt{max-width:760px;margin:0;color:var(--cp-text);font-weight:650}.mode-note{max-width:760px;margin:6px 0 0;color:var(--cp-text-muted);font-size:.84rem}
 .filters{margin:24px 0}
 .filter-group{min-width:0;margin:0;padding:16px;border:1px solid var(--cp-border);border-radius:.625rem}
 .filter-group legend{padding:0 6px;color:var(--cp-text);font-weight:800}
@@ -131,7 +135,7 @@ h3{font-size:1.03rem}
 .source-note{margin-top:16px;color:var(--cp-text-muted);font-size:.8rem}
 @media(max-width:760px){
   .header-inner{gap:8px}.brand{font-size:.9rem}.view-link{padding:5px 8px}.page{padding-top:36px}
-  .vocab{grid-template-columns:repeat(2,minmax(0,1fr))}.glossary{grid-template-columns:1fr}
+  .vocab{grid-template-columns:repeat(2,minmax(0,1fr))}.glossary,.work-modes{grid-template-columns:1fr}
 }
 @media(max-width:480px){
   .header-inner{padding-inline:12px}.brand{display:none}.view-nav{flex:1}.view-link{flex:1;text-align:center}.icon-button{margin-left:0}
@@ -191,6 +195,12 @@ h3{font-size:1.03rem}
     <p class="eyebrow">Side-by-side comparison</p>
     <h2 id="comparison-title">Compare the differences that matter.</h2>
     <p class="section-intro">Compare how each tool adapts to you, what you can configure, how it works, and what to know before choosing it.</p>
+    <div class="work-modes" aria-label="Ways to work with AI">
+      <article class="work-mode"><h3>Work with AI</h3><p>Stay involved as the work happens. Choose this when you want to explore, guide, revise, or decide along the way.</p></article>
+      <article class="work-mode"><h3>Delegate to AI</h3><p>Describe the outcome, let the tool carry out more of the work, then review the result or approve important actions.</p></article>
+    </div>
+    <p class="decision-prompt">Start with the way you want to work. Use the table below to compare which tool fits your task, information, and level of control.</p>
+    <p class="mode-note">These are ways of working, not levels of advancement. Some tools support both.</p>
     <div class="filters">
       <fieldset class="filter-group"><legend>Tools</legend><div class="check-list" id="tool-filters"></div></fieldset>
     </div>

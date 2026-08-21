@@ -192,9 +192,15 @@ ${JSON.stringify(example, null, 2)}
     return String(value || "").replace(/\\/g, "\\\\").replace(/\r?\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
   }
 
-  function buildReviewCalendar(plan, taskName) {
+  function calendarUidPart(value, fallback) {
+    return String(value || fallback || "active-task").toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "") || "active-task";
+  }
+
+  function buildReviewCalendar(plan, taskName, taskId) {
     if (!plan || !isIsoDate(plan.nextReviewDate)) throw new Error("A valid review date is required.");
     const date = plan.nextReviewDate.replace(/-/g, "");
+    const uidTask = calendarUidPart(taskId, taskName);
+    const uidRun = plan.importedAt ? `-${calendarUidPart(plan.importedAt)}` : "";
     const nextDay = new Date(`${plan.nextReviewDate}T12:00:00`);
     nextDay.setDate(nextDay.getDate() + 1);
     const endDate = localDateString(nextDay).replace(/-/g, "");
@@ -210,7 +216,7 @@ ${JSON.stringify(example, null, 2)}
       "PRODID:-//Move the Work//Review//EN",
       "CALSCALE:GREGORIAN",
       "BEGIN:VEVENT",
-      `UID:move-the-work-${date}@jrweigel.github.io`,
+      `UID:move-the-work-${uidTask}${uidRun}-${date}@jrweigel.github.io`,
       `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`,
       `DTSTART;VALUE=DATE:${date}`,
       `DTEND;VALUE=DATE:${endDate}`,
@@ -233,7 +239,7 @@ ${JSON.stringify(example, null, 2)}
       successSignal: "The evidence that will show the experiment worked",
       firstAction: "The first concrete action",
       nextReviewDate: "YYYY-MM-DD",
-      reviewEventStatus: "scheduled or unscheduled"
+      reviewEventStatus: "unscheduled"
     };
 
     return `Help me turn this Move the Work action pack into one bounded four-week workstream. Adapt to the capabilities actually available in this host.\n\n${JSON.stringify(payload, null, 2)}\n\nFirst, discover and summarize the files, connectors, tools, and action permissions you can actually access. Do not claim access you have not verified, and do not make me repeat context already included above. Ask only targeted questions needed to resolve a consequential gap.\n\nPropose a lightweight four-week plan with one outcome, four weekly deliverables, success evidence, and a first concrete action. Explain why the approach fits, ask for my feedback, and iterate until we agree. Keep other tasks out of the active workstream. Pause for explicit approval before sending messages, changing shared files, scheduling meetings, publishing, or taking another consequential external action.\n\nAfter I approve the plan, schedule the review when you have verified calendar capability and my approval. Otherwise mark it unscheduled and give me a practical fallback.\n\nFinish with exactly one fenced JSON block matching this contract so I can bring the plan back into Move the Work. Emit no prose after the block.\n\n${JSON.stringify(returnShape, null, 2)}`;

@@ -79,6 +79,8 @@ test("buildActionPackPrompt stays capability-neutral and includes return contrac
 
   assert.match(prompt, /capabilities actually available in this host/i);
   assert.match(prompt, /move-the-work-plan/);
+  assert.match(prompt, /"reviewEventStatus": "unscheduled"/);
+  assert.doesNotMatch(prompt, /"reviewEventStatus": "scheduled or unscheduled"/);
   assert.match(prompt, /explicit approval/i);
   assert.doesNotMatch(prompt, /Scout|Cowork|ChatGPT|Claude|Copilot/);
 });
@@ -127,9 +129,28 @@ test("isPlanOverdue requires a substantive plan and treats today as current", ()
 });
 
 test("buildReviewCalendar creates an all-day review without leaking raw inputs", () => {
-  const calendar = workflow.buildReviewCalendar(validPlan, "Weekly status");
+  const calendar = workflow.buildReviewCalendar(validPlan, "Weekly status", "weekly-status");
+  assert.match(calendar, /UID:move-the-work-weekly-status-20260917@jrweigel\.github\.io/);
   assert.match(calendar, /DTSTART;VALUE=DATE:20260917/);
   assert.match(calendar, /DTEND;VALUE=DATE:20260918/);
   assert.match(calendar, /SUMMARY:Review Move the Work: Weekly status/);
   assert.doesNotMatch(calendar, /Prior updates|Manager approval/);
+});
+
+test("buildReviewCalendar keeps same-date task exports distinct", () => {
+  const first = workflow.buildReviewCalendar(validPlan, "Weekly status", "weekly-status");
+  const second = workflow.buildReviewCalendar(validPlan, "Meeting prep", "meeting-prep");
+
+  assert.match(first, /UID:move-the-work-weekly-status-20260917@jrweigel\.github\.io/);
+  assert.match(second, /UID:move-the-work-meeting-prep-20260917@jrweigel\.github\.io/);
+  assert.notEqual(first.match(/^UID:(.+)$/m)[1], second.match(/^UID:(.+)$/m)[1]);
+});
+
+test("buildReviewCalendar keeps same-date task reruns distinct when imported", () => {
+  const first = workflow.buildReviewCalendar({ ...validPlan, importedAt: "2026-08-20T12:00:00.000Z" }, "Weekly status", "weekly-status");
+  const second = workflow.buildReviewCalendar({ ...validPlan, importedAt: "2026-08-21T12:00:00.000Z" }, "Weekly status", "weekly-status");
+
+  assert.match(first, /UID:move-the-work-weekly-status-2026-08-20t12-00-00-000z-20260917@jrweigel\.github\.io/);
+  assert.match(second, /UID:move-the-work-weekly-status-2026-08-21t12-00-00-000z-20260917@jrweigel\.github\.io/);
+  assert.notEqual(first.match(/^UID:(.+)$/m)[1], second.match(/^UID:(.+)$/m)[1]);
 });

@@ -15,6 +15,7 @@
     document.documentElement.setAttribute("data-theme", theme);
   })();
 </script>
+<script src="./workflow-logic.js"></script>
 <style>
 :root{
   color-scheme:light;
@@ -453,117 +454,13 @@ const STAR_LABELS = {
   ioClarity:   ["Highly subjective", "Mostly fuzzy inputs/outputs", "Moderate clarity", "Mostly well-defined", "Crystal clear inputs and outputs"]
 };
 
-const PROMPTS = {
-  m365: {
-    label: "M365 Copilot",
-    note: "Recommended. When available, Copilot uses your email, calendar, and Teams activity to infer your current tasks, then verifies them with you in three rounds.",
-    text: `You are helping me inventory the actual tasks I spend time on for the "Move the Work" three-bucket audit (Automate / Assist / Human).
-
-First, verify whether you can access my email, calendar, and Teams messages from the last 30 days in this chat. If you can, tell me that you will use those sources to infer my current tasks. If any source is unavailable, say so plainly and ask me to describe or paste the missing context; never invent activity or evidence. Then conduct exactly three conversational rounds, one round at a time. Wait for my answer after each round. Do not combine rounds, skip a round, ask extra rounds, or generate any inventory before I answer round 3.
-
-Round 1 — current work and evidence:
-Ask what work is most current or important and what evidence in my email, calendar, or Teams would confirm it.
-
-Round 2 — friction, repetition, and deferred work:
-Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, including work that keeps landing on me but may not belong to my role.
-
-Round 3 — energy, judgment, and ownership:
-Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
-
-After I answer round 3, use my answers and the activity evidence to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
-
-For each task return a JSON object with these fields:
-
-  id              short kebab-case slug, e.g. "weekly-status-email"
-  label           2-6 word task name, plain language
-  description     1-2 sentences on what the task actually involves
-  source          always "graph-pre-seed"
-  bucket          always "unsorted" (I will sort later)
-  evidence        1-2 short examples from my actual data
-  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
-  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
-  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
-
-Then emit exactly one complete fenced JSON block containing one object whose top-level "tasks" property is the array of task objects. Emit no prose, duplicate preview, comments, headings, or second block before or after it. Use exactly the field names listed above. Set source to "graph-pre-seed" and bucket to "unsorted" for every task. Do not add a slug field. Before sending, validate that the entire object is complete and JSON.parse-compatible; never truncate a field or task. Never return the interview questions as task objects. Never return an empty tasks array if you can identify tasks from my answers or activity; include inferred tasks with evidence: "inferred from role; please verify".
-
-If you cannot find evidence for a task type that I obviously do but didn't show
-up in the data (e.g. I'm clearly a people manager but there are no career
-conversations on my calendar), include it anyway with evidence: "inferred from role; please verify".`
-  },
-  workiq: {
-    label: "WorkIQ",
-    note: "Use Scout, Copilot CLI, or VS Code with GitHub Copilot to access WorkIQ sources, then verify the inventory with you in three rounds.",
-    text: `You are helping me inventory the actual tasks I spend time on for the "Move the Work" three-bucket audit (Automate / Assist / Human).
-
-First, verify which WorkIQ sources you can access in this session: my calendar, sent mail, Teams chats and channel messages from the last 30 days, and recent OneDrive documents I authored or co-authored. Tell me which sources you can use. If any source is unavailable, say so plainly and ask me to describe or paste the missing context; never invent activity or evidence. Then conduct exactly three conversational rounds, one round at a time. Wait for my answer after each round. Do not combine rounds, skip a round, ask extra rounds, or generate any inventory before I answer round 3.
-
-Round 1 — current work and evidence:
-Ask what work is most current or important and what evidence in the available WorkIQ sources would confirm it.
-
-Round 2 — friction, repetition, and deferred work:
-Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, including work that keeps landing on me but may not belong to my role.
-
-Round 3 — energy, judgment, and ownership:
-Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
-
-After I answer round 3, use my answers and verified source evidence to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
-
-For each task return a JSON object with these fields:
-
-  id              short kebab-case slug, e.g. "weekly-status-email"
-  label           2-6 word task name, plain language
-  description     1-2 sentences on what the task actually involves
-  source          always "graph-pre-seed"
-  bucket          always "unsorted" (I will sort later)
-  evidence        1-2 short examples from verified source data or my answers
-  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
-  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
-  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
-
-Then emit exactly one complete fenced JSON block containing one object whose top-level "tasks" property is the array of task objects. Emit no prose, duplicate preview, comments, headings, or second block before or after it. Use exactly the field names listed above. Set source to "graph-pre-seed" and bucket to "unsorted" for every task. Before sending, validate that the entire object is complete and JSON.parse-compatible; never truncate a field or task. Never return more than 12 tasks. Never invent evidence; when evidence comes only from my answer, say so plainly in the evidence field.`
-  },
-  other: {
-    label: "ChatGPT / Claude / other",
-    note: "For when you don't have Copilot or WorkIQ. The assistant will verify what context is available and interview you in three rounds.",
-    text: `You are helping me inventory the actual tasks I spend time on for the "Move the Work" three-bucket audit (Automate / Assist / Human).
-
-First, verify what work context you can access in this chat, such as files or connected sources. If you cannot access my calendar, email, messages, or documents, say so plainly and ask me to describe or paste relevant recent context; never invent activity or evidence. Then conduct exactly three conversational rounds, one round at a time. Wait for my answer after each round. Do not combine rounds, skip a round, ask extra rounds, or generate any inventory before I answer round 3.
-
-Round 1 — current work and evidence:
-Ask what work has taken the most time lately, what is most current or important, and what examples or context would confirm it.
-
-Round 2 — friction, repetition, and deferred work:
-Ask what I tolerate, procrastinate on, repeat manually, or keep deferring, including work that keeps landing on me but may not belong to my role.
-
-Round 3 — energy, judgment, and ownership:
-Ask what drains disproportionate energy, where human judgment matters, and what I uniquely own or should remain accountable for.
-
-After I answer round 3, use only my answers and context actually available in this chat to identify 6 to 12 recurring tasks or responsibilities, never more than 12. Prioritize the work I have spent the most time on lately. Cluster related items into one task. Include boring, low-prestige, deferred, and "somehow always my job" work.
-
-For each task return a JSON object with these fields:
-
-  id              short kebab-case slug, e.g. "weekly-status-email"
-  label           2-6 word task name, plain language
-  description     1-2 sentences on what the task actually involves
-  source          always "manual-paste"
-  bucket          always "unsorted" (I will sort later)
-  evidence        what I provided that supports this task being on the list
-  frequency       1-5 (5 = daily, 4 = few times/week, 3 = weekly, 2 = monthly, 1 = less than monthly)
-  energyDrain     1-5 (1 = easy/effortless, 5 = depleted after)
-  ioClarity       1-5 (1 = highly subjective, 5 = crystal clear inputs and outputs)
-
-Then emit exactly one complete fenced JSON block containing one object whose top-level "tasks" property is the array of task objects. Emit no prose, duplicate preview, comments, headings, or second block before or after it. Use exactly the field names listed above. Set source to "manual-paste" and bucket to "unsorted" for every task. Before sending, validate that the entire object is complete and JSON.parse-compatible; never truncate a field or task. Never return more than 12 tasks. Never invent evidence; when something is an inference from my role or answer, label it "inferred from user-provided context; please verify" in the evidence field.`
-  }
-};
-
 const STEPS = [
   { id: "welcome",   label: "Welcome",   short: "Start"     },
   { id: "person",    label: "About you", short: "About"     },
   { id: "inventory", label: "Inventory", short: "Inventory" },
   { id: "sort",      label: "Sort",      short: "Sort"      },
   { id: "assess",    label: "Assess",    short: "Assess"    },
-  { id: "move",      label: "Move",      short: "Move"      },
-  { id: "plan",      label: "Plan",      short: "Plan"      },
+  { id: "act",       label: "Act",       short: "Act"       },
   { id: "export",    label: "Save",      short: "Save"      }
 ];
 
@@ -612,7 +509,16 @@ function emptyActiveWorkstream() {
 }
 
 function emptyFourWeekSprint() {
-  return { outcome: "", weeklyCheckpoints: ["", "", "", ""], successSignal: "", nextReviewDate: dateAfterDays(28) };
+  return {
+    planSummary: "",
+    outcome: "",
+    weeklyCheckpoints: ["", "", "", ""],
+    successSignal: "",
+    firstAction: "",
+    nextReviewDate: dateAfterDays(28),
+    reviewEventStatus: "unscheduled",
+    importedAt: null
+  };
 }
 
 function freshSession() {
@@ -633,6 +539,7 @@ function freshSession() {
     preferences: { preSeedSource: "none", shareWithFacilitator: false },
     tasks: [],
     assessment: emptyAssessment(),
+    retro: null,
     plan: {
       activeWorkstream: emptyActiveWorkstream(),
       fourWeekSprint: emptyFourWeekSprint(),
@@ -659,7 +566,6 @@ let ui = {
   step: "welcome",
   currentTaskIdx: 0,
   inventoryTab: "prompt",
-  inventoryTool: "m365",
   miniLessonsShown: { automate: false, assist: false, human: false },
   parsedPreview: null,
   expandedDesc: new Set(),
@@ -721,6 +627,7 @@ function ensureSessionShape() {
   if (!session.preferences) session.preferences = freshSession().preferences;
   if (!Array.isArray(session.tasks)) session.tasks = [];
   if (!session.assessment) session.assessment = emptyAssessment();
+  if (!("retro" in session)) session.retro = null;
   if (!session.plan) session.plan = freshSession().plan;
   if (!Array.isArray(session.plan.handoffs)) session.plan.handoffs = [HANDOFF];
   if (!session.plan.ninetyDayTrajectory) session.plan.ninetyDayTrajectory = { targetAutomatePercent: null, targetAssistPercent: null, targetHumanPercent: null, narrative: "" };
@@ -735,12 +642,8 @@ function ensureSessionShape() {
     session.plan.activeWorkstream = legacyActive ? { ...legacyActive } : emptyActiveWorkstream();
   }
   if (!session.plan.fourWeekSprint || typeof session.plan.fourWeekSprint !== "object") session.plan.fourWeekSprint = emptyFourWeekSprint();
-  const sprint = session.plan.fourWeekSprint;
-  if (!Array.isArray(sprint.weeklyCheckpoints)) sprint.weeklyCheckpoints = ["", "", "", ""];
-  sprint.weeklyCheckpoints = [0, 1, 2, 3].map((i) => String(sprint.weeklyCheckpoints[i] || ""));
-  if (!("outcome" in sprint)) sprint.outcome = session.plan.ninetyDayTrajectory.narrative || "";
-  if (!("successSignal" in sprint)) sprint.successSignal = "";
-  if (!sprint.nextReviewDate) sprint.nextReviewDate = dateAfterDays(28);
+  if (!("outcome" in session.plan.fourWeekSprint)) session.plan.fourWeekSprint.outcome = session.plan.ninetyDayTrajectory.narrative || "";
+  session.plan.fourWeekSprint = MoveTheWorkWorkflow.normalizeFourWeekSprint(session.plan.fourWeekSprint, dateAfterDays(28));
   session.plan.topMovesThisWeek = session.plan.activeWorkstream.taskId ? [{ ...session.plan.activeWorkstream }] : [];
   session.schemaVersion = SCHEMA_VERSION;
   session.tasks.forEach((t) => {
@@ -767,6 +670,9 @@ function ensureSessionShape() {
       if (!("constraints" in t.move)) t.move.constraints = "";
       if (!("content" in t.move)) t.move.content = "";
       if (!("calibration" in t.move)) t.move.calibration = "";
+      if (!("desiredResult" in t.move)) t.move.desiredResult = t.move.calibration || (t.id === session.plan.activeWorkstream.taskId ? session.plan.fourWeekSprint.outcome : "") || "";
+      if (!("relevantInputs" in t.move)) t.move.relevantInputs = [t.move.context, t.move.content].filter(Boolean).join("\n\n");
+      if (!("nonNegotiables" in t.move)) t.move.nonNegotiables = t.move.constraints || "";
     }
   });
 }
@@ -908,60 +814,14 @@ function buildAiwfdInterop() {
 // ---- forgiving paste parser ----
 
 function parsePastedTasks(text) {
-  if (!text || !text.trim()) return { ok: false, error: "Paste empty.", tasks: [] };
-  let s = String(text).trim();
-  // Strip markdown fences
-  s = s.replace(/^```(?:json|JSON)?\s*/m, "").replace(/```\s*$/m, "");
-
-  // Preserve valid punctuation and escaping by trying the supplied JSON first.
-  let parsed = null;
-  try { parsed = JSON.parse(s); } catch (_) { /* inspect prose-wrapped output below */ }
-
-  const balancedCandidates = (open, close) => {
-    const found = [];
-    for (let start = 0; start < s.length; start++) {
-      if (s[start] !== open) continue;
-      let depth = 0, inString = false, escaped = false;
-      for (let i = start; i < s.length; i++) {
-        const ch = s[i];
-        if (inString) {
-          if (escaped) escaped = false;
-          else if (ch === "\\") escaped = true;
-          else if (ch === '"') inString = false;
-          continue;
-        }
-        if (ch === '"') { inString = true; continue; }
-        if (ch === open) depth++;
-        else if (ch === close) depth--;
-        if (depth === 0) { found.push(s.slice(start, i + 1)); start = i; break; }
-      }
-    }
-    return found;
-  };
-  const parseCandidate = (candidate) => { try { return JSON.parse(candidate); } catch (_) { return null; } };
-  const objectCandidates = balancedCandidates("{", "}").map(parseCandidate).filter(Boolean);
-  if (!parsed) parsed = objectCandidates.find((value) => value && !Array.isArray(value) && ["tasks", "responsibilities", "inventory"].some((key) => Array.isArray(value[key]))) || null;
-  if (!parsed) parsed = balancedCandidates("[", "]").map(parseCandidate).find(Array.isArray) || null;
-
-  // Narrow legacy salvage: complete comma-separated objects with only the outer array missing.
-  if (!parsed) {
-    const trimmed = s.replace(/^[^\{]*/, "").replace(/[^\}]*$/, "");
-    if (trimmed && /^\s*\{/.test(trimmed) && /\}\s*,\s*\{/.test(trimmed)) parsed = parseCandidate(`[${trimmed}]`);
+  try {
+    const parsedTasks = MoveTheWorkWorkflow.parseInventoryEnvelope(text);
+    const tasks = parsedTasks.map((raw, i) => normalizeIncomingTask(raw, i)).filter(Boolean);
+    if (tasks.length === 0) return { ok: false, error: "No usable tasks found in the JSON.", tasks: [] };
+    return { ok: true, error: null, tasks };
+  } catch (error) {
+    return { ok: false, error: error.message || "That task inventory could not be parsed.", tasks: [] };
   }
-
-  const hasUnclosedObject = s.lastIndexOf("{") > s.lastIndexOf("}");
-  const hasUnclosedArray = s.lastIndexOf("[") > s.lastIndexOf("]");
-  if (!parsed && (hasUnclosedObject || hasUnclosedArray)) return { ok: false, error: "That JSON appears incomplete or truncated. Copy the complete fenced JSON object and try again; no tasks were imported.", tasks: [] };
-  if (!parsed) return { ok: false, error: "I couldn't find one complete JSON object or array containing tasks. Copy the full result and try again.", tasks: [] };
-  let arr = null;
-  if (Array.isArray(parsed)) arr = parsed;
-  else if (parsed && Array.isArray(parsed.tasks)) arr = parsed.tasks;
-  else if (parsed && Array.isArray(parsed.responsibilities)) arr = parsed.responsibilities;
-  else if (parsed && Array.isArray(parsed.inventory)) arr = parsed.inventory;
-  if (!arr) return { ok: false, error: "Found JSON but no task list inside it.", tasks: [] };
-  const tasks = arr.map((raw, i) => normalizeIncomingTask(raw, i)).filter(Boolean);
-  if (tasks.length === 0) return { ok: false, error: "No usable tasks found in the JSON.", tasks: [] };
-  return { ok: true, error: null, tasks };
 }
 
 function normalizeIncomingTask(raw, idx) {
@@ -1031,7 +891,7 @@ function fmtPct(n) { return Math.round(n) + "%"; }
 function fmtDate(iso) {
   if (!iso) return "";
   try {
-    const d = new Date(iso);
+    const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? `${iso}T12:00:00` : iso);
     return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
   } catch (_) { return iso; }
 }
@@ -1099,8 +959,7 @@ function isStepUnlocked(stepId) {
   if (stepId === "inventory") return true;
   if (stepId === "sort") return session.tasks.length > 0;
   if (stepId === "assess") return session.tasks.some((t) => t.bucket && t.bucket !== "unsorted");
-  if (stepId === "move") return session.tasks.some((t) => t.bucket && t.bucket !== "unsorted");
-  if (stepId === "plan") return session.tasks.some((t) => t.bucket && t.bucket !== "unsorted");
+  if (stepId === "act") return session.tasks.some((t) => t.bucket && t.bucket !== "unsorted");
   if (stepId === "export") return session.tasks.length > 0;
   return true;
 }
@@ -1140,9 +999,9 @@ function render() {
     case "inventory": app.innerHTML = renderInventory(); break;
     case "sort":      app.innerHTML = renderSort(); break;
     case "assess":    app.innerHTML = renderAssess(); break;
-    case "move":      app.innerHTML = renderMove(); break;
-    case "plan":      app.innerHTML = renderPlan(); break;
+    case "act":       app.innerHTML = renderAct(); break;
     case "export":    app.innerHTML = renderExport(); break;
+    case "retro":     app.innerHTML = renderRetro(); break;
     case "diff":      app.innerHTML = renderDiff(); break;
     default:          app.innerHTML = renderWelcome();
   }
@@ -1287,8 +1146,7 @@ function renderInventory() {
 }
 
 function renderInventoryPrompt() {
-  const tool = ui.inventoryTool;
-  const prompt = PROMPTS[tool] || PROMPTS.m365;
+  const prompt = MoveTheWorkWorkflow.buildInventoryPrompt();
   const preview = ui.parsedPreview;
   return `
     <div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text)">
@@ -1296,20 +1154,11 @@ function renderInventoryPrompt() {
       <p>You're using AI to do the heavy lifting; you'll do the curation. That's the whole framework, modeled on your very first action.</p>
     </div>
     <div class="field">
-      <label>Which AI tool will you run this in?</label>
-      <div class="cluster">
-        ${["m365","workiq","other"].map((k) => `
-          <button class="chip ${tool === k ? "chip-on" : ""}" data-act="inv-tool" data-tool="${k}">${escapeHtml(PROMPTS[k].label)}</button>
-        `).join("")}
-      </div>
-      <p class="muted" style="margin-top:8px;margin-bottom:0;font-size:0.9rem">${escapeHtml(prompt.note)}</p>
-    </div>
-    <div class="field">
-      <label>1. Copy this prompt and run it in ${escapeHtml(prompt.label)}</label>
-      <pre id="promptText">${escapeHtml(prompt.text)}</pre>
+      <label>1. Copy this prompt into your AI assistant</label>
+      <pre id="promptText">${escapeHtml(prompt)}</pre>
       <div class="cluster" style="margin-top:8px">
         <button class="btn btn-sm" data-act="copy-prompt">Copy prompt (Generate + Interview)</button>
-        <span class="muted">${escapeHtml(prompt.label === "M365 Copilot" ? "Tip: paste into M365 Copilot Chat (m365.cloud.microsoft.com/chat) or the Copilot pane in Word/Outlook." : prompt.label === "WorkIQ" ? "Tip: run in Scout, Copilot CLI (workiq ask -q), or VS Code with GitHub Copilot." : "Tip: bring your own context — paste recent calendar/email or describe your week.")}</span>
+        <span class="muted">Use an assistant that can access your work context, or attach and paste the relevant material yourself.</span>
       </div>
     </div>
     <div class="field">
@@ -1683,17 +1532,17 @@ function renderAssess() {
 
       <div class="cluster" style="margin-top:18px">
         <button class="btn" data-act="goto" data-step="sort">← Back to sort</button>
-        <button class="btn btn-primary right" data-act="goto" data-step="move">Now move some work →</button>
+        <button class="btn btn-primary right" data-act="goto" data-step="act">Choose where to act →</button>
       </div>
     </section>
   `;
 }
 
 /* ==========================================================================
-   Screen renderers — move, plan, export, diff
+  Screen renderers — act, export, diff
    ========================================================================== */
 
-function renderMove() {
+function renderAct() {
   const sortedTasks = session.tasks.filter((t) => t.bucket && t.bucket !== "unsorted");
   if (sortedTasks.length === 0) {
     return `<section class="card"><p>You need to sort some tasks first. <a href="#" data-act="goto" data-step="sort">Go sort →</a></p></section>`;
@@ -1706,10 +1555,11 @@ function renderMove() {
 
   return `
     <section class="card">
-      <h2>Move some work</h2>
-      <p><strong>Move</strong> means choosing one task to change now. One active workstream makes the four-week experiment manageable; everything else stays in backlog for a future monthly cycle.</p>
+      <h2>Act on one task</h2>
+      <p>Choose one task and define the result you want. Your preferred work agent can turn those inputs into a bounded four-week plan; everything else stays in the backlog.</p>
+      ${session.retro && session.retro.status === "completed" ? `<div class="callout" style="margin-top:12px"><strong>Lesson from the prior cycle:</strong> ${escapeHtml(session.retro.lesson || session.retro.whatHappened || "Reflection saved.")}</div>` : ""}
       <div class="callout" style="border-left-color:var(--b2-color);margin-top:12px">
-        <strong>Choose one active task.</strong> Selecting another task replaces the current one in a single click. Ratings recommend a Best First Move, but your judgment decides.
+        <strong>Keep the setup light.</strong> You provide the desired result, relevant inputs, and true non-negotiables. The work agent handles the decomposition, checkpoints, and success evidence with you.
       </div>
     </section>
     <section class="card">
@@ -1739,7 +1589,7 @@ function renderMove() {
       <h3>Active task</h3>
       ${focus.length === 0 ? `<div class="callout">No active task selected yet. Choose one from the ranked list above.</div>` : ""}
       <div class="stack">
-        ${focus.map((t) => renderMoveForTask(t)).join("")}
+        ${focus.map((t) => renderActForTask(t)).join("")}
       </div>
     </section>
 
@@ -1755,14 +1605,15 @@ function renderMove() {
     <div class="card card-soft">
       <div class="cluster">
         <button class="btn" data-act="goto" data-step="assess">← Back to map</button>
-        <button class="btn btn-primary right" data-act="goto" data-step="plan">Build your plan →</button>
+        <button class="btn btn-primary right" data-act="goto" data-step="export">Save your work →</button>
       </div>
     </div>
   `;
 }
 
-function renderMoveForTask(t) {
-  const m = t.move || { intent: BUCKETS[t.bucket].intent, ownerOrTool: "", starterPrompt: "", nextStep: "", byWhen: "", context: "", constraints: "", content: "", calibration: "" };
+function renderActForTask(t) {
+  const m = t.move || { intent: BUCKETS[t.bucket].intent, desiredResult: "", relevantInputs: "", nonNegotiables: "" };
+  const sprint = session.plan.fourWeekSprint || emptyFourWeekSprint();
   const score = bestFirstMoveScore(t);
   return `
     <div class="card card-soft card-tight" style="margin:0">
@@ -1771,156 +1622,107 @@ function renderMoveForTask(t) {
         <span class="muted" style="margin-left:auto">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)}</span>
       </div>
       ${t.diagnostic && t.diagnostic.freeformReasoning ? `<p class="muted" style="margin:0 0 10px 0">${escapeHtml(t.diagnostic.freeformReasoning)}</p>` : ""}
-      <div class="mini-lesson" style="border-left-color:var(--b2-color);background:var(--b2-soft);color:var(--cp-text);margin-bottom:14px">
-        <p style="margin:0;font-size:0.9rem">Think about: What’s the most painful or repetitive part of this task? What would you hand to an AI if it were perfect at it? What’s the repeating judgment call that could be replaced by a clear rule?</p>
+      <div class="field">
+        <label for="actResult">Desired result or output <span aria-hidden="true">*</span></label>
+        <textarea id="actResult" data-act="act-result" data-id="${escapeHtml(t.id)}" rows="3" required placeholder="What should be different or exist at the end of four weeks?">${escapeHtml(m.desiredResult || "")}</textarea>
       </div>
-      <div class="row">
-        <div class="field">
-          <label>Intent</label>
-          <select data-act="move-intent" data-id="${escapeHtml(t.id)}">
-            ${Object.keys(INTENTS).map((k) => `<option value="${k}" ${m.intent === k ? "selected" : ""}>${INTENTS[k].name} — ${INTENTS[k].desc}</option>`).join("")}
-          </select>
+      <div class="field">
+        <label for="actInputs">Relevant inputs <span class="muted">(optional)</span></label>
+        <textarea id="actInputs" data-act="act-inputs" data-id="${escapeHtml(t.id)}" rows="3" placeholder="Files, links, examples, people, systems, or source material the agent should use. Skip anything it can already access.">${escapeHtml(m.relevantInputs || "")}</textarea>
+      </div>
+      <div class="field">
+        <label for="actGuardrails">Non-negotiables <span class="muted">(optional)</span></label>
+        <textarea id="actGuardrails" data-act="act-guardrails" data-id="${escapeHtml(t.id)}" rows="2" placeholder="Deadlines, approvals, quality bars, audiences, or boundaries that must be respected.">${escapeHtml(m.nonNegotiables || "")}</textarea>
+      </div>
+      <div class="card" style="margin:18px 0 0 0;border-left:4px solid var(--cp-accent)">
+        <h4 style="margin-top:0">Build the plan with your work agent</h4>
+        <p>Paste into your preferred work agent. It will adapt to the capabilities available there.</p>
+        <div class="cluster" style="gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary" data-act="copy-action-pack">Copy action pack</button>
+          <a href="https://jrweigel.github.io/which-tool/" target="_blank" rel="noopener">Need help choosing a work agent?</a>
         </div>
       </div>
-      <div class="field">
-        <label>${escapeHtml(BUCKETS[t.bucket].moveLabel)}${t.bucket === "assist" ? ` — <a href="https://jrweigel.github.io/which-tool/" target="_blank" rel="noopener" style="font-size:0.85em">Which tool fits? →</a>` : ""}</label>
-        <input type="text" data-act="move-owner" data-id="${escapeHtml(t.id)}" value="${escapeHtml(m.ownerOrTool || "")}" placeholder="${t.bucket === "automate" ? "e.g. M365 Copilot, a teammate, a new template" : t.bucket === "assist" ? "e.g. M365 Copilot — meeting prep" : "e.g. block 2 focused hours every Tuesday"}">
+      <div class="card" style="margin:14px 0 0 0;border-left:4px solid var(--b2-color)">
+        <h4 style="margin-top:0">Bring your plan back <span class="muted">(optional)</span></h4>
+        <p class="muted">Paste the agent's complete response or its final JSON block. This adds the agreed plan to your saved session.</p>
+        <textarea id="planReturnInput" rows="6" placeholder="Paste the returned plan here"></textarea>
+        <div class="cluster" style="margin-top:8px"><button class="btn" data-act="import-plan-return">Add plan to session</button></div>
       </div>
-      ${t.bucket === "assist" ? `
-        <div class="field">
-          <label>Starter prompt (for the AI tool above)</label>
-          <textarea data-act="move-prompt" data-id="${escapeHtml(t.id)}" rows="3" placeholder="A first draft you can paste into the tool. Edit it as you go.">${escapeHtml(m.starterPrompt || "")}</textarea>
-        </div>` : ""}
-      <div class="field">
-        <label>Context (What’s the situation?)</label>
-        <textarea data-act="move-context" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "I need to send a weekly update to my team about project progress..."'>${escapeHtml(m.context || "")}</textarea>
-      </div>
-      <div class="field">
-        <label>Constraints (What are the rules?)</label>
-        <textarea data-act="move-constraints" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...it needs to be under 200 words, professional but not formal, and highlight both wins and blockers..."'>${escapeHtml(m.constraints || "")}</textarea>
-      </div>
-      <div class="field">
-        <label>Content (What’s the raw material?)</label>
-        <textarea data-act="move-content" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...here are my notes from this week’s meetings: [paste your rough notes]"'>${escapeHtml(m.content || "")}</textarea>
-      </div>
-      <div class="field">
-        <label>Calibration (What’s the target?)</label>
-        <textarea data-act="move-calibration" data-id="${escapeHtml(t.id)}" rows="2" placeholder='e.g. "...format it like this previous email that worked well: [paste example — or describe what good looks like so Scout can remind you]"'>${escapeHtml(m.calibration || "")}</textarea>
-      </div>
-      <div class="row">
-        <div class="field">
-          <label>Next step</label>
-          <input type="text" data-act="move-next" data-id="${escapeHtml(t.id)}" value="${escapeHtml(m.nextStep || "")}" placeholder="The single concrete thing you'll do">
-        </div>
-        <div class="field" style="flex:0 0 180px">
-          <label>By when</label>
-          <input type="date" data-act="move-by" data-id="${escapeHtml(t.id)}" value="${escapeHtml(m.byWhen || "")}">
-        </div>
-      </div>
+      ${sprint.importedAt ? renderImportedPlan(sprint) : ""}
     </div>
   `;
 }
 
-function renderPlan() {
-  const { focus, backlog } = getActionPackSlices();
-  const sprint = session.plan.fourWeekSprint || emptyFourWeekSprint();
+function renderImportedPlan(sprint) {
+  return `
+    <div class="card" style="margin:14px 0 0 0;border-left:4px solid var(--cp-success)">
+      <h4 style="margin-top:0">Plan added to this session</h4>
+      <p>${escapeHtml(sprint.planSummary)}</p>
+      <p><strong>Outcome:</strong> ${escapeHtml(sprint.outcome)}</p>
+      <ol>${sprint.weeklyCheckpoints.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol>
+      <p><strong>First action:</strong> ${escapeHtml(sprint.firstAction)}</p>
+      <p><strong>Success evidence:</strong> ${escapeHtml(sprint.successSignal)}</p>
+      <p class="muted">Review ${escapeHtml(fmtDate(sprint.nextReviewDate))} · Calendar ${escapeHtml(sprint.reviewEventStatus)}</p>
+      ${sprint.reviewEventStatus === "unscheduled" ? `<button class="btn btn-sm" data-act="download-review-calendar">Add review to calendar</button>` : ""}
+    </div>
+  `;
+}
+
+function renderRetro() {
+  const retro = session.retro;
+  if (!retro || retro.status !== "pending") return renderWelcome();
   return `
     <section class="card">
-      <h2>Your AI Leverage Plan</h2>
-      <p><strong>Plan</strong> turns one active task into a bounded four-week experiment. Return roughly monthly, about 12 times a year, to review evidence and choose the next cycle.</p>
+      <h2>Before the next cycle</h2>
+      <p>Your review date for <strong>${escapeHtml(retro.priorTaskLabel || "the prior active task")}</strong> has passed. Take a short look back so the next move benefits from what happened.</p>
+      <p class="muted">This reflection is optional and does not change your task scores.</p>
     </section>
-
     <section class="card">
-      <h3>This four-week sprint</h3>
-      <p class="muted">Exactly one task can be active. Replace it from Move at any time; the other tasks remain in backlog.</p>
-      ${focus.length === 0 ? `
-        <div class="callout">No active task selected yet. <a href="#" data-act="goto" data-step="move">Go back to Move</a> and choose one.</div>
-      ` : `
-        <div class="stack">
-          ${focus.map((t) => {
-            const m = t.move || {};
-            const score = bestFirstMoveScore(t);
-            return `
-            <div class="task-list-row">
-              <div style="flex:1;min-width:0">
-                <div class="name">${escapeHtml(t.label)} <span class="badge badge-accent">${escapeHtml(INTENTS[m.intent] ? INTENTS[m.intent].name : (m.intent || BUCKETS[t.bucket].intent))}</span></div>
-                <div class="meta">Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)} · ${escapeHtml(m.nextStep || "(no next step written yet)")}${m.byWhen ? " · by " + escapeHtml(fmtDate(m.byWhen)) : ""}</div>
-              </div>
-            </div>
-          `; }).join("")}
-        </div>
-      `}
-    </section>
-
-    <section class="card card-soft">
-      <h3>Backlog (future monthly cycles)</h3>
-      ${backlog.length === 0 ? `<p class="muted">No backlog tasks right now.</p>` : `
-        <div class="stack">
-          ${backlog.map((t) => {
-            const score = bestFirstMoveScore(t);
-            return `<div class="task-list-row"><div class="name">${escapeHtml(t.label)}</div><div class="meta">${escapeHtml(BUCKETS[t.bucket].name)} · Score ${score.toFixed(2)} · ${bestFirstMoveLabel(score)}</div></div>`;
-          }).join("")}
-        </div>
-      `}
-    </section>
-
-    <section class="card">
-      <h3>Four-week experiment</h3>
       <div class="field">
-        <label>Four-week outcome</label>
-        <textarea data-act="sprint-outcome" rows="3" placeholder="At the end of four weeks, this work will…">${escapeHtml(sprint.outcome || "")}</textarea>
+        <label for="retroOutcome">What happened?</label>
+        <textarea id="retroOutcome" data-bind="retro.whatHappened" rows="4" placeholder="Completed deliverables, results, evidence, or what got in the way.">${escapeHtml(retro.whatHappened || "")}</textarea>
       </div>
-      <div class="row">
-        ${[0,1,2,3].map((i) => `<div class="field"><label>Week ${i + 1} checkpoint</label><input type="text" data-act="sprint-checkpoint" data-index="${i}" value="${escapeHtml(sprint.weeklyCheckpoints[i] || "")}" placeholder="Lightweight evidence or decision"></div>`).join("")}
+      <div class="field">
+        <label for="retroLesson">What will you repeat or change next time?</label>
+        <textarea id="retroLesson" data-bind="retro.lesson" rows="3" placeholder="The lesson you want to carry into the next four weeks.">${escapeHtml(retro.lesson || "")}</textarea>
       </div>
-      <div class="row">
-        <div class="field"><label>Success signal</label><input type="text" data-act="sprint-success" value="${escapeHtml(sprint.successSignal || "")}" placeholder="What evidence will show this worked?"></div>
-        <div class="field" style="flex:0 0 200px"><label>Next review date</label><input type="date" data-act="sprint-review" value="${escapeHtml(sprint.nextReviewDate || "")}"></div>
+      <div class="field">
+        <label for="retroNextMove">What should happen to this active task?</label>
+        <select id="retroNextMove" data-bind="retro.nextMove">
+          <option value="continue" ${retro.nextMove === "continue" ? "selected" : ""}>Continue it</option>
+          <option value="adjust" ${retro.nextMove === "adjust" ? "selected" : ""}>Adjust the approach</option>
+          <option value="different" ${retro.nextMove === "different" ? "selected" : ""}>Choose a different task</option>
+        </select>
       </div>
-    </section>
-
-    <section class="card">
-      <h3>Where to go next</h3>
-      <p class="muted" style="margin-bottom:12px">Choose either path using the same complete action-pack data. Use Scout if it is available in your Microsoft environment; otherwise Cowork or ChatGPT is a complete path, especially for external users.</p>
-      <div class="stack">
-        <div class="card card-soft" style="border-left:4px solid var(--cp-accent);margin:0">
-          <h4 style="margin:0 0 6px 0">Continue with a work agent</h4>
-          <p class="meta" style="margin:0 0 8px 0">Both prompts carry one workstream, four-week scope, checkpoints, evidence, and first action. They are alternatives, not sequential steps.</p>
-          <div class="cluster" style="gap:8px;flex-wrap:wrap">
-            <button class="btn btn-primary btn-sm" data-act="copy-scout-action-pack">Copy for Scout</button>
-            <button class="btn btn-sm" data-act="copy-work-agent">Copy for Cowork or ChatGPT</button>
-          </div>
-          <p class="muted" style="font-size:0.85rem;margin:8px 0 0 0">The portable option works with Claude Cowork, Microsoft Cowork, and ChatGPT Work and adapts to the host's actual capabilities.</p>
-        </div>
-        <div class="card card-soft" style="border-left:4px solid var(--b2-color);margin:0">
-          <h4 style="margin:0 0 4px 0">🔧 Not sure which AI tool to use?</h4>
-          <p class="meta" style="margin:0 0 8px 0">Answer a few quick questions to find the right tool for each Bucket 2 task.</p>
-          <a class="btn btn-sm" href="https://jrweigel.github.io/which-tool/" target="_blank" rel="noopener">Which tool fits? →</a>
-        </div>
+      <div class="cluster" style="margin-top:18px">
+        <button class="btn" data-act="retro-skip">Skip reflection</button>
+        <button class="btn btn-primary right" data-act="retro-save">Save reflection and continue</button>
       </div>
     </section>
-
-    <div class="card card-soft">
-      <div class="cluster">
-        <button class="btn" data-act="goto" data-step="move">← Back to moves</button>
-        <button class="btn btn-primary right" data-act="goto" data-step="export">Save your plan →</button>
-      </div>
-    </div>
   `;
 }
 
 function renderExport() {
   const stamp = new Date().toISOString().slice(0, 10);
   const fname = `move-the-work_${(session.person.name || "session").replace(/[^a-z0-9-]+/gi, "-").toLowerCase()}_${stamp}.json`;
+  const sprint = session.plan.fourWeekSprint || emptyFourWeekSprint();
   return `
     <section class="card">
       <h2>Save your work</h2>
-      <p>Save these now. Re-import the JSON in about four weeks to see what's moved. The snapshot is the readable, printable record you can send to your manager, attach to a calendar invite, or bring to a 1:1.</p>
+      <p>Save the session JSON so you can resume the cycle later. The snapshot is a readable, printable record for your own review or a conversation with your manager.</p>
     </section>
 
+    ${sprint.importedAt ? `<section class="card"><h3>Your four-week plan</h3>${renderImportedPlan(sprint)}</section>` : `
+      <section class="card">
+        <h3>Your plan can come with you</h3>
+        <p>Saving is still available, but bringing the work agent's plan back adds the agreed deliverables and review date to this session.</p>
+        <button class="btn btn-primary" data-act="goto" data-step="act">Return to Act and add the plan</button>
+      </section>
+    `}
+
     <section class="card">
-      <h3>1. Download your session</h3>
-      <p class="muted">Save this file somewhere you'll find it again — your calendar invite for the re-run is a good spot.</p>
+      <h3>Download your session</h3>
+      <p class="muted">This JSON preserves the audit, action inputs, returned plan, and review date for your next cycle.</p>
       <div class="cluster">
         <button class="btn btn-primary" data-act="export-json">Download session JSON</button>
         <span class="muted">Filename: <code>${escapeHtml(fname)}</code></span>
@@ -1928,40 +1730,16 @@ function renderExport() {
     </section>
 
     <section class="card">
-      <h3>2. Download your snapshot</h3>
-      <p class="muted">A self-contained, print-friendly HTML page: your map, active four-week sprint, backlog, and conversation prompts for your 1:1 and your team.</p>
+      <h3>Download your snapshot</h3>
+      <p class="muted">A self-contained, print-friendly page with your map, active workstream, four-week plan, and conversation prompts.</p>
       <div class="cluster">
         <button class="btn btn-primary" data-act="export-html">Download snapshot</button>
       </div>
     </section>
 
-    <section class="card">
-      <h3>3. Schedule the re-run</h3>
-      <p class="muted">Put a 60-minute hold on your calendar about four weeks from now. A roughly monthly return, about 12 cycles each year, keeps the portfolio current.</p>
-      <div class="cluster" style="flex-wrap:wrap;gap:8px">
-        <button class="btn btn-primary" data-act="open-copilot-rerun">Open M365 Copilot + Hit paste</button>
-        <button class="btn" data-act="copy-rerun-invite">📋 No M365 Copilot? Copy invite to paste in a new meeting</button>
-      </div>
-    </section>
-
-    <section class="card">
-      <h3>Where to go next</h3>
-      <p class="muted" style="margin-bottom:12px">Start the same four-week plan in Scout, Cowork, or ChatGPT.</p>
-      <div class="stack">
-        <div class="card card-soft" style="border-left:4px solid var(--cp-accent);margin:0">
-          <h4 style="margin:0 0 6px 0">Choose an execution path</h4>
-          <p class="meta" style="margin:0 0 8px 0">Use Scout when available in your Microsoft environment. Cowork or ChatGPT is a complete alternative, including for external users.</p>
-          <div class="cluster" style="gap:8px;flex-wrap:wrap">
-            <button class="btn btn-primary btn-sm" data-act="copy-scout-action-pack">Copy for Scout</button>
-            <button class="btn btn-sm" data-act="copy-work-agent">Copy for Cowork or ChatGPT</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <div class="card card-soft">
       <div class="cluster">
-        <button class="btn" data-act="goto" data-step="plan">← Back to plan</button>
+        <button class="btn" data-act="goto" data-step="act">← Back to Act</button>
         <button class="btn right" data-act="start-new">Start a fresh audit</button>
       </div>
     </div>
@@ -2049,7 +1827,11 @@ function onClick(e) {
       $("#filePicker").click(); break;
     case "resume": {
       const sid = t.getAttribute("data-sid");
-      if (loadSession(sid)) { ui.step = session.tasks.length > 0 ? "inventory" : "person"; render(); }
+      if (loadSession(sid)) {
+        const loaded = JSON.parse(JSON.stringify(session));
+        if (MoveTheWorkWorkflow.isPlanOverdue(loaded.plan && loaded.plan.fourWeekSprint)) beginNextRun(loaded);
+        else { ui.step = session.tasks.length > 0 ? "inventory" : "person"; render(); }
+      }
       else toast("Couldn't load that session.");
       break;
     }
@@ -2066,10 +1848,8 @@ function onClick(e) {
       go("inventory"); break;
     case "inv-tab":
       ui.inventoryTab = t.getAttribute("data-tab"); render(); break;
-    case "inv-tool":
-      ui.inventoryTool = t.getAttribute("data-tool"); render(); break;
     case "copy-prompt":
-      copyToClipboard((PROMPTS[ui.inventoryTool] || PROMPTS.m365).text).then((ok) => toast(ok ? "Prompt copied — paste it into " + PROMPTS[ui.inventoryTool].label : "Copy failed — select the text manually"));
+      copyToClipboard(MoveTheWorkWorkflow.buildInventoryPrompt()).then((ok) => toast(ok ? "Prompt copied" : "Copy failed — select the text manually"));
       break;
     case "parse-paste": {
       const text = $("#pasteInput").value;
@@ -2136,22 +1916,16 @@ function onClick(e) {
       exportJson(); break;
     case "export-html":
       exportHtmlSnapshot(); break;
-    case "copy-rerun":
-      copyRerunInvite(); break;
-    case "open-copilot-rerun":
-      openCopilotRerun(); break;
-    case "copy-rerun-invite":
-      copyRerunMeetingInvite(); break;
-    case "copy-plan-for-copilot":
-      copyPlanForCopilot(); break;
-    case "copy-scout-action-pack":
-      copyScoutActionPack(); break;
-    case "copy-work-agent":
-      copyWorkAgentActionPack(); break;
-    case "copy-scout-calendar-only":
-      copyScoutCalendarOnly(); break;
-    case "copy-scout-close-loop":
-      copyScoutCloseLoopTemplate(); break;
+    case "copy-action-pack":
+      copyActionPack(); break;
+    case "import-plan-return":
+      importPlanReturn(); break;
+    case "download-review-calendar":
+      downloadReviewCalendar(); break;
+    case "retro-skip":
+      finishRetro(true); break;
+    case "retro-save":
+      finishRetro(false); break;
     case "copy-context-for-de":
       copyContextForDigitalEmployees(); break;
     default: break;
@@ -2181,46 +1955,19 @@ function onInput(e) {
       if (task) { task.label = t.value; save({ silent: true }); }
       break;
     }
-    case "move-owner": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) { if (!task.move) task.move = {}; task.move.ownerOrTool = t.value; save({ silent: true }); }
-      break;
-    }
-    case "move-prompt": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) { if (!task.move) task.move = {}; task.move.starterPrompt = t.value; save({ silent: true }); }
-      break;
-    }
-    case "move-next": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) { if (!task.move) task.move = {}; task.move.nextStep = t.value; save({ silent: true }); }
-      break;
-    }
-    case "move-context":
-    case "move-constraints":
-    case "move-content":
-    case "move-calibration": {
+    case "act-result":
+    case "act-inputs":
+    case "act-guardrails": {
       const id = t.getAttribute("data-id");
       const task = session.tasks.find((x) => x.id === id);
       if (!task) break;
-      if (!task.move) task.move = {};
-      if (act === "move-context") task.move.context = t.value;
-      if (act === "move-constraints") task.move.constraints = t.value;
-      if (act === "move-content") task.move.content = t.value;
-      if (act === "move-calibration") task.move.calibration = t.value;
+      if (!task.move) task.move = { intent: BUCKETS[task.bucket].intent };
+      if (act === "act-result") task.move.desiredResult = t.value;
+      if (act === "act-inputs") task.move.relevantInputs = t.value;
+      if (act === "act-guardrails") task.move.nonNegotiables = t.value;
       save({ silent: true });
       break;
     }
-    case "sprint-outcome": session.plan.fourWeekSprint.outcome = t.value; save({ silent: true }); break;
-    case "sprint-checkpoint": {
-      const index = parseInt(t.getAttribute("data-index"), 10);
-      if (index >= 0 && index < 4) session.plan.fourWeekSprint.weeklyCheckpoints[index] = t.value;
-      save({ silent: true }); break;
-    }
-    case "sprint-success": session.plan.fourWeekSprint.successSignal = t.value; save({ silent: true }); break;
     default: break;
   }
 }
@@ -2230,21 +1977,6 @@ function onChange(e) {
   const act = t.getAttribute && t.getAttribute("data-act");
   if (!act) return;
   switch (act) {
-    case "move-intent": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) { if (!task.move) task.move = {}; task.move.intent = t.value; save({ silent: true }); }
-      break;
-    }
-    case "move-by": {
-      const id = t.getAttribute("data-id");
-      const task = session.tasks.find((x) => x.id === id);
-      if (task) { if (!task.move) task.move = {}; task.move.byWhen = t.value || null; save({ silent: true }); }
-      break;
-    }
-    case "sprint-review":
-      session.plan.fourWeekSprint.nextReviewDate = t.value || dateAfterDays(28); save({ silent: true });
-      break;
     default: break;
   }
 }
@@ -2269,7 +2001,8 @@ function commitPreview() {
     existing.add(t.label.toLowerCase().trim());
     added++;
   }
-  session.preferences.preSeedSource = ui.inventoryTool === "m365" ? "graph" : ui.inventoryTool === "workiq" ? "graph" : "manual-paste";
+  const sources = new Set(ui.parsedPreview.tasks.map((task) => task.source));
+  session.preferences.preSeedSource = sources.size === 1 && sources.has("graph-pre-seed") ? "graph" : sources.size === 1 ? "manual-paste" : "mixed";
   ui.parsedPreview = null;
   save();
   render();
@@ -2396,6 +2129,7 @@ function toggleTopMove(id) {
     byWhen: (task.move && task.move.byWhen) || null
   };
   session.plan.topMovesThisWeek = session.plan.activeWorkstream.taskId ? [{ ...session.plan.activeWorkstream }] : [];
+  session.plan.fourWeekSprint = emptyFourWeekSprint();
   if (!wasActive) toast("Active task updated. The previous task remains in backlog.");
   save();
   render();
@@ -2456,6 +2190,18 @@ function exportHtmlSnapshot() {
   toast("Snapshot downloaded — open and print, or send to your manager.");
 }
 
+function downloadReviewCalendar() {
+  const sprint = session.plan.fourWeekSprint || emptyFourWeekSprint();
+  const active = session.tasks.find((task) => task.id === session.plan.activeWorkstream.taskId);
+  try {
+    const calendar = MoveTheWorkWorkflow.buildReviewCalendar(sprint, active && active.label);
+    downloadBlob("move-the-work-review.ics", calendar, "text/calendar;charset=utf-8");
+    toast("Calendar event downloaded.");
+  } catch (error) {
+    toast(error.message || "The calendar event could not be created.");
+  }
+}
+
 function copyContextForDigitalEmployees() {
   const lines = [
     "## Context from my Move the Work audit",
@@ -2488,29 +2234,6 @@ function copyContextForDigitalEmployees() {
   copyToClipboard(text).then((ok) => toast(ok ? "Work context copied — paste at the start of your /digital-employees conversation" : "Copy failed"));
 }
 
-function copyPlanForCopilot() {
-  const topMoves = session.plan.topMovesThisWeek || [];
-  const lines = [
-    "I just completed a personal AI audit called 'Move the Work.' Here is my one active four-week workstream — help me implement it.",
-    ""
-  ];
-  if (topMoves.length) {
-    lines.push("## My Active Workstream");
-    topMoves.forEach((mv, i) => {
-      const t = session.tasks.find((x) => x.id === mv.taskId);
-      lines.push(`${i + 1}. **${mv.label || (t && t.label) || "Task"}** — Intent: ${INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent}${mv.nextStep ? ". Next step: " + mv.nextStep : ""}${mv.byWhen ? " (by " + mv.byWhen + ")" : ""}`);
-    });
-    lines.push("");
-  }
-  const bucketCounts = { automate: 0, assist: 0, human: 0 };
-  session.tasks.forEach((t) => { if (bucketCounts[t.bucket] !== undefined) bucketCounts[t.bucket]++; });
-  lines.push(`## My Current Split: ${bucketCounts.automate} Automate / ${bucketCounts.assist} Assist / ${bucketCounts.human} Human`);
-  lines.push("");
-  lines.push("Help me define a bounded four-week outcome, lightweight weekly checkpoints, success evidence, and the first concrete action for this one workstream.");
-  const text = lines.join("\n");
-  copyToClipboard(text).then((ok) => toast(ok ? "Plan copied — paste into M365 Copilot" : "Copy failed — select manually"));
-}
-
 function getActionPackSlices() {
   refreshTopMoves();
   const sortedTasks = session.tasks
@@ -2524,130 +2247,61 @@ function getActionPackSlices() {
 }
 
 function buildActionPackPayload() {
-  const { focus, backlog } = getActionPackSlices();
+  const { focus } = getActionPackSlices();
   if (focus.length === 0) return null;
   const task = focus[0];
   const move = task.move || {};
-  const sprint = session.plan.fourWeekSprint || emptyFourWeekSprint();
   return {
-    activeWorkstream: {
-      taskId: task.id,
+    activeTask: {
+      id: task.id,
       task: task.label,
+      description: task.description || "",
+      evidence: task.evidence || (task.diagnostic && task.diagnostic.freeformReasoning) || "",
       bucket: BUCKETS[task.bucket] ? `Bucket ${BUCKETS[task.bucket].num} · ${BUCKETS[task.bucket].name}` : "Unsorted",
-      intent: INTENTS[move.intent] ? INTENTS[move.intent].name : (move.intent || BUCKETS[task.bucket].intent),
-      context: move.context || task.description || (task.diagnostic && task.diagnostic.freeformReasoning) || "Not captured yet",
-      constraints: move.constraints || "Not captured yet",
-      availableSourceMaterial: move.content || "Not captured yet",
-      ownerOrTool: move.ownerOrTool || "To be agreed",
-      calibrationTarget: move.calibration || move.starterPrompt || "To be agreed",
-      currentNextStep: move.nextStep || "To be agreed",
-      targetDate: move.byWhen || null
+      intent: INTENTS[move.intent] ? INTENTS[move.intent].name : (move.intent || BUCKETS[task.bucket].intent)
     },
-    fourWeekSprint: {
-      outcome: sprint.outcome || "To be agreed",
-      weeklyCheckpoints: sprint.weeklyCheckpoints,
-      successSignal: sprint.successSignal || "To be agreed",
-      nextReviewDate: sprint.nextReviewDate
-    },
-    backlog: backlog.map((item) => ({ taskId: item.id, task: item.label, bucket: BUCKETS[item.bucket] ? BUCKETS[item.bucket].name : "Unsorted" }))
+    desiredResult: String(move.desiredResult || "").trim(),
+    relevantInputs: String(move.relevantInputs || "").trim() || "Use accessible sources and ask only if a consequential input is missing.",
+    nonNegotiables: String(move.nonNegotiables || "").trim() || "None provided.",
+    horizon: "four weeks",
+    priorCycleInsight: session.retro && session.retro.status === "completed" ? {
+      whatHappened: session.retro.whatHappened,
+      lesson: session.retro.lesson,
+      nextMove: session.retro.nextMove
+    } : null
   };
 }
 
-function buildScoutPrompt(payload) {
-  return `Help me turn this Move the Work action pack into one agreed four-week workstream.\n\n${JSON.stringify(payload, null, 2)}\n\nRecommend a lightweight approach and explain why it fits. Ask for my feedback, then iterate with me until we agree on exactly one workstream, the four-week scope and outcome, weekly checkpoints, success evidence, and the first concrete action. Do not finalize the plan before that agreement. Keep backlog items out of the active sprint. After agreement, propose any calendar blocks or actions for my review and wait for explicit approval before taking consequential or external action. Report progress against the agreed checkpoints and close the loop with evidence at the review date.`;
-}
-
-function buildWorkAgentPrompt(payload) {
-  return `Help me execute this Move the Work action pack as one bounded four-week workstream. This prompt must adapt to the capabilities actually available in this host.\n\n${JSON.stringify(payload, null, 2)}\n\nFirst discover and summarize the current files, connectors, tools, and action permissions you can actually access. Do not claim a tool or permission you have not verified. State your assumptions. Propose a bounded four-week plan with one active workstream, weekly checkpoints, success evidence, reporting, and a first action. Ask for missing access and my feedback. Pause for explicit approval before consequential or external actions, including sending messages, changing shared files, scheduling meetings, or publishing. If an action is unavailable, provide a practical manual alternative. After approval, report progress and results against each checkpoint. Keep vendor-specific syntax out of the plan so this works in Claude Cowork, Microsoft Cowork, or ChatGPT Work.`;
-}
-
-function copyScoutActionPack() {
+function copyActionPack() {
   const payload = buildActionPackPayload();
   if (!payload) { toast("Choose one active task before copying an action pack."); return; }
-  copyToClipboard(buildScoutPrompt(payload)).then((ok) => toast(ok ? "Scout prompt copied" : "Copy failed — select manually"));
+  if (!payload.desiredResult) { toast("Add the desired result or output first."); return; }
+  copyToClipboard(MoveTheWorkWorkflow.buildActionPackPrompt(payload)).then((ok) => toast(ok ? "Action pack copied" : "Copy failed — select manually"));
 }
 
-function copyWorkAgentActionPack() {
-  const payload = buildActionPackPayload();
-  if (!payload) { toast("Choose one active task before copying an action pack."); return; }
-  copyToClipboard(buildWorkAgentPrompt(payload)).then((ok) => toast(ok ? "Cowork or ChatGPT prompt copied" : "Copy failed — select manually"));
-}
-
-function copyScoutCalendarOnly() {
-  const { focus } = getActionPackSlices();
-  if (focus.length === 0) {
-    toast("Choose one active task first.");
-    return;
+function importPlanReturn() {
+  const activeId = session.plan.activeWorkstream && session.plan.activeWorkstream.taskId;
+  const input = $("#planReturnInput");
+  if (!activeId || !input) { toast("Choose one active task first."); return; }
+  try {
+    const nextPlan = MoveTheWorkWorkflow.parsePlanReturn(input.value, activeId);
+    if (session.plan.fourWeekSprint.importedAt && !confirm("Replace the plan already saved for this task?")) return;
+    session.plan.fourWeekSprint = nextPlan;
+    save();
+    render();
+    toast("Plan added to this session.");
+  } catch (error) {
+    toast(error.message || "That plan could not be imported.");
   }
-  const lines = [
-    "Help me calendar execution time for my one active Move the Work task.",
-    "Suggest lightweight time blocks over the next four weeks:",
-    "- setup blocks to prepare workflows/prompts",
-    "- execution blocks to run the work",
-    "- one short weekly review block",
-    "",
-    "Active task:",
-    ...focus.map((t, i) => `${i + 1}. ${t.label}`)
-  ];
-  copyToClipboard(lines.join("\n")).then((ok) => toast(ok ? "Calendar-only request copied" : "Copy failed — select manually"));
-}
-
-function copyScoutCloseLoopTemplate() {
-  const lines = [
-    "Close-the-loop tracker (weekly):",
-    "",
-    "| Task | Input I gave | Output returned | Result (time saved / quality) | Confidence (1-5) | Next tweak |",
-    "|---|---|---|---|---|---|",
-    "|  |  |  |  |  |  |"
-  ];
-  copyToClipboard(lines.join("\n")).then((ok) => toast(ok ? "Close-the-loop template copied" : "Copy failed — select manually"));
-}
-
-function copyRerunInvite() {
-  const when = session.plan.fourWeekSprint.nextReviewDate || dateAfterDays(28);
-  const text = [
-    `Create a 60-minute calendar event called "Move the Work re-run" on ${when}.`,
-    "",
-    "Description: Re-run my personal AI audit using the Move the Work web app. Import the attached session JSON and walk through the audit again. The diff view between runs shows where I've actually shifted my work.",
-    "",
-    "Set a reminder 1 day before."
-  ].join("\n");
-  copyToClipboard(text).then((ok) => toast(ok ? "Copilot prompt copied — paste it into the M365 Copilot chat" : "Copy failed — select manually"));
-}
-
-function openCopilotRerun() {
-  const when = session.plan.fourWeekSprint.nextReviewDate || dateAfterDays(28);
-  const prompt = `Create a 60-minute calendar event called "Move the Work re-run" on ${when}. Description: Re-run my personal AI audit using the Move the Work web app. Import the attached session JSON and walk through the audit again. The diff view between runs shows where I've actually shifted my work. Set a reminder 1 day before.`;
-  copyToClipboard(prompt).then(() => {
-    window.open("https://m365.cloud.microsoft.com/chat", "_blank");
-    toast("Prompt copied to clipboard — paste it into M365 Copilot (Ctrl+V).");
-  });
-}
-
-function copyRerunMeetingInvite() {
-  const when = session.plan.fourWeekSprint.nextReviewDate || dateAfterDays(28);
-  const text = [
-    "Subject: Move the Work re-run",
-    `Date: ${when}`,
-    "Duration: 60 minutes",
-    "",
-    "Re-run my personal AI audit using the Move the Work web app. Import the session JSON and walk through the audit again.",
-    "",
-    "What to bring:",
-    "- The exported session JSON",
-    "- 60 minutes uninterrupted",
-    "",
-    "The diff view between this run and the prior one is where the real learning lives."
-  ].join("\n");
-  copyToClipboard(text).then((ok) => toast(ok ? "Meeting invite text copied — paste into a new calendar event" : "Copy failed — select manually"));
 }
 
 function buildSnapshotHtml(p) {
   const stamp = fmtDate(p.meta.updatedAt || p.meta.createdAt);
   const a = p.assessment;
-  const zoneLabel = a.zone === "red" ? "Alert · Red zone · High exposure" : a.zone === "yellow" ? "Clock · Yellow zone · Time to act" : a.zone === "green" ? "Eye · Green zone · Lower exposure for now" : "Zone unavailable";
+  const zoneLabel = a.zone === "red" ? "&#9888; Red zone · High exposure" : a.zone === "yellow" ? "&#9201; Yellow zone · Time to act" : a.zone === "green" ? "&#128065; Green zone · Lower exposure for now" : "Zone unavailable";
   const personLine = [p.person.name, p.person.role, p.person.org].filter(Boolean).join(" · ") || "Anonymous";
   const tops = (p.plan.topMovesThisWeek || []).slice(0, 1);
+  const activeTask = tops.length ? p.tasks.find((task) => task.id === tops[0].taskId) : null;
   const intentLabel = (i) => INTENTS[i] ? INTENTS[i].name : (i || "");
   const intentColor = (i) => ({ offload: "#f59e0b", amplify: "#0078d4", protect: "#16a34a", hold: "#6f6f6f" }[i] || "#6f6f6f");
   const sprint = p.plan.fourWeekSprint || emptyFourWeekSprint();
@@ -2660,14 +2314,6 @@ function buildSnapshotHtml(p) {
     const starStr = (v) => v != null ? "★".repeat(v) + "☆".repeat(5 - v) : "—";
     return `<tr><td><strong>${escapeHtmlSnapshot(t.label)}</strong>${t.description ? `<br><span class="muted">${escapeHtmlSnapshot(t.description)}</span>` : ""}</td><td><span class="badge ${bcls}">${bname}</span></td><td>${starStr(q.frequency)}</td><td>${starStr(q.energyDrain)}</td><td>${starStr(q.ioClarity)}</td></tr>`;
   }).join("");
-
-  const movesRows = p.tasks.filter((t) => t.move && (t.move.nextStep || t.move.ownerOrTool)).map((t) => {
-    const intentName = (t.move && INTENTS[t.move.intent] ? INTENTS[t.move.intent].name : (t.move && t.move.intent) || "");
-    const isTop = tops.some((mv) => mv.taskId === t.id);
-    return `<tr${isTop ? ' style="background:#fef3c7"' : ""}><td>${isTop ? "★ " : ""}<strong>${escapeHtmlSnapshot(t.label)}</strong></td><td>${escapeHtmlSnapshot(intentName)}</td><td>${escapeHtmlSnapshot((t.move && t.move.ownerOrTool) || "")}</td><td>${escapeHtmlSnapshot((t.move && t.move.nextStep) || "")}</td><td>${t.move && t.move.byWhen ? fmtDate(t.move.byWhen) : ""}</td></tr>`;
-  }).join("");
-
-  const topMoves = tops.map((mv, i) => `<li><strong>${escapeHtmlSnapshot(mv.label)}</strong> — ${escapeHtmlSnapshot(INTENTS[mv.intent] ? INTENTS[mv.intent].name : mv.intent)}. ${escapeHtmlSnapshot(mv.nextStep || "")}${mv.byWhen ? ` <span class="muted">by ${escapeHtmlSnapshot(fmtDate(mv.byWhen))}</span>` : ""}</li>`).join("");
 
   const css = `
     @page { size: Letter; margin: 0.5in; }
@@ -2755,7 +2401,7 @@ function buildSnapshotHtml(p) {
               <span class="mbadge" style="background:${intentColor(mv.intent)}">${escapeHtmlSnapshot(intentLabel(mv.intent).toUpperCase())}</span>
               ${mv.byWhen ? `<span class="when">by ${escapeHtmlSnapshot(fmtDate(mv.byWhen))}</span>` : ""}
             </div>
-            <div class="next">${escapeHtmlSnapshot(mv.nextStep || "(no next step written)")}</div>
+            <div class="next">${escapeHtmlSnapshot((activeTask && activeTask.move && activeTask.move.desiredResult) || sprint.outcome || "Desired result not set")}</div>
           </div>
         </div>
       `).join("")
@@ -2765,14 +2411,19 @@ function buildSnapshotHtml(p) {
   <h2>Full task inventory</h2>
   <table><thead><tr><th>Task</th><th>Bucket</th><th>Frequency</th><th>Energy Drain</th><th>Input/output clarity</th></tr></thead><tbody>${tasksRows}</tbody></table>
 
-  <h2>All moves</h2>
-  ${movesRows ? `<table><thead><tr><th>Task</th><th>Intent</th><th>Owner / tool</th><th>Next step</th><th>By when</th></tr></thead><tbody>${movesRows}</tbody></table>` : `<p class="muted">No moves written yet.</p>`}
-
   <h2>Four-week experiment</h2>
+  ${sprint.planSummary ? `<div style="font-size:10pt;margin-bottom:8px">${escapeHtmlSnapshot(sprint.planSummary)}</div>` : ""}
   <div style="font-size:10pt"><strong>Outcome:</strong> ${escapeHtmlSnapshot(sprint.outcome || "Not set")}</div>
   <ul style="font-size:10pt">${checkpointList}</ul>
+  <div style="font-size:10pt"><strong>First action:</strong> ${escapeHtmlSnapshot(sprint.firstAction || "Not set")}</div>
   <div style="font-size:10pt"><strong>Success signal:</strong> ${escapeHtmlSnapshot(sprint.successSignal || "Not set")}</div>
-  <div style="font-size:10pt"><strong>Next review:</strong> ${escapeHtmlSnapshot(fmtDate(sprint.nextReviewDate) || "Not set")}</div>
+  <div style="font-size:10pt"><strong>Next review:</strong> ${escapeHtmlSnapshot(fmtDate(sprint.nextReviewDate) || "Not set")} · ${escapeHtmlSnapshot(sprint.reviewEventStatus || "unscheduled")}</div>
+
+  ${p.retro && p.retro.status === "completed" ? `
+  <h2>Prior-cycle reflection</h2>
+  <div style="font-size:10pt"><strong>What happened:</strong> ${escapeHtmlSnapshot(p.retro.whatHappened || "Not captured")}</div>
+  <div style="font-size:10pt"><strong>Lesson:</strong> ${escapeHtmlSnapshot(p.retro.lesson || "Not captured")}</div>
+  <div style="font-size:10pt"><strong>Next move:</strong> ${escapeHtmlSnapshot(p.retro.nextMove || "Not captured")}</div>` : ""}
 
   <h2>Bring this to a conversation</h2>
   <div class="narrow prompts">
@@ -2793,11 +2444,6 @@ function buildSnapshotHtml(p) {
       </ul>
     </div>
   </div>
-
-  <h2>Where to go next</h2>
-  <p style="font-size:10pt"><strong>Scout:</strong> If Scout is available in your Microsoft environment, copy the Scout prompt from the app to agree on scope, checkpoints, evidence, and the first action.</p>
-  <p style="font-size:10pt"><strong>Cowork or ChatGPT:</strong> Copy the portable prompt for Claude Cowork, Microsoft Cowork, or ChatGPT Work. It is a complete path and adapts to available files, connectors, tools, and permissions.</p>
-  <p style="font-size:10pt">Keep exactly one active task; leave everything else in backlog for a future monthly cycle.</p>
 
   <div class="footer">
     <div>Return in about four weeks · Import the saved JSON to see what's moved.</div>
@@ -2837,43 +2483,80 @@ function importSession(data) {
   // If user has no current session OR a fresh empty one, treat this as resume-prior-run
   const isFresh = session.tasks.length === 0;
   if (isFresh) {
-    const importedRunNumber = Number(data.meta.runNumber);
-    const priorRunNumber = Number.isFinite(importedRunNumber) && importedRunNumber > 0 ? Math.floor(importedRunNumber) : 1;
-    // Load as a *new* run that references the imported one
-    priorSession = JSON.parse(JSON.stringify(data));
-    priorSession.meta.runNumber = priorRunNumber;
-    // start a new run keeping person info
-    const next = freshSession();
-    next.person = data.person || next.person;
-    next.meta.runNumber = priorRunNumber + 1;
-    next.meta.previousRunSessionRef = data.meta.sessionId;
-    next.meta.tags = data.meta.tags || [];
-    // carry forward tasks (reset bucket to existing assignment so user can revise)
-    next.tasks = data.tasks.map((t) => ({
-      ...t,
-      move: t.move || null
-    }));
-    next.schemaVersion = data.schemaVersion || "1.0.0";
-    next.plan = JSON.parse(JSON.stringify(data.plan || next.plan));
-    session = next;
-    ensureSessionShape();
-    computeAssessment();
-    save();
-    ui.step = "diff";
-    ui.visited.add("diff");
-    render();
-    toast(`Imported run ${priorRunNumber} — here's what changed.`);
+    beginNextRun(data);
   } else {
     if (!confirm("This will replace your current in-progress audit. Continue?")) return;
     session = data;
     ensureSessionShape();
     computeAssessment();
     priorSession = null;
-    ui = { step: "inventory", currentTaskIdx: 0, inventoryTab: "prompt", inventoryTool: "m365", miniLessonsShown: { automate: true, assist: true, human: true }, parsedPreview: null, visited: new Set(["welcome","inventory"]) };
+    ui = { step: "inventory", currentTaskIdx: 0, inventoryTab: "prompt", miniLessonsShown: { automate: true, assist: true, human: true }, parsedPreview: null, visited: new Set(["welcome","inventory"]) };
     save();
     render();
     toast("Imported session loaded.");
   }
+}
+
+function beginNextRun(data) {
+  const importedRunNumber = Number(data.meta.runNumber);
+  const priorRunNumber = Number.isFinite(importedRunNumber) && importedRunNumber > 0 ? Math.floor(importedRunNumber) : 1;
+  priorSession = JSON.parse(JSON.stringify(data));
+  priorSession.meta.runNumber = priorRunNumber;
+  const priorActive = data.plan && data.plan.activeWorkstream ? data.plan.activeWorkstream : emptyActiveWorkstream();
+  const priorTask = (data.tasks || []).find((task) => task.id === priorActive.taskId);
+  const isOverdue = MoveTheWorkWorkflow.isPlanOverdue(data.plan && data.plan.fourWeekSprint);
+  const next = freshSession();
+  next.person = data.person || next.person;
+  next.meta.runNumber = priorRunNumber + 1;
+  next.meta.previousRunSessionRef = data.meta.sessionId;
+  next.meta.tags = data.meta.tags || [];
+  next.tasks = data.tasks.map((task) => ({ ...task, move: task.move || null }));
+  next.schemaVersion = data.schemaVersion || "1.0.0";
+  if (isOverdue) {
+    next.retro = {
+      status: "pending",
+      priorSessionId: data.meta.sessionId,
+      priorRunNumber,
+      priorTaskId: priorActive.taskId || null,
+      priorTaskLabel: (priorTask && priorTask.label) || priorActive.label || "",
+      whatHappened: "",
+      lesson: "",
+      nextMove: "continue",
+      reflectedAt: null
+    };
+  }
+  session = next;
+  ensureSessionShape();
+  computeAssessment();
+  save();
+  ui.step = isOverdue ? "retro" : "diff";
+  ui.visited.add(ui.step);
+  render();
+  toast(isOverdue ? "Review date passed — reflect briefly before the next cycle." : `Imported run ${priorRunNumber} — here's what changed.`);
+}
+
+function finishRetro(skipped) {
+  const retro = session.retro;
+  if (!retro || retro.status !== "pending") return;
+  retro.status = skipped ? "skipped" : "completed";
+  retro.reflectedAt = nowIso();
+  if (!skipped && (retro.nextMove === "continue" || retro.nextMove === "adjust") && retro.priorTaskId) {
+    const task = session.tasks.find((item) => item.id === retro.priorTaskId);
+    if (task) {
+      session.plan.activeWorkstream = {
+        taskId: task.id,
+        label: task.label,
+        intent: (task.move && task.move.intent) || BUCKETS[task.bucket].intent,
+        nextStep: "",
+        byWhen: null
+      };
+      session.plan.topMovesThisWeek = [{ ...session.plan.activeWorkstream }];
+    }
+  }
+  save();
+  ui.step = "diff";
+  ui.visited.add("diff");
+  render();
 }
 
 // ---- theme & misc ----
@@ -2891,7 +2574,7 @@ function startNewSession() {
   }
   session = freshSession();
   priorSession = null;
-  ui = { step: "person", currentTaskIdx: 0, inventoryTab: "prompt", inventoryTool: "m365", miniLessonsShown: { automate: false, assist: false, human: false }, parsedPreview: null, visited: new Set(["welcome","person"]) };
+  ui = { step: "person", currentTaskIdx: 0, inventoryTab: "prompt", miniLessonsShown: { automate: false, assist: false, human: false }, parsedPreview: null, visited: new Set(["welcome","person"]) };
   save();
   render();
 }

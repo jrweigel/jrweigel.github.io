@@ -1,0 +1,361 @@
+{
+  "tripNotices": [
+    {
+      "status": "planned",
+      "title": "Food balance",
+      "body": "Do not overdo bacalhau. Try one good cod preparation, then diversify across tinned fish, seafood, pork, rissóis, bifanas/francesinha, vegetables, and other regional dishes."
+    }
+  ],
+  "locations": [
+    {
+      "id": "conserveira-lisboa",
+      "name": "Conserveira de Lisboa",
+      "city": "Lisbon",
+      "address": "Rua dos Bacalhoeiros 34, 1100-071 Lisboa",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Conserveira+de+Lisboa+Rua+dos+Bacalhoeiros+34",
+      "officialUrl": "https://www.conserveiradelisboa.pt/",
+      "category": "market",
+      "reservationStatus": "optional",
+      "notes": "Easy Baixa stop for quality Portuguese tinned fish. Friend recommends José Gourmet or Pinhais/Nuri; verify Sunday hours before relying on it."
+    },
+    {
+      "id": "a-ginjinha",
+      "name": "A Ginjinha",
+      "city": "Lisbon",
+      "address": "Largo de São Domingos 8, Lisboa",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=A+Ginjinha+Largo+de+Sao+Domingos+Lisbon",
+      "officialUrl": "https://www.visitlisboa.com/en/p/lisbon-flavours/wine/ginjinha",
+      "category": "bar",
+      "reservationStatus": "optional",
+      "notes": "Quick Lisbon micro-stop: one small ginjinha, with or without the cherry."
+    },
+    {
+      "id": "little-wine-bar",
+      "name": "The Little Wine Bar",
+      "city": "Lisbon",
+      "address": "Calçada do Duque 39, 1200-155 Lisboa",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Little+Wine+Bar+Calcada+do+Duque+39+Lisbon",
+      "officialUrl": "https://www.facebook.com/thelittlewinebar",
+      "category": "bar",
+      "reservationStatus": "optional",
+      "notes": "Friend favorite for a casual glass of wine on the steps. Keep as a nearby option rather than crossing town for it."
+    },
+    {
+      "id": "imprensa",
+      "name": "Imprensa Cocktail & Oyster Bar",
+      "city": "Lisbon",
+      "address": "Rua da Imprensa Nacional 46, Lisboa",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Imprensa+Cocktail+Oyster+Bar+Lisbon",
+      "officialUrl": "https://www.instagram.com/imprensa_/",
+      "category": "bar",
+      "reservationStatus": "optional",
+      "notes": "Preferred Sunday post-dinner cocktail option; friend specifically recommends the cocktails, oysters, and small bites."
+    },
+    {
+      "id": "red-frog",
+      "name": "Red Frog",
+      "city": "Lisbon",
+      "address": "Praça da Alegria 66B, Lisboa",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Red+Frog+Lisbon",
+      "officialUrl": "https://www.redfrog.pt/",
+      "category": "bar",
+      "reservationStatus": "optional",
+      "notes": "Excellent cocktail-bar backup if Imprensa is not the mood."
+    },
+    {
+      "id": "lumi-rooftop",
+      "name": "Lumi Rooftop",
+      "city": "Lisbon",
+      "address": "Rua de São Pedro de Alcântara 35, 1250-237 Lisboa",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lumi+Rooftop+Rua+de+Sao+Pedro+de+Alcantara+35+Lisbon",
+      "officialUrl": "https://lumirooftop.com/",
+      "category": "bar",
+      "reservationStatus": "planned",
+      "notes": "Primary Monday sunset-drink choice before Taberna; better fit for a seated, polished rooftop experience."
+    },
+    {
+      "id": "castro-lisbon",
+      "name": "Castro – Atelier de Pastéis de Nata",
+      "city": "Lisbon",
+      "address": "Rua Garrett 38, 1200-204 Lisboa",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Castro+Atelier+Pasteis+de+Nata+Rua+Garrett+38+Lisbon",
+      "officialUrl": "https://castropasteisdenata.pt/en/",
+      "category": "cafe",
+      "reservationStatus": "optional",
+      "notes": "Excellent Chiado nata backup/comparison; use only if naturally nearby."
+    },
+    {
+      "id": "timeout-porto",
+      "name": "Time Out Market Porto",
+      "city": "Porto",
+      "address": "South Wing, São Bento Station, Praça de Almeida Garrett, Porto",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Time+Out+Market+Porto+Sao+Bento",
+      "officialUrl": "https://www.timeout.com/time-out-market-porto",
+      "category": "market",
+      "reservationStatus": "optional",
+      "notes": "Built into São Bento Station, so it costs almost no itinerary time; browse for 15–30 minutes rather than making it a destination meal."
+    },
+    {
+      "id": "cantina-32",
+      "name": "Cantina 32",
+      "city": "Porto",
+      "address": "Rua das Flores 32, Porto",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cantina+32+Porto",
+      "officialUrl": "https://www.cantina32.com/",
+      "category": "restaurant",
+      "reservationStatus": "planned",
+      "notes": "Primary Tuesday dinner choice; convenient to the apartment and historic-center walk."
+    },
+    {
+      "id": "taberna-mercadores",
+      "name": "Taberna dos Mercadores",
+      "city": "Porto",
+      "address": "Rua dos Mercadores 36, Porto",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Taberna+dos+Mercadores+Porto",
+      "officialUrl": "https://www.instagram.com/tabernadosmercadores/",
+      "category": "restaurant",
+      "reservationStatus": "optional",
+      "notes": "Tuesday dinner backup; tiny and harder to secure."
+    },
+    {
+      "id": "adega-sao-nicolau",
+      "name": "Adega São Nicolau",
+      "city": "Porto",
+      "address": "Rua de São Nicolau 1, Porto",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Adega+Sao+Nicolau+Porto",
+      "officialUrl": "https://www.instagram.com/adegasaonicolau/",
+      "category": "restaurant",
+      "reservationStatus": "optional",
+      "notes": "Tuesday dinner backup in Ribeira."
+    },
+    {
+      "id": "oficina-rissois",
+      "name": "Oficina dos Rissóis",
+      "city": "Porto",
+      "address": "Passeio de São Lázaro 5A, 4000-507 Porto",
+      "mapsUrl": "https://maps.app.goo.gl/SUELAsvUpvQFe2EU8",
+      "officialUrl": "http://www.oficinadosrissois.com/",
+      "category": "restaurant",
+      "reservationStatus": "optional",
+      "notes": "Flexible casual snack/light-lunch wildcard. Portuguese without committing another full meal."
+    },
+    {
+      "id": "cafe-santiago",
+      "name": "Café Santiago",
+      "city": "Porto",
+      "address": "Rua de Passos Manuel 226, Porto",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cafe+Santiago+Porto",
+      "officialUrl": "https://cafesantiago.pt/",
+      "category": "restaurant",
+      "reservationStatus": "optional",
+      "notes": "Canonical francesinha option. Treat it as a taste: share one rather than sacrificing a whole meal."
+    },
+    {
+      "id": "folias-baco",
+      "name": "Taberna Folias de Baco",
+      "city": "Porto",
+      "address": "Porto historic center",
+      "mapsUrl": "https://maps.app.goo.gl/BnhWeijvG2QLrxEx5",
+      "officialUrl": "https://www.instagram.com/foliasdebaco/",
+      "category": "bar",
+      "reservationStatus": "optional",
+      "notes": "Preferred optional Wednesday post-Douro stop: natural wine and a small plate, only if everyone still wants to go out."
+    },
+    {
+      "id": "shiko",
+      "name": "SHIKO – Tasca Japonesa",
+      "city": "Porto",
+      "address": "Porto",
+      "mapsUrl": "https://maps.app.goo.gl/K2cQQHxdN7zYPUM77",
+      "officialUrl": "https://www.instagram.com/shiko_tascajaponesa/",
+      "category": "restaurant",
+      "reservationStatus": "optional",
+      "notes": "Deliberate backup for the moment someone wants a break from Portuguese food."
+    },
+    {
+      "id": "sandeman-lodge",
+      "name": "Sandeman Porto Cellars",
+      "city": "Vila Nova de Gaia",
+      "address": "Largo Miguel Bombarda 3, Vila Nova de Gaia",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sandeman+Porto+Cellars+Gaia",
+      "officialUrl": "https://www.sandeman.com/visit-us/porto/",
+      "category": "bar",
+      "reservationStatus": "optional",
+      "notes": "If the group still wants a formal Port lodge Thursday, this is the easiest geographic fit. Do not force it after Bordeaux and the Douro."
+    },
+    {
+      "id": "torto-porto",
+      "name": "Torto",
+      "city": "Porto",
+      "address": "Porto",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Torto+bar+Porto",
+      "officialUrl": "https://www.instagram.com/torto.porto/",
+      "category": "bar",
+      "reservationStatus": "optional",
+      "notes": "Optional first-night cocktail only if energy allows."
+    },
+    {
+      "id": "royal-cocktail-club",
+      "name": "The Royal Cocktail Club",
+      "city": "Porto",
+      "address": "Porto",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Royal+Cocktail+Club+Porto",
+      "officialUrl": "https://www.theroyalcocktailclub.com/",
+      "category": "bar",
+      "reservationStatus": "optional",
+      "notes": "Optional first-night cocktail backup."
+    }
+  ],
+  "routes": [
+    {
+      "id": "lumi-avillez",
+      "label": "Lumi Rooftop to Taberna – Bairro do Avillez",
+      "mode": "walk",
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Lumi+Rooftop+Lisbon&destination=Bairro+do+Avillez+Lisbon&travelmode=walking"
+    }
+  ],
+  "dayUpdates": [
+    {
+      "date": "2026-09-06",
+      "notes": [
+        "Conserveira de Lisboa fits the Baixa-to-Alfama flow if it is open; verify Sunday hours same-day rather than detouring for it.",
+        "The Little Wine Bar is a strong backup but opens later and sits closer to Rossio/Chiado, so do not force it into the Alfama afternoon pause."
+      ],
+      "insertItems": [
+        {
+          "afterTitle": "Waterfront walk to Cais do Sodré and Time Out Market browse",
+          "item": {
+            "start": "10:45",
+            "title": "Walk Praça do Comércio / Baixa; optional Conserveira de Lisboa",
+            "type": "walk",
+            "status": "optional",
+            "locationId": "conserveira-lisboa",
+            "description": "Natural route toward the historic center. Pop in for quality tinned fish only if open; do not make a special detour."
+          }
+        },
+        {
+          "beforeTitle": "Bolt toward Castelo de São Jorge if Tram 28 queue is long",
+          "item": {
+            "start": "11:15",
+            "title": "Optional quick ginjinha",
+            "type": "drink",
+            "status": "optional",
+            "locationId": "a-ginjinha",
+            "description": "A ten-minute Lisbon ritual if the route and energy cooperate. One small glass, then keep moving."
+          }
+        }
+      ],
+      "replaceItems": [
+        {
+          "matchTitle": "Optional cocktail: Red Frog, Foxtrot, or Imprensa",
+          "item": {
+            "start": "22:15",
+            "title": "Optional cocktail: Imprensa preferred; Red Frog backup",
+            "type": "drink",
+            "status": "optional",
+            "locationId": "imprensa",
+            "description": "Friend specifically recommends Imprensa for cocktails, oysters, and small bites. Red Frog is the backup; skip both if dinner feels like enough."
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-09-07",
+      "routeIds": ["belem-walk", "lumi-avillez"],
+      "notes": [
+        "Castro on Rua Garrett is an excellent nata comparison if naturally nearby in Chiado; do not add it as another required food stop after the tour and Pastéis de Belém."
+      ],
+      "replaceItems": [
+        {
+          "matchTitle": "Park Rooftop",
+          "item": {
+            "start": "19:00",
+            "title": "Lumi Rooftop",
+            "type": "drink",
+            "status": "planned",
+            "locationId": "lumi-rooftop",
+            "description": "Primary sunset-drink choice before Taberna: better fit for four people who want a comfortable seat and polished rooftop atmosphere. Park Rooftop remains the backup."
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-09-08",
+      "notes": [
+        "Time Out Market Porto is inside São Bento, so browse for 15–30 minutes if it looks interesting; do not turn it into a destination meal.",
+        "For a Porto specialty, share one francesinha at Café Santiago if timing and appetite line up. Oficina dos Rissóis is the lighter Portuguese wildcard; SHIKO is the non-Portuguese escape hatch."
+      ],
+      "replaceItems": [
+        {
+          "matchTitle": "São Bento, Porto Cathedral, Rua das Flores, Ribeira",
+          "item": {
+            "start": "17:00",
+            "title": "São Bento + optional Time Out Market, Cathedral, Rua das Flores, Ribeira",
+            "type": "walk",
+            "status": "planned",
+            "locationId": "timeout-porto",
+            "description": "Gentle arrival loop. Time Out Market is built into São Bento; browse briefly if appealing, then keep moving toward the Cathedral and river."
+          }
+        },
+        {
+          "matchTitle": "Dinner options: Cantina 32, Taberna dos Mercadores, Adega São Nicolau",
+          "item": {
+            "start": "20:30",
+            "title": "Cantina 32",
+            "type": "food",
+            "status": "planned",
+            "locationId": "cantina-32",
+            "description": "Primary Tuesday dinner choice because it fits the route and apartment location. Taberna dos Mercadores and Adega São Nicolau remain backups."
+          }
+        },
+        {
+          "matchTitle": "Optional cocktail: Torto or The Royal Cocktail Club",
+          "item": {
+            "start": "22:15",
+            "title": "Optional cocktail: Torto; Royal Cocktail Club backup",
+            "type": "drink",
+            "status": "optional",
+            "locationId": "torto-porto",
+            "description": "Only if energy allows. Do not turn the first Porto evening into a late-night mission."
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-09-09",
+      "replaceItems": [
+        {
+          "matchTitle": "Light local bite only if hungry",
+          "item": {
+            "start": "20:30",
+            "title": "Optional Folias de Baco if everyone still wants to go out",
+            "type": "drink",
+            "status": "optional",
+            "locationId": "folias-baco",
+            "description": "Natural wine and a small plate near the center. After a full Douro day, staying in is equally correct."
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-09-10",
+      "notes": [
+        "A formal Port lodge is now optional rather than a priority after the Bordeaux week and full Douro day. If everyone still wants one, Sandeman is the simplest geographic choice.",
+        "If you see Quinta do Convento/Kranemann 20-year tawny on a list or in a shop, a repeat visitor strongly recommends it."
+      ],
+      "replaceItems": [
+        {
+          "matchTitle": "Choose no more than one optional activity",
+          "item": {
+            "start": "14:00",
+            "title": "Choose one optional activity — or none",
+            "type": "sight",
+            "status": "optional",
+            "locationId": "sandeman-lodge",
+            "description": "Port lodge only if everyone genuinely wants more wine; Sandeman is the easiest fit. Otherwise choose Lello/Clérigos, a river walk, or simply preserve energy for The Yeatman."
+          }
+        }
+      ]
+    }
+  ]
+}

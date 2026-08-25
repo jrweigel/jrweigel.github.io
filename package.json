@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "npm run build:europe && docusaurus start",
     "dev": "npm run start",
-    "build:europe": "npm run validate && node scripts/build.mjs",
+    "build:europe": "node scripts/apply-guide-enhancements.mjs && npm run validate && node scripts/build.mjs",
     "build": "npm run build:europe && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

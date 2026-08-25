@@ -20,7 +20,15 @@ const upsertById = (array, values = []) => {
   }
 };
 
-upsertById(locations, enhancements.locations);
+const normalizedLocations = (enhancements.locations || []).map((location) => ({
+  ...location,
+  mapsUrl: location.mapsUrl?.startsWith('https://www.google.com/maps/')
+    ? location.mapsUrl
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.name} ${location.city}`)}`,
+  officialUrl: location.officialUrl?.replace(/^http:/, 'https:'),
+}));
+
+upsertById(locations, normalizedLocations);
 upsertById(routes, enhancements.routes);
 
 for (const notice of enhancements.tripNotices || []) {

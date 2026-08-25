@@ -24,7 +24,7 @@ const normalizedLocations = (enhancements.locations || []).map((location) => ({
   ...location,
   mapsUrl: location.mapsUrl?.startsWith('https://www.google.com/maps/')
     ? location.mapsUrl
-    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.name} ${location.city}`)}`,
+    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${location.name} ${location.address || location.city}`)}`,
   officialUrl: location.officialUrl?.replace(/^http:/, 'https:'),
 }));
 

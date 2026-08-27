@@ -16,9 +16,20 @@ body {
   font: 18px/1.55 system-ui, -apple-system, Segoe UI, sans-serif;
 }
 a { color: var(--green); }
-a:focus-visible, summary:focus-visible {
+a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible {
   outline: 4px solid var(--gold);
   outline-offset: 3px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .hero {
@@ -47,12 +58,17 @@ a:focus-visible, summary:focus-visible {
   position: sticky;
   top: 0;
   z-index: 3;
+  background: rgba(255, 248, 234, .97);
+  padding: .55rem .65rem .65rem;
+  border-bottom: 1px solid #eadfca;
+  box-shadow: 0 6px 20px #5b10270d;
+}
+.nav-links {
   display: flex;
   gap: .4rem;
-  overflow: auto;
-  background: rgba(255, 248, 234, .96);
-  padding: .65rem;
-  border-bottom: 1px solid #eadfca;
+  overflow-x: auto;
+  padding-bottom: .45rem;
+  scrollbar-width: thin;
 }
 .nav a, .buttons a, .route {
   display: inline-block;
@@ -63,10 +79,65 @@ a:focus-visible, summary:focus-visible {
   color: white;
   text-decoration: none;
   font-weight: 700;
+  white-space: nowrap;
+}
+.quick-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(15rem, 1fr) auto;
+  gap: .5rem;
+  align-items: end;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.search-control,
+.jump-control {
+  min-width: 0;
+}
+.jump-control span {
+  display: block;
+  margin: 0 0 .2rem .15rem;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.search-control input,
+.jump-control select,
+#clear-search {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid #d8c9ad;
+  border-radius: 14px;
+  background: white;
+  color: var(--ink);
+  padding: .65rem .8rem;
+  font: inherit;
+  font-size: 16px;
+}
+.search-control input {
+  padding-left: 2.45rem;
+}
+#clear-search {
+  width: auto;
+  min-width: 4.5rem;
+  background: var(--wine);
+  color: white;
+  border-color: var(--wine);
+  font-weight: 800;
+  cursor: pointer;
+}
+.search-status {
+  max-width: 980px;
+  min-height: 1.1rem;
+  margin: .25rem auto 0;
+  color: var(--muted);
+  font-size: .82rem;
 }
 .buttons { display: flex; gap: .5rem; flex-wrap: wrap; }
 main { max-width: 980px; margin: auto; padding: 1rem; }
-section { scroll-margin-top: 5rem; margin: 2rem 0; }
+section, .day { scroll-margin-top: 11rem; }
+section { margin: 2rem 0; }
 h2 { font-size: 2rem; color: var(--wine); }
 
 .pillars {
@@ -158,6 +229,22 @@ summary small { display: block; color: var(--muted); }
 .phrase dt { font-weight: 700; }
 .phrase dd { margin: .2rem 0 0; }
 .phrase dd span { display: block; color: var(--muted); }
+
+[hidden] { display: none !important; }
+
+@media (max-width: 719px) {
+  .nav { padding-inline: .45rem; }
+  .quick-tools {
+    grid-template-columns: 1fr auto;
+    gap: .4rem;
+  }
+  .search-control { grid-column: 1 / -1; }
+  .jump-control { min-width: 0; }
+  .jump-control select { text-overflow: ellipsis; }
+  #clear-search { min-width: 4rem; }
+  section, .day { scroll-margin-top: 13rem; }
+  .item { grid-template-columns: 4.8rem 1fr; gap: .6rem; }
+}
 
 @media (min-width: 720px) {
   .pillars { grid-template-columns: repeat(2, 1fr); }

@@ -166,7 +166,7 @@ const html = `<!doctype html>
   </header>
   <nav class="nav" aria-label="Trip navigation">
     <div class="nav-links"><a href="#home">Home</a><a href="#bordeaux">Bordeaux</a><a href="#lisbon">Lisbon</a><a href="#porto">Porto</a><a href="#reservations">Reservations</a><a href="#food">Food</a><a href="#tools">Tools</a><a href="#phrases">Phrases</a><a href="#practical">Practical</a></div>
-    <div class="quick-tools" aria-label="Guide tools">
+    <div class="quick-tools" role="group" aria-label="Guide tools">
       <label class="search-control"><span class="sr-only">Search the travel guide</span><input id="guide-search" type="search" inputmode="search" autocomplete="off" placeholder="Search…"></label>
       <label class="jump-control"><span class="sr-only">Go to a day or guide section</span><select id="guide-jump"><option value="">Go to…</option>${guideOptions}</select></label>
     </div>
@@ -190,7 +190,7 @@ const html = `<!doctype html>
     const guideJump = document.querySelector('#guide-jump');
     const todayOption = guideJump.querySelector('option[value="' + today + '"]');
     if (todayOption) todayOption.textContent = 'Today · ' + todayOption.textContent;
-    const normalize = (value = '') => value.toLocaleLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
+    const normalize = (value = '') => value.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
 
     const resetSearch = () => {
       document.querySelectorAll('[data-guide-day], [data-search-item], [data-search-card]').forEach((node) => { node.hidden = false; });

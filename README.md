@@ -1,111 +1,49 @@
-# JR Weigel Site
+# jrweigel.github.io
 
-This repository hosts the Docusaurus site at the root URL and several standalone apps at static subpaths.
+This repository contains the source for the personal GitHub Pages site at `jrweigel.github.io`, including the Europe 2026 travel guide and other static tools/content.
 
-## Published URLs
+## Europe 2026 Travel Guide
 
-* Root blog/site: <https://jrweigel.github.io/>
-* Europe travel guide: <https://jrweigel.github.io/Europe2026/>
-* Move the Work: <https://jrweigel.github.io/move-the-work/>
-* Which Tool: <https://jrweigel.github.io/which-tool/>
-* Heist Table: <https://jrweigel.github.io/heist-table/>
+The Europe 2026 guide is generated from structured trip data and published at:
 
-## Source Layout
+`https://jrweigel.github.io/Europe2026/`
 
-```text
-data/
-  trip.json             Europe guide settings, including base path
-  days.json             Day-by-day itinerary
-  locations.json        Places, addresses, maps, official URLs
-  reservations.json     Confirmed reservations and logistics
-  routes.json           Google Maps route links
-scripts/
-  build.mjs             Generates Europe guide files in static/Europe2026
-  validate-content.mjs  Validates itinerary and reservation data
-  check-links.mjs       Validates guide outputs and final built routes
-static/
-  Europe2026/           Generated Europe guide files
-  move-the-work/        Standalone app
-  which-tool/           Standalone app
-src/
-  pages/                Docusaurus root pages
-.github/workflows/
-  deploy.yml            GitHub Pages build and deploy workflow
-```
+### Source files
 
-## Build and Run
+- `data/trip.json` — trip-level metadata, philosophy, and notices
+- `data/days.json` — day-by-day itinerary
+- `data/locations.json` — places, Maps links, websites, and recommendation status
+- `data/reservations.json` — confirmed bookings and logistics
+- `data/routes.json` — Google Maps walking/driving routes
+- `data/travel-resources.json` — useful travel tools and bookmarks
+- `data/phrases.json` — practical language references
+- `scripts/build.mjs` — generates the mobile guide into `static/Europe2026/`
+- `public/styles.css` — Europe guide presentation and responsive navigation/search styles
+
+### Navigation behavior
+
+The mobile guide includes:
+
+- persistent section navigation
+- client-side search across agenda items, recommended locations, reservations, travel tools, and phrase guides
+- a persistent **Jump to day** selector for direct navigation to any agenda date
+- `Cmd/Ctrl + K` as a keyboard shortcut to focus search
+
+### Build and validation
 
 ```bash
-npm install
-npm run start
-```
-
-`npm run start` first generates Europe guide content into `static/Europe2026`, then runs Docusaurus locally.
-
-Use these commands for CI-style validation:
-
-```bash
-npm run validate
-npm run build
+npm run build:europe
 npm run check:links
+```
+
+The Europe build validates the structured content before generating the static guide. The full repository test/deploy path is:
+
+```bash
 npm test
 ```
 
-## Europe Guide Editing
+GitHub Pages deploys from `master` through `.github/workflows/deploy.yml` after tests pass.
 
-Most itinerary edits happen in `data/days.json`.
+## Other site content
 
-1. Find the day by `date`.
-2. Edit the `items` array.
-3. Use one of: `confirmed`, `planned`, `optional`, `tentative`.
-4. Use `locationId` references from `data/locations.json`.
-5. Update attire guidance when plans change.
-6. Run `npm test` before publishing.
-
-Do not change confirmed dates, times, addresses, transportation, or reservations unless explicitly instructed.
-
-## Deployment
-
-GitHub Actions runs on pushes to `master` and manual dispatch.
-
-1. Install dependencies.
-2. Run `npm test`.
-3. Upload the Docusaurus `build/` directory.
-4. Deploy to GitHub Pages.
-
-This keeps the root URL as the Docusaurus site while preserving standalone apps under their subpaths.
-
-## Heist Table
-
-Heist Table is a mobile-first, offline cooperative poker companion at
-`static/heist-table/`. It stores the active game, recently used player names,
-session statistics, and lifetime statistics in the browser's `localStorage`;
-no data leaves the device.
-
-### Develop and build
-
-```bash
-npm install
-npm run start
-# Open http://localhost:3000/heist-table/
-
-npm run build
-# Production files are emitted to build/heist-table/
-```
-
-Run its game-logic tests with `npm run test:heist`. To install on iPhone, open
-the published HTTPS URL in Safari, tap **Share**, choose **Add to Home Screen**,
-and launch it once online so the app shell is cached.
-
-### Local data and reset
-
-Use **Settings > Erase all saved data** to remove the active game, names, and
-statistics. **Stats > Reset Stats** removes only statistics. Safari's
-website-data controls can also clear all saved data.
-
-### GitHub Pages deployment
-
-The existing GitHub Actions workflow builds and publishes the complete
-Docusaurus `build/` directory. Open a pull request, merge it to `master`, and
-the workflow will publish Heist Table at `/heist-table/`; no paid service is
-required.
+The repository also contains the Docusaurus site, blog content, Move the Work, Heist Table, and other static projects under `static/` and `src/`.

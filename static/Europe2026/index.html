@@ -16,14 +16,30 @@
     <p>Sunday, Aug 30–Friday, Sep 11, 2026 · Private group of four</p>
     <p class="rule">Protect the reservation and the group’s energy. Skip the optional sight, take the Bolt, sit for the coffee, and arrive at dinner feeling human.</p>
   </header>
-  <nav class="nav" aria-label="Trip sections"><a href="#home">Home</a><a href="#bordeaux">Bordeaux</a><a href="#lisbon">Lisbon</a><a href="#porto">Porto</a><a href="#reservations">Reservations</a><a href="#food">Food</a><a href="#tools">Tools</a><a href="#phrases">Phrases</a><a href="#practical">Practical</a></nav>
+  <nav class="nav" aria-label="Trip navigation">
+    <div class="nav-links"><a href="#home">Home</a><a href="#bordeaux">Bordeaux</a><a href="#lisbon">Lisbon</a><a href="#porto">Porto</a><a href="#reservations">Reservations</a><a href="#food">Food</a><a href="#tools">Tools</a><a href="#phrases">Phrases</a><a href="#practical">Practical</a></div>
+    <div class="quick-tools" aria-label="Guide tools">
+      <label class="search-control"><span class="sr-only">Search the travel guide</span><input id="guide-search" type="search" inputmode="search" autocomplete="off" placeholder="Search…"></label>
+      <label class="jump-control"><span class="sr-only">Go to a day or guide section</span><select id="guide-jump"><option value="">Go to…</option>
+  <optgroup label="Agenda"><option value="2026-08-30">Sun, Aug 30 · Bordeaux</option><option value="2026-08-31">Mon, Aug 31 · Bordeaux</option><option value="2026-09-01">Tue, Sep 1 · Bordeaux</option><option value="2026-09-02">Wed, Sep 2 · Bordeaux</option><option value="2026-09-03">Thu, Sep 3 · Bordeaux</option><option value="2026-09-04">Fri, Sep 4 · Bordeaux</option><option value="2026-09-05">Sat, Sep 5 · Bordeaux / Lisbon</option><option value="2026-09-06">Sun, Sep 6 · Lisbon</option><option value="2026-09-07">Mon, Sep 7 · Lisbon</option><option value="2026-09-08">Tue, Sep 8 · Lisbon / Porto</option><option value="2026-09-09">Wed, Sep 9 · Porto / Douro</option><option value="2026-09-10">Thu, Sep 10 · Porto / Gaia</option><option value="2026-09-11">Fri, Sep 11 · Porto</option></optgroup>
+  <optgroup label="Guide">
+    <option value="#home">Top of guide</option>
+    <option value="#reservations">Reservations</option>
+    <option value="#food">Food &amp; drink</option>
+    <option value="#tools">Travel tools</option>
+    <option value="#phrases">Useful phrases</option>
+    <option value="#practical">Practical info</option>
+  </optgroup></select></label>
+    </div>
+    <p id="search-status" class="search-status" role="status" aria-live="polite"></p>
+  </nav>
   <main>
-    <section><h2>Trip philosophy</h2><ul class="pillars"><li>Architecture and beautiful neighborhoods over museums</li><li>Walking and wandering rather than rushing between attractions</li><li>Great food, wine, cocktails, and local beer</li><li>A relaxed pace with cafés and people-watching</li><li>Hidden local gems mixed with a few iconic sights</li><li>No more than one organized activity per day</li><li>Strategic use of trams, funiculars, Bolt, Uber, and taxis instead of unnecessary hill climbing</li><li>Apartment resets before important dinners</li><li>Room for spontaneous discoveries</li><li>Skip rather than rush when the day becomes too full</li></ul><div class="alert tentative" role="note"><b>Bordeaux host schedule is tentative</b><p>Bordeaux activities are supplied by the host and remain subject to change unless they are explicitly marked confirmed.</p></div><div class="alert planned" role="note"><b>Laundry plan</b><p>Pack for repeat outfits. Plan laundry at the end of Bordeaux or the beginning of Lisbon.</p></div><div class="card"><h3>Bordeaux itinerary source</h3><p><a href="https://www.sutori.com/en/story/bordeaux-september-2026-art-vine-voyage--ptCDG2PpGVKzfLA7AmYivzhw">Bordeaux host itinerary on Sutori</a></p><p class="note">Last reconciled August 16, 2026.</p></div></section>
+    <section><h2>Trip philosophy</h2><ul class="pillars"><li>Architecture and beautiful neighborhoods over museums</li><li>Walking and wandering rather than rushing between attractions</li><li>Great food, wine, cocktails, and local beer</li><li>A relaxed pace with cafés and people-watching</li><li>Hidden local gems mixed with a few iconic sights</li><li>No more than one organized activity per day</li><li>Strategic use of trams, funiculars, Bolt, Uber, and taxis instead of unnecessary hill climbing</li><li>Apartment resets before important dinners</li><li>Room for spontaneous discoveries</li><li>Skip rather than rush when the day becomes too full</li></ul><div class="alert tentative" role="note"><b>Bordeaux host schedule is tentative</b><p>Bordeaux activities are supplied by the host and remain subject to change unless they are explicitly marked confirmed.</p></div><div class="alert planned" role="note"><b>Laundry plan</b><p>Pack for repeat outfits. Plan laundry at the end of Bordeaux or the beginning of Lisbon.</p></div><div class="alert planned" role="note"><b>Food balance</b><p>Do not overdo bacalhau. Try one good cod preparation, then diversify across tinned fish, seafood, pork, rissóis, bifanas/francesinha, vegetables, and other regional dishes.</p></div><div class="card"><h3>Bordeaux itinerary source</h3><p><a href="https://www.sutori.com/en/story/bordeaux-september-2026-art-vine-voyage--ptCDG2PpGVKzfLA7AmYivzhw">Bordeaux host itinerary on Sutori</a></p><p class="note">Last reconciled August 16, 2026.</p></div></section>
     
   <section id="bordeaux">
     <h2>Bordeaux</h2>
     
-  <article class="day tentative" id="2026-08-30">
+  <article class="day tentative" id="2026-08-30" data-guide-day>
     <details open>
       <summary>
         <span><b>Sunday, Aug 30</b><small>Bordeaux · La Cité du Vin, city walk, and Rouge Bordeaux welcome</small></span>
@@ -35,7 +51,7 @@
         
         <p class="note">Bordeaux host activities are tentative; the Mondrian pickup and Rouge Bordeaux room check-in are confirmed.</p><p class="note">Laundry is planned after Bordeaux or at Lisbon arrival.</p>
         <ol class="timeline">
-          <li class="item confirmed transport">
+          <li class="item confirmed transport" data-search-item>
               <time datetime="2026-08-30T10:00">10:00</time>
               <div>
                 <h3>Pickup at Mondrian Bordeaux Les Carmes <span class="badge confirmed">confirmed</span></h3>
@@ -46,7 +62,7 @@
     <a href="https://mondrianhotels.com/bordeaux-les-carmes/" aria-label="Open official website for Mondrian Bordeaux Les Carmes">Website</a>
   </p>
               </div>
-            </li><li class="item tentative sight">
+            </li><li class="item tentative sight" data-search-item>
               <time datetime="2026-08-30T10:30">10:30</time>
               <div>
                 <h3>La Cité du Vin <span class="badge tentative">tentative</span></h3>
@@ -57,21 +73,21 @@
     <a href="https://www.laciteduvin.com/en" aria-label="Open official website for La Cité du Vin">Website</a>
   </p>
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-08-30T12:15">12:15</time>
               <div>
                 <h3>Picnic lunch <span class="badge tentative">tentative</span></h3>
                 <p>Baguettes, local cheeses, charcuterie, and wine with riverside views.</p>
                 
               </div>
-            </li><li class="item tentative walk">
+            </li><li class="item tentative walk" data-search-item>
               <time datetime="2026-08-30T13:15">13:15</time>
               <div>
                 <h3>Private Bordeaux walking tour with Julien <span class="badge tentative">tentative</span></h3>
                 <p>Explore the city’s architecture, squares, hidden gems, history, and wine heritage.</p>
                 
               </div>
-            </li><li class="item confirmed lodging">
+            </li><li class="item confirmed lodging" data-search-item>
               <time datetime="2026-08-30T16:30">16:30</time>
               <div>
                 <h3>Check in at Rouge Bordeaux B&amp;B <span class="badge confirmed">confirmed</span></h3>
@@ -82,21 +98,21 @@
     
   </p>
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-08-30T17:30">17:30</time>
               <div>
                 <h3>Creative Travel Journaling with Angela <span class="badge tentative">tentative</span></h3>
                 <p>Introduction to creative travel journaling and art-journaling supplies.</p>
                 
               </div>
-            </li><li class="item tentative wine">
+            </li><li class="item tentative wine" data-search-item>
               <time datetime="2026-08-30T18:00">18:00</time>
               <div>
                 <h3>Bordeaux 101 with Jason <span class="badge tentative">tentative</span></h3>
                 <p>Wine tasting and an introduction to Bordeaux geography and terroir.</p>
                 
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-08-30T19:00">19:00</time>
               <div>
                 <h3>Welcome dinner, venue TBD <span class="badge tentative">tentative</span></h3>
@@ -108,7 +124,7 @@
       </div>
     </details>
   </article>
-  <article class="day tentative" id="2026-08-31">
+  <article class="day tentative" id="2026-08-31" data-guide-day>
     <details open>
       <summary>
         <span><b>Monday, Aug 31</b><small>Bordeaux · Atlantic coast, pinasse boat, oysters, and creative time</small></span>
@@ -123,7 +139,7 @@
         </section>
         
         <ol class="timeline">
-          <li class="item tentative food">
+          <li class="item tentative food" data-search-item>
               <time datetime="2026-08-31T08:00">08:00</time>
               <div>
                 <h3>Breakfast at Rouge Bordeaux <span class="badge tentative">tentative</span></h3>
@@ -134,7 +150,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative sight">
+            </li><li class="item tentative sight" data-search-item>
               <time datetime="2026-08-31T10:00">10:00</time>
               <div>
                 <h3>Climb the Dune du Pilat <span class="badge tentative">tentative</span></h3>
@@ -145,7 +161,7 @@
     <a href="https://www.ladunedupilat.com/en/" aria-label="Open official website for Dune du Pilat">Website</a>
   </p>
               </div>
-            </li><li class="item tentative boat">
+            </li><li class="item tentative boat" data-search-item>
               <time datetime="2026-08-31T12:00">12:00</time>
               <div>
                 <h3>Traditional pinasse boat ride to Cap Ferret <span class="badge tentative">tentative</span></h3>
@@ -156,7 +172,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-08-31T13:30">13:30</time>
               <div>
                 <h3>Fresh oysters at Chez Pascaud <span class="badge tentative">tentative</span></h3>
@@ -167,21 +183,21 @@
     
   </p>
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-08-31T15:00">15:00</time>
               <div>
                 <h3>Artistic exploration of the fishing community <span class="badge tentative">tentative</span></h3>
                 <p>Use sketchbooks and cameras to document boats, fishermen’s huts, and village life.</p>
                 
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-08-31T18:00">18:00–19:00</time>
               <div>
                 <h3>Creative Travel Journaling with Angela <span class="badge tentative">tentative</span></h3>
                 <p>Observational drawing exercise; no art experience is needed.</p>
                 
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-08-31T19:30">19:30</time>
               <div>
                 <h3>Dinner, venue TBD <span class="badge tentative">tentative</span></h3>
@@ -193,7 +209,7 @@
       </div>
     </details>
   </article>
-  <article class="day tentative" id="2026-09-01">
+  <article class="day tentative" id="2026-09-01" data-guide-day>
     <details open>
       <summary>
         <span><b>Tuesday, Sep 1</b><small>Bordeaux · Hands-on harvest, winery tour, and four-course lunch</small></span>
@@ -208,7 +224,7 @@
         </section>
         
         <ol class="timeline">
-          <li class="item tentative food">
+          <li class="item tentative food" data-search-item>
               <time datetime="2026-09-01T08:00">08:00</time>
               <div>
                 <h3>Breakfast at Rouge Bordeaux <span class="badge tentative">tentative</span></h3>
@@ -219,7 +235,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-09-01T09:00">09:00</time>
               <div>
                 <h3>Grape harvesting at Château La Corne <span class="badge tentative">tentative</span></h3>
@@ -230,7 +246,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-09-01T09:30">09:30–11:00</time>
               <div>
                 <h3>Hands-on harvesting <span class="badge tentative">tentative</span></h3>
@@ -241,7 +257,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-01T11:00">11:00</time>
               <div>
                 <h3>Harvest casse-croûte <span class="badge tentative">tentative</span></h3>
@@ -252,7 +268,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative tour">
+            </li><li class="item tentative tour" data-search-item>
               <time datetime="2026-09-01T11:30">11:30–12:30</time>
               <div>
                 <h3>Continued harvesting and winery tour <span class="badge tentative">tentative</span></h3>
@@ -263,7 +279,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-01T12:30">12:30</time>
               <div>
                 <h3>Four-course harvest lunch with wine pairings <span class="badge tentative">tentative</span></h3>
@@ -274,14 +290,14 @@
     
   </p>
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-09-01T18:00">18:00</time>
               <div>
                 <h3>Art Journaling with Angela <span class="badge tentative">tentative</span></h3>
                 <p>Landscape-painting techniques inspired by the vineyards and views.</p>
                 
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-01T20:00">20:00</time>
               <div>
                 <h3>Light B&amp;B dinner <span class="badge tentative">tentative</span></h3>
@@ -297,7 +313,7 @@
       </div>
     </details>
   </article>
-  <article class="day tentative" id="2026-09-02">
+  <article class="day tentative" id="2026-09-02" data-guide-day>
     <details open>
       <summary>
         <span><b>Wednesday, Sep 2</b><small>Bordeaux · Medieval village, underground tasting, Pomerol, and creativity</small></span>
@@ -312,7 +328,7 @@
         </section>
         
         <ol class="timeline">
-          <li class="item tentative food">
+          <li class="item tentative food" data-search-item>
               <time datetime="2026-09-02T08:00">08:00</time>
               <div>
                 <h3>Breakfast at Rouge Bordeaux <span class="badge tentative">tentative</span></h3>
@@ -323,14 +339,14 @@
     
   </p>
               </div>
-            </li><li class="item tentative transport">
+            </li><li class="item tentative transport" data-search-item>
               <time datetime="2026-09-02T09:30">09:30</time>
               <div>
                 <h3>Departure and introduction <span class="badge tentative">tentative</span></h3>
                 <p>Travel into Bordeaux wine country with an introduction to Saint-Émilion.</p>
                 
               </div>
-            </li><li class="item tentative walk">
+            </li><li class="item tentative walk" data-search-item>
               <time datetime="2026-09-02T10:00">10:00</time>
               <div>
                 <h3>Explore medieval Saint-Émilion <span class="badge tentative">tentative</span></h3>
@@ -341,7 +357,7 @@
     <a href="https://www.saint-emilion-tourisme.com/" aria-label="Open official website for Saint-Émilion">Website</a>
   </p>
               </div>
-            </li><li class="item tentative wine">
+            </li><li class="item tentative wine" data-search-item>
               <time datetime="2026-09-02T11:30">11:30</time>
               <div>
                 <h3>Underground wine tasting at ETS Martin <span class="badge tentative">tentative</span></h3>
@@ -352,7 +368,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-02T13:30">13:30</time>
               <div>
                 <h3>Lunch at Le Clos Mirande <span class="badge tentative">tentative</span></h3>
@@ -363,7 +379,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative tour">
+            </li><li class="item tentative tour" data-search-item>
               <time datetime="2026-09-02T16:00">16:00</time>
               <div>
                 <h3>Visit Pomerol with Julien and Jason <span class="badge tentative">tentative</span></h3>
@@ -374,14 +390,14 @@
     
   </p>
               </div>
-            </li><li class="item optional activity">
+            </li><li class="item optional activity" data-search-item>
               <time datetime="2026-09-02T18:00">18:00</time>
               <div>
                 <h3>Art Journaling with Angela <span class="badge optional">optional</span></h3>
                 <p>Optional crazy-quilt exercise revisiting the colors and flavors of Saint-Émilion.</p>
                 
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-02T19:30">19:30</time>
               <div>
                 <h3>Relaxed dinner at Rouge Bordeaux <span class="badge tentative">tentative</span></h3>
@@ -397,7 +413,7 @@
       </div>
     </details>
   </article>
-  <article class="day tentative" id="2026-09-03">
+  <article class="day tentative" id="2026-09-03" data-guide-day>
     <details open>
       <summary>
         <span><b>Thursday, Sep 3</b><small>Bordeaux · Hands-on food and art in rural France</small></span>
@@ -409,7 +425,7 @@
         
         
         <ol class="timeline">
-          <li class="item tentative food">
+          <li class="item tentative food" data-search-item>
               <time datetime="2026-09-03T08:30">08:30</time>
               <div>
                 <h3>Breakfast at Rouge Bordeaux <span class="badge tentative">tentative</span></h3>
@@ -420,7 +436,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-09-03T10:00">10:00</time>
               <div>
                 <h3>Chocolate workshop with Patrick Brossard <span class="badge tentative">tentative</span></h3>
@@ -431,7 +447,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-03T12:30">12:30</time>
               <div>
                 <h3>Group lunch at Écluse 52 <span class="badge tentative">tentative</span></h3>
@@ -442,7 +458,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative sight">
+            </li><li class="item tentative sight" data-search-item>
               <time datetime="2026-09-03T14:00">14:00</time>
               <div>
                 <h3>Tour Château Toulouse-Lautrec <span class="badge tentative">tentative</span></h3>
@@ -453,14 +469,14 @@
     <a href="https://www.chateautoulouselautrec.com/" aria-label="Open official website for Château Toulouse-Lautrec">Website</a>
   </p>
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-09-03T17:00">17:00</time>
               <div>
                 <h3>Art Journaling with Angela <span class="badge tentative">tentative</span></h3>
                 <p>Explore line, symbol, and meaning inspired by Toulouse-Lautrec.</p>
                 
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-03T18:00">18:00</time>
               <div>
                 <h3>Cooking with Julien: special duck dinner <span class="badge tentative">tentative</span></h3>
@@ -476,7 +492,7 @@
       </div>
     </details>
   </article>
-  <article class="day tentative" id="2026-09-04">
+  <article class="day tentative" id="2026-09-04" data-guide-day>
     <details open>
       <summary>
         <span><b>Friday, Sep 4</b><small>Bordeaux · Gascony estates, a bastide lunch, and farewell raclette</small></span>
@@ -488,7 +504,7 @@
         
         
         <ol class="timeline">
-          <li class="item tentative food">
+          <li class="item tentative food" data-search-item>
               <time datetime="2026-09-04T07:30">07:30</time>
               <div>
                 <h3>Breakfast at Rouge Bordeaux <span class="badge tentative">tentative</span></h3>
@@ -499,14 +515,14 @@
     
   </p>
               </div>
-            </li><li class="item tentative transport">
+            </li><li class="item tentative transport" data-search-item>
               <time datetime="2026-09-04T09:00">09:00</time>
               <div>
                 <h3>Departure for Armagnac <span class="badge tentative">tentative</span></h3>
                 <p>Drive through Gascony, a region known for Armagnac brandy.</p>
                 
               </div>
-            </li><li class="item tentative wine">
+            </li><li class="item tentative wine" data-search-item>
               <time datetime="2026-09-04T11:00">11:00</time>
               <div>
                 <h3>Visit Domaine de Jouatmaou <span class="badge tentative">tentative</span></h3>
@@ -517,7 +533,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-04T13:00">13:00</time>
               <div>
                 <h3>Lunch at Au Relais Gascon <span class="badge tentative">tentative</span></h3>
@@ -528,7 +544,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative wine">
+            </li><li class="item tentative wine" data-search-item>
               <time datetime="2026-09-04T15:00">15:00</time>
               <div>
                 <h3>Tasting and cellar visit at Domaine d’Espérance <span class="badge tentative">tentative</span></h3>
@@ -539,14 +555,14 @@
     <a href="https://www.armagnac-esperance.com/" aria-label="Open official website for Domaine d’Espérance">Website</a>
   </p>
               </div>
-            </li><li class="item tentative activity">
+            </li><li class="item tentative activity" data-search-item>
               <time datetime="2026-09-04T18:00">18:00</time>
               <div>
                 <h3>Creative Gaming with Angela <span class="badge tentative">tentative</span></h3>
                 <p>Play a creative game favored by early twentieth-century surrealist artists.</p>
                 
               </div>
-            </li><li class="item tentative food">
+            </li><li class="item tentative food" data-search-item>
               <time datetime="2026-09-04T19:30">19:30</time>
               <div>
                 <h3>Farewell raclette dinner with Apremont <span class="badge tentative">tentative</span></h3>
@@ -562,7 +578,7 @@
       </div>
     </details>
   </article>
-  <article class="day planned" id="2026-09-05">
+  <article class="day planned" id="2026-09-05" data-guide-day>
     <details open>
       <summary>
         <span><b>Saturday, Sep 5</b><small>Bordeaux / Lisbon · Market morning, flexible lunch, and confirmed Lisbon flight</small></span>
@@ -574,7 +590,7 @@
         
         
         <ol class="timeline">
-          <li class="item tentative food">
+          <li class="item tentative food" data-search-item>
               <time datetime="2026-09-05T09:00">09:00</time>
               <div>
                 <h3>Breakfast at Rouge Bordeaux <span class="badge tentative">tentative</span></h3>
@@ -585,7 +601,7 @@
     
   </p>
               </div>
-            </li><li class="item tentative sight">
+            </li><li class="item tentative sight" data-search-item>
               <time datetime="2026-09-05T10:00">10:00</time>
               <div>
                 <h3>Depart for Bazas Market <span class="badge tentative">tentative</span></h3>
@@ -596,14 +612,14 @@
     
   </p>
               </div>
-            </li><li class="item optional food">
+            </li><li class="item optional food" data-search-item>
               <time datetime="2026-09-05T12:00">12:00</time>
               <div>
                 <h3>Lunch on your own in Bazas <span class="badge optional">optional</span></h3>
                 <p>Suggested options are Hugo Délices for regional fare or L’Indigo for a modern local menu; neither is reserved.</p>
                 
               </div>
-            </li><li class="item tentative transport">
+            </li><li class="item tentative transport" data-search-item>
               <time>Afternoon</time>
               <div>
                 <h3>Collect bags and depart with Julien <span class="badge tentative">tentative</span></h3>
@@ -614,7 +630,7 @@
     
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-05T20:00">20:00</time>
               <div>
                 <h3>Target Bordeaux Airport arrival <span class="badge planned">planned</span></h3>
@@ -625,7 +641,7 @@
     <a href="https://www.bordeaux.aeroport.fr/en" aria-label="Open official website for Bordeaux Airport">Website</a>
   </p>
               </div>
-            </li><li class="item confirmed flight">
+            </li><li class="item confirmed flight" data-search-item>
               <time datetime="2026-09-05T22:00">22:00–22:55</time>
               <div>
                 <h3>EasyJet U2 7606 to Lisbon <span class="badge confirmed">confirmed</span></h3>
@@ -636,7 +652,7 @@
     <a href="https://www.bordeaux.aeroport.fr/en" aria-label="Open official website for Bordeaux Airport">Website</a>
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-05T23:15">23:15</time>
               <div>
                 <h3>Bolt/taxi to Santos Calm <span class="badge planned">planned</span></h3>
@@ -647,7 +663,7 @@
     
   </p>
               </div>
-            </li><li class="item confirmed lodging">
+            </li><li class="item confirmed lodging" data-search-item>
               <time datetime="2026-09-05T23:45">23:45</time>
               <div>
                 <h3>Late-night Santos Calm check-in <span class="badge confirmed">confirmed</span></h3>
@@ -667,7 +683,7 @@
   <section id="lisbon">
     <h2>Lisbon</h2>
     
-  <article class="day planned" id="2026-09-06">
+  <article class="day planned" id="2026-09-06" data-guide-day>
     <details open>
       <summary>
         <span><b>Sunday, Sep 6</b><small>Lisbon · Waterfront, castle, Alfama, reset, Prado plan</small></span>
@@ -680,16 +696,16 @@
           <h4>Practical requirements</h4>
           <p>Wear supportive, grippy shoes for Lisbon’s steep hills and uneven stone streets.</p>
         </section>
-        
+        <p class="note">Conserveira de Lisboa fits the Baixa-to-Alfama flow if it is open; verify Sunday hours same-day rather than detouring for it.</p><p class="note">The Little Wine Bar is a strong backup but opens later and sits closer to Rossio/Chiado, so do not force it into the Alfama afternoon pause.</p>
         <ol class="timeline">
-          <li class="item planned food">
+          <li class="item planned food" data-search-item>
               <time datetime="2026-09-06T09:00">09:00</time>
               <div>
                 <h3>Breakfast near Santos <span class="badge planned">planned</span></h3>
                 <p>Start relaxed.</p>
                 
               </div>
-            </li><li class="item planned walk">
+            </li><li class="item planned walk" data-search-item>
               <time datetime="2026-09-06T10:00">10:00</time>
               <div>
                 <h3>Waterfront walk to Cais do Sodré and Time Out Market browse <span class="badge planned">planned</span></h3>
@@ -700,7 +716,29 @@
     <a href="https://www.timeout.com/time-out-market-lisboa" aria-label="Open official website for Time Out Market Lisboa">Website</a>
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item optional walk" data-search-item>
+              <time datetime="2026-09-06T10:45">10:45</time>
+              <div>
+                <h3>Walk Praça do Comércio / Baixa; optional Conserveira de Lisboa <span class="badge optional">optional</span></h3>
+                <p>Natural route toward the historic center. Pop in for quality tinned fish only if open; do not make a special detour.</p>
+                <p class="where">Conserveira de Lisboa · Rua dos Bacalhoeiros 34, 1100-071 Lisboa</p>
+  <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Conserveira+de+Lisboa+Rua+dos+Bacalhoeiros+34" aria-label="Open Conserveira de Lisboa in Google Maps">Maps</a>
+    <a href="https://www.conserveiradelisboa.pt/" aria-label="Open official website for Conserveira de Lisboa">Website</a>
+  </p>
+              </div>
+            </li><li class="item optional drink" data-search-item>
+              <time datetime="2026-09-06T11:15">11:15</time>
+              <div>
+                <h3>Optional quick ginjinha <span class="badge optional">optional</span></h3>
+                <p>A ten-minute Lisbon ritual if the route and energy cooperate. One small glass, then keep moving.</p>
+                <p class="where">A Ginjinha · Largo de São Domingos 8, Lisboa</p>
+  <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=A+Ginjinha+Largo+de+Sao+Domingos+Lisbon" aria-label="Open A Ginjinha in Google Maps">Maps</a>
+    <a href="https://www.visitlisboa.com/en/p/lisbon-flavours/wine/ginjinha" aria-label="Open official website for A Ginjinha">Website</a>
+  </p>
+              </div>
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-06T11:30">11:30</time>
               <div>
                 <h3>Bolt toward Castelo de São Jorge if Tram 28 queue is long <span class="badge planned">planned</span></h3>
@@ -711,7 +749,7 @@
     <a href="https://castelodesaojorge.pt/en/" aria-label="Open official website for Castelo de São Jorge">Website</a>
   </p>
               </div>
-            </li><li class="item planned sight">
+            </li><li class="item planned sight" data-search-item>
               <time datetime="2026-09-06T12:00">12:00</time>
               <div>
                 <h3>Castelo de São Jorge <span class="badge planned">planned</span></h3>
@@ -722,7 +760,7 @@
     <a href="https://castelodesaojorge.pt/en/" aria-label="Open official website for Castelo de São Jorge">Website</a>
   </p>
               </div>
-            </li><li class="item planned walk">
+            </li><li class="item planned walk" data-search-item>
               <time datetime="2026-09-06T13:30">13:30</time>
               <div>
                 <h3>Lisbon Cathedral and Alfama wandering <span class="badge planned">planned</span></h3>
@@ -733,14 +771,14 @@
     <a href="https://www.sedelisboa.pt/" aria-label="Open official website for Lisbon Cathedral">Website</a>
   </p>
               </div>
-            </li><li class="item planned pause">
+            </li><li class="item planned pause" data-search-item>
               <time datetime="2026-09-06T15:30">15:30</time>
               <div>
                 <h3>Intentional café or wine pause <span class="badge planned">planned</span></h3>
                 <p>Sit down before more viewpoints.</p>
                 
               </div>
-            </li><li class="item planned viewpoint">
+            </li><li class="item planned viewpoint" data-search-item>
               <time datetime="2026-09-06T16:30">16:30</time>
               <div>
                 <h3>Santa Luzia and Portas do Sol <span class="badge planned">planned</span></h3>
@@ -751,7 +789,7 @@
     
   </p>
               </div>
-            </li><li class="item planned reset">
+            </li><li class="item planned reset" data-search-item>
               <time datetime="2026-09-06T17:45">17:45–18:00</time>
               <div>
                 <h3>Bolt to Santos and apartment reset <span class="badge planned">planned</span></h3>
@@ -762,7 +800,7 @@
     
   </p>
               </div>
-            </li><li class="item planned food">
+            </li><li class="item planned food" data-search-item>
               <time datetime="2026-09-06T20:30">20:30</time>
               <div>
                 <h3>Prado dinner <span class="badge planned">planned</span></h3>
@@ -773,19 +811,23 @@
     <a href="https://www.pradorestaurante.com/" aria-label="Open official website for Prado">Website</a>
   </p>
               </div>
-            </li><li class="item optional drink">
+            </li><li class="item optional drink" data-search-item>
               <time datetime="2026-09-06T22:15">22:15</time>
               <div>
-                <h3>Optional cocktail: Red Frog, Foxtrot, or Imprensa <span class="badge optional">optional</span></h3>
-                <p>Only if energy is good.</p>
-                
+                <h3>Optional cocktail: Imprensa preferred; Red Frog backup <span class="badge optional">optional</span></h3>
+                <p>Friend specifically recommends Imprensa for cocktails, oysters, and small bites. Red Frog is the backup; skip both if dinner feels like enough.</p>
+                <p class="where">Imprensa Cocktail &amp; Oyster Bar · Rua da Imprensa Nacional 46, Lisboa</p>
+  <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Imprensa+Cocktail+Oyster+Bar+Lisbon" aria-label="Open Imprensa Cocktail &amp; Oyster Bar in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/imprensa_/" aria-label="Open official website for Imprensa Cocktail &amp; Oyster Bar">Website</a>
+  </p>
               </div>
             </li>
         </ol>
       </div>
     </details>
   </article>
-  <article class="day planned" id="2026-09-07">
+  <article class="day planned" id="2026-09-07" data-guide-day>
     <details open>
       <summary>
         <span><b>Monday, Sep 7</b><small>Lisbon · Confirmed tour, Monday exterior route, rooftop and dinner plan</small></span>
@@ -793,21 +835,21 @@
       </summary>
       <div class="daybody">
         
-        <a class="route" href="https://www.google.com/maps/dir/?api=1&amp;origin=Jer%C3%B3nimos+Monastery&amp;destination=Bel%C3%A9m+Tower&amp;waypoints=Monument+to+the+Discoveries%7CPast%C3%A9is+de+Bel%C3%A9m&amp;travelmode=walking" aria-label="Open Google Maps walk route: Belém exterior walk and pastry pause">walk route · Belém exterior walk and pastry pause</a><a class="route" href="https://www.google.com/maps/dir/?api=1&amp;origin=Park+Rooftop+Lisbon&amp;destination=Bairro+do+Avillez+Lisbon&amp;travelmode=walking" aria-label="Open Google Maps walk route: Park Rooftop to Bairro do Avillez">walk route · Park Rooftop to Bairro do Avillez</a>
+        <a class="route" href="https://www.google.com/maps/dir/?api=1&amp;origin=Jer%C3%B3nimos+Monastery&amp;destination=Bel%C3%A9m+Tower&amp;waypoints=Monument+to+the+Discoveries%7CPast%C3%A9is+de+Bel%C3%A9m&amp;travelmode=walking" aria-label="Open Google Maps walk route: Belém exterior walk and pastry pause">walk route · Belém exterior walk and pastry pause</a><a class="route" href="https://www.google.com/maps/dir/?api=1&amp;origin=Lumi+Rooftop+Lisbon&amp;destination=Bairro+do+Avillez+Lisbon&amp;travelmode=walking" aria-label="Open Google Maps walk route: Lumi Rooftop to Taberna – Bairro do Avillez">walk route · Lumi Rooftop to Taberna – Bairro do Avillez</a>
         <section class="practical-requirements" aria-label="Practical requirements for Food tour and Belém">
           <h4>Practical requirements</h4>
           <p>Bring a light layer for the exposed rooftop in the evening.</p>
         </section>
-        <p class="note">Jerónimos Monastery and Belém Tower interiors are closed Mondays; treat them as exterior stops only.</p>
+        <p class="note">Jerónimos Monastery and Belém Tower interiors are closed Mondays; treat them as exterior stops only.</p><p class="note">Castro on Rua Garrett is an excellent nata comparison if naturally nearby in Chiado; do not add it as another required food stop after the tour and Pastéis de Belém.</p>
         <ol class="timeline">
-          <li class="item planned food">
+          <li class="item planned food" data-search-item>
               <time datetime="2026-09-07T09:00">09:00</time>
               <div>
                 <h3>Coffee only before tour <span class="badge planned">planned</span></h3>
                 <p>Tour replaces breakfast and lunch.</p>
                 
               </div>
-            </li><li class="item confirmed tour">
+            </li><li class="item confirmed tour" data-search-item>
               <time datetime="2026-09-07T10:30">10:30–13:30</time>
               <div>
                 <h3>Lisbon Food and Wine Small Group Walking Tour <span class="badge confirmed">confirmed</span></h3>
@@ -818,14 +860,14 @@
     
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-07T14:15">14:15</time>
               <div>
                 <h3>Travel to Belém <span class="badge planned">planned</span></h3>
                 <p>Use transit/Bolt based on energy.</p>
                 
               </div>
-            </li><li class="item planned walk">
+            </li><li class="item planned walk" data-search-item>
               <time datetime="2026-09-07T15:00">15:00</time>
               <div>
                 <h3>Belém exterior loop <span class="badge planned">planned</span></h3>
@@ -836,7 +878,7 @@
     <a href="https://www.museusemonumentos.pt/en/museus-e-monumentos/mosteiro-dos-jeronimos-e-capela-de-sao-jeronimo" aria-label="Open official website for Jerónimos Monastery">Website</a>
   </p>
               </div>
-            </li><li class="item planned pause">
+            </li><li class="item planned pause" data-search-item>
               <time datetime="2026-09-07T16:15">16:15</time>
               <div>
                 <h3>Pastéis de Belém seated coffee break <span class="badge planned">planned</span></h3>
@@ -847,7 +889,7 @@
     <a href="https://pasteisdebelem.pt/en/" aria-label="Open official website for Pastéis de Belém">Website</a>
   </p>
               </div>
-            </li><li class="item planned reset">
+            </li><li class="item planned reset" data-search-item>
               <time datetime="2026-09-07T17:00">17:00</time>
               <div>
                 <h3>Return to Santos, reset and change <span class="badge planned">planned</span></h3>
@@ -858,18 +900,18 @@
     
   </p>
               </div>
-            </li><li class="item planned drink">
+            </li><li class="item planned drink" data-search-item>
               <time datetime="2026-09-07T19:00">19:00</time>
               <div>
-                <h3>Park Rooftop <span class="badge planned">planned</span></h3>
-                <p>Alternatives: Lumi Rooftop or Java Rooftop.</p>
-                <p class="where">Park Rooftop · Calçada do Combro, Lisboa</p>
+                <h3>Lumi Rooftop <span class="badge planned">planned</span></h3>
+                <p>Primary sunset-drink choice before Taberna: better fit for four people who want a comfortable seat and polished rooftop atmosphere. Park Rooftop remains the backup.</p>
+                <p class="where">Lumi Rooftop · Rua de São Pedro de Alcântara 35, 1250-237 Lisboa</p>
   <p class="buttons">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Park+Rooftop+Lisbon" aria-label="Open Park Rooftop in Google Maps">Maps</a>
-    <a href="https://www.parklisboa.com/" aria-label="Open official website for Park Rooftop">Website</a>
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Lumi+Rooftop+Rua+de+Sao+Pedro+de+Alcantara+35+Lisbon" aria-label="Open Lumi Rooftop in Google Maps">Maps</a>
+    <a href="https://lumirooftop.com/" aria-label="Open official website for Lumi Rooftop">Website</a>
   </p>
               </div>
-            </li><li class="item planned food">
+            </li><li class="item planned food" data-search-item>
               <time datetime="2026-09-07T20:45">20:45</time>
               <div>
                 <h3>Taberna – Bairro do Avillez <span class="badge planned">planned</span></h3>
@@ -885,7 +927,7 @@
       </div>
     </details>
   </article>
-  <article class="day planned" id="2026-09-08">
+  <article class="day planned" id="2026-09-08" data-guide-day>
     <details open>
       <summary>
         <span><b>Tuesday, Sep 8</b><small>Lisbon / Porto · Confirmed train and gentle Porto arrival walk</small></span>
@@ -898,16 +940,16 @@
           <h4>Practical requirements</h4>
           <p>Keep a light layer accessible for the air-conditioned train.</p>
         </section>
-        
+        <p class="note">Time Out Market Porto is inside São Bento, so browse for 15–30 minutes if it looks interesting; do not turn it into a destination meal.</p><p class="note">For a Porto specialty, share one francesinha at Café Santiago if timing and appetite line up. Oficina dos Rissóis is the lighter Portuguese wildcard; SHIKO is the non-Portuguese escape hatch.</p>
         <ol class="timeline">
-          <li class="item planned pause">
+          <li class="item planned pause" data-search-item>
               <time datetime="2026-09-08T09:00">09:00</time>
               <div>
                 <h3>Coffee, pastries, final Santos or river walk <span class="badge planned">planned</span></h3>
                 <p>Short and luggage-aware.</p>
                 
               </div>
-            </li><li class="item confirmed lodging">
+            </li><li class="item confirmed lodging" data-search-item>
               <time datetime="2026-09-08T11:00">11:00</time>
               <div>
                 <h3>Check out Santos Calm <span class="badge confirmed">confirmed</span></h3>
@@ -918,7 +960,7 @@
     
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-08T11:15">11:15</time>
               <div>
                 <h3>Bolt to Santa Apolónia with luggage buffer <span class="badge planned">planned</span></h3>
@@ -929,7 +971,7 @@
     
   </p>
               </div>
-            </li><li class="item confirmed train">
+            </li><li class="item confirmed train" data-search-item>
               <time datetime="2026-09-08T12:00">12:00–14:48</time>
               <div>
                 <h3>CP Alfa Pendular 125 to Porto Campanhã <span class="badge confirmed">confirmed</span></h3>
@@ -940,7 +982,7 @@
     
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-08T15:00">15:00</time>
               <div>
                 <h3>Bolt from Porto Campanhã to Rua das Flores <span class="badge planned">planned</span></h3>
@@ -951,7 +993,7 @@
     
   </p>
               </div>
-            </li><li class="item confirmed lodging">
+            </li><li class="item confirmed lodging" data-search-item>
               <time datetime="2026-09-08T16:00">16:00</time>
               <div>
                 <h3>Check in A Slice of Porto <span class="badge confirmed">confirmed</span></h3>
@@ -962,18 +1004,18 @@
     
   </p>
               </div>
-            </li><li class="item planned walk">
+            </li><li class="item planned walk" data-search-item>
               <time datetime="2026-09-08T17:00">17:00</time>
               <div>
-                <h3>São Bento, Porto Cathedral, Rua das Flores, Ribeira <span class="badge planned">planned</span></h3>
-                <p>Gentle arrival loop.</p>
-                <p class="where">São Bento Station · Praça de Almeida Garrett, Porto</p>
+                <h3>São Bento + optional Time Out Market, Cathedral, Rua das Flores, Ribeira <span class="badge planned">planned</span></h3>
+                <p>Gentle arrival loop. Time Out Market is built into São Bento; browse briefly if appealing, then keep moving toward the Cathedral and river.</p>
+                <p class="where">Time Out Market Porto · South Wing, São Bento Station, Praça de Almeida Garrett, Porto</p>
   <p class="buttons">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=S%C3%A3o+Bento+Station+Porto" aria-label="Open São Bento Station in Google Maps">Maps</a>
-    
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Time+Out+Market+Porto+Sao+Bento" aria-label="Open Time Out Market Porto in Google Maps">Maps</a>
+    <a href="https://www.timeout.com/time-out-market-porto" aria-label="Open official website for Time Out Market Porto">Website</a>
   </p>
               </div>
-            </li><li class="item planned pause">
+            </li><li class="item planned pause" data-search-item>
               <time datetime="2026-09-08T18:30">18:30</time>
               <div>
                 <h3>Riverside beer or vinho verde pause <span class="badge planned">planned</span></h3>
@@ -984,19 +1026,27 @@
     
   </p>
               </div>
-            </li><li class="item planned food">
+            </li><li class="item planned food" data-search-item>
               <time datetime="2026-09-08T20:30">20:30</time>
               <div>
-                <h3>Dinner options: Cantina 32, Taberna dos Mercadores, Adega São Nicolau <span class="badge planned">planned</span></h3>
-                <p>Cantina 32 is the top option; none confirmed.</p>
-                
+                <h3>Cantina 32 <span class="badge planned">planned</span></h3>
+                <p>Primary Tuesday dinner choice because it fits the route and apartment location. Taberna dos Mercadores and Adega São Nicolau remain backups.</p>
+                <p class="where">Cantina 32 · Rua das Flores 32, Porto</p>
+  <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Cantina+32+Porto" aria-label="Open Cantina 32 in Google Maps">Maps</a>
+    <a href="https://www.cantina32.com/" aria-label="Open official website for Cantina 32">Website</a>
+  </p>
               </div>
-            </li><li class="item optional drink">
+            </li><li class="item optional drink" data-search-item>
               <time datetime="2026-09-08T22:15">22:15</time>
               <div>
-                <h3>Optional cocktail: Torto or The Royal Cocktail Club <span class="badge optional">optional</span></h3>
-                <p>Only if energy allows.</p>
-                
+                <h3>Optional cocktail: Torto; Royal Cocktail Club backup <span class="badge optional">optional</span></h3>
+                <p>Only if energy allows. Do not turn the first Porto evening into a late-night mission.</p>
+                <p class="where">Torto · Porto</p>
+  <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Torto+bar+Porto" aria-label="Open Torto in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/torto.porto/" aria-label="Open official website for Torto">Website</a>
+  </p>
               </div>
             </li>
         </ol>
@@ -1007,7 +1057,7 @@
   <section id="porto">
     <h2>Porto</h2>
     
-  <article class="day planned" id="2026-09-09">
+  <article class="day planned" id="2026-09-09" data-guide-day>
     <details open>
       <summary>
         <span><b>Wednesday, Sep 9</b><small>Porto / Douro · Full day wine country, then recovery</small></span>
@@ -1022,14 +1072,14 @@
         </section>
         
         <ol class="timeline">
-          <li class="item planned food">
+          <li class="item planned food" data-search-item>
               <time datetime="2026-09-09T08:00">08:00</time>
               <div>
                 <h3>Breakfast <span class="badge planned">planned</span></h3>
                 <p>Keep simple before tour.</p>
                 
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-09T08:30">08:30</time>
               <div>
                 <h3>Walk to Douro tour meeting point <span class="badge planned">planned</span></h3>
@@ -1040,7 +1090,7 @@
     
   </p>
               </div>
-            </li><li class="item confirmed tour">
+            </li><li class="item confirmed tour" data-search-item>
               <time datetime="2026-09-09T09:00">09:00–19:00</time>
               <div>
                 <h3>Taste Douro: Sommelier, Boat &amp; Farm-to-Table Lunch <span class="badge confirmed">confirmed</span></h3>
@@ -1051,7 +1101,7 @@
     
   </p>
               </div>
-            </li><li class="item planned reset">
+            </li><li class="item planned reset" data-search-item>
               <time datetime="2026-09-09T19:30">19:30</time>
               <div>
                 <h3>Return to apartment <span class="badge planned">planned</span></h3>
@@ -1062,19 +1112,23 @@
     
   </p>
               </div>
-            </li><li class="item optional food">
+            </li><li class="item optional drink" data-search-item>
               <time datetime="2026-09-09T20:30">20:30</time>
               <div>
-                <h3>Light local bite only if hungry <span class="badge optional">optional</span></h3>
-                <p>No dinner reservation.</p>
-                
+                <h3>Optional Folias de Baco if everyone still wants to go out <span class="badge optional">optional</span></h3>
+                <p>Natural wine and a small plate near the center. After a full Douro day, staying in is equally correct.</p>
+                <p class="where">Taberna Folias de Baco · Porto historic center</p>
+  <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Taberna%20Folias%20de%20Baco%20Porto%20historic%20center" aria-label="Open Taberna Folias de Baco in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/foliasdebaco/" aria-label="Open official website for Taberna Folias de Baco">Website</a>
+  </p>
               </div>
             </li>
         </ol>
       </div>
     </details>
   </article>
-  <article class="day planned" id="2026-09-10">
+  <article class="day planned" id="2026-09-10" data-guide-day>
     <details open>
       <summary>
         <span><b>Thursday, Sep 10</b><small>Porto / Gaia · Pack early, protect the celebration dinner</small></span>
@@ -1087,9 +1141,9 @@
           <h4>Practical requirements</h4>
           <p>The Yeatman Gastronomic Restaurant dress code is smart casual.</p>
         </section>
-        
+        <p class="note">A formal Port lodge is now optional rather than a priority after the Bordeaux week and full Douro day. If everyone still wants one, Sandeman is the simplest geographic choice.</p><p class="note">If you see Quinta do Convento/Kranemann 20-year tawny on a list or in a shop, a repeat visitor strongly recommends it.</p>
         <ol class="timeline">
-          <li class="item planned walk">
+          <li class="item planned walk" data-search-item>
               <time datetime="2026-09-10T09:30">09:30</time>
               <div>
                 <h3>Relaxed start, coffee, Mercado do Bolhão, Rua de Santa Catarina <span class="badge planned">planned</span></h3>
@@ -1100,28 +1154,32 @@
     <a href="https://mercadobolhao.pt/" aria-label="Open official website for Mercado do Bolhão">Website</a>
   </p>
               </div>
-            </li><li class="item planned food">
+            </li><li class="item planned food" data-search-item>
               <time datetime="2026-09-10T12:30">12:30</time>
               <div>
                 <h3>Light lunch <span class="badge planned">planned</span></h3>
                 <p>Do not overdo lunch before Yeatman.</p>
                 
               </div>
-            </li><li class="item optional sight">
+            </li><li class="item optional sight" data-search-item>
               <time datetime="2026-09-10T14:00">14:00</time>
               <div>
-                <h3>Choose no more than one optional activity <span class="badge optional">optional</span></h3>
-                <p>One port lodge, Livraria Lello, or Clérigos Tower.</p>
-                
+                <h3>Choose one optional activity — or none <span class="badge optional">optional</span></h3>
+                <p>Port lodge only if everyone genuinely wants more wine; Sandeman is the easiest fit. Otherwise choose Lello/Clérigos, a river walk, or simply preserve energy for The Yeatman.</p>
+                <p class="where">Sandeman Porto Cellars · Largo Miguel Bombarda 3, Vila Nova de Gaia</p>
+  <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Sandeman+Porto+Cellars+Gaia" aria-label="Open Sandeman Porto Cellars in Google Maps">Maps</a>
+    <a href="https://www.sandeman.com/visit-us/porto/" aria-label="Open official website for Sandeman Porto Cellars">Website</a>
+  </p>
               </div>
-            </li><li class="item planned pause">
+            </li><li class="item planned pause" data-search-item>
               <time datetime="2026-09-10T15:30">15:30</time>
               <div>
                 <h3>Café or river pause <span class="badge planned">planned</span></h3>
                 <p>Energy protection.</p>
                 
               </div>
-            </li><li class="item planned reset">
+            </li><li class="item planned reset" data-search-item>
               <time datetime="2026-09-10T16:30">16:30</time>
               <div>
                 <h3>Apartment reset and pack for early departure <span class="badge planned">planned</span></h3>
@@ -1132,7 +1190,7 @@
     
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-10T18:30">18:30</time>
               <div>
                 <h3>Leave by Bolt for The Yeatman <span class="badge planned">planned</span></h3>
@@ -1143,7 +1201,7 @@
     <a href="https://www.the-yeatman-hotel.com/en/food/restaurant/" aria-label="Open official website for The Yeatman Gastronomic Restaurant">Website</a>
   </p>
               </div>
-            </li><li class="item confirmed food">
+            </li><li class="item confirmed food" data-search-item>
               <time datetime="2026-09-10T19:30">19:30–22:30</time>
               <div>
                 <h3>The Yeatman Gastronomic Restaurant <span class="badge confirmed">confirmed</span></h3>
@@ -1154,7 +1212,7 @@
     <a href="https://www.the-yeatman-hotel.com/en/food/restaurant/" aria-label="Open official website for The Yeatman Gastronomic Restaurant">Website</a>
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-10T22:45">22:45</time>
               <div>
                 <h3>Bolt directly back afterward <span class="badge planned">planned</span></h3>
@@ -1166,7 +1224,7 @@
       </div>
     </details>
   </article>
-  <article class="day planned" id="2026-09-11">
+  <article class="day planned" id="2026-09-11" data-guide-day>
     <details open>
       <summary>
         <span><b>Friday, Sep 11</b><small>Porto · Pre-book transfer and leave prepared</small></span>
@@ -1178,7 +1236,7 @@
         
         
         <ol class="timeline">
-          <li class="item confirmed lodging">
+          <li class="item confirmed lodging" data-search-item>
               <time datetime="2026-09-11T05:35">05:35</time>
               <div>
                 <h3>Check out A Slice of Porto <span class="badge confirmed">confirmed</span></h3>
@@ -1189,7 +1247,7 @@
     
   </p>
               </div>
-            </li><li class="item planned transport">
+            </li><li class="item planned transport" data-search-item>
               <time datetime="2026-09-11T05:45">05:45</time>
               <div>
                 <h3>Airport transfer <span class="badge planned">planned</span></h3>
@@ -1203,7 +1261,7 @@
   </article>
   </section>
     <section id="reservations"><h2>Confirmed reservations & logistics</h2>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>Group pickup at Mondrian Bordeaux Les Carmes <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-08-30</b> · 10:00</p>
       <p>Mondrian Bordeaux Les Carmes · 81 Cours du Médoc, 33300 Bordeaux, France</p>
@@ -1215,7 +1273,7 @@
       
       
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>Check in at Rouge Bordeaux B&amp;B <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-08-30</b> · 16:30</p>
       <p>Rouge Bordeaux B&amp;B · Bordeaux region, France</p>
@@ -1227,7 +1285,7 @@
       
       
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>EasyJet U2 7606 Bordeaux BOD to Lisbon LIS <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-05</b> · 22:00–22:55</p>
       <p>Bordeaux Airport · Bordeaux BOD</p>
@@ -1239,7 +1297,7 @@
       
       <p>10:00 PM France time; arrives 10:55 PM Portugal time.</p>
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>Late-night check-in Santos Calm <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-05</b> · 23:45</p>
       <p>Santos Calm · Calçada Marquês de Abrantes, 1200-808 Lisboa</p>
@@ -1251,7 +1309,7 @@
       
       
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>Lisbon Food and Wine Small Group Walking Tour <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-07</b> · 10:30–13:30</p>
       <p>Lisbon Food and Wine Tour meeting point · Praça Dom Pedro IV 101, 1100-202 Lisboa</p>
@@ -1263,7 +1321,7 @@
       
       <p>Duration at least three hours; replaces breakfast and lunch.</p>
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>Check out Santos Calm <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-08</b> · 11:00</p>
       <p>Santos Calm · Calçada Marquês de Abrantes, 1200-808 Lisboa</p>
@@ -1275,7 +1333,7 @@
       
       
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>CP Alfa Pendular 125 Lisboa Santa Apolónia to Porto Campanhã <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-08</b> · 12:00–14:48</p>
       <p>Lisboa Santa Apolónia · Lisboa Santa Apolónia Station</p>
@@ -1287,7 +1345,7 @@
       
       
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>Check in A Slice of Porto <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-08</b> · 16:00</p>
       <p>A Slice of Porto · Rua das Flores 200, 4050-263 Porto</p>
@@ -1299,7 +1357,7 @@
       
       
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>Taste Douro: Sommelier, Boat &amp; Farm-to-Table Lunch <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-09</b> · 09:00–19:00</p>
       <p>Taste Douro meeting point · Rua de Santa Catarina 5, Marbella Porto coffeeshop, Porto</p>
@@ -1311,7 +1369,7 @@
       
       
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>The Yeatman Gastronomic Restaurant <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-10</b> · 19:30–22:30 · party of 4</p>
       <p>The Yeatman Gastronomic Restaurant · Rua do Choupelo, 4400-088 Vila Nova de Gaia</p>
@@ -1323,7 +1381,7 @@
       <p class="note">Celebrating two September 11 birthdays.</p>
       <p>Treat meal as potentially longer than three hours.</p>
     </article>
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>Check out A Slice of Porto <span class="badge confirmed">confirmed</span></h3>
       <p><b>2026-09-11</b> · 05:35</p>
       <p>A Slice of Porto · Rua das Flores 200, 4050-263 Porto</p>
@@ -1336,249 +1394,414 @@
       
     </article></section>
     <section id="food"><h2>Food & drink</h2>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Chez Pascaud <span class="badge tentative">tentative</span></h3>
     <p>Lège-Cap-Ferret · restaurant</p>
     <p>Cap Ferret, France</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Chez+Pascaud+Cap+Ferret" aria-label="Open Chez Pascaud in Google Maps">Maps</a>
     
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Le Clos Mirande <span class="badge tentative">tentative</span></h3>
     <p>Montagne · restaurant</p>
     <p>Montagne, France</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Le+Clos+Mirande+Montagne+France" aria-label="Open Le Clos Mirande in Google Maps">Maps</a>
     
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Patrick Brossard chocolate workshop <span class="badge tentative">tentative</span></h3>
     <p>Bordeaux region · food</p>
     <p>Bordeaux region, France</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Patrick+Brossard+chocolatier+Bordeaux" aria-label="Open Patrick Brossard chocolate workshop in Google Maps">Maps</a>
     
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Écluse 52 <span class="badge tentative">tentative</span></h3>
     <p>Bordeaux region · restaurant</p>
     <p>Canal de Garonne, France</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=%C3%89cluse+52+restaurant+Gironde" aria-label="Open Écluse 52 in Google Maps">Maps</a>
     
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Au Relais Gascon <span class="badge tentative">tentative</span></h3>
     <p>Labastide-d’Armagnac · restaurant</p>
     <p>Labastide-d’Armagnac, France</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Au+Relais+Gascon+Labastide-d%27Armagnac" aria-label="Open Au Relais Gascon in Google Maps">Maps</a>
     
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Bazas Market <span class="badge tentative">tentative</span></h3>
     <p>Bazas · market</p>
     <p>Place de la Cathédrale, 33430 Bazas, France</p>
     <p class="note">Saturday host outing; details remain subject to change.</p>
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Bazas+Market+Place+de+la+Cath%C3%A9drale" aria-label="Open Bazas Market in Google Maps">Maps</a>
     
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Hugo Délices <span class="badge optional">optional</span></h3>
     <p>Bazas · restaurant</p>
     <p>Bazas, France</p>
     <p class="note">Suggested September 5 lunch; not reserved.</p>
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Hugo+D%C3%A9lices+Bazas" aria-label="Open Hugo Délices in Google Maps">Maps</a>
     
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>L’Indigo <span class="badge optional">optional</span></h3>
     <p>Bazas · restaurant</p>
     <p>Bazas, France</p>
     <p class="note">Suggested September 5 lunch; not reserved.</p>
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=L%27Indigo+Bazas+restaurant" aria-label="Open L’Indigo in Google Maps">Maps</a>
     
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Time Out Market Lisboa <span class="badge planned">planned</span></h3>
     <p>Lisbon · food</p>
     <p>Mercado da Ribeira, Av. 24 de Julho, Lisboa</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Time+Out+Market+Lisboa" aria-label="Open Time Out Market Lisboa in Google Maps">Maps</a>
     <a href="https://www.timeout.com/time-out-market-lisboa" aria-label="Open official website for Time Out Market Lisboa">Website</a>
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Prado <span class="badge planned">planned</span></h3>
     <p>Lisbon · restaurant</p>
     <p>Lisboa</p>
     <p class="note">Planned dinner, not confirmed.</p>
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Prado+restaurant+Lisbon" aria-label="Open Prado in Google Maps">Maps</a>
     <a href="https://www.pradorestaurante.com/" aria-label="Open official website for Prado">Website</a>
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Pastéis de Belém <span class="badge planned">planned</span></h3>
     <p>Lisbon · cafe</p>
     <p>Rua de Belém 84 92, 1300-085 Lisboa</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Past%C3%A9is+de+Bel%C3%A9m" aria-label="Open Pastéis de Belém in Google Maps">Maps</a>
     <a href="https://pasteisdebelem.pt/en/" aria-label="Open official website for Pastéis de Belém">Website</a>
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Park Rooftop <span class="badge planned">planned</span></h3>
     <p>Lisbon · bar</p>
     <p>Calçada do Combro, Lisboa</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Park+Rooftop+Lisbon" aria-label="Open Park Rooftop in Google Maps">Maps</a>
     <a href="https://www.parklisboa.com/" aria-label="Open official website for Park Rooftop">Website</a>
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Taberna – Bairro do Avillez <span class="badge planned">planned</span></h3>
     <p>Lisbon · restaurant</p>
     <p>Rua Nova da Trindade 18, Lisboa</p>
     <p class="note">Planned dinner, not confirmed.</p>
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Bairro+do+Avillez+Lisbon" aria-label="Open Taberna – Bairro do Avillez in Google Maps">Maps</a>
     <a href="https://www.bairrodoavillez.pt/en/" aria-label="Open official website for Taberna – Bairro do Avillez">Website</a>
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>The Yeatman Gastronomic Restaurant <span class="badge confirmed">confirmed</span></h3>
     <p>Vila Nova de Gaia · restaurant</p>
     <p>Rua do Choupelo, 4400-088 Vila Nova de Gaia</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=The+Yeatman+Gastronomic+Restaurant+Rua+do+Choupelo" aria-label="Open The Yeatman Gastronomic Restaurant in Google Maps">Maps</a>
     <a href="https://www.the-yeatman-hotel.com/en/food/restaurant/" aria-label="Open official website for The Yeatman Gastronomic Restaurant">Website</a>
   </p>
   </article>
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>Mercado do Bolhão <span class="badge planned">planned</span></h3>
     <p>Porto · market</p>
     <p>Rua Formosa, Porto</p>
     
-    
-  <p class="buttons">
+    <p class="buttons">
     <a href="https://www.google.com/maps/search/?api=1&amp;query=Mercado+do+Bolh%C3%A3o+Porto" aria-label="Open Mercado do Bolhão in Google Maps">Maps</a>
     <a href="https://mercadobolhao.pt/" aria-label="Open official website for Mercado do Bolhão">Website</a>
   </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Conserveira de Lisboa <span class="badge optional">optional</span></h3>
+    <p>Lisbon · market</p>
+    <p>Rua dos Bacalhoeiros 34, 1100-071 Lisboa</p>
+    <p class="note">Easy Baixa stop for quality Portuguese tinned fish. Friend recommends José Gourmet or Pinhais/Nuri; verify Sunday hours before relying on it.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Conserveira+de+Lisboa+Rua+dos+Bacalhoeiros+34" aria-label="Open Conserveira de Lisboa in Google Maps">Maps</a>
+    <a href="https://www.conserveiradelisboa.pt/" aria-label="Open official website for Conserveira de Lisboa">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>A Ginjinha <span class="badge optional">optional</span></h3>
+    <p>Lisbon · bar</p>
+    <p>Largo de São Domingos 8, Lisboa</p>
+    <p class="note">Quick Lisbon micro-stop: one small ginjinha, with or without the cherry.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=A+Ginjinha+Largo+de+Sao+Domingos+Lisbon" aria-label="Open A Ginjinha in Google Maps">Maps</a>
+    <a href="https://www.visitlisboa.com/en/p/lisbon-flavours/wine/ginjinha" aria-label="Open official website for A Ginjinha">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>The Little Wine Bar <span class="badge optional">optional</span></h3>
+    <p>Lisbon · bar</p>
+    <p>Calçada do Duque 39, 1200-155 Lisboa</p>
+    <p class="note">Friend favorite for a casual glass of wine on the steps. Keep as a nearby option rather than crossing town for it.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=The+Little+Wine+Bar+Calcada+do+Duque+39+Lisbon" aria-label="Open The Little Wine Bar in Google Maps">Maps</a>
+    <a href="https://www.facebook.com/thelittlewinebar" aria-label="Open official website for The Little Wine Bar">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Imprensa Cocktail &amp; Oyster Bar <span class="badge optional">optional</span></h3>
+    <p>Lisbon · bar</p>
+    <p>Rua da Imprensa Nacional 46, Lisboa</p>
+    <p class="note">Preferred Sunday post-dinner cocktail option; friend specifically recommends the cocktails, oysters, and small bites.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Imprensa+Cocktail+Oyster+Bar+Lisbon" aria-label="Open Imprensa Cocktail &amp; Oyster Bar in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/imprensa_/" aria-label="Open official website for Imprensa Cocktail &amp; Oyster Bar">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Red Frog <span class="badge optional">optional</span></h3>
+    <p>Lisbon · bar</p>
+    <p>Praça da Alegria 66B, Lisboa</p>
+    <p class="note">Excellent cocktail-bar backup if Imprensa is not the mood.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Red+Frog+Lisbon" aria-label="Open Red Frog in Google Maps">Maps</a>
+    <a href="https://www.redfrog.pt/" aria-label="Open official website for Red Frog">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Lumi Rooftop <span class="badge planned">planned</span></h3>
+    <p>Lisbon · bar</p>
+    <p>Rua de São Pedro de Alcântara 35, 1250-237 Lisboa</p>
+    <p class="note">Primary Monday sunset-drink choice before Taberna; better fit for a seated, polished rooftop experience.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Lumi+Rooftop+Rua+de+Sao+Pedro+de+Alcantara+35+Lisbon" aria-label="Open Lumi Rooftop in Google Maps">Maps</a>
+    <a href="https://lumirooftop.com/" aria-label="Open official website for Lumi Rooftop">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Castro – Atelier de Pastéis de Nata <span class="badge optional">optional</span></h3>
+    <p>Lisbon · cafe</p>
+    <p>Rua Garrett 38, 1200-204 Lisboa</p>
+    <p class="note">Excellent Chiado nata backup/comparison; use only if naturally nearby.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Castro+Atelier+Pasteis+de+Nata+Rua+Garrett+38+Lisbon" aria-label="Open Castro – Atelier de Pastéis de Nata in Google Maps">Maps</a>
+    <a href="https://castropasteisdenata.pt/en/" aria-label="Open official website for Castro – Atelier de Pastéis de Nata">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Time Out Market Porto <span class="badge optional">optional</span></h3>
+    <p>Porto · market</p>
+    <p>South Wing, São Bento Station, Praça de Almeida Garrett, Porto</p>
+    <p class="note">Built into São Bento Station, so it costs almost no itinerary time; browse for 15–30 minutes rather than making it a destination meal.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Time+Out+Market+Porto+Sao+Bento" aria-label="Open Time Out Market Porto in Google Maps">Maps</a>
+    <a href="https://www.timeout.com/time-out-market-porto" aria-label="Open official website for Time Out Market Porto">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Cantina 32 <span class="badge planned">planned</span></h3>
+    <p>Porto · restaurant</p>
+    <p>Rua das Flores 32, Porto</p>
+    <p class="note">Primary Tuesday dinner choice; convenient to the apartment and historic-center walk.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Cantina+32+Porto" aria-label="Open Cantina 32 in Google Maps">Maps</a>
+    <a href="https://www.cantina32.com/" aria-label="Open official website for Cantina 32">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Taberna dos Mercadores <span class="badge optional">optional</span></h3>
+    <p>Porto · restaurant</p>
+    <p>Rua dos Mercadores 36, Porto</p>
+    <p class="note">Tuesday dinner backup; tiny and harder to secure.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Taberna+dos+Mercadores+Porto" aria-label="Open Taberna dos Mercadores in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/tabernadosmercadores/" aria-label="Open official website for Taberna dos Mercadores">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Adega São Nicolau <span class="badge optional">optional</span></h3>
+    <p>Porto · restaurant</p>
+    <p>Rua de São Nicolau 1, Porto</p>
+    <p class="note">Tuesday dinner backup in Ribeira.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Adega+Sao+Nicolau+Porto" aria-label="Open Adega São Nicolau in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/adegasaonicolau/" aria-label="Open official website for Adega São Nicolau">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Oficina dos Rissóis <span class="badge optional">optional</span></h3>
+    <p>Porto · restaurant</p>
+    <p>Passeio de São Lázaro 5A, 4000-507 Porto</p>
+    <p class="note">Flexible casual snack/light-lunch wildcard. Portuguese without committing another full meal.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Oficina%20dos%20Riss%C3%B3is%20Passeio%20de%20S%C3%A3o%20L%C3%A1zaro%205A%2C%204000-507%20Porto" aria-label="Open Oficina dos Rissóis in Google Maps">Maps</a>
+    <a href="https://www.oficinadosrissois.com/" aria-label="Open official website for Oficina dos Rissóis">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Café Santiago <span class="badge optional">optional</span></h3>
+    <p>Porto · restaurant</p>
+    <p>Rua de Passos Manuel 226, Porto</p>
+    <p class="note">Canonical francesinha option. Treat it as a taste: share one rather than sacrificing a whole meal.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Cafe+Santiago+Porto" aria-label="Open Café Santiago in Google Maps">Maps</a>
+    <a href="https://cafesantiago.pt/" aria-label="Open official website for Café Santiago">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Taberna Folias de Baco <span class="badge optional">optional</span></h3>
+    <p>Porto · bar</p>
+    <p>Porto historic center</p>
+    <p class="note">Preferred optional Wednesday post-Douro stop: natural wine and a small plate, only if everyone still wants to go out.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Taberna%20Folias%20de%20Baco%20Porto%20historic%20center" aria-label="Open Taberna Folias de Baco in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/foliasdebaco/" aria-label="Open official website for Taberna Folias de Baco">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>SHIKO – Tasca Japonesa <span class="badge optional">optional</span></h3>
+    <p>Porto · restaurant</p>
+    <p>Porto</p>
+    <p class="note">Deliberate backup for the moment someone wants a break from Portuguese food.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=SHIKO%20%E2%80%93%20Tasca%20Japonesa%20Porto" aria-label="Open SHIKO – Tasca Japonesa in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/shiko_tascajaponesa/" aria-label="Open official website for SHIKO – Tasca Japonesa">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Sandeman Porto Cellars <span class="badge optional">optional</span></h3>
+    <p>Vila Nova de Gaia · bar</p>
+    <p>Largo Miguel Bombarda 3, Vila Nova de Gaia</p>
+    <p class="note">If the group still wants a formal Port lodge Thursday, this is the easiest geographic fit. Do not force it after Bordeaux and the Douro.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Sandeman+Porto+Cellars+Gaia" aria-label="Open Sandeman Porto Cellars in Google Maps">Maps</a>
+    <a href="https://www.sandeman.com/visit-us/porto/" aria-label="Open official website for Sandeman Porto Cellars">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>Torto <span class="badge optional">optional</span></h3>
+    <p>Porto · bar</p>
+    <p>Porto</p>
+    <p class="note">Optional first-night cocktail only if energy allows.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=Torto+bar+Porto" aria-label="Open Torto in Google Maps">Maps</a>
+    <a href="https://www.instagram.com/torto.porto/" aria-label="Open official website for Torto">Website</a>
+  </p>
+  </article>
+  <article class="card" data-search-card>
+    <h3>The Royal Cocktail Club <span class="badge optional">optional</span></h3>
+    <p>Porto · bar</p>
+    <p>Porto</p>
+    <p class="note">Optional first-night cocktail backup.</p>
+    <p class="buttons">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=The+Royal+Cocktail+Club+Porto" aria-label="Open The Royal Cocktail Club in Google Maps">Maps</a>
+    <a href="https://www.theroyalcocktailclub.com/" aria-label="Open official website for The Royal Cocktail Club">Website</a>
+  </p>
   </article></section>
     <section id="tools"><h2>Travel tools</h2><div class="resource-groups"><div><h3>Download before departure</h3><ul class="resources">
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.infotbm.com/en"><b>TBM mobilités</b></a><small>Bordeaux</small></div>
     <p>Plan Bordeaux tram, bus, and river-shuttle trips and check service updates.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.sncf-connect.com/en-en"><b>SNCF Connect</b></a><small>France</small></div>
     <p>Book and manage French trains, including independent trips toward Arcachon or Saint-Émilion.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.carris.pt/en/"><b>CARRISway</b></a><small>Lisbon</small></div>
     <p>Check Lisbon bus, tram, and funicular routes and real-time arrivals.</p>
     <p class="note"><b>Good to know:</b> Lisbon Metro contactless payment rules do not automatically apply on every CARRIS vehicle.</p>
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.cp.pt/en"><b>CP – Comboios de Portugal</b></a><small>Lisbon, Porto, Douro</small></div>
     <p>Manage the Lisbon–Porto train and check suburban or Douro regional services.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://andante.pt/en/purchase/anda-app/"><b>Anda</b></a><small>Porto</small></div>
     <p>Validate participating Porto Metro, bus, and train journeys by phone.</p>
     <p class="note"><b>Good to know:</b> Android only; NFC and Bluetooth are required. iPhone users should use a physical Andante ticket or card.</p>
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://bolt.eu/en/"><b>Bolt</b></a><small>Bordeaux, Lisbon, Porto</small></div>
     <p>Use for airport transfers, luggage trips, late nights, and urban transit gaps.</p>
     <p class="note"><b>Good to know:</b> Do not assume availability in rural Armagnac, vineyards, Bazas, or the Douro.</p>
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.ana.pt/en/corporate/ana/app-ana"><b>ANA Portuguese Airports</b></a><small>Lisbon, Porto</small></div>
     <p>Check official Lisbon and Porto airport flight and terminal information.</p>
     
   </li></ul></div><div><h3>Bookmark</h3><ul class="resources">
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.metrolisboa.pt/en/travel/"><b>Lisbon Metro</b></a><small>Lisbon</small></div>
     <p>Keep Metro maps, travel guidance, fares, and contactless-payment rules handy.</p>
     <p class="note"><b>Good to know:</b> One contactless card or device covers one passenger; use the same payment credential throughout a trip.</p>
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://andante.pt/en/"><b>Andante</b></a><small>Porto</small></div>
     <p>Check Porto-area zones, fares, physical tickets, and participating operators.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://transports.nouvelle-aquitaine.fr/"><b>Nouvelle-Aquitaine Transport</b></a><small>Bordeaux region, Bazas</small></div>
     <p>Check regional coaches and service notices outside Bordeaux’s local TBM network.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.bordeaux.aeroport.fr/en"><b>Bordeaux Airport</b></a><small>Bordeaux</small></div>
     <p>Check official flight status, airport access, and ground transportation.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.lisbonairport.pt/en/lis/home"><b>Lisbon Airport</b></a><small>Lisbon</small></div>
     <p>Check official airport arrivals, departures, and transportation.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://www.portoairport.pt/en/opo/home"><b>Porto Airport</b></a><small>Porto</small></div>
     <p>Check official airport status and early-morning transportation information.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://boutique.saint-emilion-tourisme.com/en/product/underground-st-emilion"><b>Underground Saint-Émilion tickets</b></a><small>Saint-Émilion</small></div>
     <p>Prebook a dated, language-specific underground-monuments tour if visiting independently.</p>
     
   </li>
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="https://tickets.livrarialello.pt/"><b>Livraria Lello tickets</b></a><small>Porto</small></div>
     <p>Buy the required timed Ticket-Voucher if this optional stop makes the final plan.</p>
     
   </li></ul></div></div></section>
     <section id="phrases"><h2>Useful phrases</h2>
-  <details class="phrase-guide">
+  <details class="phrase-guide" data-search-card>
     <summary><span><b>French</b><small>Bordeaux and France</small></span></summary>
     <div class="phrase-body">
       <p class="note">Nasal endings usually do not pronounce a final n, and many final consonants are silent.</p>
@@ -1587,7 +1810,7 @@
       </dl>
     </div>
   </details>
-  <details class="phrase-guide">
+  <details class="phrase-guide" data-search-card>
     <summary><span><b>European Portuguese</b><small>Lisbon and Porto</small></span></summary>
     <div class="phrase-body">
       <p class="note">Unstressed vowels are often reduced. Obrigado is traditionally used by a man and obrigada by a woman.</p>
@@ -1598,6 +1821,86 @@
   </details></section>
     <section id="practical"><h2>Practical information</h2><div class="card"><h3>Status definitions</h3><p><b>Confirmed</b>: booking is held. <b>Planned</b>: intended but unbooked. <b>Optional</b>: only if energy/timing/weather allow. <b>Tentative</b>: supplied by another party and still being revised.</p><p>Pack for repeat outfits and plan laundry at the end of Bordeaux or beginning of Lisbon.</p></div></section>
   </main>
-  <script>const today=new Date().toISOString().slice(0,10);document.querySelectorAll('.day').forEach((day)=>{if(day.id===today)day.classList.add('today')});if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
+  <script>
+    const today = new Date().toISOString().slice(0, 10);
+    document.querySelectorAll('.day').forEach((day) => { if (day.id === today) day.classList.add('today'); });
+
+    const searchInput = document.querySelector('#guide-search');
+    const searchStatus = document.querySelector('#search-status');
+    const guideJump = document.querySelector('#guide-jump');
+    const todayOption = guideJump.querySelector('option[value="' + today + '"]');
+    if (todayOption) todayOption.textContent = 'Today · ' + todayOption.textContent;
+    const normalize = (value = '') => value.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    const resetSearch = () => {
+      document.querySelectorAll('[data-guide-day], [data-search-item], [data-search-card]').forEach((node) => { node.hidden = false; });
+      searchStatus.textContent = '';
+    };
+
+    const runSearch = () => {
+      const query = normalize(searchInput.value.trim());
+      if (!query) { resetSearch(); return; }
+
+      let matchingDays = 0;
+      let matchingOther = 0;
+
+      document.querySelectorAll('[data-guide-day]').forEach((day) => {
+        const summary = day.querySelector('summary');
+        const summaryMatch = normalize(summary?.textContent).includes(query);
+        let itemMatches = 0;
+        day.querySelectorAll('[data-search-item]').forEach((item) => {
+          const matches = summaryMatch || normalize(item.textContent).includes(query);
+          item.hidden = !matches;
+          if (matches) itemMatches += 1;
+        });
+        const dayMatch = summaryMatch || itemMatches > 0 || normalize(day.querySelector('.daybody')?.textContent).includes(query);
+        day.hidden = !dayMatch;
+        if (dayMatch) {
+          matchingDays += 1;
+          day.querySelector('details').open = true;
+        }
+      });
+
+      document.querySelectorAll('[data-search-card]').forEach((card) => {
+        const matches = normalize(card.textContent).includes(query);
+        card.hidden = !matches;
+        if (matches) matchingOther += 1;
+      });
+
+      const total = matchingDays + matchingOther;
+      searchStatus.textContent = total
+        ? total + ' result' + (total === 1 ? '' : 's') + ' · ' + matchingDays + ' day' + (matchingDays === 1 ? '' : 's')
+        : 'No results for “' + searchInput.value.trim() + '”';
+    };
+
+    searchInput.addEventListener('input', runSearch);
+
+    guideJump.addEventListener('change', () => {
+      if (!guideJump.value) return;
+      const targetId = guideJump.value.startsWith('#') ? guideJump.value.slice(1) : guideJump.value;
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      if (searchInput.value) {
+        searchInput.value = '';
+        resetSearch();
+      }
+      target.hidden = false;
+      const details = target.querySelector(':scope > details');
+      if (details) details.open = true;
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', '#' + targetId);
+      guideJump.value = '';
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        searchInput.focus();
+        searchInput.select();
+      }
+    });
+
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  </script>
 </body>
 </html>

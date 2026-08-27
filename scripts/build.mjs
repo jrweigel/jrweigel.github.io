@@ -94,7 +94,7 @@ const renderLocationCard = (location) => `
     <p>${escapeHtml(location.city)} · ${escapeHtml(location.category)}</p>
     ${location.address ? `<p>${escapeHtml(location.address)}</p>` : ''}
     ${location.notes ? `<p class="note">${escapeHtml(location.notes)}</p>` : ''}
-    ${actionButtons(location)}
+    ${actionButtons(location).trimStart()}
   </article>`;
 
 const renderReservationCard = (reservation) => {
@@ -188,8 +188,8 @@ const html = `<!doctype html>
     const searchInput = document.querySelector('#guide-search');
     const searchStatus = document.querySelector('#search-status');
     const guideJump = document.querySelector('#guide-jump');
-    const todayOption = guideJump.querySelector(`option[value="${today}"]`);
-    if (todayOption) todayOption.textContent = `Today · ${todayOption.textContent}`;
+    const todayOption = guideJump.querySelector('option[value="' + today + '"]');
+    if (todayOption) todayOption.textContent = 'Today · ' + todayOption.textContent;
     const normalize = (value = '') => value.toLocaleLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
 
     const resetSearch = () => {
@@ -229,8 +229,8 @@ const html = `<!doctype html>
 
       const total = matchingDays + matchingOther;
       searchStatus.textContent = total
-        ? `${total} result${total === 1 ? '' : 's'} · ${matchingDays} day${matchingDays === 1 ? '' : 's'}`
-        : `No results for “${searchInput.value.trim()}”`;
+        ? total + ' result' + (total === 1 ? '' : 's') + ' · ' + matchingDays + ' day' + (matchingDays === 1 ? '' : 's')
+        : 'No results for “' + searchInput.value.trim() + '”';
     };
 
     searchInput.addEventListener('input', runSearch);
@@ -248,7 +248,7 @@ const html = `<!doctype html>
       const details = target.querySelector(':scope > details');
       if (details) details.open = true;
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.replaceState(null, '', `#${targetId}`);
+      history.replaceState(null, '', '#' + targetId);
       guideJump.value = '';
     });
 

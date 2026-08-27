@@ -14,6 +14,8 @@ description: Repository guidance for maintaining and publishing the mobile Europ
 
 - Preserve all Google Maps links and official website links.
 - Keep the HTML optimized for mobile use.
+- Keep guide search available for agenda items, places, food/drink recommendations, reservations, travel tools, and phrases.
+- Keep a persistent day-jump control that can navigate directly to every agenda day.
 - Never change confirmed dates, times, addresses, transportation, or reservations without explicit instructions.
 - Clearly mark unbooked restaurants and activities as planned or suggested.
 - Flag conflicts rather than guessing.

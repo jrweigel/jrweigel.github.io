@@ -24,6 +24,11 @@ const formatDate = (date) => new Date(`${date}T00:00:00`).toLocaleDateString('en
   month: 'short',
   day: 'numeric',
 });
+const shortDate = (date) => new Date(`${date}T00:00:00`).toLocaleDateString('en-US', {
+  weekday: 'short',
+  month: 'short',
+  day: 'numeric',
+});
 const tripDateRange = `${formatDate(trip.startDate)}–${formatDate(trip.endDate)}, ${trip.endDate.slice(0, 4)}`;
 const statusBadge = (status) => `<span class="badge ${status}">${escapeHtml(status)}</span>`;
 const actionButtons = (location) => location ? `
@@ -55,7 +60,7 @@ const renderTime = (day, item) => {
 };
 
 const renderDay = (day) => `
-  <article class="day ${day.status}" id="${day.date}">
+  <article class="day ${day.status}" id="${day.date}" data-guide-day>
     <details open>
       <summary>
         <span><b>${formatDate(day.date)}</b><small>${escapeHtml(day.city)} · ${escapeHtml(day.subtitle)}</small></span>
@@ -69,7 +74,7 @@ const renderDay = (day) => `
         <ol class="timeline">
           ${day.items.map((item) => {
             const location = locationById.get(item.locationId);
-            return `<li class="item ${item.status} ${item.type}">
+            return `<li class="item ${item.status} ${item.type}" data-search-item>
               ${renderTime(day, item)}
               <div>
                 <h3>${escapeHtml(item.title)} ${statusBadge(item.status)}</h3>
@@ -84,7 +89,7 @@ const renderDay = (day) => `
   </article>`;
 
 const renderLocationCard = (location) => `
-  <article class="card">
+  <article class="card" data-search-card>
     <h3>${escapeHtml(location.name)} ${statusBadge(location.reservationStatus)}</h3>
     <p>${escapeHtml(location.city)} · ${escapeHtml(location.category)}</p>
     ${location.address ? `<p>${escapeHtml(location.address)}</p>` : ''}
@@ -95,9 +100,9 @@ const renderLocationCard = (location) => `
 const renderReservationCard = (reservation) => {
   const location = locationById.get(reservation.locationId);
   return `
-    <article class="card">
+    <article class="card" data-search-card>
       <h3>${escapeHtml(reservation.venue)} ${statusBadge(reservation.status)}</h3>
-      <p><b>${escapeHtml(reservation.date)}</b> · ${escapeHtml(reservation.start)}${reservation.end ? `–${escapeHtml(reservation.end)}` : ''}${reservation.partySize ? ` · party of ${reservation.partySize}` : ''}</p>
+      <p><b>${escapeHtml(reservation.date)}</b> · ${escapeHtml(reservation.start)}${reservation.end ? `–${escapeHtml(reservation.end)}` : ''}${reservation.partySize ? ` · party of ${escapeHtml(reservation.partySize)}` : ''}</p>
       ${location ? `<p>${escapeHtml(location.name)} · ${escapeHtml(location.address || '')}</p>${actionButtons(location)}` : ''}
       ${reservation.cancellation ? `<p class="note">Cancellation: ${escapeHtml(reservation.cancellation)}</p>` : ''}
       ${reservation.celebration ? `<p class="note">${escapeHtml(reservation.celebration)}</p>` : ''}
@@ -106,14 +111,14 @@ const renderReservationCard = (reservation) => {
 };
 
 const renderTravelResource = (resource) => `
-  <li class="resource">
+  <li class="resource" data-search-card>
     <div><a href="${escapeHtml(resource.url)}"><b>${escapeHtml(resource.name)}</b></a><small>${escapeHtml(resource.regions)}</small></div>
     <p>${escapeHtml(resource.use)}</p>
     ${resource.caveat ? `<p class="note"><b>Good to know:</b> ${escapeHtml(resource.caveat)}</p>` : ''}
   </li>`;
 
 const renderPhraseGuide = (guide) => `
-  <details class="phrase-guide">
+  <details class="phrase-guide" data-search-card>
     <summary><span><b>${escapeHtml(guide.language)}</b><small>${escapeHtml(guide.regions)}</small></span></summary>
     <div class="phrase-body">
       <p class="note">${escapeHtml(guide.note)}</p>
@@ -129,6 +134,7 @@ const citySections = trip.cities.map((city) => `
     ${days.filter((day) => day.city.split(' / ')[0].trim() === city).map(renderDay).join('')}
   </section>`).join('');
 const foodLocations = locations.filter((location) => ['food', 'restaurant', 'bar', 'cafe', 'market'].includes(location.category));
+const dayOptions = days.map((day) => `<option value="${escapeHtml(day.date)}">${escapeHtml(shortDate(day.date))} · ${escapeHtml(day.city)} · ${escapeHtml(day.title)}</option>`).join('');
 
 const html = `<!doctype html>
 <html lang="en">
@@ -148,7 +154,15 @@ const html = `<!doctype html>
     <p>${escapeHtml(tripDateRange)} · ${escapeHtml(trip.travelers)}</p>
     <p class="rule">${escapeHtml(trip.operationalRule)}</p>
   </header>
-  <nav class="nav" aria-label="Trip sections"><a href="#home">Home</a><a href="#bordeaux">Bordeaux</a><a href="#lisbon">Lisbon</a><a href="#porto">Porto</a><a href="#reservations">Reservations</a><a href="#food">Food</a><a href="#tools">Tools</a><a href="#phrases">Phrases</a><a href="#practical">Practical</a></nav>
+  <nav class="nav" aria-label="Trip navigation">
+    <div class="nav-links"><a href="#home">Home</a><a href="#bordeaux">Bordeaux</a><a href="#lisbon">Lisbon</a><a href="#porto">Porto</a><a href="#reservations">Reservations</a><a href="#food">Food</a><a href="#tools">Tools</a><a href="#phrases">Phrases</a><a href="#practical">Practical</a></div>
+    <div class="quick-tools" aria-label="Agenda tools">
+      <label class="search-control"><span class="sr-only">Search the travel guide</span><input id="guide-search" type="search" inputmode="search" autocomplete="off" placeholder="Search places, food, sights…"></label>
+      <label class="jump-control"><span>Jump to day</span><select id="day-jump"><option value="">Choose a day…</option>${dayOptions}</select></label>
+      <button id="clear-search" type="button" hidden>Clear</button>
+    </div>
+    <p id="search-status" class="search-status" role="status" aria-live="polite"></p>
+  </nav>
   <main>
     <section><h2>Trip philosophy</h2><ul class="pillars">${trip.philosophy.map((pillar) => `<li>${escapeHtml(pillar)}</li>`).join('')}</ul>${trip.globalNotices.map((notice) => `<div class="alert ${notice.status}" role="note"><b>${escapeHtml(notice.title)}</b><p>${escapeHtml(notice.body)}</p></div>`).join('')}${trip.itinerarySource ? `<div class="card"><h3>Bordeaux itinerary source</h3><p><a href="${escapeHtml(trip.itinerarySource.url)}">${escapeHtml(trip.itinerarySource.label)}</a></p><p class="note">Last reconciled ${escapeHtml(trip.itinerarySource.reconciledDate)}.</p></div>` : ''}</section>
     ${citySections}
@@ -158,7 +172,90 @@ const html = `<!doctype html>
     <section id="phrases"><h2>Useful phrases</h2>${phraseGuides.map(renderPhraseGuide).join('')}</section>
     <section id="practical"><h2>Practical information</h2><div class="card"><h3>Status definitions</h3><p><b>Confirmed</b>: booking is held. <b>Planned</b>: intended but unbooked. <b>Optional</b>: only if energy/timing/weather allow. <b>Tentative</b>: supplied by another party and still being revised.</p><p>Pack for repeat outfits and plan laundry at the end of Bordeaux or beginning of Lisbon.</p></div></section>
   </main>
-  <script>const today=new Date().toISOString().slice(0,10);document.querySelectorAll('.day').forEach((day)=>{if(day.id===today)day.classList.add('today')});if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');</script>
+  <script>
+    const today = new Date().toISOString().slice(0, 10);
+    document.querySelectorAll('.day').forEach((day) => { if (day.id === today) day.classList.add('today'); });
+
+    const searchInput = document.querySelector('#guide-search');
+    const clearSearch = document.querySelector('#clear-search');
+    const searchStatus = document.querySelector('#search-status');
+    const dayJump = document.querySelector('#day-jump');
+    const normalize = (value = '') => value.toLocaleLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
+
+    const resetSearch = () => {
+      document.querySelectorAll('[data-guide-day], [data-search-item], [data-search-card]').forEach((node) => { node.hidden = false; });
+      clearSearch.hidden = true;
+      searchStatus.textContent = '';
+    };
+
+    const runSearch = () => {
+      const query = normalize(searchInput.value.trim());
+      if (!query) { resetSearch(); return; }
+
+      clearSearch.hidden = false;
+      let matchingDays = 0;
+      let matchingOther = 0;
+
+      document.querySelectorAll('[data-guide-day]').forEach((day) => {
+        const summary = day.querySelector('summary');
+        const summaryMatch = normalize(summary?.textContent).includes(query);
+        let itemMatches = 0;
+        day.querySelectorAll('[data-search-item]').forEach((item) => {
+          const matches = summaryMatch || normalize(item.textContent).includes(query);
+          item.hidden = !matches;
+          if (matches) itemMatches += 1;
+        });
+        const dayMatch = summaryMatch || itemMatches > 0 || normalize(day.querySelector('.daybody')?.textContent).includes(query);
+        day.hidden = !dayMatch;
+        if (dayMatch) {
+          matchingDays += 1;
+          day.querySelector('details').open = true;
+        }
+      });
+
+      document.querySelectorAll('[data-search-card]').forEach((card) => {
+        const matches = normalize(card.textContent).includes(query);
+        card.hidden = !matches;
+        if (matches) matchingOther += 1;
+      });
+
+      const total = matchingDays + matchingOther;
+      searchStatus.textContent = total
+        ? `${total} result${total === 1 ? '' : 's'} · ${matchingDays} day${matchingDays === 1 ? '' : 's'}`
+        : `No results for “${searchInput.value.trim()}”`;
+    };
+
+    searchInput.addEventListener('input', runSearch);
+    clearSearch.addEventListener('click', () => {
+      searchInput.value = '';
+      resetSearch();
+      searchInput.focus();
+    });
+
+    dayJump.addEventListener('change', () => {
+      if (!dayJump.value) return;
+      const target = document.getElementById(dayJump.value);
+      if (!target) return;
+      if (searchInput.value) {
+        searchInput.value = '';
+        resetSearch();
+      }
+      target.hidden = false;
+      target.querySelector('details').open = true;
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', `#${dayJump.value}`);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        searchInput.focus();
+        searchInput.select();
+      }
+    });
+
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  </script>
 </body>
 </html>`;
 

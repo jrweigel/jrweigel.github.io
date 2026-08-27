@@ -107,10 +107,6 @@ a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visibl
   font: inherit;
   font-size: 16px;
 }
-.search-control input {
-  -webkit-appearance: none;
-  appearance: none;
-}
 .jump-control select {
   text-overflow: ellipsis;
 }

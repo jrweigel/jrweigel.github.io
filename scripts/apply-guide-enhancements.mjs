@@ -7,6 +7,7 @@ const enhancementsPath = 'data/guide-enhancements.json';
 if (!fs.existsSync(enhancementsPath)) process.exit(0);
 
 const enhancements = readJson(enhancementsPath);
+const ticketAlerts = fs.existsSync('data/ticket-alerts.json') ? readJson('data/ticket-alerts.json') : [];
 const trip = readJson('data/trip.json');
 const days = readJson('data/days.json');
 const locations = readJson('data/locations.json');
@@ -74,6 +75,17 @@ for (const update of enhancements.dayUpdates || []) {
       index = day.items.length;
     }
     day.items.splice(index, 0, insertion.item);
+  }
+}
+
+for (const ticketUpdate of ticketAlerts) {
+  const day = days.find((entry) => entry.date === ticketUpdate.date);
+  if (!day) throw new Error(`Ticket alert references unknown day ${ticketUpdate.date}`);
+  day.alerts ||= [];
+  for (const alert of ticketUpdate.alerts || []) {
+    const index = day.alerts.findIndex((entry) => entry.title === alert.title);
+    if (index >= 0) day.alerts[index] = alert;
+    else day.alerts.unshift(alert);
   }
 }
 

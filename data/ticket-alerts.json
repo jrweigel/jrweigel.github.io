@@ -1,0 +1,47 @@
+[
+  {
+    "date": "2026-09-06",
+    "alerts": [
+      {
+        "status": "planned",
+        "title": "Tickets today: Castelo de São Jorge",
+        "body": "The castle requires paid admission. Advance purchase is optional, but buying from the official castle ticket site the night before or that morning can save the ticket-office line. This is not a reason to lock the day to a rigid arrival time."
+      },
+      {
+        "status": "planned",
+        "title": "Lisbon Cathedral Sunday access",
+        "body": "The Cathedral's ticketed tourist circuit is listed as closed on Sundays. Treat Sé as an exterior / worship-access stop unless current on-site access says otherwise; do not plan around buying a tourist ticket today."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "alerts": [
+      {
+        "status": "planned",
+        "title": "No sightseeing tickets needed today",
+        "body": "Jerónimos Monastery and Belém Tower are closed on Mondays, so today's Belém plan is exterior architecture, gardens, Monument to the Discoveries, riverfront, and Pastéis de Belém. Do not buy Monday monument tickets."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-08",
+    "alerts": [
+      {
+        "status": "planned",
+        "title": "Porto Cathedral: ticket only if going inside",
+        "body": "The historic visitor circuit (including the cloister/museum/tower areas) is ticketed. Buy on site if you decide to enter; no need to pre-book for our flexible arrival walk. The cathedral square and exterior do not require a ticket."
+      }
+    ]
+  },
+  {
+    "date": "2026-09-10",
+    "alerts": [
+      {
+        "status": "planned",
+        "title": "Timed-entry decision: Lello, Clérigos, or Sandeman",
+        "body": "If we choose Livraria Lello, buy its Ticket-Voucher in advance for a scheduled entry time; the voucher remains valid for 60 minutes after the booked time. Clérigos Tower is also ticketed by date/time and popular slots can fill. A Sandeman cellar visit is a timed tour and should be reserved if we decide to do it. We are choosing at most one of these — or none — so do not book all three."
+      }
+    ]
+  }
+]

@@ -39,7 +39,7 @@ for (const outputDir of outputDirs) {
     if (!fs.existsSync(`${outputDir}/sw.js`)) errors.push(`Missing service worker in ${outputDir}`);
     const expectedBase = normalizedBasePath ? `/${normalizedBasePath}/` : '/';
     if (!html.includes(`<base href="${expectedBase}">`)) errors.push(`Missing ${expectedBase} base path in ${htmlPath}`);
-    if (!html.includes('aria-label="Trip sections"')) errors.push(`Missing accessible navigation label in ${htmlPath}`);
+    if (!/<nav\b[^>]*\baria-label="[^"]+"/i.test(html)) errors.push(`Missing accessible navigation label in ${htmlPath}`);
   }
 }
 

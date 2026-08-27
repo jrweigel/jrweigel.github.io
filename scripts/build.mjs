@@ -134,7 +134,17 @@ const citySections = trip.cities.map((city) => `
     ${days.filter((day) => day.city.split(' / ')[0].trim() === city).map(renderDay).join('')}
   </section>`).join('');
 const foodLocations = locations.filter((location) => ['food', 'restaurant', 'bar', 'cafe', 'market'].includes(location.category));
-const dayOptions = days.map((day) => `<option value="${escapeHtml(day.date)}">${escapeHtml(shortDate(day.date))} · ${escapeHtml(day.city)} · ${escapeHtml(day.title)}</option>`).join('');
+const dayOptions = days.map((day) => `<option value="${escapeHtml(day.date)}">${escapeHtml(shortDate(day.date))} · ${escapeHtml(day.city)}</option>`).join('');
+const guideOptions = `
+  <optgroup label="Agenda">${dayOptions}</optgroup>
+  <optgroup label="Guide">
+    <option value="#home">Top of guide</option>
+    <option value="#reservations">Reservations</option>
+    <option value="#food">Food & drink</option>
+    <option value="#tools">Travel tools</option>
+    <option value="#phrases">Useful phrases</option>
+    <option value="#practical">Practical info</option>
+  </optgroup>`;
 
 const html = `<!doctype html>
 <html lang="en">
@@ -156,10 +166,9 @@ const html = `<!doctype html>
   </header>
   <nav class="nav" aria-label="Trip navigation">
     <div class="nav-links"><a href="#home">Home</a><a href="#bordeaux">Bordeaux</a><a href="#lisbon">Lisbon</a><a href="#porto">Porto</a><a href="#reservations">Reservations</a><a href="#food">Food</a><a href="#tools">Tools</a><a href="#phrases">Phrases</a><a href="#practical">Practical</a></div>
-    <div class="quick-tools" aria-label="Agenda tools">
-      <label class="search-control"><span class="sr-only">Search the travel guide</span><input id="guide-search" type="search" inputmode="search" autocomplete="off" placeholder="Search places, food, sights…"></label>
-      <label class="jump-control"><span>Jump to day</span><select id="day-jump"><option value="">Choose a day…</option>${dayOptions}</select></label>
-      <button id="clear-search" type="button" hidden>Clear</button>
+    <div class="quick-tools" aria-label="Guide tools">
+      <label class="search-control"><span class="sr-only">Search the travel guide</span><input id="guide-search" type="search" inputmode="search" autocomplete="off" placeholder="Search…"></label>
+      <label class="jump-control"><span class="sr-only">Go to a day or guide section</span><select id="guide-jump"><option value="">Go to…</option>${guideOptions}</select></label>
     </div>
     <p id="search-status" class="search-status" role="status" aria-live="polite"></p>
   </nav>
@@ -177,14 +186,14 @@ const html = `<!doctype html>
     document.querySelectorAll('.day').forEach((day) => { if (day.id === today) day.classList.add('today'); });
 
     const searchInput = document.querySelector('#guide-search');
-    const clearSearch = document.querySelector('#clear-search');
     const searchStatus = document.querySelector('#search-status');
-    const dayJump = document.querySelector('#day-jump');
+    const guideJump = document.querySelector('#guide-jump');
+    const todayOption = guideJump.querySelector(`option[value="${today}"]`);
+    if (todayOption) todayOption.textContent = `Today · ${todayOption.textContent}`;
     const normalize = (value = '') => value.toLocaleLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
 
     const resetSearch = () => {
       document.querySelectorAll('[data-guide-day], [data-search-item], [data-search-card]').forEach((node) => { node.hidden = false; });
-      clearSearch.hidden = true;
       searchStatus.textContent = '';
     };
 
@@ -192,7 +201,6 @@ const html = `<!doctype html>
       const query = normalize(searchInput.value.trim());
       if (!query) { resetSearch(); return; }
 
-      clearSearch.hidden = false;
       let matchingDays = 0;
       let matchingOther = 0;
 
@@ -226,24 +234,22 @@ const html = `<!doctype html>
     };
 
     searchInput.addEventListener('input', runSearch);
-    clearSearch.addEventListener('click', () => {
-      searchInput.value = '';
-      resetSearch();
-      searchInput.focus();
-    });
 
-    dayJump.addEventListener('change', () => {
-      if (!dayJump.value) return;
-      const target = document.getElementById(dayJump.value);
+    guideJump.addEventListener('change', () => {
+      if (!guideJump.value) return;
+      const targetId = guideJump.value.startsWith('#') ? guideJump.value.slice(1) : guideJump.value;
+      const target = document.getElementById(targetId);
       if (!target) return;
       if (searchInput.value) {
         searchInput.value = '';
         resetSearch();
       }
       target.hidden = false;
-      target.querySelector('details').open = true;
+      const details = target.querySelector(':scope > details');
+      if (details) details.open = true;
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.replaceState(null, '', `#${dayJump.value}`);
+      history.replaceState(null, '', `#${targetId}`);
+      guideJump.value = '';
     });
 
     document.addEventListener('keydown', (event) => {
